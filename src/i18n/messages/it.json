@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "title": "Il Futuro Me | Orientamento e Carriere per Giovani",
+    "description": "Piattaforma di orientamento per giovani 12-16 anni. Esplora carriere, mercato del lavoro e impatto dell'AI sul futuro professionale."
+  },
+  "nav": {
+    "home": "Home",
+    "project": "Il Progetto",
+    "laborMarket": "Mercato del Lavoro",
+    "news": "News",
+    "archive": "Archivio",
+    "contacts": "Contatti",
+    "signIn": "Accedi",
+    "language": "Lingua"
+  },
+  "hero": {
+    "badge": "Kinetic Archive",
+    "title": "Il Tuo Futuro,",
+    "titleAccent": "Esplorato.",
+    "subtitle": "Una piattaforma per scoprire chi vuoi diventare. Esplora carriere, comprendi il mercato del lavoro e preparati alle sfide di domani con strumenti concreti e contenuti ispiratori."
+  },
+  "home": {
+    "latestNews": "Ultime News",
+    "viewAllNews": "Tutte le News",
+    "exploreMarket": "Esplora il Mercato",
+    "discoverProject": "Scopri il Progetto",
+    "featuredSections": "Esplora",
+    "marketTitle": "Mercato del Lavoro",
+    "marketDesc": "Report aggiornati sulle professioni più richieste e l'impatto dell'intelligenza artificiale nel mondo del lavoro.",
+    "projectTitle": "Il Progetto",
+    "projectDesc": "Un percorso multidimensionale per ragazze e ragazzi tra i 12 e i 16 anni, sostenuto dalla Comunità Educante.",
+    "archiveTitle": "Archivio",
+    "archiveDesc": "Timeline delle attività, risultati dei questionari e documenti scaricabili dal percorso formativo.",
+    "partnersTitle": "I Nostri Partner",
+    "stats": {
+      "students": "Ragazzi coinvolti",
+      "schools": "Scuole partner",
+      "hours": "Ore di attività",
+      "universities": "Università"
+    }
+  },
+  "project": {
+    "title": "Il Progetto",
+    "subtitle": "Futuro Me è un percorso integrato e multidimensionale dedicato ai ragazzi e alle ragazze tra i 12 e 16 anni.",
+    "overviewTitle": "Panoramica",
+    "overview": "Il progetto sostiene i giovani nell'affrontare i processi decisionali e le scelte di vita con piena consapevolezza di sé, attraverso un percorso che coinvolge l'intera Comunità Educante locale. Si svolge nella Provincia di Ancona, coinvolgendo scuole di Senigallia, Arcevia e Ostra.",
+    "objectivesTitle": "Obiettivi",
+    "obj1Title": "Consapevolezza di Sé",
+    "obj1Desc": "Accrescere nei ragazzi la conoscenza delle possibilità formative e lavorative, sviluppando pensiero critico e autonomia decisionale.",
+    "obj2Title": "Supporto Familiare",
+    "obj2Desc": "Rafforzare il dialogo e la comprensione genitoriale, accrescendo la capacità della famiglia di sostenere i figli nei processi decisionali.",
+    "obj3Title": "Comunità Educante",
+    "obj3Desc": "Rafforzare il ruolo della Comunità Educante nei processi di orientamento attraverso un modello integrato e condiviso.",
+    "phasesTitle": "Le Fasi del Progetto",
+    "wp1Title": "Azione Giovani",
+    "wp1Desc": "Laboratori di fact-checking, Luna Park delle Possibilità con le università, sportello psicologico orientativo, percorsi personalizzati di auto-esplorazione e creazione dell'Avatar Futuro Me.",
+    "wp2Title": "Azione Genitori",
+    "wp2Desc": "Workshop interattivi guidati da psicologi esperti sulle dinamiche digitali e consulenze personalizzate per supportare i figli nelle scelte.",
+    "wp3Title": "Comunità Educante",
+    "wp3Desc": "Incontri periodici, tavola rotonda interattiva e laboratori formativi per insegnanti, operatori del Terzo Settore e famiglie.",
+    "wp4Title": "Gestione e Comunicazione",
+    "wp4Desc": "Project management, monitoraggio, valutazione d'impatto, rendicontazione e comunicazione del progetto.",
+    "partnersTitle": "I Partner"
+  },
+  "market": {
+    "title": "Mercato del Lavoro",
+    "subtitle": "Dati aggiornati sulle professioni in crescita, le competenze richieste e l'impatto dell'intelligenza artificiale.",
+    "topJobsTitle": "Professioni Più Richieste",
+    "aiImpactTitle": "Impatto dell'AI",
+    "aiImpactDesc": "L'intelligenza artificiale sta trasformando il mercato del lavoro. Ecco come prepararsi.",
+    "trendsTitle": "Tendenze del Mercato",
+    "skillsTitle": "Competenze Chiave",
+    "localContextTitle": "Il Contesto Locale",
+    "localContextDesc": "Focus sulla Provincia di Ancona e le Marche: tassi di occupazione, settori trainanti e opportunità per i giovani."
+  },
+  "news": {
+    "title": "News",
+    "subtitle": "Notizie dal mondo del lavoro, dell'innovazione e della formazione. Brevi, concrete e aggiornate.",
+    "readMore": "Leggi tutto",
+    "categories": {
+      "all": "Tutte",
+      "ai": "Intelligenza Artificiale",
+      "jobs": "Lavoro",
+      "training": "Formazione",
+      "skills": "Competenze"
+    },
+    "source": "Fonte",
+    "publishedOn": "Pubblicato il",
+    "relatedNews": "News correlate"
+  },
+  "archive": {
+    "title": "Archivio",
+    "subtitle": "Il tuo repository personale. Accedi ai risultati dei questionari, report delle attività e documenti dal percorso formativo.",
+    "timelineTitle": "Timeline Attività",
+    "documentsTitle": "Documenti",
+    "resultsTitle": "Risultati",
+    "year1": "Anno 1",
+    "year2": "Anno 2",
+    "currentPhase": "Fase Corrente",
+    "complete": "Completato",
+    "upcoming": "In arrivo",
+    "viewReport": "Vedi Report",
+    "downloadPdf": "Scarica PDF",
+    "archiveStatus": "Stato Archivio"
+  },
+  "footer": {
+    "description": "Una piattaforma innovativa per navigare il futuro del lavoro e dello sviluppo professionale attraverso strumenti di orientamento e contenuti ispiratori.",
+    "project": "Progetto",
+    "alphaPhase": "Fase Alpha",
+    "roadmap": "Roadmap",
+    "connect": "Connettiti",
+    "feedback": "Feedback",
+    "privacy": "Privacy",
+    "copyright": "© 2025 Il Futuro Me. Progetto Kinetic Archive.",
+    "fundedBy": "Con il sostegno di Fondazione Cariverona – Bando Direzione Giovani 2024"
+  }
+}

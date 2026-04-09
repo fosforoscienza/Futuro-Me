@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "title": "Il Futuro Me | Career Guidance for Youth",
+    "description": "Career guidance platform for young people aged 12-16. Explore careers, labour market and AI's impact on professional futures."
+  },
+  "nav": {
+    "home": "Home",
+    "project": "The Project",
+    "laborMarket": "Labour Market",
+    "news": "News",
+    "archive": "Archive",
+    "contacts": "Contacts",
+    "signIn": "Sign In",
+    "language": "Language"
+  },
+  "hero": {
+    "badge": "Kinetic Archive",
+    "title": "Your Future,",
+    "titleAccent": "Explored.",
+    "subtitle": "A platform to discover who you want to become. Explore careers, understand the labour market and prepare for tomorrow's challenges with concrete tools and inspiring content."
+  },
+  "home": {
+    "latestNews": "Latest News",
+    "viewAllNews": "All News",
+    "exploreMarket": "Explore the Market",
+    "discoverProject": "Discover the Project",
+    "featuredSections": "Explore",
+    "marketTitle": "Labour Market",
+    "marketDesc": "Up-to-date reports on the most in-demand professions and AI's impact on the world of work.",
+    "projectTitle": "The Project",
+    "projectDesc": "A multidimensional journey for young people aged 12-16, supported by the local Educational Community.",
+    "archiveTitle": "Archive",
+    "archiveDesc": "Activity timeline, survey results and downloadable documents from the training programme.",
+    "partnersTitle": "Our Partners",
+    "stats": {
+      "students": "Students involved",
+      "schools": "Partner schools",
+      "hours": "Activity hours",
+      "universities": "Universities"
+    }
+  },
+  "project": {
+    "title": "The Project",
+    "subtitle": "Futuro Me is an integrated, multidimensional journey for young people aged 12-16.",
+    "overviewTitle": "Overview",
+    "overview": "The project supports young people in facing decisions and life choices with full self-awareness, through a path involving the entire local Educational Community. It takes place in the Province of Ancona, involving schools in Senigallia, Arcevia and Ostra.",
+    "objectivesTitle": "Objectives",
+    "obj1Title": "Self-Awareness",
+    "obj1Desc": "Increase young people's knowledge of training and career opportunities, developing critical thinking and decision-making autonomy.",
+    "obj2Title": "Family Support",
+    "obj2Desc": "Strengthen dialogue and parental understanding, enhancing families' ability to support their children in decision-making.",
+    "obj3Title": "Educational Community",
+    "obj3Desc": "Strengthen the Educational Community's role in guidance processes through an integrated, shared model.",
+    "phasesTitle": "Project Phases",
+    "wp1Title": "Youth Action",
+    "wp1Desc": "Fact-checking workshops, 'Possibility Fairground' events with universities, career counselling, personalised self-exploration paths and Future Me Avatar creation.",
+    "wp2Title": "Parent Action",
+    "wp2Desc": "Interactive workshops led by expert psychologists on digital dynamics and personalised consultations to support children's choices.",
+    "wp3Title": "Educational Community",
+    "wp3Desc": "Periodic meetings, interactive round tables and training workshops for teachers, third-sector workers and families.",
+    "wp4Title": "Management & Communication",
+    "wp4Desc": "Project management, monitoring, impact evaluation, reporting and project communication.",
+    "partnersTitle": "Partners"
+  },
+  "market": {
+    "title": "Labour Market",
+    "subtitle": "Up-to-date data on growing professions, required skills and the impact of artificial intelligence.",
+    "topJobsTitle": "Most In-Demand Professions",
+    "aiImpactTitle": "AI Impact",
+    "aiImpactDesc": "Artificial intelligence is transforming the labour market. Here's how to prepare.",
+    "trendsTitle": "Market Trends",
+    "skillsTitle": "Key Skills",
+    "localContextTitle": "Local Context",
+    "localContextDesc": "Focus on the Province of Ancona and the Marche region: employment rates, leading sectors and opportunities for young people."
+  },
+  "news": {
+    "title": "News",
+    "subtitle": "News from the world of work, innovation and training. Brief, concrete and up-to-date.",
+    "readMore": "Read more",
+    "categories": {
+      "all": "All",
+      "ai": "Artificial Intelligence",
+      "jobs": "Jobs",
+      "training": "Training",
+      "skills": "Skills"
+    },
+    "source": "Source",
+    "publishedOn": "Published on",
+    "relatedNews": "Related news"
+  },
+  "archive": {
+    "title": "Archive",
+    "subtitle": "Your personal repository. Access survey results, activity reports and documents from the training programme.",
+    "timelineTitle": "Activity Timeline",
+    "documentsTitle": "Documents",
+    "resultsTitle": "Results",
+    "year1": "Year 1",
+    "year2": "Year 2",
+    "currentPhase": "Current Phase",
+    "complete": "Complete",
+    "upcoming": "Upcoming",
+    "viewReport": "View Report",
+    "downloadPdf": "Download PDF",
+    "archiveStatus": "Archive Status"
+  },
+  "footer": {
+    "description": "An innovative platform for navigating the future of work and professional development through guidance tools and inspiring content.",
+    "project": "Project",
+    "alphaPhase": "Alpha Phase",
+    "roadmap": "Roadmap",
+    "connect": "Connect",
+    "feedback": "Feedback",
+    "privacy": "Privacy",
+    "copyright": "© 2025 Il Futuro Me. Kinetic Archive Project.",
+    "fundedBy": "Supported by Fondazione Cariverona – Direzione Giovani 2024"
+  }
+}
