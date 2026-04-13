@@ -12,191 +12,195 @@ export type NewsArticle = {
 export const newsArticles: NewsArticle[] = [
   {
     slug: "ai-crea-piu-lavori",
-    title: "L'AI sta creando più lavori di quanti ne elimina?",
+    title: "Future of Jobs 2025: l'AI creerà 78 milioni di posti netti",
     excerpt:
-      "Un nuovo studio del World Economic Forum rivela che entro il 2027, l'intelligenza artificiale genererà 97 milioni di nuovi ruoli, superando i 85 milioni che verranno automatizzati. La chiave? Competenze ibride e adattabilità.",
-    content: `Un nuovo studio del World Economic Forum rivela che entro il 2027, l'intelligenza artificiale genererà 97 milioni di nuovi ruoli, superando i 85 milioni che verranno automatizzati. La chiave? Competenze ibride e adattabilità.
+      "Il World Economic Forum prevede 170 milioni di nuovi lavori nei prossimi cinque anni, con un guadagno netto di 78 milioni di ruoli. Gli specialisti in AI e Big Data guidano la crescita.",
+    content: `Il World Economic Forum prevede 170 milioni di nuovi lavori creati a livello globale nei prossimi cinque anni, con un guadagno netto di 78 milioni di ruoli dopo 92 milioni di sostituzioni. L'intelligenza artificiale e il trattamento dati da soli creeranno 11 milioni di nuovi ruoli, sostituendone 9 milioni.
 
-Il rapporto "Future of Jobs 2025" analizza le trasformazioni in corso nel mercato del lavoro globale, evidenziando come l'automazione non significhi necessariamente perdita netta di posti di lavoro. Al contrario, la domanda di nuove figure professionali — dai data analyst agli specialisti in intelligenza artificiale, dai manager della sostenibilità ai consulenti per la trasformazione digitale — sta crescendo a un ritmo senza precedenti.
+**I lavori in più rapida crescita**
 
-Il dato più significativo riguarda le competenze ibride: il 65% dei datori di lavoro a livello globale considera essenziale la combinazione di competenze tecniche e trasversali. Non basta più saper programmare o conoscere i modelli di machine learning; serve anche saper comunicare, lavorare in team e adattarsi rapidamente ai cambiamenti.
+Secondo il Future of Jobs Report 2025, le professioni con la crescita più accelerata sono:
+- Big Data Specialist
+- Fintech Engineer
+- Specialista AI e Machine Learning
+- Tecnico per l'energia rinnovabile
+- Ingegnere ambientale
 
-Per i giovani, questo scenario rappresenta un'opportunità straordinaria. Chi investe oggi nello sviluppo di competenze digitali e soft skills si troverà in una posizione privilegiata nel mercato del lavoro di domani. Il consiglio degli esperti? Coltivare la curiosità, imparare a imparare e non aver paura di sperimentare percorsi formativi interdisciplinari.
+A guidare questa trasformazione sono tre grandi forze: il cambiamento tecnologico (in particolare l'intelligenza artificiale generativa), la transizione verde e i cambiamenti demografici. Il 60% delle aziende intervistate prevede di trasformare le proprie operazioni entro il 2030 grazie all'AI.
 
-L'Italia, secondo il rapporto, si colloca in una posizione intermedia: la domanda di profili tech è in forte crescita, ma il sistema formativo deve ancora adeguarsi pienamente alle nuove esigenze del mercato. Iniziative come Futuro Me possono fare la differenza, aiutando i giovani a orientarsi in questo panorama in rapida evoluzione.`,
+**Competenze ibride, non solo tecniche**
+
+Il dato più significativo riguarda le competenze: l'85% dei datori di lavoro globali identifica il pensiero analitico come la skill più importante. Seguono la resilienza, la flessibilità e l'alfabetizzazione tecnologica. Non basta quindi saper programmare: serve saper ragionare, adattarsi e comunicare.
+
+**Cosa significa per i giovani italiani**
+
+L'Italia si colloca in una posizione intermedia nella classifica globale: la domanda di profili tech è in forte crescita, ma il sistema formativo deve ancora adeguarsi. Chi investe oggi nello sviluppo di competenze digitali e trasversali si troverà in una posizione privilegiata nel mercato del lavoro di domani.`,
     category: "ai",
-    date: "2025-04-05",
+    date: "2025-01-07",
     source: "World Economic Forum — Future of Jobs Report 2025",
-    sourceUrl: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
+    sourceUrl:
+      "https://www.weforum.org/stories/2025/01/future-of-jobs-report-2025-jobs-of-the-future-and-the-skills-you-need-to-get-them/",
   },
   {
     slug: "competenze-2025",
-    title: "Le 10 competenze più richieste nel 2025",
+    title: "LinkedIn: le 15 competenze in più rapida crescita nel 2025",
     excerpt:
-      "Pensiero analitico, creatività e resilienza guidano la classifica. Le aziende cercano sempre più profili capaci di combinare competenze tecniche con soft skills trasversali.",
-    content: `Pensiero analitico, creatività e resilienza guidano la classifica. Le aziende cercano sempre più profili capaci di combinare competenze tecniche con soft skills trasversali.
+      "L'AI Literacy è al primo posto. LinkedIn avverte: entro il 2030, il 70% delle competenze richieste nei lavori attuali cambierà. La capacità di apprendere continuamente è la meta-competenza del decennio.",
+    content: `LinkedIn ha pubblicato il suo primo ranking "Skills on the Rise 2025", stilato analizzando milioni di assunzioni avvenute sulla piattaforma negli ultimi dodici mesi. Al primo posto si trova l'AI Literacy — la capacità di comprendere, usare e valutare criticamente gli strumenti di intelligenza artificiale.
 
-Secondo l'ultima analisi del LinkedIn Economic Graph, basata su milioni di offerte di lavoro pubblicate sulla piattaforma, le competenze più richieste nel 2025 sono:
+**Le competenze in cima alla classifica**
 
-1. **Pensiero analitico e critico** — La capacità di analizzare dati, identificare pattern e prendere decisioni informate è al primo posto. Con l'esplosione dei dati disponibili, saper distinguere il segnale dal rumore è fondamentale.
+1. AI Literacy
+2. Conflict Mitigation (gestione dei conflitti)
+3. Process Optimization
+4. Adaptability
+5. Communication
+6. Strategic Thinking
 
-2. **Creatività e innovazione** — L'intelligenza artificiale può automatizzare compiti ripetitivi, ma la creatività resta un dominio umano. Le aziende cercano persone capaci di pensare fuori dagli schemi.
+La presenza di competenze trasversali come la gestione dei conflitti e la comunicazione al fianco di skill tecniche conferma un trend chiaro: il mercato del lavoro del 2025 premia i profili che sanno combinare capacità umane e digitali.
 
-3. **Resilienza e adattabilità** — In un mondo del lavoro in continua trasformazione, la capacità di adattarsi e riprendersi dai fallimenti è diventata cruciale.
+**La sfida del 2030**
 
-4. **Competenze digitali avanzate** — Non si parla solo di saper usare un computer, ma di comprendere le basi dell'AI, del cloud computing e dell'analisi dei dati.
+LinkedIn avverte che entro il 2030, il 70% delle competenze utilizzate nella maggior parte dei lavori cambierà. Questo non significa che i lavori spariranno, ma che ogni professionista dovrà continuare ad aggiornarsi per rimanere rilevante.
 
-5. **Comunicazione efficace** — Saper comunicare idee complesse in modo chiaro, sia per iscritto che oralmente, resta una competenza trasversale imprescindibile.
+**Come prepararsi oggi**
 
-6. **Collaborazione e lavoro di squadra** — I progetti più innovativi nascono dalla collaborazione tra persone con competenze diverse.
-
-7. **Intelligenza emotiva** — Comprendere e gestire le proprie emozioni e quelle degli altri è sempre più valorizzato nei contesti lavorativi.
-
-8. **Problem solving** — La capacità di affrontare problemi complessi e trovare soluzioni creative è richiesta in ogni settore.
-
-9. **Leadership e gestione** — Anche per i profili junior, dimostrare capacità di leadership e di gestione dei progetti è un vantaggio competitivo.
-
-10. **Apprendimento continuo** — La competenza più importante potrebbe essere la capacità di continuare a imparare per tutta la vita.
-
-Per i ragazzi tra i 12 e i 16 anni, questa classifica offre una bussola importante: investire nello sviluppo di queste competenze fin da ora significa prepararsi al meglio per il futuro.`,
+Per i giovani che si stanno orientando, questo dato è una bussola preziosa: investire in competenze trasversali — pensiero critico, comunicazione, adattabilità — è più duraturo che specializzarsi in un singolo strumento tecnologico. La meta-competenza del decennio è la capacità di apprendere continuamente.`,
     category: "skills",
-    date: "2025-04-01",
-    source: "LinkedIn — Future of Work Report",
-    sourceUrl: "https://economicgraph.linkedin.com/research/future-of-work",
+    date: "2025-03-19",
+    source: "LinkedIn News — Skills on the Rise 2025",
+    sourceUrl:
+      "https://www.linkedin.com/pulse/linkedin-skills-rise-2025-15-fastest-growing-us-linkedin-news-hy0le",
   },
   {
     slug: "green-jobs-futuro",
-    title: "Green jobs: il futuro sostenibile del lavoro",
+    title: "Green Economy: 3,3 milioni di lavoratori verdi in Italia",
     excerpt:
-      "La transizione ecologica sta creando migliaia di nuove posizioni in Italia. Dalla gestione energetica alla mobilità sostenibile, ecco le professioni verdi più promettenti.",
-    content: `La transizione ecologica sta creando migliaia di nuove posizioni in Italia. Dalla gestione energetica alla mobilità sostenibile, ecco le professioni verdi più promettenti.
+      "Il settore green impiega già il 13,8% della forza lavoro italiana, con una crescita del 4,3% nel 2024. Entro il 2028 la domanda di profili sostenibili crescerà ulteriormente. Il problema? Le aziende faticano a trovarli.",
+    content: `Il settore dell'economia verde impiega già 3,3 milioni di persone in Italia — il 13,8% di tutti i lavoratori — ed è cresciuto del 4,3% nel solo 2024. Questi i dati dell'Osservatorio Excelsior di Unioncamere, che fotografa una trasformazione strutturale del mercato del lavoro italiano.
 
-Il mercato dei green jobs in Italia è in piena espansione. Secondo i dati di Unioncamere, nel 2024 le imprese italiane hanno programmato oltre 1,6 milioni di assunzioni legate alla sostenibilità ambientale, con una crescita del 12% rispetto all'anno precedente.
+**Le professioni verdi più richieste**
 
-**Le professioni verdi più promettenti:**
+Secondo il Sistema Informativo Excelsior, le figure più ricercate nel settore sostenibile sono:
+- Esperti in efficienza energetica
+- Tecnici delle energie rinnovabili
+- Specialisti in economia circolare
+- Agronomi e tecnici dell'agricoltura sostenibile
+- Consulenti ESG (Environmental, Social, Governance)
 
-**Energy Manager** — Professionisti che ottimizzano i consumi energetici di aziende e enti pubblici. Con l'aumento dei costi dell'energia e gli obiettivi di decarbonizzazione, questa figura è sempre più richiesta. Stipendio medio: 45.000-70.000€ annui.
+**Il gap di competenze**
 
-**Tecnico dell'efficienza energetica** — Specialisti nella progettazione e installazione di impianti a energia rinnovabile, sistemi di isolamento e domotica. La domanda è trainata dal Superbonus e dalle normative europee sulla classe energetica degli edifici.
+Il dato più preoccupante viene da Manpower Italy: il 75% delle aziende italiane dichiara di fare fatica a trovare professionisti con competenze green adeguate. Questo crea un'opportunità concreta per chi oggi decide di formarsi in questi ambiti.
 
-**Esperto in mobilità sostenibile** — Con la transizione verso i veicoli elettrici e la micromobilità, servono professionisti capaci di ripensare la mobilità urbana e aziendale.
+**Prospettive al 2028**
 
-**Consulente ESG** — Le aziende devono rendicontare il proprio impatto ambientale, sociale e di governance. I consulenti ESG (Environmental, Social, Governance) aiutano le imprese a rispettare le normative e a comunicare il proprio impegno.
+Le previsioni di Unioncamere indicano un aumento significativo delle assunzioni nelle rinnovabili, nell'economia circolare e nella mobilità sostenibile entro il 2028. I settori trainanti nella nostra regione — manifattura, turismo, agroalimentare — stanno tutti attraversando una transizione verde che richiede nuove figure professionali.
 
-**Agronomo digitale** — L'agricoltura di precisione combina competenze agronomiche e digitali per ridurre l'impatto ambientale della produzione alimentare.
+**Un'opportunità per i giovani marchigiani**
 
-**Il contesto nelle Marche:**
-
-Nella nostra regione, i settori più dinamici per i green jobs sono il manifatturiero sostenibile, l'agroalimentare biologico e il turismo responsabile. La Provincia di Ancona, in particolare, sta investendo nella transizione energetica delle PMI e nella formazione di figure professionali legate alla sostenibilità.
-
-Per i giovani che si stanno orientando, i green jobs rappresentano una scelta che coniuga passione per l'ambiente e concrete opportunità lavorative.`,
+Per chi si sta orientando nelle Marche, i green jobs rappresentano una scelta che unisce impatto concreto e concrete opportunità occupazionali. La domanda c'è, le competenze si acquisiscono.`,
     category: "jobs",
-    date: "2025-03-28",
-    source: "Il Sole 24 Ore — Lavoro e Carriera",
-    sourceUrl: "https://www.ilsole24ore.com/sezioni/lavoro-e-carriera",
+    date: "2024-12-23",
+    source: "Excelsior Orienta / Unioncamere — Green Economy",
+    sourceUrl:
+      "https://excelsiorienta.unioncamere.it/2024/12/23/green-economy-il-futuro-del-lavoro-sostenibile-in-italia/",
   },
   {
     slug: "formazione-digitale-marche",
-    title: "Marche: nuovi percorsi di formazione digitale per i giovani",
+    title: "Fondo per la Repubblica Digitale: 70 milioni per formare 100.000 giovani",
     excerpt:
-      "La Regione Marche lancia un programma di formazione digitale rivolto ai giovani tra 14 e 25 anni, con focus su programmazione, data analysis e intelligenza artificiale.",
-    content: `La Regione Marche lancia un programma di formazione digitale rivolto ai giovani tra 14 e 25 anni, con focus su programmazione, data analysis e intelligenza artificiale.
+      "Il programma PNRR stanzia 70 milioni di euro per la formazione digitale nel 2025, con focus su NEET, donne e lavoratori a rischio automazione. Obiettivo: 100.000 beneficiari entro il 2026.",
+    content: `Il Fondo per la Repubblica Digitale ha stanziato 70 milioni di euro per i bandi 2025 dedicati alla formazione digitale dei cittadini. Il programma, inserito nel Piano Nazionale di Ripresa e Resilienza (PNRR), punta a raggiungere almeno 100.000 beneficiari entro il 2026.
 
-Il programma, finanziato con fondi PNRR e cofinanziato dalla Regione, prevede percorsi formativi gratuiti della durata di 3-6 mesi, con un approccio pratico e orientato al mondo del lavoro.
+**Chi può partecipare**
 
-**I percorsi disponibili:**
+I programmi si rivolgono a categorie specifiche:
+- Giovani NEET (Not in Education, Employment or Training) tra i 15 e i 34 anni
+- Donne, specialmente in settori a bassa presenza femminile
+- Adulti disoccupati
+- Lavoratori a rischio di sostituzione da automazione
 
-**Coding Lab** — Un laboratorio intensivo di programmazione che parte dalle basi (HTML, CSS, JavaScript) per arrivare allo sviluppo di applicazioni web complete. Rivolto a chi non ha esperienza precedente, il percorso include un project work finale con un'azienda del territorio.
+**I contenuti formativi**
 
-**Data Explorer** — Un corso di introduzione all'analisi dei dati, che insegna a raccogliere, pulire e visualizzare dati usando strumenti come Python, Excel avanzato e Power BI. I partecipanti lavorano su dataset reali forniti da enti locali e aziende marchigiane.
+I percorsi coprono competenze digitali di base e avanzate: dalla navigazione sicura in rete alla programmazione, dall'analisi dei dati all'utilizzo degli strumenti di intelligenza artificiale. L'obiettivo è ridurre il divario digitale tra le generazioni e le aree geografiche.
 
-**AI First Steps** — Un percorso introduttivo all'intelligenza artificiale, che copre i concetti fondamentali del machine learning, il natural language processing e la computer vision. Include laboratori pratici con strumenti no-code e low-code per creare semplici applicazioni AI.
+**Il contesto nazionale e locale**
 
-**Le sedi:**
+L'Italia si colloca al terzultimo posto in Europa per competenze digitali della popolazione adulta (fonte: DESI 2024). Il Fondo per la Repubblica Digitale è una risposta strutturale a questo ritardo. Per le Marche, il programma si affianca alle iniziative regionali per l'apprendistato e la formazione professionale, offrendo ai giovani locali un canale di accesso gratuito alla formazione digitale.
 
-I corsi si svolgono in presenza nelle città di Ancona, Pesaro, Macerata e Ascoli Piceno, con la possibilità di seguire alcune lezioni online. Le sedi sono state scelte per garantire accessibilità a tutto il territorio regionale.
+**Come partecipare**
 
-**Come partecipare:**
-
-Le iscrizioni sono aperte sul portale della Regione Marche. Per i minorenni è richiesta l'autorizzazione dei genitori. I posti sono limitati e la selezione avviene in base a un colloquio motivazionale e un test attitudinale di base.
-
-Questa iniziativa si inserisce in un trend nazionale di investimento nella formazione digitale dei giovani, riconoscendo che le competenze tecnologiche sono ormai essenziali per l'inserimento nel mercato del lavoro.`,
+I bandi sono pubblicati sul portale del Fondo per la Repubblica Digitale. La selezione avviene tramite domanda online; per i minorenni è richiesta l'autorizzazione di un genitore o tutore.`,
     category: "training",
-    date: "2025-03-25",
-    source: "Regione Marche — Lavoro e Formazione",
-    sourceUrl: "https://www.regione.marche.it/Regione-Utile/Lavoro-e-Formazione/Formazione-professionale",
+    date: "2024-09-21",
+    source: "TiConsiglio — Fondo per la Repubblica Digitale",
+    sourceUrl: "https://www.ticonsiglio.com/fondo-repubblica-digitale-formazione/",
   },
   {
     slug: "prompt-engineering",
-    title: "Prompt Engineering: la nuova professione dell'era AI",
+    title: "Il Sole 24 Ore: il Prompt Engineer, figura chiave nell'era AI",
     excerpt:
-      "Saper 'parlare' con l'intelligenza artificiale è diventata una competenza richiestissima. Stipendi in crescita del 40% in un anno per chi sa formulare le domande giuste.",
-    content: `Saper "parlare" con l'intelligenza artificiale è diventata una competenza richiestissima. Stipendi in crescita del 40% in un anno per chi sa formulare le domande giuste.
+      "Il principale quotidiano economico italiano profila il Prompt Engineer come professione strategica emergente. In Italia le offerte di lavoro con AI sono quintuplate in due anni. Stipendi tra 35.000 e 120.000 euro.",
+    content: `Il Sole 24 Ore dedica un'analisi approfondita al Prompt Engineer, definendolo una figura chiave per gestire le sfide dell'intelligenza artificiale in azienda. È una delle prime trattazioni dettagliate di questa professione sul principale quotidiano economico italiano.
 
-Il prompt engineering — l'arte e la scienza di formulare istruzioni efficaci per i modelli di intelligenza artificiale generativa — è esploso come disciplina professionale. Quello che un anno fa era un campo sperimentale è oggi una delle competenze più ricercate nel mercato del lavoro globale.
+**Cos'è un Prompt Engineer**
 
-**Cos'è il prompt engineering?**
+Il Prompt Engineer è il professionista che progetta, ottimizza e valuta le istruzioni (prompt) da dare ai modelli di intelligenza artificiale per ottenere output precisi, utili e sicuri. Non si tratta solo di "fare domande all'AI", ma di comprendere in profondità il funzionamento dei modelli linguistici e tradurre esigenze aziendali complesse in istruzioni efficaci.
 
-In parole semplici, un prompt engineer è una persona che sa "parlare" con l'AI in modo da ottenere risultati precisi, utili e creativi. Non si tratta solo di scrivere domande, ma di comprendere come funzionano i modelli linguistici e come strutturare le richieste per massimizzare la qualità delle risposte.
+**Le competenze richieste**
 
-**Perché è così richiesto?**
-
-Le aziende stanno integrando l'AI generativa in ogni aspetto delle loro operazioni: dal marketing alla ricerca, dal customer service allo sviluppo prodotto. Ma la differenza tra un risultato mediocre e uno eccellente dipende spesso dalla qualità del prompt. Un prompt ben formulato può far risparmiare ore di lavoro e produrre output di qualità superiore.
-
-**I numeri:**
-
-Secondo i dati di Glassdoor e Indeed, gli stipendi per i prompt engineer sono cresciuti del 40% nell'ultimo anno. Negli Stati Uniti, le posizioni senior possono raggiungere i 200.000 dollari annui. In Italia, le prime offerte di lavoro specifiche per prompt engineer oscillano tra i 35.000 e i 60.000 euro annui, con una tendenza in forte crescita.
-
-**Come si diventa prompt engineer?**
-
-Non esiste un percorso accademico unico. Le competenze chiave includono:
-- Comprensione dei fondamenti dell'AI e del machine learning
-- Eccellenti capacità di scrittura e comunicazione
+Secondo Il Sole 24 Ore, il profilo ideale combina:
+- Conoscenza tecnica dei Large Language Models
+- Forte capacità linguistica e comunicativa
 - Pensiero logico e strutturato
-- Conoscenza del dominio specifico in cui si lavora
-- Capacità di sperimentazione e iterazione
+- Conoscenza del dominio applicativo (marketing, legale, medicina, ecc.)
+- Capacità di testing e iterazione sistematica
 
-**Un messaggio per i giovani:**
+**Il mercato in Italia**
 
-Il prompt engineering dimostra che nel mondo dell'AI le competenze umanistiche — scrittura, logica, creatività — sono preziose quanto quelle tecniche. Per i ragazzi che amano scrivere, comunicare e sperimentare, questa è una porta d'ingresso accessibile nel mondo dell'intelligenza artificiale.`,
+I dati citati dall'articolo sono significativi: le offerte di lavoro che menzionano l'AI in Italia sono aumentate di quasi cinque volte in due anni. Gli stipendi per i Prompt Engineer oscillano tra 35.000 e 120.000 euro annui a seconda del livello di esperienza e del settore.
+
+**Un messaggio per chi si orienta**
+
+Il Prompt Engineering dimostra che nell'era dell'AI le competenze umanistiche — linguaggio, logica, comunicazione — sono preziose quanto quelle tecniche. È una porta d'ingresso accessibile al mondo dell'intelligenza artificiale anche per chi non ha una formazione puramente informatica.`,
     category: "ai",
-    date: "2025-03-20",
-    source: "Wired Italia — Intelligenza Artificiale",
-    sourceUrl: "https://www.wired.it/tag/intelligenza-artificiale/",
+    date: "2024-10-23",
+    source: "Il Sole 24 Ore — The Prompt Engineer, a key figure in AI",
+    sourceUrl:
+      "https://en.ilsole24ore.com/art/the-prompt-engineer-key-figure-manage-challenges-of-artificial-intelligence-company-AFoifbqD",
   },
   {
     slug: "apprendistato-crescita",
-    title: "Apprendistato in crescita: +15% nelle Marche",
+    title: "INAPP: 569.264 apprendisti in Italia, +14,8% nei percorsi formativi",
     excerpt:
-      "I contratti di apprendistato nella regione crescono per il terzo anno consecutivo. I settori trainanti sono manifattura avanzata, turismo e servizi digitali.",
-    content: `I contratti di apprendistato nella regione crescono per il terzo anno consecutivo. I settori trainanti sono manifattura avanzata, turismo e servizi digitali.
+      "Il 22° Rapporto INAPP sull'apprendistato registra 569.264 contratti attivi e 365.886 nuove assunzioni. I percorsi di primo livello crescono del 14,8%. Permane un forte divario Nord-Sud.",
+    content: `Il 22° Rapporto Annuale sull'Apprendistato dell'INAPP (Istituto Nazionale per l'Analisi delle Politiche Pubbliche) registra 569.264 contratti di apprendistato attivi in Italia — un aumento del 4,5% rispetto al 2021 — con 365.886 nuove assunzioni nel periodo di riferimento.
 
-I dati dell'Osservatorio del Mercato del Lavoro della Regione Marche confermano una tendenza positiva: nel 2024, i contratti di apprendistato attivati sono stati 8.450, con un incremento del 15% rispetto al 2023 e del 32% rispetto al 2022.
+**I tre tipi di apprendistato**
 
-**I settori che trainano la crescita:**
+Il sistema italiano prevede tre percorsi:
+- **Primo livello** (15-25 anni): per il conseguimento di una qualifica o diploma professionale. Crescita: +14,8%
+- **Secondo livello** (18-29 anni): professionalizzante, il più diffuso. Stabile
+- **Terzo livello** (18-29 anni): di alta formazione e ricerca. Crescita: +11%
 
-**Manifattura avanzata** — Il distretto industriale marchigiano, storicamente legato alla meccanica e al calzaturiero, si sta evolvendo verso la manifattura 4.0. Le aziende cercano giovani capaci di operare con macchine a controllo numerico, robotica collaborativa e sistemi IoT. Gli apprendistati in questo settore sono cresciuti del 22%.
+L'aumento più significativo riguarda il primo livello, che avvicina i giovanissimi al mercato del lavoro attraverso un percorso che alterna scuola e azienda.
 
-**Turismo e hospitality** — Con la ripresa del turismo post-pandemia, il settore alberghiero e della ristorazione delle Marche ha aumentato significativamente le assunzioni di apprendisti. La costa adriatica e i borghi dell'entroterra attirano un turismo sempre più qualificato, che richiede competenze in digital marketing, lingue straniere e gestione dell'esperienza cliente.
+**Le conversioni a tempo indeterminato**
 
-**Servizi digitali** — Le web agency, le software house e le start-up marchigiane stanno investendo nella formazione di giovani sviluppatori, designer e digital marketer. Questo settore registra la crescita più rapida, con un +35% di contratti di apprendistato.
+Un dato incoraggiante: 114.554 contratti di apprendistato si sono trasformati in rapporti di lavoro a tempo indeterminato. L'apprendistato si conferma quindi non solo come porta d'ingresso, ma come canale privilegiato per una occupazione stabile.
 
-**Focus sulla Provincia di Ancona:**
+**Il divario geografico**
 
-Nella nostra provincia, i dati sono particolarmente incoraggianti. Senigallia e il suo hinterland vedono una crescita degli apprendistati legata soprattutto al turismo e ai servizi alla persona, mentre l'area di Jesi e Fabriano mantiene una forte vocazione manifatturiera.
+Il rapporto evidenzia una criticità strutturale: quasi il 90% degli apprendisti di primo livello è concentrato nel Nord Italia. Il Centro e il Sud, incluse le Marche, mostrano tassi di utilizzo ancora bassi, nonostante le risorse disponibili. Questo rappresenta un'opportunità per le aziende locali che decidono di investire nell'apprendistato come strumento di formazione.
 
-**Come funziona l'apprendistato:**
+**Come funziona l'apprendistato nelle Marche**
 
-L'apprendistato è un contratto di lavoro a tempo indeterminato finalizzato alla formazione e all'occupazione dei giovani. Esistono tre tipologie:
-- **Tipo I** (15-25 anni): per il conseguimento di un diploma o qualifica professionale
-- **Tipo II** (18-29 anni): professionalizzante, il più diffuso
-- **Tipo III** (18-29 anni): di alta formazione e ricerca
-
-Per i ragazzi che stanno scegliendo il proprio percorso, l'apprendistato rappresenta un'opzione concreta per entrare nel mondo del lavoro continuando a formarsi.`,
+Nella nostra regione, la Camera di Commercio delle Marche supporta le aziende che attivano contratti di apprendistato con incentivi economici e supporto alla formazione. Per i giovani tra i 15 e i 29 anni, è uno strumento concreto per entrare nel mondo del lavoro imparando direttamente sul campo.`,
     category: "jobs",
-    date: "2025-03-15",
-    source: "ANSA — Marche",
-    sourceUrl: "https://www.ansa.it/marche/",
+    date: "2024-11-21",
+    source: "Teleborsa — 22° Rapporto INAPP sull'Apprendistato",
+    sourceUrl:
+      "https://www.teleborsa.it/News/2024/11/21/crescita-dell-occupazione-in-apprendistato-dati-positivi-e-sfide-territoriali-45.html",
   },
 ];
 
