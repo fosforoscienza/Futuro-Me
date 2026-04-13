@@ -45,12 +45,12 @@ export function Footer() {
             >
               {t("feedback")}
             </Link>
-            <a
-              href="#"
+            <Link
+              href="/privacy"
               className="block text-secondary/60 hover:text-secondary transition-colors"
             >
               {t("privacy")}
-            </a>
+            </Link>
           </div>
         </div>
 

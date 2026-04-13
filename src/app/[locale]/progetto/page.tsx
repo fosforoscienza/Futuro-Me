@@ -1,5 +1,6 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import {
   Target,
   Heart,
@@ -9,6 +10,17 @@ import {
   Globe,
   Settings,
 } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const messages = await getMessages({ locale });
+  const project = messages.project as Record<string, string>;
+  return { title: project.title, description: project.subtitle };
+}
 
 export default async function ProgettoPage({
   params,

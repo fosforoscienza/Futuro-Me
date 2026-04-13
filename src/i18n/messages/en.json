@@ -103,6 +103,40 @@
     "downloadPdf": "Download PDF",
     "archiveStatus": "Archive Status"
   },
+  "privacy": {
+    "title": "Privacy Policy",
+    "subtitle": "Information on the processing of personal data pursuant to EU Regulation 2016/679 (GDPR) and Italian Legislative Decree 196/2003.",
+    "metaDescription": "Privacy policy for Il Futuro Me project. Personal data processing under GDPR.",
+    "controllerTitle": "Data Controller",
+    "controllerBody": "The Data Controller is Fondazione Caritas Senigallia ETS, based in Senigallia, Province of Ancona.\nEmail: info@ilfuturome.it",
+    "dataTitle": "Data Collected",
+    "dataBody": "The site collects only technical data necessary for operation (technical cookies for language preference). No personally identifiable data is collected through site navigation, except for data voluntarily provided by the user via the contact form or email.",
+    "purposeTitle": "Purpose of Processing",
+    "purposeBody": "Any data provided is processed exclusively for:\n- Responding to information or collaboration requests.\n- Ensuring the technical functioning of the platform (language preference cookie).\n- Project monitoring and evaluation activities, in aggregated and anonymised form.",
+    "legalBasisTitle": "Legal Basis",
+    "legalBasisBody": "Processing is based on the data subject's consent (Art. 6(1)(a) GDPR) for non-essential cookies, and on the Controller's legitimate interest for technical cookies necessary for site operation.",
+    "retentionTitle": "Data Retention",
+    "retentionBody": "Any personal data collected is retained only for the time strictly necessary to fulfil the purposes for which it was collected and in any case no longer than the duration of the project, unless required by law.",
+    "rightsTitle": "Data Subject Rights",
+    "rightsBody": "At any time you may exercise the rights provided by Articles 15-22 of the GDPR:\n- Right of access to your data.\n- Right to rectification or erasure.\n- Right to restriction or objection to processing.\n- Right to data portability.\n\nTo exercise these rights, write to: info@ilfuturome.it",
+    "cookiesTitle": "Cookies",
+    "cookiesBody": "This site uses only technical cookies necessary for operation:\n- Language preference cookie (NEXT_LOCALE): stores the language selected by the user.\n\nNo profiling or third-party cookies are used for advertising purposes.",
+    "minorsTitle": "Protection of Minors",
+    "minorsBody": "Il Futuro Me is aimed at young people aged 12 to 16. No personal data of minors is collected through the website. Data collection within the educational project (surveys, assessments) takes place exclusively in person, with parental/guardian consent and in compliance with current regulations on the protection of minors.",
+    "contactTitle": "Privacy Contacts",
+    "contactBody": "For any questions regarding personal data processing:\nFondazione Caritas Senigallia ETS\nEmail: info@ilfuturome.it",
+    "lastUpdated": "Last updated: April 2026"
+  },
+  "cookieConsent": {
+    "message": "This site uses technical cookies to ensure proper functioning and to store your language preference.",
+    "accept": "Accept",
+    "reject": "Reject",
+    "learnMore": "Privacy Policy"
+  },
+  "contacts": {
+    "metaTitle": "Contacts",
+    "metaDescription": "Get in touch for information about Il Futuro Me, partnerships or feedback. Fondazione Caritas Senigallia ETS."
+  },
   "footer": {
     "description": "An innovative platform for navigating the future of work and professional development through guidance tools and inspiring content.",
     "project": "Project",

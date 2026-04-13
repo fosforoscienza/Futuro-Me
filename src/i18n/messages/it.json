@@ -103,6 +103,40 @@
     "downloadPdf": "Scarica PDF",
     "archiveStatus": "Stato Archivio"
   },
+  "privacy": {
+    "title": "Informativa Privacy",
+    "subtitle": "Informativa sul trattamento dei dati personali ai sensi del Regolamento UE 2016/679 (GDPR) e del D.Lgs. 196/2003.",
+    "metaDescription": "Informativa privacy del progetto Il Futuro Me. Trattamento dati personali ai sensi del GDPR.",
+    "controllerTitle": "Titolare del Trattamento",
+    "controllerBody": "Il Titolare del trattamento dei dati personali è Fondazione Caritas Senigallia ETS, con sede in Senigallia, Provincia di Ancona.\nE-mail: info@ilfuturome.it",
+    "dataTitle": "Dati Raccolti",
+    "dataBody": "Il sito raccoglie esclusivamente dati tecnici necessari al funzionamento (cookie tecnici per la preferenza di lingua). Non vengono raccolti dati personali identificativi attraverso la navigazione del sito, salvo quelli forniti volontariamente dall'utente tramite il modulo di contatto o l'invio di e-mail.",
+    "purposeTitle": "Finalità del Trattamento",
+    "purposeBody": "I dati eventualmente forniti sono trattati esclusivamente per:\n- Rispondere a richieste di informazioni o collaborazione.\n- Garantire il funzionamento tecnico della piattaforma (cookie di preferenza lingua).\n- Attività di monitoraggio e valutazione del progetto educativo, in forma aggregata e anonimizzata.",
+    "legalBasisTitle": "Base Giuridica",
+    "legalBasisBody": "Il trattamento si fonda sul consenso dell'interessato (art. 6, par. 1, lett. a del GDPR) per i cookie non essenziali, e sul legittimo interesse del Titolare per i cookie tecnici necessari al funzionamento del sito.",
+    "retentionTitle": "Conservazione dei Dati",
+    "retentionBody": "I dati personali eventualmente raccolti sono conservati per il tempo strettamente necessario a soddisfare le finalità per le quali sono stati raccolti e comunque non oltre la durata del progetto, salvo obblighi di legge.",
+    "rightsTitle": "Diritti dell'Interessato",
+    "rightsBody": "In qualsiasi momento è possibile esercitare i diritti previsti dagli artt. 15-22 del GDPR:\n- Diritto di accesso ai propri dati.\n- Diritto di rettifica o cancellazione.\n- Diritto di limitazione o opposizione al trattamento.\n- Diritto alla portabilità dei dati.\n\nPer esercitare questi diritti, scrivere a: info@ilfuturome.it",
+    "cookiesTitle": "Cookie",
+    "cookiesBody": "Questo sito utilizza esclusivamente cookie tecnici necessari al funzionamento:\n- Cookie di preferenza lingua (NEXT_LOCALE): memorizza la lingua selezionata dall'utente.\n\nNon vengono utilizzati cookie di profilazione o di terze parti per finalità pubblicitarie.",
+    "minorsTitle": "Protezione dei Minori",
+    "minorsBody": "Il progetto Il Futuro Me è rivolto a ragazzi tra i 12 e i 16 anni. Non vengono raccolti dati personali di minori attraverso il sito web. Le attività di raccolta dati nell'ambito del progetto educativo (questionari, valutazioni) avvengono esclusivamente in presenza, con il consenso dei genitori/tutori e nel rispetto delle normative vigenti sulla protezione dei minori.",
+    "contactTitle": "Contatti per la Privacy",
+    "contactBody": "Per qualsiasi domanda relativa al trattamento dei dati personali:\nFondazione Caritas Senigallia ETS\nE-mail: info@ilfuturome.it",
+    "lastUpdated": "Ultimo aggiornamento: Aprile 2026"
+  },
+  "cookieConsent": {
+    "message": "Questo sito utilizza cookie tecnici per garantire il corretto funzionamento e memorizzare la tua preferenza di lingua.",
+    "accept": "Accetta",
+    "reject": "Rifiuta",
+    "learnMore": "Informativa Privacy"
+  },
+  "contacts": {
+    "metaTitle": "Contatti",
+    "metaDescription": "Contattaci per informazioni sul progetto Il Futuro Me, collaborazioni o feedback. Fondazione Caritas Senigallia ETS."
+  },
   "footer": {
     "description": "Una piattaforma innovativa per navigare il futuro del lavoro e dello sviluppo professionale attraverso strumenti di orientamento e contenuti ispiratori.",
     "project": "Progetto",

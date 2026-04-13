@@ -1,5 +1,17 @@
-import { setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { Mail, MapPin, ExternalLink } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const messages = await getMessages({ locale });
+  const contacts = messages.contacts as Record<string, string>;
+  return { title: contacts.metaTitle, description: contacts.metaDescription };
+}
 
 export default async function ContattiPage({
   params,

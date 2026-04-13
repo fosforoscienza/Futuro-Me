@@ -1,5 +1,6 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import {
   Brain,
   Rocket,
@@ -10,6 +11,17 @@ import {
   FileArchive,
   Table,
 } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const messages = await getMessages({ locale });
+  const archive = messages.archive as Record<string, string>;
+  return { title: archive.title, description: archive.subtitle };
+}
 
 export default async function ArchivioPage({
   params,

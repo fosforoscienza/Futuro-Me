@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 /**
  * Vercel Cron Job: runs weekly (Sunday 8:00 UTC)
@@ -18,6 +19,15 @@ export async function GET(request: Request) {
     authHeader !== `Bearer ${process.env.CRON_SECRET}`
   ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Rate limit: max 2 cron runs per minute
+  const { success } = rateLimit("cron-fetch-news", {
+    limit: 2,
+    windowSeconds: 60,
+  });
+  if (!success) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
   try {

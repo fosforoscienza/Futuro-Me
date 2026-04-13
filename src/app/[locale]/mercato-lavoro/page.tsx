@@ -1,5 +1,6 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import {
   TrendingUp,
   Brain,
@@ -17,6 +18,17 @@ import {
   Puzzle,
   MapPin,
 } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const messages = await getMessages({ locale });
+  const market = messages.market as Record<string, string>;
+  return { title: market.title, description: market.subtitle };
+}
 
 export default async function MercatoLavoroPage({
   params,

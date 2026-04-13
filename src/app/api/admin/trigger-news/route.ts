@@ -1,16 +1,30 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 /**
  * Manual trigger for news fetching from the admin dashboard.
  * Same pipeline as the cron job, but triggered on demand.
- *
- * TODO: Add authentication check (NextAuth session)
  */
 export async function POST(request: Request) {
   try {
-    // TODO: Verify admin session via NextAuth
-    // const session = await getServerSession(authOptions);
-    // if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // Verify admin secret until NextAuth is configured
+    const authHeader = request.headers.get("authorization");
+    const adminSecret = process.env.ADMIN_SECRET || process.env.CRON_SECRET;
+    if (adminSecret && authHeader !== `Bearer ${adminSecret}`) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate limit: max 5 manual triggers per minute
+    const { success } = rateLimit("admin-trigger", {
+      limit: 5,
+      windowSeconds: 60,
+    });
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many requests" },
+        { status: 429 }
+      );
+    }
 
     // Trigger the same pipeline as the cron job
     const cronUrl = new URL("/api/cron/fetch-news", request.url);
