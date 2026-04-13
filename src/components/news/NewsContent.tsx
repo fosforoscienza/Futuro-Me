@@ -1,74 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { useState } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
-
-type NewsItem = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  date: string;
-  source: string;
-};
-
-const sampleNews: NewsItem[] = [
-  {
-    slug: "ai-crea-piu-lavori",
-    title: "L'AI sta creando più lavori di quanti ne elimina?",
-    excerpt:
-      "Un nuovo studio del World Economic Forum rivela che entro il 2027, l'intelligenza artificiale genererà 97 milioni di nuovi ruoli, superando i 85 milioni che verranno automatizzati. La chiave? Competenze ibride e adattabilità.",
-    category: "ai",
-    date: "2025-04-05",
-    source: "World Economic Forum",
-  },
-  {
-    slug: "competenze-2025",
-    title: "Le 10 competenze più richieste nel 2025",
-    excerpt:
-      "Pensiero analitico, creatività e resilienza guidano la classifica. Le aziende cercano sempre più profili capaci di combinare competenze tecniche con soft skills trasversali.",
-    category: "skills",
-    date: "2025-04-01",
-    source: "LinkedIn Economic Graph",
-  },
-  {
-    slug: "green-jobs-futuro",
-    title: "Green jobs: il futuro sostenibile del lavoro",
-    excerpt:
-      "La transizione ecologica sta creando migliaia di nuove posizioni in Italia. Dalla gestione energetica alla mobilità sostenibile, ecco le professioni verdi più promettenti.",
-    category: "jobs",
-    date: "2025-03-28",
-    source: "Il Sole 24 Ore",
-  },
-  {
-    slug: "formazione-digitale-marche",
-    title: "Marche: nuovi percorsi di formazione digitale per i giovani",
-    excerpt:
-      "La Regione Marche lancia un programma di formazione digitale rivolto ai giovani tra 14 e 25 anni, con focus su programmazione, data analysis e intelligenza artificiale.",
-    category: "training",
-    date: "2025-03-25",
-    source: "Regione Marche",
-  },
-  {
-    slug: "prompt-engineering",
-    title: "Prompt Engineering: la nuova professione dell'era AI",
-    excerpt:
-      "Saper 'parlare' con l'intelligenza artificiale è diventata una competenza richiestissima. Stipendi in crescita del 40% in un anno per chi sa formulare le domande giuste.",
-    category: "ai",
-    date: "2025-03-20",
-    source: "Wired Italia",
-  },
-  {
-    slug: "apprendistato-crescita",
-    title: "Apprendistato in crescita: +15% nelle Marche",
-    excerpt:
-      "I contratti di apprendistato nella regione crescono per il terzo anno consecutivo. I settori trainanti sono manifattura avanzata, turismo e servizi digitali.",
-    category: "jobs",
-    date: "2025-03-15",
-    source: "ANSA",
-  },
-];
+import { newsArticles } from "@/lib/news-data";
 
 const categories = ["all", "ai", "jobs", "training", "skills"] as const;
 
@@ -78,8 +14,8 @@ export function NewsContent() {
 
   const filtered =
     activeCategory === "all"
-      ? sampleNews
-      : sampleNews.filter((n) => n.category === activeCategory);
+      ? newsArticles
+      : newsArticles.filter((n) => n.category === activeCategory);
 
   return (
     <div className="pb-24 md:pb-12">
@@ -122,9 +58,10 @@ export function NewsContent() {
       <section className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filtered.map((news) => (
-            <article
+            <Link
               key={news.slug}
-              className="bg-surface-container-lowest p-8 rounded-[1.5rem] hover:translate-y-[-4px] transition-transform group"
+              href={`/news/${news.slug}` as "/news/[slug]"}
+              className="bg-surface-container-lowest p-8 rounded-[1.5rem] hover:translate-y-[-4px] transition-transform group block"
             >
               <div className="flex items-center gap-3 mb-4">
                 <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold px-3 py-1 rounded-full">
@@ -152,7 +89,7 @@ export function NewsContent() {
                   {t("readMore")} <ArrowRight size={14} />
                 </span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

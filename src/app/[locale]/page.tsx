@@ -12,6 +12,7 @@ import {
   Clock,
   GraduationCap,
 } from "lucide-react";
+import { newsArticles } from "@/lib/news-data";
 
 export async function generateMetadata({
   params,
@@ -175,35 +176,26 @@ function HomeContent() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              title: "L'AI sta creando più lavori di quanti ne elimina?",
-              category: "AI",
-              date: "5 Apr 2025",
-            },
-            {
-              title: "Le 10 competenze più richieste nel 2025",
-              category: "Competenze",
-              date: "1 Apr 2025",
-            },
-            {
-              title: "Green jobs: il futuro sostenibile del lavoro",
-              category: "Lavoro",
-              date: "28 Mar 2025",
-            },
-          ].map((news) => (
-            <article
-              key={news.title}
-              className="bg-surface-container-lowest p-6 rounded-[1.5rem] hover:translate-y-[-4px] transition-transform cursor-pointer"
+          {newsArticles.slice(0, 3).map((news) => (
+            <Link
+              key={news.slug}
+              href={`/news/${news.slug}` as "/news/[slug]"}
+              className="bg-surface-container-lowest p-6 rounded-[1.5rem] hover:translate-y-[-4px] transition-transform group block"
             >
               <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold px-3 py-1 rounded-full">
-                {news.category}
+                {t(`news.categories.${news.category}`)}
               </span>
-              <h3 className="font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary mt-4 mb-2">
+              <h3 className="font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary mt-4 mb-2 group-hover:text-primary transition-colors">
                 {news.title}
               </h3>
-              <p className="text-xs text-on-surface-variant">{news.date}</p>
-            </article>
+              <p className="text-xs text-on-surface-variant">
+                {new Date(news.date).toLocaleDateString("it-IT", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+            </Link>
           ))}
         </div>
       </section>
