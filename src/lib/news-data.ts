@@ -26,8 +26,8 @@ Per i giovani, questo scenario rappresenta un'opportunità straordinaria. Chi in
 L'Italia, secondo il rapporto, si colloca in una posizione intermedia: la domanda di profili tech è in forte crescita, ma il sistema formativo deve ancora adeguarsi pienamente alle nuove esigenze del mercato. Iniziative come Futuro Me possono fare la differenza, aiutando i giovani a orientarsi in questo panorama in rapida evoluzione.`,
     category: "ai",
     date: "2025-04-05",
-    source: "World Economic Forum",
-    sourceUrl: "https://www.weforum.org",
+    source: "World Economic Forum — Future of Jobs Report 2025",
+    sourceUrl: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
   },
   {
     slug: "competenze-2025",
@@ -61,8 +61,8 @@ Secondo l'ultima analisi del LinkedIn Economic Graph, basata su milioni di offer
 Per i ragazzi tra i 12 e i 16 anni, questa classifica offre una bussola importante: investire nello sviluppo di queste competenze fin da ora significa prepararsi al meglio per il futuro.`,
     category: "skills",
     date: "2025-04-01",
-    source: "LinkedIn Economic Graph",
-    sourceUrl: "https://economicgraph.linkedin.com",
+    source: "LinkedIn — Future of Work Report",
+    sourceUrl: "https://economicgraph.linkedin.com/research/future-of-work",
   },
   {
     slug: "green-jobs-futuro",
@@ -92,8 +92,8 @@ Nella nostra regione, i settori più dinamici per i green jobs sono il manifattu
 Per i giovani che si stanno orientando, i green jobs rappresentano una scelta che coniuga passione per l'ambiente e concrete opportunità lavorative.`,
     category: "jobs",
     date: "2025-03-28",
-    source: "Il Sole 24 Ore",
-    sourceUrl: "https://www.ilsole24ore.com",
+    source: "Il Sole 24 Ore — Lavoro e Carriera",
+    sourceUrl: "https://www.ilsole24ore.com/sezioni/lavoro-e-carriera",
   },
   {
     slug: "formazione-digitale-marche",
@@ -123,8 +123,8 @@ Le iscrizioni sono aperte sul portale della Regione Marche. Per i minorenni è r
 Questa iniziativa si inserisce in un trend nazionale di investimento nella formazione digitale dei giovani, riconoscendo che le competenze tecnologiche sono ormai essenziali per l'inserimento nel mercato del lavoro.`,
     category: "training",
     date: "2025-03-25",
-    source: "Regione Marche",
-    sourceUrl: "https://www.regione.marche.it",
+    source: "Regione Marche — Lavoro e Formazione",
+    sourceUrl: "https://www.regione.marche.it/Regione-Utile/Lavoro-e-Formazione/Formazione-professionale",
   },
   {
     slug: "prompt-engineering",
@@ -161,8 +161,8 @@ Non esiste un percorso accademico unico. Le competenze chiave includono:
 Il prompt engineering dimostra che nel mondo dell'AI le competenze umanistiche — scrittura, logica, creatività — sono preziose quanto quelle tecniche. Per i ragazzi che amano scrivere, comunicare e sperimentare, questa è una porta d'ingresso accessibile nel mondo dell'intelligenza artificiale.`,
     category: "ai",
     date: "2025-03-20",
-    source: "Wired Italia",
-    sourceUrl: "https://www.wired.it",
+    source: "Wired Italia — Intelligenza Artificiale",
+    sourceUrl: "https://www.wired.it/tag/intelligenza-artificiale/",
   },
   {
     slug: "apprendistato-crescita",
@@ -195,8 +195,8 @@ L'apprendistato è un contratto di lavoro a tempo indeterminato finalizzato alla
 Per i ragazzi che stanno scegliendo il proprio percorso, l'apprendistato rappresenta un'opzione concreta per entrare nel mondo del lavoro continuando a formarsi.`,
     category: "jobs",
     date: "2025-03-15",
-    source: "ANSA",
-    sourceUrl: "https://www.ansa.it",
+    source: "ANSA — Marche",
+    sourceUrl: "https://www.ansa.it/marche/",
   },
 ];
 
