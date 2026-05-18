@@ -13,6 +13,7 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { newsArticles } from "@/lib/news-data";
+import { HeroAnimated } from "@/components/home/HeroAnimated";
 
 export async function generateMetadata({
   params,
@@ -79,32 +80,7 @@ function HomeContent() {
   return (
     <div className="pb-24 md:pb-12">
       {/* Hero */}
-      <header className="px-6 max-w-7xl mx-auto pt-12 pb-20">
-        <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4">
-          {t("hero.badge")}
-        </p>
-        <h1 className="text-5xl md:text-7xl font-[var(--font-plus-jakarta)] font-extrabold text-secondary tracking-tighter max-w-3xl leading-[0.9]">
-          {t("hero.title")}{" "}
-          <span className="text-primary">{t("hero.titleAccent")}</span>
-        </h1>
-        <p className="mt-8 text-xl text-on-surface-variant max-w-2xl leading-relaxed">
-          {t("hero.subtitle")}
-        </p>
-        <div className="mt-10 flex flex-wrap gap-4">
-          <Link
-            href="/mercato-lavoro"
-            className="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-3 rounded-[1.5rem] font-bold inline-flex items-center gap-2 hover:scale-105 transition-transform"
-          >
-            {t("home.exploreMarket")} <ArrowRight size={18} />
-          </Link>
-          <Link
-            href="/progetto"
-            className="bg-surface-container-highest text-on-surface px-8 py-3 rounded-[1.5rem] font-bold inline-flex items-center gap-2 hover:scale-105 transition-transform"
-          >
-            {t("home.discoverProject")}
-          </Link>
-        </div>
-      </header>
+      <HeroAnimated />
 
       {/* Stats */}
       <section className="bg-surface-container-low py-16">
