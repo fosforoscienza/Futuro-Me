@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { rateLimit } from "@/lib/rate-limit";
 import { toRow, type Answers } from "@/lib/questionario";
+import { validateAvatar } from "@/lib/avatar/config";
 
 /**
  * Salva una compilazione anonima del questionario.
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
-  let body: { answers?: Answers; website?: string };
+  let body: { answers?: Answers; avatar?: unknown; website?: string };
   try {
     body = await request.json();
   } catch {
@@ -35,7 +36,8 @@ export async function POST(request: Request) {
     body.answers && typeof body.answers === "object"
       ? toRow(body.answers)
       : null;
-  if (!row) {
+  const avatar = validateAvatar(body.avatar);
+  if (!row || !avatar) {
     return NextResponse.json({ error: "Invalid answers" }, { status: 400 });
   }
 
@@ -49,7 +51,7 @@ export async function POST(request: Request) {
   const supabase = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false },
   });
-  const { error } = await supabase.from("questionario_risposte").insert(row);
+  const { error } = await supabase.from("questionario_risposte").insert({ ...row, avatar });
   if (error) {
     console.error("Questionario insert error:", error.message);
     return NextResponse.json(

@@ -8,6 +8,7 @@ import {
   ChevronDown,
   ChevronUp,
   Clock,
+  Download,
   ListOrdered,
   LoaderCircle,
   RotateCcw,
@@ -29,25 +30,70 @@ import {
   type SingleQuestion,
   type WordQuestion,
 } from "@/lib/questionario";
+import {
+  DEFAULT_SELECTION,
+  LEVELS,
+  type AvatarSelection,
+} from "@/lib/avatar/config";
+import { AvatarCanvas } from "@/components/avatar/AvatarCanvas";
+import { AvatarLevel } from "@/components/avatar/AvatarLevel";
 
 type Status = "intro" | "form" | "sending" | "done";
+
+/**
+ * Percorso: i livelli dell'avatar si sbloccano tra un blocco di domande e
+ * l'altro, come nel documento (Lv0, domande 1-4, Lv1, domande 5-10, ...).
+ */
+type Step =
+  | { kind: "avatar"; level: (typeof LEVELS)[number] }
+  | { kind: "questions"; from: number; to: number };
+
+const level = (id: string) => ({ kind: "avatar" as const, level: LEVELS.find((l) => l.id === id)! });
+const block = (from: number, to: number) => ({ kind: "questions" as const, from, to });
+
+const STEPS: Step[] = [
+  level("lv0"),
+  block(1, 4),
+  level("lv1"),
+  block(5, 10),
+  level("lv2"),
+  block(11, 14),
+  level("lv3"),
+  block(15, 20),
+  level("lv4"),
+  block(21, 26),
+  level("lv5"),
+  level("lv6"),
+];
+
+const sectionOf = new Map(
+  sections.flatMap((s) => s.questions.map((q) => [q.id, s] as const))
+);
 
 const headline = "font-[var(--font-plus-jakarta)]";
 
 export function Questionario() {
   const [status, setStatus] = useState<Status>("intro");
-  const [step, setStep] = useState(0);
+  const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
+  const [avatar, setAvatar] = useState<AvatarSelection>(DEFAULT_SELECTION);
   const [showErrors, setShowErrors] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [website, setWebsite] = useState("");
   const topRef = useRef<HTMLDivElement>(null);
 
-  const section = sections[step];
-  const isLast = step === sections.length - 1;
-  const visibleQuestions = section.questions.filter((q) =>
-    isVisible(q, answers)
-  );
+  const step = STEPS[stepIndex];
+  const isLast = stepIndex === STEPS.length - 1;
+  const visibleQuestions =
+    step.kind === "questions"
+      ? allQuestions.filter(
+          (q) => q.number >= step.from && q.number <= step.to && isVisible(q, answers)
+        )
+      : [];
+  const avatarError =
+    step.kind === "avatar" && step.level.id === "lv0" && !avatar.corpo
+      ? "Scegli il genere per continuare."
+      : null;
 
   const setAnswer = (id: string, value: string | string[]) =>
     setAnswers((prev) => ({ ...prev, [id]: value }));
@@ -58,7 +104,7 @@ export function Questionario() {
     );
 
   const goTo = (next: number) => {
-    setStep(next);
+    setStepIndex(next);
     setShowErrors(false);
     setSubmitError(null);
     scrollToTop();
@@ -71,7 +117,8 @@ export function Questionario() {
 
   const restart = () => {
     setAnswers({});
-    setStep(0);
+    setAvatar(DEFAULT_SELECTION);
+    setStepIndex(0);
     setShowErrors(false);
     setSubmitError(null);
     setStatus("intro");
@@ -85,7 +132,7 @@ export function Questionario() {
       const res = await fetch("/api/questionario", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers, website }),
+        body: JSON.stringify({ answers, avatar, website }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus("done");
@@ -99,6 +146,10 @@ export function Questionario() {
   };
 
   const next = () => {
+    if (avatarError) {
+      setShowErrors(true);
+      return;
+    }
     const firstInvalid = visibleQuestions.find((q) =>
       validateQuestion(q, answers)
     );
@@ -112,7 +163,7 @@ export function Questionario() {
     if (isLast) {
       submit();
     } else {
-      goTo(step + 1);
+      goTo(stepIndex + 1);
     }
   };
 
@@ -123,7 +174,7 @@ export function Questionario() {
 
   return (
     <div className="pb-24 md:pb-12">
-      <header className="px-6 max-w-3xl mx-auto pt-12 pb-10">
+      <header className="px-6 max-w-5xl mx-auto pt-12 pb-10">
         <div className="flex items-center gap-2 mb-4">
           <Sparkles size={16} className="text-primary" />
           <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">
@@ -137,45 +188,66 @@ export function Questionario() {
         </h1>
       </header>
 
-      <div ref={topRef} className="max-w-3xl mx-auto px-6 scroll-mt-28">
+      <div
+        ref={topRef}
+        className={`${step.kind === "avatar" || status === "done" ? "max-w-5xl" : "max-w-3xl"} mx-auto px-6 scroll-mt-28`}
+      >
         {status === "intro" && <Intro onStart={start} />}
 
-        {status === "done" && <Done onRestart={restart} />}
+        {status === "done" && <Done avatar={avatar} onRestart={restart} />}
 
         {(status === "form" || status === "sending") && (
           <>
             <Progress
-              step={step}
-              title={section.title}
+              step={stepIndex}
+              title={step.kind === "avatar" ? step.level.title : "Domande"}
               answered={answered}
               total={total}
             />
 
-            <section aria-labelledby="titolo-sezione" className="mt-8">
-              <h2
-                id="titolo-sezione"
-                className={`text-3xl md:text-4xl ${headline} font-extrabold text-secondary tracking-tight`}
-              >
-                {section.title}
-              </h2>
-              {section.intro && (
-                <p className="mt-3 text-lg text-on-surface-variant">
-                  {section.intro}
-                </p>
-              )}
-
+            {step.kind === "avatar" ? (
+              <AvatarLevel
+                level={step.level}
+                selection={avatar}
+                onChange={setAvatar}
+                error={showErrors ? avatarError : null}
+              />
+            ) : (
               <div className="mt-8 space-y-6">
-                {visibleQuestions.map((q) => (
-                  <QuestionCard
-                    key={q.id}
-                    question={q}
-                    answers={answers}
-                    setAnswer={setAnswer}
-                    error={showErrors ? validateQuestion(q, answers) : null}
-                  />
-                ))}
+                {visibleQuestions.map((q, i) => {
+                  const section = sectionOf.get(q.id)!;
+                  const newSection =
+                    i === 0 || sectionOf.get(visibleQuestions[i - 1].id) !== section;
+                  return (
+                    <div key={q.id} className="space-y-6">
+                      {newSection && (
+                        <div className={i > 0 ? "pt-6" : ""}>
+                          <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+                            Sezione {sections.indexOf(section) + 1}
+                          </p>
+                          <h2
+                            className={`mt-1 text-3xl md:text-4xl ${headline} font-extrabold text-secondary tracking-tight`}
+                          >
+                            {section.title}
+                          </h2>
+                          {section.intro && (
+                            <p className="mt-3 text-lg text-on-surface-variant">
+                              {section.intro}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      <QuestionCard
+                        question={q}
+                        answers={answers}
+                        setAnswer={setAnswer}
+                        error={showErrors ? validateQuestion(q, answers) : null}
+                      />
+                    </div>
+                  );
+                })}
               </div>
-            </section>
+            )}
 
             {/* Honeypot anti-bot: invisibile per le persone */}
             <input
@@ -199,10 +271,10 @@ export function Questionario() {
             )}
 
             <div className="mt-10 flex items-center justify-between gap-4">
-              {step > 0 ? (
+              {stepIndex > 0 ? (
                 <button
                   type="button"
-                  onClick={() => goTo(step - 1)}
+                  onClick={() => goTo(stepIndex - 1)}
                   disabled={status === "sending"}
                   className="px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 bg-surface-container-highest text-on-surface hover:bg-secondary/10 transition-colors cursor-pointer disabled:opacity-50"
                 >
@@ -241,7 +313,7 @@ export function Questionario() {
 
 function Intro({ onStart }: { onStart: () => void }) {
   return (
-    <div className="bg-surface-container-low p-8 md:p-10 rounded-[1.5rem]">
+    <div className="bg-surface-container-low p-8 md:p-10 rounded-[1.5rem] max-w-3xl">
       <h2 className={`text-2xl ${headline} font-bold text-secondary mb-4`}>
         Ciao!
       </h2>
@@ -249,6 +321,10 @@ function Intro({ onStart }: { onStart: () => void }) {
         Questo questionario è un&apos;istantanea dei tuoi pensieri, desideri e
         aspirazioni sul futuro. Ricorda: non ci sono risposte giuste o
         sbagliate, ma solo le tue risposte.
+      </p>
+      <p className="mt-4 text-lg text-on-surface-variant leading-relaxed">
+        Mentre rispondi sbloccherai, livello dopo livello, il tuo avatar: come
+        ti immagini tra 15 anni?
       </p>
       <ul className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
@@ -260,13 +336,13 @@ function Intro({ onStart }: { onStart: () => void }) {
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
           <ListOrdered size={20} className="text-secondary shrink-0" />
           <span className="text-sm font-bold text-secondary">
-            7 sezioni, 26 domande
+            26 domande e 7 livelli di avatar
           </span>
         </li>
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
           <Clock size={20} className="text-secondary shrink-0" />
           <span className="text-sm font-bold text-secondary">
-            Circa 10 minuti
+            Circa 15 minuti
           </span>
         </li>
       </ul>
@@ -281,30 +357,63 @@ function Intro({ onStart }: { onStart: () => void }) {
   );
 }
 
-function Done({ onRestart }: { onRestart: () => void }) {
+function Done({
+  avatar,
+  onRestart,
+}: {
+  avatar: AvatarSelection;
+  onRestart: () => void;
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const download = () => {
+    canvasRef.current?.toBlob((blob) => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "il-mio-futuro-me.png";
+      a.click();
+      URL.revokeObjectURL(url);
+    }, "image/png");
+  };
+
   return (
-    <div className="bg-secondary text-white p-8 md:p-10 rounded-[1.5rem] relative overflow-hidden">
-      <div className="relative z-10">
-        <div className="bg-white/15 p-3 rounded-xl w-fit mb-6">
-          <Check size={28} />
-        </div>
-        <h2 className={`text-3xl ${headline} font-extrabold mb-4`}>
-          Grazie!
-        </h2>
-        <p className="text-white/80 text-lg leading-relaxed max-w-xl">
-          Le tue risposte sono state inviate. Ci aiuteranno a costruire insieme
-          il percorso de Il Futuro Me.
-        </p>
-        <button
-          type="button"
-          onClick={onRestart}
-          className="mt-8 bg-white text-secondary px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:scale-105 transition-transform cursor-pointer"
-        >
-          <RotateCcw size={16} /> Nuova compilazione
-        </button>
+    <div className="grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 items-start">
+      <div className="max-w-[340px] w-full mx-auto md:max-w-none">
+        <AvatarCanvas selection={avatar} canvasRef={canvasRef} />
       </div>
-      <div className="absolute -right-6 -bottom-6 opacity-10">
-        <Sparkles size={160} />
+      <div className="bg-secondary text-white p-8 md:p-10 rounded-[1.5rem] relative overflow-hidden">
+        <div className="relative z-10">
+          <div className="bg-white/15 p-3 rounded-xl w-fit mb-6">
+            <Check size={28} />
+          </div>
+          <h2 className={`text-3xl ${headline} font-extrabold mb-4`}>
+            Grazie!
+          </h2>
+          <p className="text-white/80 text-lg leading-relaxed max-w-xl">
+            Le tue risposte sono state inviate. Ecco il tuo Futuro Me: puoi
+            salvarlo e tenerlo come ricordo.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={download}
+              className="bg-white text-secondary px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:scale-105 transition-transform cursor-pointer"
+            >
+              <Download size={16} /> Scarica l&apos;avatar
+            </button>
+            <button
+              type="button"
+              onClick={onRestart}
+              className="bg-white/15 text-white px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:bg-white/25 transition-colors cursor-pointer"
+            >
+              <RotateCcw size={16} /> Nuova compilazione
+            </button>
+          </div>
+        </div>
+        <div className="absolute -right-6 -bottom-6 opacity-10">
+          <Sparkles size={160} />
+        </div>
       </div>
     </div>
   );
@@ -321,12 +430,12 @@ function Progress({
   answered: number;
   total: number;
 }) {
-  const percent = Math.round((answered / total) * 100);
+  const percent = Math.round(((step + 1) / STEPS.length) * 100);
   return (
     <div>
       <div className="flex items-center justify-between gap-4 mb-3">
         <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">
-          Sezione {step + 1} di {sections.length}
+          Passo {step + 1} di {STEPS.length}
           <span className="sr-only">: {title}</span>
         </p>
         <p className="text-xs font-bold text-on-surface-variant">

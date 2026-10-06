@@ -55,7 +55,10 @@ create table if not exists public.questionario_risposte (
   q23 text not null,
   q24 text not null,
   q25 text not null,
-  q26 text not null
+  q26 text not null,
+
+  -- Avatar costruito durante il questionario (scelte per livello, vedi src/lib/avatar/config.ts)
+  avatar jsonb not null
 );
 
 -- RLS attiva senza policy: anon e authenticated non possono né leggere né
