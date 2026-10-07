@@ -56,14 +56,24 @@ export function AvatarLevel({
       </h2>
       <p className="mt-3 text-lg text-on-surface-variant">{level.intro}</p>
 
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-[auto_minmax(0,1fr)] gap-4 md:gap-8 items-start">
+      {/* Larghezza esplicita ricavata dall'altezza dello schermo: una colonna "auto"
+          con l'aspect-ratio viene calcolata larga zero da Safari */}
+      <div
+        className="mt-6 grid grid-cols-1 md:grid-cols-[var(--avatar-w)_minmax(0,1fr)] gap-4 md:gap-8 items-start"
+        style={
+          {
+            "--avatar-w": "min(calc((100vh - 8rem) * 848 / 1264), 590px)",
+            "--avatar-w-mobile": "calc(38vh * 848 / 1264)",
+          } as React.CSSProperties
+        }
+      >
         {/* Anteprima: su mobile fissa in alto sotto la barra, su desktop alta quanto lo schermo */}
         <div className="sticky top-20 md:top-24 z-20 -mx-6 px-6 py-2 bg-background/95 backdrop-blur md:mx-0 md:p-0 md:bg-transparent md:backdrop-blur-none">
           {hasBody ? (
             <AvatarCanvas
               selection={selection}
               focus={focus}
-              className="h-[38vh] md:h-[min(calc(100vh-8rem),880px)] w-auto max-w-full mx-auto"
+              className="w-[var(--avatar-w-mobile)] md:w-[var(--avatar-w)] mx-auto"
             >
               {closeUp && (
                 <button
@@ -85,7 +95,7 @@ export function AvatarLevel({
             </AvatarCanvas>
           ) : (
             <div
-              className="h-[38vh] md:h-[min(calc(100vh-8rem),880px)] max-w-full mx-auto rounded-[1.5rem] bg-surface-container flex items-center justify-center text-center p-6 text-on-surface-variant font-bold"
+              className="w-[var(--avatar-w-mobile)] md:w-[var(--avatar-w)] mx-auto rounded-[1.5rem] bg-surface-container flex items-center justify-center text-center p-6 text-on-surface-variant font-bold"
               style={{ aspectRatio: "848 / 1264" }}
             >
               Scegli il genere per vedere il tuo avatar

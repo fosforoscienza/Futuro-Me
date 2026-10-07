@@ -378,11 +378,19 @@ function Done({
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[auto_minmax(0,1fr)] gap-6 md:gap-8 items-start">
+    <div
+      className="grid grid-cols-1 md:grid-cols-[var(--avatar-w)_minmax(0,1fr)] gap-6 md:gap-8 items-start"
+      style={
+        {
+          "--avatar-w": "min(calc((100vh - 10rem) * 848 / 1264), 590px)",
+          "--avatar-w-mobile": "min(calc(62vh * 848 / 1264), calc(100vw - 3rem))",
+        } as React.CSSProperties
+      }
+    >
       <AvatarCanvas
         selection={avatar}
         canvasRef={canvasRef}
-        className="h-[62vh] md:h-[min(calc(100vh-10rem),880px)] w-auto max-w-full mx-auto"
+        className="w-[var(--avatar-w-mobile)] md:w-[var(--avatar-w)] mx-auto"
       />
       <div className="bg-secondary text-white p-8 md:p-10 rounded-[1.5rem] relative overflow-hidden">
         <div className="relative z-10">
