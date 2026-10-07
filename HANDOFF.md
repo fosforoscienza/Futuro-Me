@@ -66,8 +66,14 @@ Note:
   https://claude.ai/artifact/SqAccex4QQJq57rG6KJWyr (privato, da condividere dal menu Share).
 - **Asset**: `public/avatar/**` (~470 file) e manifest `src/lib/avatar/assets.json`, generati
   da `scripts/avatar/build_assets.py` a partire da immagini Higgsfield (Nano Banana 2) elencate
-  in `scripts/avatar/jobs.tsv`. Vedi `scripts/avatar/README.md`. Le immagini sorgenti non sono
-  nel repository: si riscaricano dai job id.
+  in `scripts/avatar/jobs.tsv`, poi rifiniti da `scripts/avatar/fix_masks.py` (da rilanciare
+  dopo ogni build). Vedi `scripts/avatar/README.md`. Le immagini sorgenti non sono nel
+  repository: si riscaricano dai job id.
+- **Colori dell'avatar (7/10, commit `4d9ec17` e `0242937`)**: capelli e iridi si ricolorano
+  in OKLab con le statistiche del manifest; iridi con maschera geometrica; sopracciglia con
+  maschera morbida (niente più macchia sotto il sopracciglio destro); i pezzi sovrapposti al
+  viso non ridipingono più occhi e viso F; pelle in ombra, mani e buchi delle stoffe beige
+  sistemati per tutti gli incarnati. Le ciglia si disegnano sotto la forma d'occhio scelta.
 
 ## Limiti noti / possibili prossimi passi
 
@@ -76,6 +82,20 @@ Note:
 - **Somministrazione inizio/fine anno con confronto anonimo**: discussa ma non implementata
   (in attesa di decisione). Oggi ogni invio è indipendente, senza codice di collegamento.
 - Crediti Higgsfield residui al 7/10: 306,75.
+- **Ciglia**: sono disegnate sull'occhio base ("a mandorla grandi"); con le altre forme si
+  vedono solo dove escono (con "tondi grandi" quasi niente). Soluzione vera: generare le
+  ciglia per ogni forma d'occhio (5 forme × 3 ciglia × 2 corpi = 30 immagini Higgsfield).
+- **Pezzi condivisi F→M** (capelli, cappelli, occhiali, gioielli generati solo su F): su M il
+  contorno non combacia col viso (es. guancia seghettata con "lunghi con frangetta", residui
+  con afro e treccine). Servirebbero le versioni M delle 18 pettinature.
+- **Capelli iniziali "No capelli"**: i colori dei capelli sembrano non fare nulla finché non si
+  sceglie un taglio (cambiano solo le sopracciglia). Da decidere: taglio di default o colori
+  disattivati con un suggerimento. Su telefono l'anteprima fissa occupa metà schermo.
+- Difetti minori negli asset: bordo bianco seghettato all'attaccatura di alcune pettinature;
+  con sopracciglia "Nessuna" si vede il contorno di quelle cancellate; occhiali "aviatore" con
+  la pelle F dietro la lente; blocco di capelli sulla guancia destra con i capelli lunghi su F;
+  fascia grigia dei pantaloncini base in vita con alcuni costumi; maniche del trench M con
+  chiazze un po' più chiare.
 
 ## Verifiche utili in locale
 
