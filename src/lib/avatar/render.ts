@@ -50,6 +50,30 @@ const AVATAR_SCALE = 0.84;
 const AVATAR_X = (SCENE_W - SCENE_W * AVATAR_SCALE) / 2;
 const AVATAR_Y = SCENE_H - SCENE_H * AVATAR_SCALE - 24;
 
+/** Inquadrature dell'anteprima: figura intera o primo piano sulla parte che si sta modificando. */
+export type Focus = "full" | "face" | "torso" | "legs";
+
+function focusBox(focus: Focus): [number, number, number, number] {
+  if (focus === "full") return [0, 0, SCENE_W, SCENE_H];
+  // centro e larghezza in coordinate del corpo base (848 x 1264), poi nella scena
+  const [cy, w] = focus === "face" ? [235, 380] : focus === "torso" ? [500, 600] : [930, 600];
+  const sw = w * AVATAR_SCALE;
+  const sh = (sw * SCENE_H) / SCENE_W;
+  const sx = SCENE_W / 2 - sw / 2;
+  const sy = Math.min(Math.max(AVATAR_Y + cy * AVATAR_SCALE - sh / 2, 0), SCENE_H - sh);
+  return [sx, sy, sw, sh];
+}
+
+/** Copia la scena già disegnata su `dst`, con l'inquadratura richiesta. */
+export function drawFocus(dst: HTMLCanvasElement, scene: HTMLCanvasElement, focus: Focus) {
+  dst.width = SCENE_W;
+  dst.height = SCENE_H;
+  const [x, y, w, h] = focusBox(focus);
+  const ctx = dst.getContext("2d")!;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(scene, x, y, w, h, 0, 0, SCENE_W, SCENE_H);
+}
+
 const images = new Map<string, Promise<HTMLImageElement>>();
 function loadImage(src: string) {
   let p = images.get(src);

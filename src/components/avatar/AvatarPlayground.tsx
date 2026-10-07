@@ -60,7 +60,7 @@ export function AvatarPlayground() {
 
   return (
     <div className="pb-24 md:pb-12">
-      <header className="px-6 max-w-5xl mx-auto pt-12 pb-8">
+      <header className="px-6 max-w-6xl mx-auto pt-12 pb-8">
         <div className="flex items-center gap-2 mb-4">
           <Sparkles size={16} className="text-primary" />
           <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">
@@ -78,7 +78,7 @@ export function AvatarPlayground() {
         </p>
       </header>
 
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <nav aria-label="Livelli dell'avatar" className="flex flex-wrap gap-2">
           {LEVELS.map((l, i) => (
             <button

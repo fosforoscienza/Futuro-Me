@@ -1,8 +1,13 @@
 "use client";
 
-import { Check, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Check, Sparkles, ZoomIn, ZoomOut } from "lucide-react";
 import type { AvatarSelection, Group, Level } from "@/lib/avatar/config";
+import type { Focus } from "@/lib/avatar/render";
 import { AvatarCanvas } from "./AvatarCanvas";
+
+/** Primo piano automatico sulla parte del corpo che il livello modifica. */
+const LEVEL_FOCUS: Record<string, Focus> = { lv1: "face", lv2: "torso", lv3: "legs" };
 
 const headline = "font-[var(--font-plus-jakarta)]";
 
@@ -31,6 +36,9 @@ export function AvatarLevel({
   };
 
   const hasBody = selection.corpo !== "";
+  const [wide, setWide] = useState<Record<string, boolean>>({});
+  const closeUp = LEVEL_FOCUS[level.id];
+  const focus: Focus = closeUp && !wide[level.id] ? closeUp : "full";
 
   return (
     <section aria-labelledby={`livello-${level.id}`} className="mt-8">
@@ -48,14 +56,36 @@ export function AvatarLevel({
       </h2>
       <p className="mt-3 text-lg text-on-surface-variant">{level.intro}</p>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 items-start">
-        {/* Su mobile l'anteprima resta piccola e fissa in alto mentre si scorrono le opzioni */}
-        <div className="sticky top-20 md:top-28 z-20 w-28 sm:w-36 md:w-full ml-auto md:mx-auto drop-shadow-lg md:drop-shadow-none">
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-[auto_minmax(0,1fr)] gap-4 md:gap-8 items-start">
+        {/* Anteprima: su mobile fissa in alto sotto la barra, su desktop alta quanto lo schermo */}
+        <div className="sticky top-20 md:top-24 z-20 -mx-6 px-6 py-2 bg-background/95 backdrop-blur md:mx-0 md:p-0 md:bg-transparent md:backdrop-blur-none">
           {hasBody ? (
-            <AvatarCanvas selection={selection} />
+            <AvatarCanvas
+              selection={selection}
+              focus={focus}
+              className="h-[38vh] md:h-[min(calc(100vh-8rem),880px)] w-auto max-w-full mx-auto"
+            >
+              {closeUp && (
+                <button
+                  type="button"
+                  onClick={() => setWide({ ...wide, [level.id]: !wide[level.id] })}
+                  className="absolute bottom-3 right-3 bg-surface-container-lowest/90 text-secondary px-3 py-2 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow cursor-pointer hover:bg-surface-container-lowest"
+                >
+                  {focus === "full" ? (
+                    <>
+                      <ZoomIn size={14} /> Primo piano
+                    </>
+                  ) : (
+                    <>
+                      <ZoomOut size={14} /> Figura intera
+                    </>
+                  )}
+                </button>
+              )}
+            </AvatarCanvas>
           ) : (
             <div
-              className="rounded-[1.5rem] bg-surface-container flex items-center justify-center text-center p-6 text-on-surface-variant font-bold"
+              className="h-[38vh] md:h-[min(calc(100vh-8rem),880px)] max-w-full mx-auto rounded-[1.5rem] bg-surface-container flex items-center justify-center text-center p-6 text-on-surface-variant font-bold"
               style={{ aspectRatio: "848 / 1264" }}
             >
               Scegli il genere per vedere il tuo avatar

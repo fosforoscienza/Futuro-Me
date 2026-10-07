@@ -190,7 +190,7 @@ export function Questionario() {
 
       <div
         ref={topRef}
-        className={`${step.kind === "avatar" || status === "done" ? "max-w-5xl" : "max-w-3xl"} mx-auto px-6 scroll-mt-28`}
+        className={`${step.kind === "avatar" || status === "done" ? "max-w-6xl" : "max-w-3xl"} mx-auto px-6 scroll-mt-28`}
       >
         {status === "intro" && <Intro onStart={start} />}
 
@@ -378,10 +378,12 @@ function Done({
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 items-start">
-      <div className="max-w-[340px] w-full mx-auto md:max-w-none">
-        <AvatarCanvas selection={avatar} canvasRef={canvasRef} />
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-[auto_minmax(0,1fr)] gap-6 md:gap-8 items-start">
+      <AvatarCanvas
+        selection={avatar}
+        canvasRef={canvasRef}
+        className="h-[62vh] md:h-[min(calc(100vh-10rem),880px)] w-auto max-w-full mx-auto"
+      />
       <div className="bg-secondary text-white p-8 md:p-10 rounded-[1.5rem] relative overflow-hidden">
         <div className="relative z-10">
           <div className="bg-white/15 p-3 rounded-xl w-fit mb-6">
