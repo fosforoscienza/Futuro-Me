@@ -104,7 +104,10 @@ def region(cat, name, body):
         return mask_from([('ellipse', (380, 204, 470, 252))])
     if cat == 'brows':
         return mask_from([('rectangle', b) for b in g['brows']])
-    if cat in ('eyes', 'lashes'):
+    if cat == 'eyes':
+        # un'ellisse per occhio: niente strisce di tempia, naso e orecchio ai bordi
+        return mask_from([('ellipse', (b[0] - 18, b[1] - 12, b[2] + 18, b[3] + 14)) for b in g['eyes']])
+    if cat == 'lashes':
         return mask_from([('rectangle', (362, 146, 490, 198))])
     if cat == 'makeup':
         return mask_from([('ellipse', (352, 122, 500, 272))])
@@ -235,6 +238,12 @@ for body in ('F', 'M'):
     G = brows_mask(base, body)
     B = iris_mask(base, body, st)
     R = np.clip(R - G - B, 0, 1)
+    # il bordo della testa sfuma nello sfondo bianco: senza tinta resta un filo chiaro
+    # tra viso e capelli con le carnagioni scure
+    head = np.zeros((H, W), bool)
+    head[:290] = True
+    rim = head & (a > 0.05) & (blur(R, 3) > 0.05) & (G < 0.5) & (B < 0.5)
+    R = np.maximum(R, rim.astype(np.float32))
     e = save_layer(base, a, [blur(R, 0.6), G, B], f'{body}/base')
     e['skin'] = dict(L=st['L'], q=st['q'])
     sh = (shorts_like(base, body) & (a > 0.5)).astype(np.float32)
@@ -252,15 +261,21 @@ for body in ('F', 'M'):
 # capi color sabbia: per colore sono indistinguibili dalla pelle, quindi la maschera
 # pelle (che li ricolorerebbe con il tono scelto) va decisa a mano
 NO_SKIN = {'legs/eleganti', 'legs/vigile', 'shoes/cowboy', 'shoes/antinfortunistiche'}
-HANDS_ONLY = {'torso/trench', 'torso/cappotto_beige', 'torso/vigile'}
+HANDS_ONLY = {'torso/trench', 'torso/cappotto_beige', 'torso/vigile', 'torso/collo_alto', 'torso/militare'}
+HAND_Y = {'F': 685, 'M': 665}  # sotto i polsini: solo mani
+# pantaloni color sabbia: pieni fino all'orlo (sopra la pelle chiara la differenza è minima)
+LEG_FILL = {'legs/eleganti': {'F': 1150, 'M': 1148}, 'legs/vigile': {'F': 1158, 'M': 1152},
+            'legs/corti': {'F': 812, 'M': 839}}
 SKIN_BELOW = {'legs/corti': {'F': 820, 'M': 847}}  # sotto l'orlo dei pantaloncini
 
 def hands_mask(base, body, st):
     x0, y0, x1, y1 = SHORTS[body]
     ys = np.arange(H)[:, None]
     xs = np.arange(W)[None, :]
-    m = skin_like(base, st, 1.3) & (ys > 560) & ((xs < x0 + 30) | (xs > x1 - 30))
+    m = skin_like(base, st, 1.3) & (ys > HAND_Y[body]) & ((xs < x0 + 30) | (xs > x1 - 30))
     return blur(m.astype(np.float32), 4) > 0.05
+
+EXPOSED_WAIST = {'bikini', 'nudo', 'camicia', 'top', 'blazer'}
 
 LONG_COATS = {'cappotto_beige', 'cappotto_blu', 'trench'}
 
@@ -295,14 +310,32 @@ def torso_cleanup(al, ed, base, body, name, st):
     # residui: pelle sulle gambe e pixel ancora simili ai pantaloncini grigi del corpo base
     Lb = lum(base)
     satb = (base.max(-1) - base.min(-1)) / np.maximum(base.max(-1), 1)
-    rect = mask_from([('rectangle', (x0 - 12, y0 - 10, x1 + 12, y1 + 12))]) > 0.5
+    rect = mask_from([('rectangle', (x0 - 12, y0 - 35, x1 + 12, y1 + 12))]) > 0.5
     shorts_b = rect & (satb < 0.15) & (Lb < 190) & ~skin_like(base, st, 1.3)
     # (i residui sono grigi e non più chiari del base; un capo chiaro sopra i pantaloncini sì)
-    junk = (legzone & skin & skin_like(base, st, 1.3)) | (shorts_b & (diff < 75) & (sat < 0.2) & (L < Lb + 10))
+    junk_sat = 0.1 if name == 'camicia_jeans' else 0.2  # il jeans chiaro è quasi grigio
+    junk = (legzone & skin & skin_like(base, st, 1.3)) | (shorts_b & (diff < 75) & (sat < junk_sat) & (L < Lb + 10))
     if name == 'camice':
         # camice aperto: sotto la vita resta solo il tessuto bianco
         junk |= legzone & ~((L > 165) & (sat < 0.15))
     keep = al.copy()
+    # il capo sostituisce sempre la maglietta del corpo base: dentro la sua sagoma è
+    # tutto capo, anche dove è uguale alla maglietta o allo sfondo bianco (camicie bianche,
+    # jeans chiari). Fuori restano solo la pelle (collo, braccia) e i pantaloncini.
+    reg = region('torso', name, body) > 0.5
+    skinzone = blur(skin_like(base, st, 1.3).astype(np.float32), 2) > 0.1
+    band = mask_from([('rectangle', (x0 - 12, y0 - 40, x1 + 12, y1 + 12))]) > 0.5
+    # pantaloncini scoperti togliendo la maglietta: grigi, più scuri della maglietta del
+    # corpo base e dentro la sua sagoma (un capo bianco in ombra sullo sfondo resta)
+    greyish = (band & (sat < 0.1) & (L > 70) & (L < 188) & (L < Lb - 15)
+               & (cuts[body] > 0.5) & ~skin_like(base, st, 1.3))
+    fill = (cutout_alpha(ed) > 0.5) & reg & ~skin & ~(skinzone & (diff < 30)) & ~greyish
+    # sui fianchi niente granelli: della sagoma resta solo ciò che è pieno
+    fill &= ~band | (open_(fill.astype(np.float32), 5) > 0.5)
+    keep = np.maximum(keep, fill.astype(np.float32))
+    if name in EXPOSED_WAIST:
+        # capi corti o infilati nei pantaloni: lì sotto si vedono i pantaloncini del base
+        keep[greyish] = 0
     if name != 'camice':
         # sui fianchi il capo è pieno: dove coincide con la maglietta del corpo base
         # l'alfa era zero e lì sotto i pantaloni scoperchiavano tutto
@@ -338,15 +371,40 @@ def process(body, fname):
         neck = np.zeros((H, W), bool)
         neck[GEO[body]['face'][3] - 10:420, 340:510] = True
         al[neck & skin_like(ed, st, 1.3) & skin_like(base, st, 1.3) & (lum(ed) > 100)] = 0
+        # sotto la testa (spalle, braccia, maglietta) le ciocche sono molto diverse dal corpo:
+        # le differenze lievi sono solo ombre rifatte, non capelli
+        al[300:] *= np.clip((diff[300:] - 50) / 20, 0, 1)
     al = blur(close(al, 5), 1.0)
     al *= blur(reg, 3)
+    if cat == 'hair':
+        # l'ellisse del viso è più larga della mandibola: ai lati, sotto gli occhi, ciò che
+        # non è pelle è la chioma dietro il collo (altrimenti lì resta lo sfondo bianco)
+        f = GEO[body]['face']
+        cx = (f[0] + f[2]) // 2
+        ys = np.arange(H)[:, None]
+        xs = np.arange(W)[None, :]
+        face = mask_from([('ellipse', f)]) > 0.5
+        jaw = face & (ys > 200) & ((xs < cx - 28) | (xs > cx + 28))
+        back = jaw & ~skin_like(ed, st, 1.3) & (lum(ed) < 150) & (diff > lo)
+        al = np.maximum(al, blur(back.astype(np.float32), 0.8))
+    if cat == 'eyes':
+        # le sopracciglia ridisegnate insieme agli occhi coprirebbero quelle scelte
+        top = min(b[1] for b in GEO[body]['eyes']) - 3
+        brows = mask_from([('rectangle', b) for b in GEO[body]['brows']]) > 0.5
+        al[brows & (np.arange(H)[:, None] < top)] = 0
+        al = blur(al, 0.8)
+    if key in LEG_FILL:
+        cut = cutout_alpha(ed)
+        ys = np.arange(H)[:, None]
+        legs_fill = (cut > 0.5) & (ys > 555) & (ys < LEG_FILL[key][body]) & (reg > 0.5)
+        al = np.maximum(al, legs_fill.astype(np.float32))
     if cat not in ('eyes', 'lashes', 'nose', 'mouth', 'brows', 'makeup', 'skin'):
         same_skin = skin_like(ed, st, 1.2) & skin_like(base, st, 1.2) & (diff < 35)
         # un capo color sabbia sopra la pelle sembra "pelle rimasta uguale": lì è stoffa
         if key in HANDS_ONLY:
             same_skin &= hands_mask(base, body, st)
-        elif key in NO_SKIN and cat == 'legs':
-            same_skin[:] = False
+        elif key in LEG_FILL:
+            same_skin[:LEG_FILL[key][body]] = False
         al[blur(same_skin.astype(np.float32), 1.0) > 0.5] = 0
     if cat == 'torso' or (cat == 'incl' and name != 'impianto'):
         # i pantaloncini grigi del corpo base non devono finire nei pezzi del busto
@@ -382,6 +440,8 @@ def process(body, fname):
         if cat == 'eyes':
             B = iris_mask(ed, body, st)
         R = np.clip(skin - G - B, 0, 1) * (al > 0.02)
+        if cat in ('nose', 'mouth'):
+            R = (al > 0.02).astype(np.float32)
         if noskin is not None:
             R[noskin] = 0
         if key in NO_SKIN:
