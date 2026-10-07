@@ -25,22 +25,15 @@
    },
    "stats": {
     "G": {
-     "L": 87.36834716796875,
-     "q": [
-      1.36690354347229,
-      0.888704240322113,
-      0.6107573509216309
-     ]
+     "mu": 0.4211,
+     "sd": 0.0618
     },
     "B": {
-     "L": 57.19256591796875,
-     "q": [
-      1.3789430856704712,
-      0.8879909515380859,
-      0.5828518867492676
-     ]
+     "mu": 0.4407,
+     "sd": 0.1441
     }
-   }
+   },
+   "fixed": true
   },
   "M": {
    "src": "/avatar/M/base.webp",
@@ -63,22 +56,15 @@
    },
    "stats": {
     "G": {
-     "L": 86.35281372070312,
-     "q": [
-      1.3785557746887207,
-      0.8836095333099365,
-      0.6064265370368958
-     ]
+     "mu": 0.429,
+     "sd": 0.0673
     },
     "B": {
-     "L": 67.14974212646484,
-     "q": [
-      1.377610683441162,
-      0.8840961456298828,
-      0.6064053177833557
-     ]
+     "mu": 0.4319,
+     "sd": 0.1368
     }
-   }
+   },
+   "fixed": true
   }
  },
  "layers": {
@@ -92,19 +78,16 @@
     "mask": "/avatar/F/brows__folte.mask.png",
     "stats": {
      "G": {
-      "L": 70.74282836914062,
-      "q": [
-       1.3653820753097534,
-       0.8851251602172852,
-       0.6331802010536194
-      ]
+      "mu": 0.3561,
+      "sd": 0.0704
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/brows__folte.webp",
@@ -115,19 +98,16 @@
     "mask": "/avatar/M/brows__folte.mask.png",
     "stats": {
      "G": {
-      "L": 76.1053695678711,
-      "q": [
-       1.3627245426177979,
-       0.885351836681366,
-       0.6389846205711365
-      ]
+      "mu": 0.3875,
+      "sd": 0.0693
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "brows/nessuna": {
@@ -138,21 +118,11 @@
     "w": 127,
     "h": 38,
     "mask": "/avatar/F/brows__nessuna.mask.png",
-    "stats": {
-     "G": {
-      "L": 118.74176025390625,
-      "q": [
-       1.3263652324676514,
-       0.9052374362945557,
-       0.6319519281387329
-      ]
-     },
-     "B": null
-    },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/brows__nessuna.webp",
@@ -161,21 +131,11 @@
     "w": 133,
     "h": 37,
     "mask": "/avatar/M/brows__nessuna.mask.png",
-    "stats": {
-     "G": {
-      "L": 96.95936584472656,
-      "q": [
-       1.3705511093139648,
-       0.8847765326499939,
-       0.6214148998260498
-      ]
-     },
-     "B": null
-    },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "arms/bracciale": {
@@ -192,7 +152,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/arms__bracciale.webp",
@@ -207,7 +168,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "brows/sottili": {
@@ -220,19 +182,16 @@
     "mask": "/avatar/F/brows__sottili.mask.png",
     "stats": {
      "G": {
-      "L": 99.27696228027344,
-      "q": [
-       1.3467062711715698,
-       0.8928433060646057,
-       0.6424244046211243
-      ]
+      "mu": 0.4652,
+      "sd": 0.0794
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/brows__sottili.webp",
@@ -243,19 +202,16 @@
     "mask": "/avatar/M/brows__sottili.mask.png",
     "stats": {
      "G": {
-      "L": 98.10171508789062,
-      "q": [
-       1.327898383140564,
-       0.8986008167266846,
-       0.6621066331863403
-      ]
+      "mu": 0.5076,
+      "sd": 0.0811
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "arms/tatuaggi": {
@@ -269,7 +225,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/arms__tatuaggi.webp",
@@ -281,7 +238,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "arms/orologio": {
@@ -298,7 +256,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/arms__orologio.webp",
@@ -313,7 +272,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "eyes/allungati_grandi": {
@@ -327,18 +287,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 58.77231979370117,
-      "q": [
-       1.3892954587936401,
-       0.8817718625068665,
-       0.5877246260643005
-      ]
+      "mu": 0.4292,
+      "sd": 0.1327
      }
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_grandi.webp",
@@ -350,18 +307,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 68.3121337890625,
-      "q": [
-       1.3794969320297241,
-       0.884362518787384,
-       0.6000860929489136
-      ]
+      "mu": 0.5508,
+      "sd": 0.1349
      }
     },
     "shift": [
      -2,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "eyes/mandorla_piccoli": {
@@ -375,18 +329,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 61.754127502441406,
-      "q": [
-       1.3691514730453491,
-       0.8896313905715942,
-       0.600089967250824
-      ]
+      "mu": 0.4191,
+      "sd": 0.119
      }
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/eyes__mandorla_piccoli.webp",
@@ -398,18 +349,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 68.75636291503906,
-      "q": [
-       1.3834002017974854,
-       0.8794859051704407,
-       0.6149556636810303
-      ]
+      "mu": 0.4279,
+      "sd": 0.1226
      }
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "eyes/allungati_piccoli": {
@@ -423,18 +371,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 65.85453033447266,
-      "q": [
-       1.3542178869247437,
-       0.8955051302909851,
-       0.6090110540390015
-      ]
+      "mu": 0.5,
+      "sd": 0.1626
      }
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_piccoli.webp",
@@ -446,18 +391,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 65.6673355102539,
-      "q": [
-       1.3944138288497925,
-       0.8806143999099731,
-       0.5802593231201172
-      ]
+      "mu": 0.4763,
+      "sd": 0.1612
      }
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "eyes/tondi_grandi": {
@@ -471,18 +413,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 64.78187561035156,
-      "q": [
-       1.3383216857910156,
-       0.8971583843231201,
-       0.6421892046928406
-      ]
+      "mu": 0.4642,
+      "sd": 0.1257
      }
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi.webp",
@@ -494,18 +433,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 73.46891021728516,
-      "q": [
-       1.3403968811035156,
-       0.8941121101379395,
-       0.6524365544319153
-      ]
+      "mu": 0.5013,
+      "sd": 0.1083
      }
     },
     "shift": [
      -2,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "eyes/tondi_piccoli": {
@@ -519,18 +455,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 60.81866455078125,
-      "q": [
-       1.3977034091949463,
-       0.8745366930961609,
-       0.6029255986213684
-      ]
+      "mu": 0.4074,
+      "sd": 0.1299
      }
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_piccoli.webp",
@@ -542,18 +475,15 @@
     "stats": {
      "G": null,
      "B": {
-      "L": 73.29049682617188,
-      "q": [
-       1.3846218585968018,
-       0.8804365396499634,
-       0.6068589091300964
-      ]
+      "mu": 0.4942,
+      "sd": 0.1218
      }
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/aviatore": {
@@ -570,7 +500,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__aviatore.webp",
@@ -585,7 +516,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/cateye": {
@@ -602,7 +534,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__cateye.webp",
@@ -617,7 +550,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/geek": {
@@ -634,7 +568,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__geek.webp",
@@ -649,7 +584,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/leggeri": {
@@ -666,7 +602,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__leggeri.webp",
@@ -681,7 +618,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/tondi": {
@@ -698,7 +636,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__tondi.webp",
@@ -713,7 +652,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/squadrati": {
@@ -730,7 +670,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__squadrati.webp",
@@ -745,7 +686,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/tondi_spessi": {
@@ -762,7 +704,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__tondi_spessi.webp",
@@ -777,7 +720,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/veloce": {
@@ -794,7 +738,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__veloce.webp",
@@ -809,7 +754,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "glasses/wayfarer": {
@@ -826,7 +772,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/glasses__wayfarer.webp",
@@ -841,7 +788,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/bob": {
@@ -854,19 +802,16 @@
     "mask": "/avatar/F/hair__bob.mask.png",
     "stats": {
      "G": {
-      "L": 92.50497436523438,
-      "q": [
-       1.353316307067871,
-       0.8834617733955383,
-       0.6634019613265991
-      ]
+      "mu": 0.4706,
+      "sd": 0.1804
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__bob.webp",
@@ -877,19 +822,16 @@
     "mask": "/avatar/M/hair__bob.mask.png",
     "stats": {
      "G": {
-      "L": 92.37664794921875,
-      "q": [
-       1.360400915145874,
-       0.8816911578178406,
-       0.6633943915367126
-      ]
+      "mu": 0.4702,
+      "sd": 0.1809
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/buzz": {
@@ -902,19 +844,16 @@
     "mask": "/avatar/F/hair__buzz.mask.png",
     "stats": {
      "G": {
-      "L": 110.24319458007812,
-      "q": [
-       1.2548701763153076,
-       0.925613522529602,
-       0.7145569920539856
-      ]
+      "mu": 0.5382,
+      "sd": 0.158
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hair__buzz.webp",
@@ -925,19 +864,16 @@
     "mask": "/avatar/F/hair__buzz.mask.png",
     "stats": {
      "G": {
-      "L": 110.24319458007812,
-      "q": [
-       1.2548701763153076,
-       0.925613522529602,
-       0.7145569920539856
-      ]
+      "mu": 0.5382,
+      "sd": 0.158
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/afro": {
@@ -950,19 +886,16 @@
     "mask": "/avatar/F/hair__afro.mask.png",
     "stats": {
      "G": {
-      "L": 66.51984405517578,
-      "q": [
-       1.50701904296875,
-       0.8307685852050781,
-       0.5291153788566589
-      ]
+      "mu": 0.3759,
+      "sd": 0.1698
      },
      "B": null
     },
     "shift": [
      0,
      -2
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__afro.webp",
@@ -973,19 +906,16 @@
     "mask": "/avatar/M/hair__afro.mask.png",
     "stats": {
      "G": {
-      "L": 72.43717193603516,
-      "q": [
-       1.42885422706604,
-       0.8653123378753662,
-       0.5609577894210815
-      ]
+      "mu": 0.3967,
+      "sd": 0.1808
      },
      "B": null
     },
     "shift": [
      1,
      -2
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/caschetto": {
@@ -998,19 +928,16 @@
     "mask": "/avatar/F/hair__caschetto.mask.png",
     "stats": {
      "G": {
-      "L": 86.78549194335938,
-      "q": [
-       1.4182871580123901,
-       0.8619672656059265,
-       0.6077917218208313
-      ]
+      "mu": 0.4508,
+      "sd": 0.1789
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__caschetto.webp",
@@ -1021,19 +948,16 @@
     "mask": "/avatar/M/hair__caschetto.mask.png",
     "stats": {
      "G": {
-      "L": 86.71858215332031,
-      "q": [
-       1.392147183418274,
-       0.8719591498374939,
-       0.6263731718063354
-      ]
+      "mu": 0.4506,
+      "sd": 0.1732
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/ciuffo": {
@@ -1046,19 +970,16 @@
     "mask": "/avatar/F/hair__ciuffo.mask.png",
     "stats": {
      "G": {
-      "L": 96.05736541748047,
-      "q": [
-       1.3338907957077026,
-       0.895118236541748,
-       0.6643050909042358
-      ]
+      "mu": 0.4851,
+      "sd": 0.1732
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__ciuffo.webp",
@@ -1069,19 +990,16 @@
     "mask": "/avatar/M/hair__ciuffo.mask.png",
     "stats": {
      "G": {
-      "L": 95.15731811523438,
-      "q": [
-       1.3137743473052979,
-       0.9031416177749634,
-       0.6757620573043823
-      ]
+      "mu": 0.4812,
+      "sd": 0.1723
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/chignon": {
@@ -1094,19 +1012,16 @@
     "mask": "/avatar/F/hair__chignon.mask.png",
     "stats": {
      "G": {
-      "L": 95.11017608642578,
-      "q": [
-       1.2960182428359985,
-       0.9057605862617493,
-       0.7088280916213989
-      ]
+      "mu": 0.4826,
+      "sd": 0.1602
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hair__chignon.webp",
@@ -1117,19 +1032,16 @@
     "mask": "/avatar/F/hair__chignon.mask.png",
     "stats": {
      "G": {
-      "L": 95.11017608642578,
-      "q": [
-       1.2960182428359985,
-       0.9057605862617493,
-       0.7088280916213989
-      ]
+      "mu": 0.4826,
+      "sd": 0.1602
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/coda": {
@@ -1142,19 +1054,16 @@
     "mask": "/avatar/F/hair__coda.mask.png",
     "stats": {
      "G": {
-      "L": 91.38753509521484,
-      "q": [
-       1.3228678703308105,
-       0.8993080258369446,
-       0.6716470718383789
-      ]
+      "mu": 0.4661,
+      "sd": 0.1801
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__coda.webp",
@@ -1165,19 +1074,16 @@
     "mask": "/avatar/M/hair__coda.mask.png",
     "stats": {
      "G": {
-      "L": 102.86212921142578,
-      "q": [
-       1.278578281402588,
-       0.9174352288246155,
-       0.6944690346717834
-      ]
+      "mu": 0.5077,
+      "sd": 0.177
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/frangetta": {
@@ -1190,19 +1096,16 @@
     "mask": "/avatar/F/hair__frangetta.mask.png",
     "stats": {
      "G": {
-      "L": 92.0733642578125,
-      "q": [
-       1.3516136407852173,
-       0.8826152086257935,
-       0.6817300915718079
-      ]
+      "mu": 0.471,
+      "sd": 0.1649
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__frangetta.webp",
@@ -1213,19 +1116,16 @@
     "mask": "/avatar/M/hair__frangetta.mask.png",
     "stats": {
      "G": {
-      "L": 92.79620361328125,
-      "q": [
-       1.2985553741455078,
-       0.9092016220092773,
-       0.6844693422317505
-      ]
+      "mu": 0.4749,
+      "sd": 0.153
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/lisci_lunghi": {
@@ -1238,19 +1138,16 @@
     "mask": "/avatar/F/hair__lisci_lunghi.mask.png",
     "stats": {
      "G": {
-      "L": 95.83592987060547,
-      "q": [
-       1.340267300605774,
-       0.891243040561676,
-       0.6624284982681274
-      ]
+      "mu": 0.4858,
+      "sd": 0.155
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__lisci_lunghi.webp",
@@ -1261,19 +1158,16 @@
     "mask": "/avatar/M/hair__lisci_lunghi.mask.png",
     "stats": {
      "G": {
-      "L": 93.71807098388672,
-      "q": [
-       1.2826818227767944,
-       0.9158254861831665,
-       0.6919375658035278
-      ]
+      "mu": 0.4781,
+      "sd": 0.1459
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/mossi_coda": {
@@ -1286,19 +1180,16 @@
     "mask": "/avatar/F/hair__mossi_coda.mask.png",
     "stats": {
      "G": {
-      "L": 100.70801544189453,
-      "q": [
-       1.3135603666305542,
-       0.9002898931503296,
-       0.6910675168037415
-      ]
+      "mu": 0.5035,
+      "sd": 0.1501
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__mossi_coda.webp",
@@ -1309,19 +1200,16 @@
     "mask": "/avatar/M/hair__mossi_coda.mask.png",
     "stats": {
      "G": {
-      "L": 99.44039916992188,
-      "q": [
-       1.282047986984253,
-       0.9145761728286743,
-       0.7002249360084534
-      ]
+      "mu": 0.4971,
+      "sd": 0.1652
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/lunghi_frangetta": {
@@ -1334,19 +1222,16 @@
     "mask": "/avatar/F/hair__lunghi_frangetta.mask.png",
     "stats": {
      "G": {
-      "L": 88.95068359375,
-      "q": [
-       1.3609817028045654,
-       0.8811841607093811,
-       0.6527486443519592
-      ]
+      "mu": 0.461,
+      "sd": 0.1501
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__lunghi_frangetta.webp",
@@ -1357,19 +1242,16 @@
     "mask": "/avatar/M/hair__lunghi_frangetta.mask.png",
     "stats": {
      "G": {
-      "L": 94.25122833251953,
-      "q": [
-       1.3155953884124756,
-       0.9019472002983093,
-       0.6771801710128784
-      ]
+      "mu": 0.4798,
+      "sd": 0.15
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/mossi": {
@@ -1382,19 +1264,16 @@
     "mask": "/avatar/F/hair__mossi.mask.png",
     "stats": {
      "G": {
-      "L": 90.95262908935547,
-      "q": [
-       1.34416925907135,
-       0.8885273337364197,
-       0.665425717830658
-      ]
+      "mu": 0.4675,
+      "sd": 0.1556
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__mossi.webp",
@@ -1405,19 +1284,16 @@
     "mask": "/avatar/M/hair__mossi.mask.png",
     "stats": {
      "G": {
-      "L": 88.6974105834961,
-      "q": [
-       1.3183953762054443,
-       0.8983039855957031,
-       0.6864727139472961
-      ]
+      "mu": 0.4592,
+      "sd": 0.1508
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/ricci_corti": {
@@ -1430,19 +1306,16 @@
     "mask": "/avatar/F/hair__ricci_corti.mask.png",
     "stats": {
      "G": {
-      "L": 90.11888885498047,
-      "q": [
-       1.3723666667938232,
-       0.8845803141593933,
-       0.6176698207855225
-      ]
+      "mu": 0.4639,
+      "sd": 0.1763
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hair__ricci_corti.webp",
@@ -1453,19 +1326,16 @@
     "mask": "/avatar/F/hair__ricci_corti.mask.png",
     "stats": {
      "G": {
-      "L": 90.11888885498047,
-      "q": [
-       1.3723666667938232,
-       0.8845803141593933,
-       0.6176698207855225
-      ]
+      "mu": 0.4639,
+      "sd": 0.1763
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/ricci_medi": {
@@ -1478,19 +1348,16 @@
     "mask": "/avatar/F/hair__ricci_medi.mask.png",
     "stats": {
      "G": {
-      "L": 74.22933959960938,
-      "q": [
-       1.4550639390945435,
-       0.8494458794593811,
-       0.5704255104064941
-      ]
+      "mu": 0.4021,
+      "sd": 0.1946
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__ricci_medi.webp",
@@ -1501,19 +1368,16 @@
     "mask": "/avatar/M/hair__ricci_medi.mask.png",
     "stats": {
      "G": {
-      "L": 78.92656707763672,
-      "q": [
-       1.4077337980270386,
-       0.868410587310791,
-       0.6082012057304382
-      ]
+      "mu": 0.4213,
+      "sd": 0.1842
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/treccia": {
@@ -1526,19 +1390,16 @@
     "mask": "/avatar/F/hair__treccia.mask.png",
     "stats": {
      "G": {
-      "L": 84.9231948852539,
-      "q": [
-       1.3968292474746704,
-       0.8685439825057983,
-       0.6361308097839355
-      ]
+      "mu": 0.4444,
+      "sd": 0.174
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__treccia.webp",
@@ -1549,19 +1410,16 @@
     "mask": "/avatar/M/hair__treccia.mask.png",
     "stats": {
      "G": {
-      "L": 100.57807922363281,
-      "q": [
-       1.3258613348007202,
-       0.8984503746032715,
-       0.6682547330856323
-      ]
+      "mu": 0.504,
+      "sd": 0.1428
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/ricci_lunghi": {
@@ -1574,19 +1432,16 @@
     "mask": "/avatar/F/hair__ricci_lunghi.mask.png",
     "stats": {
      "G": {
-      "L": 81.51045227050781,
-      "q": [
-       1.4436453580856323,
-       0.8503366708755493,
-       0.5982863306999207
-      ]
+      "mu": 0.4321,
+      "sd": 0.1752
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__ricci_lunghi.webp",
@@ -1597,19 +1452,16 @@
     "mask": "/avatar/M/hair__ricci_lunghi.mask.png",
     "stats": {
      "G": {
-      "L": 73.65744018554688,
-      "q": [
-       1.4225924015045166,
-       0.8566195964813232,
-       0.6196873188018799
-      ]
+      "mu": 0.4011,
+      "sd": 0.1779
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hat/casco": {
@@ -1626,7 +1478,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hat__casco.webp",
@@ -1641,7 +1494,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/undercut": {
@@ -1654,19 +1508,16 @@
     "mask": "/avatar/F/hair__undercut.mask.png",
     "stats": {
      "G": {
-      "L": 94.30741882324219,
-      "q": [
-       1.2993541955947876,
-       0.9099695682525635,
-       0.6784191131591797
-      ]
+      "mu": 0.4772,
+      "sd": 0.18
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__undercut.webp",
@@ -1677,19 +1528,16 @@
     "mask": "/avatar/M/hair__undercut.mask.png",
     "stats": {
      "G": {
-      "L": 97.09307861328125,
-      "q": [
-       1.293736219406128,
-       0.9090186953544617,
-       0.6980659365653992
-      ]
+      "mu": 0.4859,
+      "sd": 0.1811
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hat/cowboy": {
@@ -1706,7 +1554,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "F": {
     "src": "/avatar/F/hat__cowboy.webp",
@@ -1721,7 +1570,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "hair/treccine": {
@@ -1734,19 +1584,16 @@
     "mask": "/avatar/F/hair__treccine.mask.png",
     "stats": {
      "G": {
-      "L": 86.01665496826172,
-      "q": [
-       1.3947511911392212,
-       0.869879961013794,
-       0.6287214159965515
-      ]
+      "mu": 0.448,
+      "sd": 0.176
      },
      "B": null
     },
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hair__treccine.webp",
@@ -1757,19 +1604,16 @@
     "mask": "/avatar/M/hair__treccine.mask.png",
     "stats": {
      "G": {
-      "L": 87.52349090576172,
-      "q": [
-       1.347744345664978,
-       0.8881697654724121,
-       0.662594199180603
-      ]
+      "mu": 0.4539,
+      "sd": 0.1693
      },
      "B": null
     },
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hat/cuoco": {
@@ -1786,7 +1630,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hat__cuoco.webp",
@@ -1801,7 +1646,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hat/lana": {
@@ -1818,7 +1664,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hat__lana.webp",
@@ -1833,7 +1680,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hat/snapback": {
@@ -1850,7 +1698,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hat__snapback.webp",
@@ -1865,7 +1714,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hat/hijab": {
@@ -1882,7 +1732,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hat__hijab.webp",
@@ -1897,7 +1748,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "hat/visiera": {
@@ -1914,7 +1766,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/hat__visiera.webp",
@@ -1929,7 +1782,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "hat/tesa_larga": {
@@ -1946,7 +1800,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/hat__tesa_larga.webp",
@@ -1961,7 +1816,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "incl/impianto": {
@@ -1978,7 +1834,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/incl__impianto.webp",
@@ -1993,7 +1850,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/cerchio": {
@@ -2010,7 +1868,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__cerchio.webp",
@@ -2025,7 +1884,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "incl/bastone": {
@@ -2042,7 +1902,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/incl__bastone.webp",
@@ -2057,7 +1918,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/cerchio_grandi": {
@@ -2074,7 +1936,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__cerchio_grandi.webp",
@@ -2089,7 +1952,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "incl/stampelle": {
@@ -2106,7 +1970,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/incl__stampelle.webp",
@@ -2121,7 +1986,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/diamante": {
@@ -2138,7 +2004,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__diamante.webp",
@@ -2153,7 +2020,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/medusa": {
@@ -2170,7 +2038,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__medusa.webp",
@@ -2185,7 +2054,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/dilatatore": {
@@ -2202,7 +2072,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__dilatatore.webp",
@@ -2217,7 +2088,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/naso_anello": {
@@ -2234,7 +2106,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__naso_anello.webp",
@@ -2249,7 +2122,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/naso_diamante": {
@@ -2266,7 +2140,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__naso_diamante.webp",
@@ -2281,7 +2156,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/pendenti": {
@@ -2298,7 +2174,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__pendenti.webp",
@@ -2313,7 +2190,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/perle": {
@@ -2330,7 +2208,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__perle.webp",
@@ -2345,7 +2224,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/septum": {
@@ -2362,7 +2242,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__septum.webp",
@@ -2377,7 +2258,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "jewel/sopracciglio": {
@@ -2394,7 +2276,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/jewel__sopracciglio.webp",
@@ -2409,7 +2292,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "lashes/corte": {
@@ -2427,7 +2311,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/lashes__corte.webp",
@@ -2443,7 +2328,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "lashes/lunghe": {
@@ -2461,7 +2347,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/lashes__lunghe.webp",
@@ -2477,7 +2364,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "lashes/lunghissime": {
@@ -2495,7 +2383,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/lashes__lunghissime.webp",
@@ -2511,7 +2400,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/corti": {
@@ -2534,7 +2424,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__corti.webp",
@@ -2555,7 +2446,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/completo": {
@@ -2578,7 +2470,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__completo.webp",
@@ -2599,7 +2492,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/costume": {
@@ -2622,7 +2516,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__costume.webp",
@@ -2643,7 +2538,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/cuoco": {
@@ -2666,7 +2562,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__cuoco.webp",
@@ -2687,7 +2584,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/gonna_corta": {
@@ -2710,7 +2608,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__gonna_corta.webp",
@@ -2731,7 +2630,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/eleganti": {
@@ -2753,7 +2653,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__eleganti.webp",
@@ -2773,7 +2674,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/gonna_lunga": {
@@ -2796,7 +2698,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__gonna_lunga.webp",
@@ -2817,7 +2720,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/jeans": {
@@ -2840,7 +2744,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__jeans.webp",
@@ -2861,7 +2766,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/palazzo": {
@@ -2884,7 +2790,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__palazzo.webp",
@@ -2905,7 +2812,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/militari": {
@@ -2928,7 +2836,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__militari.webp",
@@ -2949,7 +2858,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/pilota": {
@@ -2972,7 +2882,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__pilota.webp",
@@ -2993,7 +2904,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/polizia": {
@@ -3016,7 +2928,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__polizia.webp",
@@ -3037,7 +2950,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "makeup/intenso": {
@@ -3051,7 +2965,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/makeup__intenso.webp",
@@ -3063,7 +2978,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "makeup/leggero": {
@@ -3077,7 +2993,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/makeup__leggero.webp",
@@ -3089,7 +3006,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "makeup/moderato": {
@@ -3103,7 +3021,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/makeup__moderato.webp",
@@ -3115,7 +3034,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "mouth/carnose": {
@@ -3133,7 +3053,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/mouth__carnose.webp",
@@ -3149,7 +3070,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/tuta": {
@@ -3172,7 +3094,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__tuta.webp",
@@ -3193,7 +3116,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "legs/vigile": {
@@ -3215,7 +3139,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/legs__vigile.webp",
@@ -3235,7 +3160,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "mouth/sup_sottile": {
@@ -3253,7 +3179,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/mouth__sup_sottile.webp",
@@ -3269,7 +3196,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "mouth/sup_carnoso": {
@@ -3287,7 +3215,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/mouth__sup_carnoso.webp",
@@ -3303,7 +3232,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "nose/aquilino": {
@@ -3321,7 +3251,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/nose__aquilino.webp",
@@ -3337,7 +3268,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "nose/greco": {
@@ -3355,7 +3287,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/nose__greco.webp",
@@ -3371,7 +3304,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "neck/catena_trap": {
@@ -3388,7 +3322,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/neck__catena_trap.webp",
@@ -3403,7 +3338,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "neck/catenina": {
@@ -3420,7 +3356,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/neck__catenina.webp",
@@ -3435,7 +3372,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "nose/insu": {
@@ -3453,7 +3391,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/nose__insu.webp",
@@ -3469,7 +3408,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "nose/patata": {
@@ -3487,7 +3427,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/nose__patata.webp",
@@ -3503,7 +3444,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "nose/punta": {
@@ -3521,7 +3463,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/nose__punta.webp",
@@ -3537,7 +3480,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "other/bandana": {
@@ -3554,7 +3498,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/other__bandana.webp",
@@ -3569,7 +3514,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "other/lenti": {
@@ -3586,7 +3532,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "F": {
     "src": "/avatar/F/other__lenti.webp",
@@ -3601,7 +3548,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "other/cuffie": {
@@ -3618,7 +3566,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/other__cuffie.webp",
@@ -3633,7 +3582,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "other/corona": {
@@ -3650,7 +3600,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/F/other__corona.webp",
@@ -3665,7 +3616,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/ballerine": {
@@ -3683,7 +3635,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__ballerine.webp",
@@ -3699,7 +3652,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/anfibi": {
@@ -3717,7 +3671,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__anfibi.webp",
@@ -3733,7 +3688,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/antinfortunistiche": {
@@ -3750,7 +3706,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__antinfortunistiche.webp",
@@ -3765,7 +3722,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/cowboy": {
@@ -3782,7 +3740,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__cowboy.webp",
@@ -3797,7 +3756,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/eleganti": {
@@ -3815,7 +3775,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__eleganti.webp",
@@ -3831,7 +3792,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/infradito": {
@@ -3849,7 +3811,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__infradito.webp",
@@ -3865,7 +3828,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/jordan": {
@@ -3883,7 +3847,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__jordan.webp",
@@ -3899,7 +3864,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/sneakers": {
@@ -3917,7 +3883,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__sneakers.webp",
@@ -3933,7 +3900,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/sandali": {
@@ -3951,7 +3919,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__sandali.webp",
@@ -3967,7 +3936,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "shoes/tacchi": {
@@ -3985,7 +3955,8 @@
     "shift": [
      1,
      2
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/shoes__tacchi.webp",
@@ -4001,7 +3972,8 @@
     "shift": [
      0,
      -1
-    ]
+    ],
+    "fixed": true
    }
   },
   "skin/vitiligine": {
@@ -4019,7 +3991,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/skin__vitiligine.webp",
@@ -4035,7 +4008,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/camice": {
@@ -4053,7 +4027,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__camice.webp",
@@ -4069,7 +4044,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/blazer": {
@@ -4087,7 +4063,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__blazer.webp",
@@ -4103,7 +4080,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/bikini": {
@@ -4121,7 +4099,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/camicia": {
@@ -4139,7 +4118,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__camicia.webp",
@@ -4155,7 +4135,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/camicia_jeans": {
@@ -4173,7 +4154,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__camicia_jeans.webp",
@@ -4189,7 +4171,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/canotta_basket": {
@@ -4207,7 +4190,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__canotta_basket.webp",
@@ -4223,7 +4207,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/canotta_bianca": {
@@ -4241,7 +4226,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__canotta_bianca.webp",
@@ -4257,7 +4243,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/canotta_colorata": {
@@ -4275,7 +4262,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__canotta_colorata.webp",
@@ -4291,7 +4279,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/cappotto_blu": {
@@ -4309,7 +4298,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__cappotto_blu.webp",
@@ -4325,7 +4315,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/catarifrangente": {
@@ -4343,7 +4334,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__catarifrangente.webp",
@@ -4359,7 +4351,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/cappotto_beige": {
@@ -4377,7 +4370,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__cappotto_beige.webp",
@@ -4393,7 +4387,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/collo_alto": {
@@ -4411,7 +4406,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__collo_alto.webp",
@@ -4427,7 +4423,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/completo": {
@@ -4445,7 +4442,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__completo.webp",
@@ -4461,7 +4459,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/felpa": {
@@ -4479,7 +4478,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__felpa.webp",
@@ -4495,7 +4495,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/flanella": {
@@ -4513,7 +4514,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__flanella.webp",
@@ -4529,7 +4531,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/cuoco": {
@@ -4547,7 +4550,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__cuoco.webp",
@@ -4563,7 +4567,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/gilet": {
@@ -4581,7 +4586,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__gilet.webp",
@@ -4597,7 +4603,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/girocollo": {
@@ -4615,7 +4622,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__girocollo.webp",
@@ -4631,7 +4639,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/luxury": {
@@ -4649,7 +4658,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__luxury.webp",
@@ -4665,7 +4675,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/hawaiana": {
@@ -4683,7 +4694,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__hawaiana.webp",
@@ -4699,7 +4711,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/militare": {
@@ -4717,7 +4730,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__militare.webp",
@@ -4733,7 +4747,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/polizia": {
@@ -4751,7 +4766,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__polizia.webp",
@@ -4767,7 +4783,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/pilota": {
@@ -4785,7 +4802,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__pilota.webp",
@@ -4801,7 +4819,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/pelle": {
@@ -4819,7 +4838,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__pelle.webp",
@@ -4835,7 +4855,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/righe": {
@@ -4853,7 +4874,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__righe.webp",
@@ -4869,7 +4891,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/righe_corte": {
@@ -4887,7 +4910,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__righe_corte.webp",
@@ -4903,7 +4927,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/scollo_v": {
@@ -4921,7 +4946,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__scollo_v.webp",
@@ -4937,7 +4963,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/top": {
@@ -4955,7 +4982,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "F": {
     "src": "/avatar/F/torso__top.webp",
@@ -4971,7 +4999,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/trench": {
@@ -4989,7 +5018,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__trench.webp",
@@ -5005,7 +5035,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/tshirt_bianca": {
@@ -5023,7 +5054,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__tshirt_bianca.webp",
@@ -5039,7 +5071,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/tshirt_nera": {
@@ -5057,7 +5090,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__tshirt_nera.webp",
@@ -5073,7 +5107,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/tshirt_colorata": {
@@ -5091,7 +5126,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__tshirt_colorata.webp",
@@ -5107,7 +5143,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/tshirt_rock": {
@@ -5125,7 +5162,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__tshirt_rock.webp",
@@ -5141,7 +5179,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/vigile": {
@@ -5159,7 +5198,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    },
    "M": {
     "src": "/avatar/M/torso__vigile.webp",
@@ -5175,7 +5215,8 @@
     "shift": [
      0,
      1
-    ]
+    ],
+    "fixed": true
    }
   },
   "torso/nudo": {
@@ -5193,7 +5234,8 @@
     "shift": [
      0,
      0
-    ]
+    ],
+    "fixed": true
    }
   }
  },

@@ -3,7 +3,8 @@
  *
  * I colori di pelle, capelli/sopracciglia e iride si cambiano qui, pixel per
  * pixel, usando le maschere (R = pelle, G = capelli, B = iride): il nuovo
- * colore mantiene luci e ombre dell'originale.
+ * colore mantiene luci e ombre dell'originale. Le maschere e le statistiche
+ * vengono da scripts/avatar/build_assets.py + fix_masks.py.
  */
 import assets from "./assets.json";
 import {
@@ -17,7 +18,8 @@ import {
   type RGB,
 } from "./config";
 
-type Stats = { L: number; q: number[] } | null;
+/** Luminosità OKLab (media e deviazione) dei pixel di capelli o iride di un pezzo. */
+type Stats = { mu: number; sd: number } | null;
 type LayerAsset = {
   src: string;
   x: number;
@@ -104,24 +106,12 @@ function tintInto(
   i: number,
   ref: { L: number; q: number[] },
   target: RGB,
-  amount: number,
-  soften = false
+  amount: number
 ) {
   const r = d[i], g = d[i + 1], b = d[i + 2];
   const L = r * 0.299 + g * 0.587 + b * 0.114;
   if (L < 1) return;
-  let k = L / ref.L;
-  if (soften) {
-    // Capelli e iridi: conta solo la luminosità (le sfumature del castano
-    // originale non vanno portate nel nuovo colore) e, per i colori chiari,
-    // meno contrasto per evitare chiazze bruciate.
-    const lt = target[0] * 0.299 + target[1] * 0.587 + target[2] * 0.114;
-    k = 1 + (k - 1) * (1 - 0.5 * (lt / 255));
-    d[i] = r + (target[0] * k - r) * amount;
-    d[i + 1] = g + (target[1] * k - g) * amount;
-    d[i + 2] = b + (target[2] * k - b) * amount;
-    return;
-  }
+  const k = L / ref.L;
   const nr = (target[0] * k * (r / L)) / ref.q[0];
   const ng = (target[1] * k * (g / L)) / ref.q[1];
   const nb = (target[2] * k * (b / L)) / ref.q[2];
@@ -132,6 +122,81 @@ function tintInto(
 
 type Tints = { skin: RGB; hair: RGB; eyes: RGB; waist?: RGB };
 
+// --- OKLab: spazio colore percettivo, per cambiare tinta senza perdere luci e ombre ---
+const toLin = (c: number) => {
+  c /= 255;
+  return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+};
+const toSrgb = (c: number) => {
+  c = Math.min(Math.max(c, 0), 1);
+  return 255 * (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
+};
+function oklab(r: number, g: number, b: number): [number, number, number] {
+  const lr = toLin(r), lg = toLin(g), lb = toLin(b);
+  const l = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb);
+  const m = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb);
+  const s = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb);
+  return [
+    0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s,
+    1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s,
+    0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s,
+  ];
+}
+function fromOklab(L: number, a: number, b: number): RGB {
+  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3;
+  const m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3;
+  const s = (L - 0.0894841775 * a - 1.291485548 * b) ** 3;
+  return [
+    toSrgb(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+    toSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+    toSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
+  ];
+}
+const smooth = (e0: number, e1: number, x: number) => {
+  const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
+  return t * t * (3 - 2 * t);
+};
+
+/**
+ * Capelli e iridi: il pixel prende tinta e saturazione del colore scelto, mentre la
+ * luminosità sposta la media dell'originale su quella del colore scelto mantenendo
+ * le differenze (ciocche, riflessi, anello scuro dell'iride). Lavorare in OKLab
+ * evita le chiazze bruciate o piatte del vecchio metodo a rapporti RGB.
+ */
+function recolorInto(
+  d: Uint8ClampedArray,
+  i: number,
+  ref: { mu: number; sd: number },
+  target: RGB,
+  amount: number,
+  kind: "hair" | "eye"
+) {
+  const [Ls, as, bs] = oklab(d[i], d[i + 1], d[i + 2]);
+  const [Lt, at, bt] = oklab(target[0], target[1], target[2]);
+  const Ct = Math.hypot(at, bt);
+  const z = (Ls - ref.mu) / ref.sd;
+  let L: number, C: number;
+  if (kind === "hair") {
+    // i colori chiari mostrano più luci e ombre; luci e ombre estreme compresse dolcemente
+    L = Lt + z * ref.sd * (1 + 0.35 * smooth(0.45, 0.85, Lt));
+    if (L > 0.9) L = 0.9 + (L - 0.9) * 0.35;
+    if (L < 0.08) L = 0.08 - (0.08 - L) * 0.3;
+    C = Ct * Math.min(Math.max(1 - 0.9 * smooth(Lt, Lt + 0.3, L), 0.15), 1) *
+      Math.min(Math.max(0.55 + (0.45 * L) / Math.max(Lt, 0.05), 0.3), 1.1);
+  } else {
+    // iride: riflessi contenuti, anello scuro più marcato
+    L = Math.min(Lt + (z > 0 ? z * 0.6 : z * 1.15) * ref.sd, 0.93);
+    C = 0.85 * Ct * Math.min(Math.max(0.6 + (0.4 * L) / Math.max(Lt, 0.05), 0.35), 1.15);
+    // il riflesso bianco della luce resta bianco
+    amount *= 1 - smooth(0.8, 0.92, Ls) * (Math.hypot(as, bs) < 0.04 ? 1 : 0);
+  }
+  const h = Math.atan2(bt, at);
+  const [nr, ng, nb] = fromOklab(L, C * Math.cos(h), C * Math.sin(h));
+  d[i] += (nr - d[i]) * amount;
+  d[i + 1] += (ng - d[i + 1]) * amount;
+  d[i + 2] += (nb - d[i + 2]) * amount;
+}
+
 /** Con i capelli tinti di colori di fantasia le sopracciglia restano naturali. */
 const BROWS_FOR: Record<string, string> = {
   blu: "castano_scuri",
@@ -140,6 +205,14 @@ const BROWS_FOR: Record<string, string> = {
   rosa: "castano_scuri",
   biondo_platino: "biondo",
 };
+
+/** Le sopracciglia sono un po' più scure dei capelli quando questi sono chiari. */
+function browColor(c: RGB): RGB {
+  const [L, a, b] = oklab(c[0], c[1], c[2]);
+  const f = 1 - 0.18 * smooth(0.45, 0.8, L);
+  const cf = 0.9 + 0.1 * f;
+  return fromOklab(L * f, a * cf, b * cf);
+}
 
 const tinted = new Map<string, Promise<HTMLCanvasElement | HTMLImageElement>>();
 
@@ -164,8 +237,8 @@ async function prepareLayer(
         for (let i = 0; i < d.length; i += 4) {
           if (d[i + 3] === 0) continue;
           if (m[i] > 8) tintInto(d, i, skinRef, tints.skin, m[i] / 255);
-          if (m[i + 1] > 8 && hairRef) tintInto(d, i, hairRef, tints.hair, m[i + 1] / 255, true);
-          if (m[i + 2] > 8 && eyeRef) tintInto(d, i, eyeRef, tints.eyes, m[i + 2] / 255, true);
+          if (m[i + 1] > 8 && hairRef) recolorInto(d, i, hairRef, tints.hair, m[i + 1] / 255, "hair");
+          if (m[i + 2] > 8 && eyeRef) recolorInto(d, i, eyeRef, tints.eyes, m[i + 2] / 255, "eye");
         }
       }
       if (shorts && tints.waist) {
@@ -196,8 +269,10 @@ function layerKeys(sel: AvatarSelection): string[] {
   const keys = [
     // la vitiligine è uno strato della pelle: subito sopra il corpo base
     ...extras.filter((k) => k?.startsWith("skin/")),
-    pick("occhi", sel.occhi),
+    // le ciglia sono disegnate sugli occhi del corpo base: sotto la forma d'occhio
+    // scelta restano visibili solo dove escono, senza un secondo contorno
     pick("ciglia", sel.ciglia),
+    pick("occhi", sel.occhi),
     pick("naso", sel.naso),
     pick("bocca", sel.bocca),
     pick("sopracciglia", sel.sopracciglia),
@@ -234,7 +309,7 @@ export async function renderAvatar(canvas: HTMLCanvasElement, sel: AvatarSelecti
 
   const browTints: Tints = {
     ...tints,
-    hair: color(HAIR_COLORS, BROWS_FOR[sel.coloreCapelli] ?? sel.coloreCapelli),
+    hair: browColor(color(HAIR_COLORS, BROWS_FOR[sel.coloreCapelli] ?? sel.coloreCapelli)),
   };
   const keys = layerKeys(sel);
   const [env, baseImg, parts, objs] = await Promise.all([

@@ -13,7 +13,14 @@ generati da `build_assets.py` a partire dalle immagini create con Higgsfield
 ```bash
 python3 -m pip install pillow numpy
 python3 -I scripts/avatar/build_assets.py raw public/avatar src/lib/avatar/assets.json
+python3 -I scripts/avatar/fix_masks.py public/avatar src/lib/avatar/assets.json
 ```
+
+`fix_masks.py` rifinisce gli asset già generati (non servono le immagini sorgenti) e va
+lanciato dopo ogni `build_assets.py`: maschera morbida delle sopracciglia senza l'ombra
+della palpebra, maschera geometrica delle iridi, pulizia del viso nei pezzi sovrapposti
+(capelli, occhiali, ciglia... non devono coprire occhi e pelle già ricolorati) e
+statistiche OKLab usate dal renderer per cambiare colore a capelli e occhi.
 
 Per rifare solo una categoria (più veloce, salta oggetti e ambienti):
 `ONLY=torso__ python3 -I scripts/avatar/build_assets.py raw /tmp/out /tmp/out.json`,
