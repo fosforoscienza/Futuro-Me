@@ -64,7 +64,7 @@ export type AvatarSelection = {
 export const DEFAULT_SELECTION: AvatarSelection = {
   corpo: "",
   pelle: "oliva",
-  capelli: "nessuno",
+  capelli: "ciuffo",
   coloreCapelli: "castano_scuri",
   occhi: "mandorla",
   coloreOcchi: "castani",
@@ -86,6 +86,19 @@ export const DEFAULT_SELECTION: AvatarSelection = {
   ausilio: "nessuno",
   impianto: "no",
 };
+
+/**
+ * Taglio di capelli di partenza per ciascun corpo: con "No capelli" i colori dei
+ * capelli sembravano non fare nulla.
+ */
+export const DEFAULT_HAIR: Record<Body, string> = { M: "ciuffo", F: "mossi" };
+
+/** Cambia corpo; il taglio di partenza segue il corpo, uno scelto dall'utente resta. */
+export function withBody(sel: AvatarSelection, body: Body): AvatarSelection {
+  const startHair = sel.corpo === "" ? DEFAULT_SELECTION.capelli : DEFAULT_HAIR[sel.corpo];
+  const capelli = sel.capelli === startHair ? DEFAULT_HAIR[body] : sel.capelli;
+  return fitToBody({ ...sel, corpo: body, capelli });
+}
 
 const none = (label = "Nessuno"): Choice => ({ id: "nessuno", label });
 const items = (cat: string, list: [string, string][]): Choice[] =>

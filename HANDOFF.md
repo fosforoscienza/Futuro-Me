@@ -88,9 +88,9 @@ Note:
 - **Pezzi condivisi F→M** (capelli, cappelli, occhiali, gioielli generati solo su F): su M il
   contorno non combacia col viso (es. guancia seghettata con "lunghi con frangetta", residui
   con afro e treccine). Servirebbero le versioni M delle 18 pettinature.
-- **Capelli iniziali "No capelli"**: i colori dei capelli sembrano non fare nulla finché non si
-  sceglie un taglio (cambiano solo le sopracciglia). Da decidere: taglio di default o colori
-  disattivati con un suggerimento. Su telefono l'anteprima fissa occupa metà schermo.
+- Su telefono l'anteprima fissa dell'avatar occupa metà schermo: l'elenco dei tagli scorre
+  in poco spazio. Il taglio di partenza ora c'è (M "Medi (ciuffo)", F "Mossi lunghi sciolti",
+  `DEFAULT_HAIR` in `src/lib/avatar/config.ts`).
 - Difetti minori negli asset: bordo bianco seghettato all'attaccatura di alcune pettinature;
   con sopracciglia "Nessuna" si vede il contorno di quelle cancellate; occhiali "aviatore" con
   la pelle F dietro la lente; blocco di capelli sulla guancia destra con i capelli lunghi su F;

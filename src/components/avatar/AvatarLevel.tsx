@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, Sparkles, ZoomIn, ZoomOut } from "lucide-react";
-import { fitToBody, type AvatarSelection, type Group, type Level } from "@/lib/avatar/config";
+import { fitToBody, withBody, type AvatarSelection, type Body, type Group, type Level } from "@/lib/avatar/config";
 import type { Focus } from "@/lib/avatar/render";
 import { AvatarCanvas } from "./AvatarCanvas";
 
@@ -30,6 +30,8 @@ export function AvatarLevel({
         : [...current, id];
       if (group.max && next.length > group.max) next = next.slice(-group.max);
       onChange({ ...selection, [group.id]: next });
+    } else if (group.id === "corpo") {
+      onChange(withBody(selection, id as Body));
     } else {
       onChange(fitToBody({ ...selection, [group.id]: id }));
     }

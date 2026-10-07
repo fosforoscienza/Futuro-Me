@@ -6,13 +6,14 @@ import {
   DEFAULT_SELECTION,
   LEVELS,
   fitToBody,
+  withBody,
   type AvatarSelection,
 } from "@/lib/avatar/config";
 import { renderAvatar } from "@/lib/avatar/render";
 import { AvatarLevel } from "./AvatarLevel";
 
 const headline = "font-[var(--font-plus-jakarta)]";
-const START: AvatarSelection = { ...DEFAULT_SELECTION, corpo: "F" };
+const START: AvatarSelection = withBody(DEFAULT_SELECTION, "F");
 
 /** Combinazione casuale, utile per provare velocemente molte varianti. */
 function randomSelection(): AvatarSelection {
