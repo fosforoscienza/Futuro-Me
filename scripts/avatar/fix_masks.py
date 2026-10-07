@@ -12,7 +12,11 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      vitiligine...): dove un pixel è uguale al corpo da cui il pezzo è stato generato
      diventa trasparente, così non copre occhi, sopracciglia e pelle già ricolorati.
      Nei capelli, la pelle rimasta è marcata come pelle e non come capelli.
-  4. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  4. Pezzi del corpo (busti, gambe, scarpe, braccia, collo, inclusione): le mani e la pelle
+     copiate identiche dal corpo base diventano trasparenti, la pelle in ombra rimasta
+     (sotto le ascelle, attorno all'impianto) è marcata come pelle. Con gli incarnati scuri
+     prima restava chiara. Nei busti e nelle gambe si richiudono i buchi della stoffa beige.
+  5. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -37,8 +41,14 @@ GEO = {
     'M': dict(face=(374, 138, 482, 276), eyes=[(374, 156, 416, 184), (434, 156, 474, 184)],
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
+# versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
+VERSION = 2
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
+# pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
+SHORTS = {'F': (285, 572, 565, 820), 'M': (280, 585, 570, 822)}
+# pezzi del corpo che coprono pelle del corpo base
+BODY = ('torso', 'legs', 'shoes', 'arms', 'neck', 'incl')
 
 # --- utilità -----------------------------------------------------------------
 def load(e, key='src', mode='RGBA'):
@@ -75,6 +85,10 @@ def grow(m, it=1):
         g[1:] |= m[:-1]; g[:-1] |= m[1:]; g[:, 1:] |= m[:, :-1]; g[:, :-1] |= m[:, 1:]
         m = g
     return m
+
+def brow_ring(G, alpha):
+    """Bordo morbido del sopracciglio: anche lì la pelle va ricolorata, in proporzione."""
+    return (grow(G > 0.03, 2) & (alpha > 0)).astype(np.float32)
 
 def skin_stats(base, body):
     g = GEO[body]['face']
@@ -267,6 +281,7 @@ def save(e, img=None, R=None, G=None, B=None):
         Image.fromarray(np.clip(mk, 0, 255).astype('uint8'), 'RGB').save(os.path.join(ROOT, e['mask'].lstrip('/')), optimize=True)
 
 bases = {b: load(d['bodies'][b]) for b in ('F', 'M')}
+base_skin = {}
 skin = {b: skin_stats(bases[b], b) for b in ('F', 'M')}
 eye_open = {}
 
@@ -274,21 +289,36 @@ eye_open = {}
 for body in ('F', 'M'):
     e = d['bodies'][body]
     img = bases[body]
+    version = int(e.get('fixed', 0))
     old = load(e, 'mask', 'RGB') / 255
     G = brows_mask(img, body)
     B, eye_open[body] = iris_mask(img, body, skin[body])
-    R = np.clip(np.maximum(old[..., 0], old[..., 1] * (1 - G) * skin_like(img[..., :3], skin[body], 1.3, minL=60)) - G - B, 0, 1)
-    if not e.get('fixed'):
+    R = old[..., 0]
+    if version < 1:
+        R = np.clip(np.maximum(R, old[..., 1] * skin_like(img[..., :3], skin[body], 1.3, minL=60)) - G - B, 0, 1)
+    if version < 2:
+        # pelle in ombra (sotto le ascelle, mani vicino ai pantaloncini) che la soglia di
+        # build_assets.py lasciava fuori: con gli incarnati scuri restava chiara. La stoffa
+        # del corpo base è grigia, quindi basta una tinta calda e un po' satura.
+        px = img[..., :3]
+        shorts = load(dict(e, src=e['shorts']['src']), 'src', 'L') / 255
+        warm = (px[..., 0] > px[..., 1]) & (px[..., 1] >= px[..., 2] - 2) & (satur(px) > 0.14)
+        add = (img[..., 3] > 128) & warm & (R < 0.3) & (G < 0.3) & (B < 0.3) & (shorts < 0.3)
+        R = np.maximum(R, add.astype(np.float32))
+        R = np.clip(np.maximum(R, brow_ring(G, img[..., 3])) * (1 - G) - B, 0, 1)
+    if version < VERSION:
         save(e, None, R, G, B)
+    base_skin[body] = R > 0.5
     e['stats'] = {'G': l_stats(img[..., :3], G), 'B': l_stats(img[..., :3], B)}
-    e['fixed'] = True
+    e['fixed'] = VERSION
     print(body, 'base', e['stats'])
 
 done = set()
 for key, per in d['layers'].items():
     cat = key.split('/')[0]
     for body, e in per.items():
-        if e['src'] in done or e.get('fixed'):
+        version = int(e.get('fixed', 0))
+        if e['src'] in done or version >= VERSION:
             continue
         done.add(e['src'])
         # i pezzi condivisi (generati solo su F) hanno lo stesso file anche per M
@@ -301,7 +331,7 @@ for key, per in d['layers'].items():
         R, G, B = old[..., 0], old[..., 1], old[..., 2]
         changed_img = False
 
-        if cat in CLEAN and key != 'incl/stampelle' and key != 'incl/bastone':
+        if version < 1 and cat in CLEAN and key != 'incl/stampelle' and key != 'incl/bastone':
             dd = diff_to(img, base)
             zone = face_zone(src_body) if cat != 'brows' else np.zeros((H, W), bool)
             eyes = grow(eye_open[src_body], 2)
@@ -314,7 +344,7 @@ for key, per in d['layers'].items():
                 img[..., 3] *= keep
                 changed_img = True
 
-        if cat in CLEAN and cat not in ('brows', 'lashes'):
+        if version < 1 and cat in CLEAN and cat not in ('brows', 'lashes'):
             # pelle rimasta nel pezzo (fronte all'attaccatura dei capelli, viso dietro le lenti,
             # o il viso del corpo F nei pezzi condivisi con M): simile alla pelle e quasi uguale
             # al corpo base, quindi trasparente. Le ciocche castano chiaro e le montature sottili
@@ -328,14 +358,78 @@ for key, per in d['layers'].items():
                     ImageFilter.GaussianBlur(0.6))).astype(np.float32) / 255
                 changed_img = True
                 G = np.where(sk, 0.0, G).astype(np.float32)
-        if cat == 'brows':
+        if version < 1 and cat == 'brows':
             Gn = np.zeros((H, W), np.float32) if key == 'brows/nessuna' else brows_mask(img, body)
             R = np.clip(np.maximum(R, G * (1 - Gn) * skin_like(img[..., :3], skin[body], 1.3, minL=60)) - Gn, 0, 1)
             G = Gn
-        if cat == 'eyes':
+        if version < 2 and cat == 'brows':
+            R = np.clip(np.maximum(R, brow_ring(G, img[..., 3])) * (1 - G), 0, 1)
+        if version < 1 and cat == 'eyes':
             Bn, _ = iris_mask(img, body, skin[body])
             R = np.clip(np.maximum(R, B * (1 - Bn) * skin_like(img[..., :3], skin[body], 1.3, minL=40)) - Bn, 0, 1)
             B = Bn
+
+        if version < 2 and cat in ('torso', 'legs'):
+            # build_assets.py rendeva trasparente la stoffa beige scambiandola per pelle uguale al
+            # corpo base (buchi sul trench, cappotto beige semitrasparente): con la pelle scura si
+            # vedeva sotto. Dentro la sagoma del capo l'alfa torna pieno; vicino al bordo resta lo
+            # sfondo bianco (lo spazio tra braccio e busto), nell'interno profondo no.
+            a = img[..., 3]
+            closed = Image.fromarray(((a > 64) * 255).astype('uint8')).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
+            inner = np.asarray(closed.filter(ImageFilter.MinFilter(7))) > 128
+            deep = np.asarray(closed.filter(ImageFilter.MinFilter(21))) > 128
+            px = img[..., :3]
+            bg = (lum(px) > 235) & (satur(px) < 0.06)
+            fill = ((inner & ~bg) | deep) & (a < 250)
+            if fill.any():
+                img[..., 3] = np.where(fill, 255.0, a)
+                changed_img = True
+
+        if version < 2 and cat in BODY:
+            dd = diff_to(img, base)
+            px = img[..., :3]
+            q = px / np.maximum(lum(px)[..., None], 1)
+            # mani e pelle copiate identiche dal corpo base: trasparenti, sotto c'è già la pelle
+            # ricolorata. L'apertura morfologica tiene i blocchi (mani) e scarta le strisce
+            # sottili dove una stoffa beige è quasi uguale alla pelle.
+            same = (img[..., 3] > 0) & base_skin[src_body] & (dd < 10) & (q[..., 0] > skin[src_body]['q'][0] - 0.06)
+            same = np.asarray(Image.fromarray((same * 255).astype('uint8')).filter(ImageFilter.MinFilter(5))
+                              .filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(0.6))).astype(np.float32) / 255
+            if same.max() > 0:
+                img[..., 3] *= 1 - same
+                changed_img = True
+            # pelle in ombra rimasta fuori dalla maschera (sotto le ascelle, attorno all'impianto):
+            # più rossa della pelle media, a contatto con la pelle già marcata. Il cachi e il
+            # beige delle stoffe sono più gialli, le fantasie sature superano il limite di saturazione.
+            L, S = lum(px), satur(px)
+            st = skin[src_body]
+            cand = (img[..., 3] > 128) & (same < 0.5) & (q[..., 0] > st['q'][0] - 0.06) & \
+                (q[..., 2] < st['q'][2] + 0.04) & (S > 0.2) & (S < 0.6) & (L > 25) & (L < 200)
+            seed = R > 0.5
+            if not seed.any() and cat == 'incl':
+                seed = cand & skin_like(px, st, 1.0, minL=60)  # impianto: nessuna pelle marcata
+            reach = seed.copy()
+            for _ in range(8):
+                reach = grow(reach) & (cand | seed)
+            add = reach & (R < 0.5)
+            if key == 'incl/impianto':
+                # orecchio (generato sul corpo F) e apparecchio color pelle: tutto ricolorato come pelle
+                add |= skin_like(px, st, 1.3, minL=30) & (img[..., 3] > 0)
+            if cat == 'legs':
+                # nei pezzi delle gambe braccia e mani non fanno parte del capo: fuori dai fianchi,
+                # all'altezza delle mani, la pelle del corpo base resta pelle
+                x0, _, x1, _ = SHORTS[src_body]
+                arms = np.zeros((H, W), bool)
+                arms[380:760, :x0 + 5] = True
+                arms[380:760, x1 - 5:] = True
+                armskin = cand | skin_like(px, st, 1.3, minL=30)
+                add |= arms & armskin & (img[..., 3] > 0) & base_skin[src_body] & (R < 0.5)
+            if add.any():
+                R = np.maximum(R, add.astype(np.float32))
+                if not has_mask:
+                    e['mask'] = e['src'].replace('.webp', '.mask.png')
+                    has_mask = True
+                    old = np.zeros((H, W, 3), np.float32)
 
         mask_changed = has_mask and np.abs(np.dstack([R, G, B]) - old).max() > 1 / 255
         save(e, img if changed_img else None, *((R, G, B) if mask_changed else (None, None, None)))
@@ -344,7 +438,7 @@ for key, per in d['layers'].items():
             e['stats'] = stats
         elif any((e.get('stats') or {}).values()):
             e.pop('stats')
-        e['fixed'] = True
+        e['fixed'] = VERSION
         print(key, body, 'pulito' if changed_img else '', e.get('stats', ''), flush=True)
 
 # le voci condivise di M puntano agli stessi file: allinea maschera e statistiche
