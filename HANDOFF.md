@@ -3,7 +3,13 @@
 Passaggio di consegne da una sessione Claude Code cloud a una sessione locale sul Mac
 (`/Users/tia/Documents/Software/Futuro-Me`). Aggiornato al 7 ottobre 2026, commit `f70de26` su `main`.
 
-## Compito aperto: collegare il questionario a Supabase
+## ✅ Completato il 7/10/2026: questionario collegato a Supabase
+
+Tabella creata sul Mac mini, variabili impostate su Vercel (Production), redeploy fatto. Un invio
+di prova a `https://www.ilfuturome.it/api/questionario` ha risposto `200 {"success":true}` e la riga
+è comparsa in `public.questionario_risposte` (poi cancellata: la tabella riparte da 0 righe).
+La CSP di produzione ora ha `connect-src 'self' https://api.fosforo.info`. Il resto di questa
+sezione è lo storico dei passi.
 
 Oggi l'invio del questionario risponde `503 {"error":"Not configured"}`: su Vercel mancano le
 variabili e la tabella non esiste ancora. Il database da usare è il **Supabase self-hosted sul
@@ -20,8 +26,12 @@ Passi:
    Lo script trova il container `supabase-db` (o `supabase_db_*`), applica
    `supabase/migrations/20261003000000_questionario_risposte.sql`, esegue
    `notify pgrst, 'reload schema'` e verifica: tabella presente, RLS attiva, 39 colonne.
-   Non è mai stato eseguito: se fallisce (PATH di docker via SSH, nome del container, ecc.)
-   va corretto lì.
+   **Fatto il 7/10/2026**: il repo non è clonato sul Mac mini, quindi la migrazione è stata
+   applicata via `ssh mac-mini 'docker exec -i supabase-db psql ...' < supabase/migrations/...`.
+   Esito: tabella presente, RLS attiva, 39 colonne, 0 policy; `GET /rest/v1/questionario_risposte`
+   su api.fosforo.info risponde 200. Attenzione: sul Mac mini ci sono due stack Supabase;
+   api.fosforo.info è `~/Software/supabase-local` (container `supabase-*`), mentre `fosforo-*`
+   (`~/Software/supabase-fosforo`) è ospiti.fosforo.info e non va usato.
 2. Impostare su Vercel, progetto **futuro-me** (team fosforoscienzas-projects), ambiente Production:
    - `NEXT_PUBLIC_SUPABASE_URL` = `https://api.fosforo.info`
    - `SUPABASE_SERVICE_ROLE_KEY` = valore di `SERVICE_ROLE_KEY` nel `.env` di Supabase sul Mac mini
@@ -37,7 +47,9 @@ Note:
 - La tabella ha RLS attiva **senza policy**: legge e scrive solo il service role, cioè la API
   route `src/app/api/questionario/route.ts`. Nessun dato personale (niente nome, email, IP).
 - Il connettore Vercel della sessione cloud non vedeva il progetto futuro-me (404), quindi le
-  variabili non sono state verificate né impostate da lì.
+  variabili non sono state verificate né impostate da lì. Il 7/10 neanche la sessione locale lo
+  trova: il connettore vede solo il team fosforoscienzas-projects (4 progetti, non futuro-me) e la
+  CLI `vercel` del Mac è loggata su un altro account (team Atelier800).
 
 ## Cosa c'è già (tutto su `main`, deploy automatico su www.ilfuturome.it)
 
