@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, Sparkles, ZoomIn, ZoomOut } from "lucide-react";
-import type { AvatarSelection, Group, Level } from "@/lib/avatar/config";
+import { fitToBody, type AvatarSelection, type Group, type Level } from "@/lib/avatar/config";
 import type { Focus } from "@/lib/avatar/render";
 import { AvatarCanvas } from "./AvatarCanvas";
 
@@ -31,7 +31,7 @@ export function AvatarLevel({
       if (group.max && next.length > group.max) next = next.slice(-group.max);
       onChange({ ...selection, [group.id]: next });
     } else {
-      onChange({ ...selection, [group.id]: id });
+      onChange(fitToBody({ ...selection, [group.id]: id }));
     }
   };
 
@@ -117,7 +117,9 @@ export function AvatarLevel({
                 <p className="text-sm text-on-surface-variant mt-1">{group.hint}</p>
               )}
               <div className="mt-4 flex flex-wrap gap-2">
-                {group.choices.map((choice) => {
+                {group.choices
+                  .filter((c) => !c.bodies || (selection.corpo !== "" && c.bodies.includes(selection.corpo)))
+                  .map((choice) => {
                   const value = selection[group.id];
                   const checked = Array.isArray(value)
                     ? value.includes(choice.id)

@@ -58,20 +58,29 @@ def region(cat, name, body):
     ears = [('rectangle', (322, 150, 392, 310)), ('rectangle', (458, 150, 530, 310))]
     if cat == 'hair':
         sub = [('ellipse', (g['face'][0] + 4, 150 if name == 'frangetta' else g['face'][1], g['face'][2] - 4, g['face'][3]))]
-        return mask_from([('rectangle', (240, 5, 610, 565))], sub)
+        wide = (200, 5, 650, 565) if name == 'afro' else (240, 5, 610, 565)
+        return mask_from([('rectangle', wide)], sub)
     if cat == 'hat':
         if name == 'hijab':
             return mask_from([('rectangle', (215, 15, 635, 540))], [('ellipse', (380, 142, 470, 262))])
-        return mask_from([('rectangle', (240, 0, 610, 300))], [face])
+        box = (170, 0, 680, 320) if name in ('tesa_larga', 'cowboy') else (240, 0, 610, 300)
+        return mask_from([('rectangle', box)], [face])
     if cat == 'other':
+        if name == 'lenti':
+            return mask_from([('rectangle', (330, 70, 520, 225))])
         return mask_from([('rectangle', (240, 0, 610, 320))], [('ellipse', (376, 150, 474, 272))])
+    if cat == 'skin':
+        # vitiligine: viso, collo, avambracci e mani
+        return mask_from([('rectangle', (330, 90, 520, 330)), ('rectangle', (215, 450, 345, 790)), ('rectangle', (505, 450, 640, 790))])
     if cat == 'glasses':
         return mask_from([('rectangle', (340, 132, 510, 214))])
     if cat == 'jewel':
-        if name in ('cerchio', 'pendenti'):
+        if name in ('cerchio', 'pendenti', 'diamante', 'dilatatore', 'cerchio_grandi', 'perle'):
             return mask_from(ears)
-        if name == 'naso_anello':
-            return mask_from([('rectangle', (400, 188, 455, 232))])
+        if name in ('naso_anello', 'naso_diamante', 'septum'):
+            return mask_from([('rectangle', (400, 188, 455, 240))])
+        if name == 'medusa':
+            return mask_from([('rectangle', (395, 200, 460, 262))])
         return mask_from([('rectangle', (415, 128, 495, 178))])
     if cat == 'incl' and name == 'impianto':
         return mask_from([('rectangle', (318, 130, 395, 270)), ('rectangle', (455, 130, 535, 270))])
@@ -88,7 +97,7 @@ def region(cat, name, body):
     if cat == 'legs':
         return mask_from([('rectangle', (215, 555, 645, 1264))])
     if cat == 'shoes':
-        return mask_from([('rectangle', (240, 940 if name == 'anfibi' else 1050, 610, 1264))])
+        return mask_from([('rectangle', (240, 940 if name in ('anfibi', 'cowboy') else 1050, 610, 1264))])
     if cat == 'nose':
         return mask_from([('ellipse', (396, 176, 458, 240))])
     if cat == 'mouth':
@@ -101,7 +110,7 @@ def region(cat, name, body):
         return mask_from([('ellipse', (352, 122, 500, 272))])
     raise ValueError(cat)
 
-THRESH = {'hair': (20, 45), 'nose': (5, 18), 'mouth': (6, 20), 'eyes': (6, 20), 'lashes': (8, 24), 'brows': (8, 24),
+THRESH = {'hair': (20, 45), 'skin': (8, 26), 'nose': (5, 18), 'mouth': (6, 20), 'eyes': (6, 20), 'lashes': (8, 24), 'brows': (8, 24),
           'makeup': (6, 22), 'glasses': (20, 48), 'jewel': (14, 34)}
 MULTIPLY = {'makeup', 'arms/tatuaggi'}
 SHARED = {'hair', 'hat', 'glasses', 'jewel', 'other', 'incl/impianto'}
@@ -240,6 +249,72 @@ for body in ('F', 'M'):
     manifest['bodies'][body] = e
     print(body, 'skin', st)
 
+# capi color sabbia: per colore sono indistinguibili dalla pelle, quindi la maschera
+# pelle (che li ricolorerebbe con il tono scelto) va decisa a mano
+NO_SKIN = {'legs/eleganti', 'legs/vigile', 'shoes/cowboy', 'shoes/antinfortunistiche'}
+HANDS_ONLY = {'torso/trench', 'torso/cappotto_beige', 'torso/vigile'}
+SKIN_BELOW = {'legs/corti': {'F': 820, 'M': 847}}  # sotto l'orlo dei pantaloncini
+
+def hands_mask(base, body, st):
+    x0, y0, x1, y1 = SHORTS[body]
+    ys = np.arange(H)[:, None]
+    xs = np.arange(W)[None, :]
+    m = skin_like(base, st, 1.3) & (ys > 560) & ((xs < x0 + 30) | (xs > x1 - 30))
+    return blur(m.astype(np.float32), 4) > 0.05
+
+LONG_COATS = {'cappotto_beige', 'cappotto_blu', 'trench'}
+
+def open_(a, k=5):
+    im = Image.fromarray((np.clip(a, 0, 1) * 255).astype('uint8'))
+    im = im.filter(ImageFilter.MinFilter(k)).filter(ImageFilter.MaxFilter(k))
+    return np.asarray(im).astype(np.float32) / 255
+
+def torso_cleanup(al, ed, base, body, name, st):
+    """Sotto la vita il busto non deve coprire i pantaloni con residui del corpo base.
+
+    Restituisce l'alfa pulito e, per i cappotti lunghi, la zona in cui spegnere la maschera pelle.
+    """
+    x0, y0, x1, y1 = SHORTS[body]
+    ys = np.arange(H)[:, None]
+    xs = np.arange(W)[None, :]
+    legzone = (ys > y0) & (xs > x0 + 25) & (xs < x1 - 25)
+    L = lum(ed)
+    sat = (ed.max(-1) - ed.min(-1)) / np.maximum(ed.max(-1), 1)
+    cx = (x0 + x1) // 2
+    if name in LONG_COATS:
+        # cappotto chiuso: pieno fino all'orlo; l'orlo è dove tra le gambe torna lo sfondo
+        cut = cutout_alpha(ed)
+        hem = next((y for y in range(y0 + 80, H) if cut[y, cx - 6:cx + 7].mean() < 0.5), H)
+        fill = (cut > 0.5) & (ys > y0 - 40) & (ys < hem) & (xs > x0 - 70) & (xs < x1 + 70)
+        al = np.maximum(al, fill.astype(np.float32))
+        al[(ys >= hem) & (xs > x0 - 70) & (xs < x1 + 70)] = 0
+        al = blur(al, 0.6)
+        return al, legzone & (ys < hem)
+    diff = np.sqrt(((ed - base) ** 2).sum(-1))
+    skin = skin_like(ed, st, 1.3)
+    # residui: pelle sulle gambe e pixel ancora simili ai pantaloncini grigi del corpo base
+    Lb = lum(base)
+    satb = (base.max(-1) - base.min(-1)) / np.maximum(base.max(-1), 1)
+    rect = mask_from([('rectangle', (x0 - 12, y0 - 10, x1 + 12, y1 + 12))]) > 0.5
+    shorts_b = rect & (satb < 0.15) & (Lb < 190) & ~skin_like(base, st, 1.3)
+    # (i residui sono grigi e non più chiari del base; un capo chiaro sopra i pantaloncini sì)
+    junk = (legzone & skin & skin_like(base, st, 1.3)) | (shorts_b & (diff < 75) & (sat < 0.2) & (L < Lb + 10))
+    if name == 'camice':
+        # camice aperto: sotto la vita resta solo il tessuto bianco
+        junk |= legzone & ~((L > 165) & (sat < 0.15))
+    keep = al.copy()
+    if name != 'camice':
+        # sui fianchi il capo è pieno: dove coincide con la maglietta del corpo base
+        # l'alfa era zero e lì sotto i pantaloni scoperchiavano tutto
+        hip = (cutout_alpha(ed) > 0.5) & ~skin & (Lb > 190) & (diff < 40) & (ys > y0 - 60) & (ys < 770) & (xs > x0) & (xs < x1)
+        keep = np.maximum(keep, hip.astype(np.float32))
+        keep[legzone & (ys > 770)] = 0
+    keep[junk] = 0
+    # via i granelli rimasti sotto la vita
+    low = open_((keep > 0.5).astype(np.float32), 5) > 0.5
+    keep[legzone & (blur(low.astype(np.float32), 1.5) < 0.05)] = 0
+    return keep, None
+
 def process(body, fname):
     cat, name = fname[:-4].split('__')
     key = f'{cat}/{name}'
@@ -265,12 +340,20 @@ def process(body, fname):
         al[neck & skin_like(ed, st, 1.3) & skin_like(base, st, 1.3) & (lum(ed) > 100)] = 0
     al = blur(close(al, 5), 1.0)
     al *= blur(reg, 3)
-    if cat not in ('eyes', 'lashes', 'nose', 'mouth', 'brows', 'makeup'):
+    if cat not in ('eyes', 'lashes', 'nose', 'mouth', 'brows', 'makeup', 'skin'):
         same_skin = skin_like(ed, st, 1.2) & skin_like(base, st, 1.2) & (diff < 35)
+        # un capo color sabbia sopra la pelle sembra "pelle rimasta uguale": lì è stoffa
+        if key in HANDS_ONLY:
+            same_skin &= hands_mask(base, body, st)
+        elif key in NO_SKIN and cat == 'legs':
+            same_skin[:] = False
         al[blur(same_skin.astype(np.float32), 1.0) > 0.5] = 0
     if cat == 'torso' or (cat == 'incl' and name != 'impianto'):
         # i pantaloncini grigi del corpo base non devono finire nei pezzi del busto
         al[shorts_like(ed, body, grow=12)] = 0
+    noskin = None
+    if cat == 'torso':
+        al, noskin = torso_cleanup(al, ed, base, body, name, st)
     if cat == 'incl' and name != 'impianto':
         al[skin_like(ed, st, 1.3)] = 0
         col = mask_from([('rectangle', (300, 560, 550, 1264))]) > 0.5
@@ -299,6 +382,14 @@ def process(body, fname):
         if cat == 'eyes':
             B = iris_mask(ed, body, st)
         R = np.clip(skin - G - B, 0, 1) * (al > 0.02)
+        if noskin is not None:
+            R[noskin] = 0
+        if key in NO_SKIN:
+            R[:] = 0
+        elif key in HANDS_ONLY:
+            R *= hands_mask(base, body, st)
+        elif key in SKIN_BELOW:
+            R[:SKIN_BELOW[key][body]] = 0
         if cat in ('hair', 'hat', 'other', 'glasses', 'jewel', 'neck', 'incl', 'arms'):
             # la pelle rifatta è già stata tolta: qui ogni pixel rimasto è il pezzo stesso
             R[:] = 0
@@ -324,7 +415,7 @@ def work(job):
     return process(*job)
 
 jobs = [(body, f) for body in ('F', 'M') for f in sorted(os.listdir(os.path.join(RAW, body)))
-        if f != 'base.png' and f.endswith('.png')]
+        if f != 'base.png' and f.endswith('.png') and f.startswith(os.environ.get('ONLY', ''))]
 with Pool(4) as pool:
     for res in pool.imap_unordered(work, jobs):
         if res:
@@ -338,7 +429,7 @@ for key, per in manifest['layers'].items():
         per['M'] = dict(per['F'])
 
 # --- oggetti e ambienti -------------------------------------------------------
-for f in sorted(os.listdir(os.path.join(RAW, 'X'))):
+for f in ([] if os.environ.get('ONLY') else sorted(os.listdir(os.path.join(RAW, 'X')))):
     cat, name = f[:-4].split('__')
     im = Image.open(os.path.join(RAW, 'X', f))
     if cat == 'obj':

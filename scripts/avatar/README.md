@@ -15,6 +15,10 @@ python3 -m pip install pillow numpy
 python3 -I scripts/avatar/build_assets.py raw public/avatar src/lib/avatar/assets.json
 ```
 
+Per rifare solo una categoria (più veloce, salta oggetti e ambienti):
+`ONLY=torso__ python3 -I scripts/avatar/build_assets.py raw /tmp/out /tmp/out.json`,
+poi copiare i file e le voci del manifest che servono.
+
 Per aggiungere un pezzo: generarlo come modifica del corpo base (stessa
 inquadratura), aggiungerlo in `raw/`, rilanciare lo script e collegarlo a una
 scelta in `src/lib/avatar/config.ts`.

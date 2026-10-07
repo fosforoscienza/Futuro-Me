@@ -5,6 +5,7 @@ import { Download, RotateCcw, Shuffle, Sparkles } from "lucide-react";
 import {
   DEFAULT_SELECTION,
   LEVELS,
+  fitToBody,
   type AvatarSelection,
 } from "@/lib/avatar/config";
 import { renderAvatar } from "@/lib/avatar/render";
@@ -26,7 +27,7 @@ function randomSelection(): AvatarSelection {
       out[group.id] = pick();
     }
   }
-  return out as AvatarSelection;
+  return fitToBody(out as AvatarSelection);
 }
 
 /** Pagina di prova dell'avatar: tutti i livelli liberi, senza questionario. */

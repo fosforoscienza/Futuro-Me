@@ -192,7 +192,10 @@ function layerKeys(sel: AvatarSelection): string[] {
   const pick = (group: keyof AvatarSelection, id: string) => findChoice(group, id)?.layer;
   const hijab = sel.cappello === "hijab";
   const jewels = sel.gioielli.map((id) => pick("gioielli", id));
+  const extras = sel.altro.map((id) => pick("altro", id));
   const keys = [
+    // la vitiligine è uno strato della pelle: subito sopra il corpo base
+    ...extras.filter((k) => k?.startsWith("skin/")),
     pick("occhi", sel.occhi),
     pick("ciglia", sel.ciglia),
     pick("naso", sel.naso),
@@ -211,7 +214,7 @@ function layerKeys(sel: AvatarSelection): string[] {
     hijab ? undefined : pick("impianto", sel.impianto),
     pick("occhiali", sel.occhiali),
     pick("cappello", sel.cappello),
-    pick("altro", sel.altro),
+    ...extras.filter((k) => k && !k.startsWith("skin/")),
   ];
   return keys.filter((k): k is string => Boolean(k));
 }
@@ -298,18 +301,25 @@ export async function renderAvatar(canvas: HTMLCanvasElement, sel: AvatarSelecti
       actx.drawImage(img, layer.x, layer.y);
     }
   }
-  ctx.drawImage(av, AVATAR_X, AVATAR_Y, SCENE_W * AVATAR_SCALE, SCENE_H * AVATAR_SCALE);
-
-  // Oggetti: il primo a destra dell'avatar, il secondo a sinistra
-  objs.forEach((o, i) => {
-    if (!o) return;
+  // Oggetti: veicoli dietro l'avatar; gli altri il primo a destra, il secondo a sinistra
+  const placed = objs.map((o, i) => {
+    if (!o) return null;
     const meta = M.objects[o.id];
-    const place = OBJECT_PLACEMENT[o.id] ?? { slot: "floor", size: 200 };
-    const h = place.size;
-    const w = (meta.w / meta.h) * h;
+    const place = OBJECT_PLACEMENT[o.id] ?? { slot: "floor" as const, size: 200 };
+    const scale = place.size / Math.max(meta.w, meta.h);
+    const w = meta.w * scale;
+    const h = meta.h * scale;
     let cx = SCENE_W / 2 + 255;
-    const bottom = place.slot === "floor" ? feetY + 8 : AVATAR_Y + 760 * AVATAR_SCALE + h / 2;
     if (i === 1) cx = SCENE_W - cx;
-    ctx.drawImage(o.img, cx - w / 2, bottom - h, w, h);
+    let bottom = feetY + 8;
+    if (place.slot === "hand") bottom = AVATAR_Y + 760 * AVATAR_SCALE + h / 2;
+    if (place.slot === "behind") {
+      cx = SCENE_W / 2 + (i === 1 ? -60 : 60);
+      bottom = feetY - 30;
+    }
+    return { img: o.img, slot: place.slot, x: cx - w / 2, y: bottom - h, w, h };
   });
+  for (const o of placed) if (o?.slot === "behind") ctx.drawImage(o.img, o.x, o.y, o.w, o.h);
+  ctx.drawImage(av, AVATAR_X, AVATAR_Y, SCENE_W * AVATAR_SCALE, SCENE_H * AVATAR_SCALE);
+  for (const o of placed) if (o && o.slot !== "behind") ctx.drawImage(o.img, o.x, o.y, o.w, o.h);
 }

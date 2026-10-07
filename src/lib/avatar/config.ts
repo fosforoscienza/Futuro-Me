@@ -14,6 +14,8 @@ export type Choice = {
   layer?: string;
   /** Colore del campione (per incarnato, capelli, occhi). */
   color?: RGB;
+  /** Disponibile solo per questi corpi (es. torso nudo, bikini). */
+  bodies?: Body[];
 };
 
 export type Group = {
@@ -48,7 +50,7 @@ export type AvatarSelection = {
   cappello: string;
   occhiali: string;
   gioielli: string[];
-  altro: string;
+  altro: string[];
   torso: string;
   braccia: string[];
   gambe: string;
@@ -74,7 +76,7 @@ export const DEFAULT_SELECTION: AvatarSelection = {
   cappello: "nessuno",
   occhiali: "nessuno",
   gioielli: [],
-  altro: "nessuno",
+  altro: [],
   torso: "base",
   braccia: [],
   gambe: "base",
@@ -122,8 +124,8 @@ export const EYE_COLORS: Choice[] = [
   { id: "grigi", label: "Grigi", color: [136, 146, 156] },
 ];
 
-/** Oggetti: posizione nella scena (in mano o a terra) e altezza in pixel. */
-export const OBJECT_PLACEMENT: Record<string, { slot: "hand" | "floor"; size: number }> = {
+/** Oggetti: posizione nella scena (in mano, a terra o dietro l'avatar) e lato maggiore in pixel. */
+export const OBJECT_PLACEMENT: Record<string, { slot: "hand" | "floor" | "behind"; size: number }> = {
   calcio: { slot: "floor", size: 120 },
   basket: { slot: "floor", size: 125 },
   chitarra: { slot: "floor", size: 420 },
@@ -144,6 +146,27 @@ export const OBJECT_PLACEMENT: Record<string, { slot: "hand" | "floor"; size: nu
   gatto: { slot: "floor", size: 210 },
   microfono: { slot: "floor", size: 520 },
   skateboard: { slot: "floor", size: 380 },
+  rugby: { slot: "floor", size: 135 },
+  pallavolo: { slot: "floor", size: 125 },
+  violino: { slot: "hand", size: 280 },
+  tromba: { slot: "hand", size: 260 },
+  flauto: { slot: "hand", size: 300 },
+  tastiera: { slot: "floor", size: 420 },
+  batteria: { slot: "floor", size: 380 },
+  borsello: { slot: "hand", size: 150 },
+  borsa_grande: { slot: "hand", size: 220 },
+  auto_sportiva: { slot: "behind", size: 780 },
+  auto_familiare: { slot: "behind", size: 800 },
+  trattore: { slot: "behind", size: 660 },
+  cintura: { slot: "hand", size: 240 },
+  canna_pesca: { slot: "floor", size: 500 },
+  tosaerba: { slot: "floor", size: 330 },
+  sega: { slot: "hand", size: 260 },
+  pomodori: { slot: "floor", size: 230 },
+  tavolo_architetto: { slot: "floor", size: 430 },
+  coniglio: { slot: "floor", size: 170 },
+  yoga: { slot: "floor", size: 300 },
+  borsone: { slot: "floor", size: 300 },
 };
 
 export const LEVELS: Level[] = [
@@ -183,12 +206,18 @@ export const LEVELS: Level[] = [
             ["undercut", "Rasati ai lati, lunghi sopra"],
             ["ciuffo", "Medi (ciuffo)"],
             ["bob", "Bob cut"],
+            ["caschetto", "Caschetto fino alle spalle"],
             ["frangetta", "Corti con frangetta"],
             ["lisci_lunghi", "Lisci lunghi sciolti"],
             ["coda", "Lisci lunghi raccolti (coda)"],
+            ["lunghi_frangetta", "Lunghi con frangetta"],
             ["mossi", "Mossi lunghi sciolti"],
+            ["mossi_coda", "Mossi lunghi raccolti (coda)"],
+            ["ricci_corti", "Ricci corti"],
             ["ricci_medi", "Ricci medi"],
             ["ricci_lunghi", "Ricci lunghi"],
+            ["afro", "Capelli afro"],
+            ["treccia", "Treccia"],
             ["treccine", "Treccine afro"],
             ["chignon", "Chignon"],
           ]),
@@ -200,11 +229,10 @@ export const LEVELS: Level[] = [
         label: "Forma degli occhi",
         kind: "single",
         choices: [
-          { id: "mandorla", label: "A mandorla" },
-          ...items("eyes", [
-            ["tondi_grandi", "Tondi grandi"],
-            ["allungati_piccoli", "Allungati piccoli"],
-          ]),
+          ...items("eyes", [["allungati_piccoli", "Allungati piccoli"], ["allungati_grandi", "Allungati grandi"]]),
+          ...items("eyes", [["tondi_piccoli", "Tondi piccoli"], ["tondi_grandi", "Tondi grandi"]]),
+          ...items("eyes", [["mandorla_piccoli", "A mandorla piccoli"]]),
+          { id: "mandorla", label: "A mandorla grandi" },
         ],
       },
       { id: "coloreOcchi", label: "Colore degli occhi", kind: "swatch", choices: EYE_COLORS },
@@ -213,21 +241,33 @@ export const LEVELS: Level[] = [
         label: "Trucco",
         hint: "Rossetto, ombretto, eyeliner, blush",
         kind: "single",
-        choices: [none(), ...items("makeup", [["leggero", "Leggero"], ["intenso", "Intenso"]])],
+        choices: [
+          none(),
+          ...items("makeup", [
+            ["leggero", "Leggero"],
+            ["moderato", "Moderato"],
+            ["intenso", "Intenso"],
+          ]),
+        ],
       },
       {
         id: "ciglia",
         label: "Ciglia",
         kind: "single",
-        choices: [{ id: "medie", label: "Medie" }, ...items("lashes", [["lunghe", "Lunghe"]])],
+        choices: [
+          ...items("lashes", [["corte", "Corte"]]),
+          { id: "medie", label: "Medie" },
+          ...items("lashes", [["lunghe", "Lunghe"], ["lunghissime", "Lunghissime"]]),
+        ],
       },
       {
         id: "sopracciglia",
         label: "Sopracciglia",
         kind: "single",
         choices: [
+          ...items("brows", [["nessuna", "Nessuna"], ["sottili", "Sottili"]]),
           { id: "medie", label: "Medie" },
-          ...items("brows", [["sottili", "Sottili"], ["folte", "Folte"]]),
+          ...items("brows", [["folte", "Folte"]]),
         ],
       },
       {
@@ -236,14 +276,27 @@ export const LEVELS: Level[] = [
         kind: "single",
         choices: [
           { id: "dritto", label: "Dritto" },
-          ...items("nose", [["patata", "A patata"], ["aquilino", "Aquilino"]]),
+          ...items("nose", [
+            ["insu", "All'insù"],
+            ["aquilino", "Aquilino"],
+            ["patata", "A patata"],
+            ["greco", "Greco"],
+            ["punta", "A punta"],
+          ]),
         ],
       },
       {
         id: "bocca",
         label: "Bocca",
         kind: "single",
-        choices: [{ id: "sottili", label: "Labbra sottili" }, ...items("mouth", [["carnose", "Labbra carnose"]])],
+        choices: [
+          ...items("mouth", [["carnose", "Carnose"]]),
+          { id: "sottili", label: "Sottili" },
+          ...items("mouth", [
+            ["sup_sottile", "Labbro sopra sottile, sotto carnoso"],
+            ["sup_carnoso", "Labbro sopra carnoso, sotto sottile"],
+          ]),
+        ],
       },
       {
         id: "cappello",
@@ -253,6 +306,9 @@ export const LEVELS: Level[] = [
           none(),
           ...items("hat", [
             ["visiera", "Cappello con visiera"],
+            ["snapback", "Cappello con visiera piatta"],
+            ["cowboy", "Cappello da cowboy"],
+            ["tesa_larga", "Cappello a tesa larga"],
             ["lana", "Cappello di lana"],
             ["casco", "Casco antinfortunistico"],
             ["cuoco", "Cappello da cuoco"],
@@ -269,7 +325,12 @@ export const LEVELS: Level[] = [
           ...items("glasses", [
             ["wayfarer", "Da sole Wayfarer"],
             ["aviatore", "Da sole da aviatore"],
+            ["veloce", "Da sole sportivi"],
+            ["cateye", "Da sole cat-eye"],
             ["geek", "Da vista “geek”"],
+            ["squadrati", "Squadrati moderni"],
+            ["leggeri", "Montatura leggera"],
+            ["tondi_spessi", "Tondi montatura spessa"],
             ["tondi", "Tondi sottili metallici"],
           ]),
         ],
@@ -282,8 +343,15 @@ export const LEVELS: Level[] = [
         choices: [
           ...items("jewel", [
             ["cerchio", "Orecchini a cerchio piccoli"],
+            ["cerchio_grandi", "Orecchini a cerchio grandi"],
+            ["diamante", "Orecchino diamante"],
+            ["perle", "Orecchini di perle"],
             ["pendenti", "Orecchini pendenti"],
+            ["dilatatore", "Dilatatore ai lobi"],
+            ["naso_diamante", "Piercing al naso (diamante)"],
             ["naso_anello", "Piercing al naso (anello)"],
+            ["septum", "Piercing septum"],
+            ["medusa", "Piercing al labbro"],
             ["sopracciglio", "Piercing al sopracciglio"],
           ]),
           ...items("neck", [
@@ -295,14 +363,16 @@ export const LEVELS: Level[] = [
       {
         id: "altro",
         label: "Altro",
-        kind: "single",
+        hint: "Puoi sceglierne più di uno",
+        kind: "multi",
         choices: [
-          none(),
           ...items("other", [
             ["cuffie", "Cuffie per la musica"],
             ["bandana", "Bandana sulla fronte"],
             ["corona", "Corona di fiori"],
+            ["lenti", "Lenti da orefice"],
           ]),
+          ...items("skin", [["vitiligine", "Vitiligine"]]),
         ],
       },
     ],
@@ -319,21 +389,40 @@ export const LEVELS: Level[] = [
         kind: "single",
         choices: [
           { id: "base", label: "T-shirt grigia" },
+          { id: "nudo", label: "Torso nudo", layer: "torso/nudo", bodies: ["M"] },
+          { id: "bikini", label: "Bikini", layer: "torso/bikini", bodies: ["F"] },
           ...items("torso", [
             ["tshirt_bianca", "T-shirt bianca"],
             ["tshirt_nera", "T-shirt nera"],
+            ["tshirt_colorata", "T-shirt colorata"],
+            ["scollo_v", "T-shirt scollo a V"],
             ["tshirt_rock", "T-shirt gruppo rock"],
-            ["righe", "Maglia a righe"],
+            ["luxury", "T-shirt marchio di lusso"],
+            ["righe", "Maglia a righe (maniche lunghe)"],
+            ["righe_corte", "Maglia a righe (maniche corte)"],
+            ["canotta_bianca", "Canotta bianca"],
+            ["canotta_colorata", "Canotta colorata"],
             ["canotta_basket", "Canotta da basket"],
             ["top", "Top"],
             ["camicia", "Camicia elegante"],
+            ["camicia_jeans", "Camicia di jeans"],
+            ["flanella", "Camicia di flanella a scacchi"],
             ["hawaiana", "Camicia hawaiana"],
+            ["gilet", "Camicia + gilet"],
+            ["girocollo", "Maglione girocollo"],
             ["collo_alto", "Maglione collo alto"],
             ["felpa", "Felpa con cappuccio"],
             ["pelle", "Giacca di pelle"],
             ["blazer", "Camicia + giacca elegante"],
+            ["completo", "Giacca da completo con cravatta"],
+            ["trench", "Trench"],
+            ["cappotto_blu", "Cappotto lungo blu"],
+            ["cappotto_beige", "Cappotto lungo beige"],
+            ["militare", "Giacca militare"],
             ["camice", "Camice da dottore"],
             ["vigile", "Giacca da vigile del fuoco"],
+            ["pilota", "Giacca da pilota d'aereo"],
+            ["polizia", "Giubbotto antiproiettile (polizia)"],
             ["cuoco", "Giacca da cuoco"],
             ["catarifrangente", "T-shirt + giubbotto catarifrangente"],
           ]),
@@ -366,12 +455,18 @@ export const LEVELS: Level[] = [
           { id: "base", label: "Pantaloncini grigi" },
           ...items("legs", [
             ["jeans", "Jeans"],
-            ["completo", "Pantaloni eleganti"],
+            ["eleganti", "Pantaloni eleganti"],
+            ["completo", "Pantaloni del completo"],
+            ["palazzo", "Pantaloni a palazzo"],
             ["corti", "Pantaloni corti"],
+            ["costume", "Costume"],
             ["tuta", "Pantaloni della tuta"],
+            ["militari", "Pantaloni militari"],
             ["gonna_lunga", "Gonna elegante lunga"],
             ["gonna_corta", "Gonna colorata corta"],
             ["vigile", "Pantaloni da vigile del fuoco"],
+            ["pilota", "Pantaloni da pilota d'aereo"],
+            ["polizia", "Pantaloni della polizia"],
             ["cuoco", "Pantaloni da cuoco"],
           ]),
         ],
@@ -389,6 +484,9 @@ export const LEVELS: Level[] = [
             ["eleganti", "Scarpe eleganti"],
             ["tacchi", "Scarpe col tacco"],
             ["infradito", "Infradito"],
+            ["sandali", "Sandali"],
+            ["ballerine", "Ballerine"],
+            ["cowboy", "Stivali da cowboy"],
             ["antinfortunistiche", "Scarpe antinfortunistiche"],
           ]),
         ],
@@ -411,24 +509,45 @@ export const LEVELS: Level[] = [
           [
             ["calcio", "Pallone da calcio"],
             ["basket", "Pallone da basket"],
+            ["rugby", "Pallone da rugby"],
+            ["pallavolo", "Pallone da pallavolo"],
+            ["tennis", "Racchetta da tennis"],
+            ["boxe", "Guantoni da boxe"],
+            ["skateboard", "Skateboard"],
+            ["yoga", "Tappetino yoga"],
+            ["borsone", "Borsone da palestra"],
             ["chitarra", "Chitarra"],
+            ["violino", "Violino"],
+            ["tromba", "Tromba"],
+            ["flauto", "Flauto"],
+            ["tastiera", "Pianoforte (tastiera)"],
+            ["batteria", "Batteria"],
+            ["microfono", "Microfono"],
             ["zaino", "Zaino da trekking"],
             ["trolley", "Valigia / trolley"],
             ["24ore", "Valigetta 24 ore"],
+            ["borsello", "Borsello"],
             ["borsa", "Borsa piccola"],
+            ["borsa_grande", "Borsa grande"],
+            ["auto_sportiva", "Automobile sportiva"],
+            ["auto_familiare", "Automobile familiare"],
+            ["trattore", "Trattore"],
             ["stetoscopio", "Stetoscopio"],
-            ["tennis", "Racchetta da tennis"],
-            ["tavolozza", "Tavolozza e pennello"],
-            ["boxe", "Guantoni da boxe"],
+            ["cintura", "Cintura da operaio edile"],
+            ["sega", "Sega"],
             ["estintore", "Estintore"],
+            ["tosaerba", "Tosaerba"],
+            ["canna_pesca", "Canna da pesca"],
+            ["pomodori", "Cassetta di pomodori"],
+            ["tavolozza", "Tavolozza e pennello"],
             ["macchina_foto", "Macchina fotografica"],
+            ["tavolo_architetto", "Tavolo da architetto"],
             ["mappamondo", "Mappamondo"],
             ["pacco", "Pacco postale"],
             ["cloche", "Cloche del ristorante"],
             ["cane", "Cane"],
             ["gatto", "Gatto"],
-            ["microfono", "Microfono"],
-            ["skateboard", "Skateboard"],
+            ["coniglio", "Coniglio"],
           ] as [string, string][]
         ).map(([id, label]) => ({ id, label })),
       },
@@ -449,15 +568,25 @@ export const LEVELS: Level[] = [
           ...(
             [
               ["metropoli", "Metropoli"],
+              ["villa", "Villette a schiera"],
+              ["loft", "Loft di lusso"],
               ["campagna", "Campagna"],
+              ["bosco", "Bosco"],
               ["montagna", "Montagna"],
+              ["zoo", "Zoo"],
               ["classe", "Classe di una scuola"],
-              ["palco", "Palco di un concerto"],
               ["laboratorio", "Laboratorio"],
               ["ospedale", "Corsia d'ospedale"],
               ["ufficio", "Ufficio"],
-              ["cucina", "Cucina di ristorante"],
+              ["tribunale", "Aula di tribunale"],
+              ["caserma", "Caserma (polizia/esercito)"],
               ["officina", "Officina"],
+              ["cucina", "Cucina di ristorante"],
+              ["bar", "Bar"],
+              ["palestra", "Palestra"],
+              ["palco", "Palco di un concerto"],
+              ["aereo", "Aereo"],
+              ["nave", "Nave"],
             ] as [string, string][]
           ).map(([id, label]) => ({ id, label })),
         ],
@@ -504,6 +633,23 @@ export function findChoice(groupId: keyof AvatarSelection, id: string) {
 }
 
 /** Controlla una selezione arrivata dal client: solo id esistenti, limiti rispettati. */
+/** Toglie le scelte che non esistono per il corpo scelto (es. bikini su M). */
+export function fitToBody(sel: AvatarSelection): AvatarSelection {
+  if (sel.corpo === "") return sel;
+  const body = sel.corpo;
+  const out: Record<string, unknown> = { ...sel };
+  for (const group of ALL_GROUPS) {
+    const allowed = (id: string) => {
+      const c = group.choices.find((x) => x.id === id);
+      return !c?.bodies || c.bodies.includes(body);
+    };
+    const value = sel[group.id];
+    if (Array.isArray(value)) out[group.id] = value.filter(allowed);
+    else if (!allowed(value)) out[group.id] = DEFAULT_SELECTION[group.id];
+  }
+  return out as AvatarSelection;
+}
+
 export function validateAvatar(input: unknown): AvatarSelection | null {
   if (!input || typeof input !== "object") return null;
   const raw = input as Record<string, unknown>;
