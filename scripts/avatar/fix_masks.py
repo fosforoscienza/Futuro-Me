@@ -21,7 +21,9 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
   6. Capelli: le ombre che i capelli proiettano su braccia e maglietta (prima colorate come
      capelli) diventano velature nere semitrasparenti, la pelle ridisegnata più chiara diventa
      trasparente. Riconoscimento: stessi rapporti tra i canali del corpo base.
-  7. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  7. Capelli: velatura semitrasparente del viso di partenza dentro il viso (attaccatura chiara,
+     sopracciglia e occhi d'origine colorati come capelli): via se liscia e color pelle.
+  8. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -47,7 +49,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 4
+VERSION = 5
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -381,6 +383,30 @@ def jaw_hair(img, base_skin_mask, body):
     inner = np.asarray(Image.fromarray((base_skin_mask * 255).astype('uint8')).filter(ImageFilter.MinFilter(5))) > 128
     return face & inner & (img[..., 3] > 0)
 
+# --- 7. velatura del viso nei capelli -------------------------------------------
+def local_std(x, r=2):
+    from numpy.lib.stride_tricks import sliding_window_view
+    w = sliding_window_view(np.pad(x, r, mode='edge'), (2 * r + 1, 2 * r + 1))
+    return w.std(axis=(-1, -2))
+
+
+def face_veil(img, base, base_skin_mask, body):
+    """Dentro il viso, i pixel semitrasparenti con la tinta della pelle del corpo base e lisci
+    (le ciocche, anche quelle lucide, hanno filamenti); sotto le sopracciglia ogni velatura."""
+    f = GEO[body]['face']
+    m = Image.new('L', (W, H), 0)
+    ImageDraw.Draw(m).ellipse((f[0] - 6, f[1] - 30, f[2] + 6, f[3] + 4), fill=255)
+    fz = (np.asarray(m) > 128) & base_skin_mask & (img[..., 3] > 0)
+    q = lambda a: a / np.maximum(lum(a)[..., None], 1)
+    qd = np.abs(q(img[..., :3]) - q(base[..., :3])).max(-1)
+    a = img[..., 3]
+    veil = fz & (qd < 0.12) & (a < 230) & (local_std(lum(img[..., :3])) < 5)
+    veil = np.asarray(Image.fromarray((veil * 255).astype('uint8')).filter(ImageFilter.MinFilter(3))
+                      .filter(ImageFilter.MaxFilter(3))) > 128
+    low = fz & (a < 200)
+    low[:min(b[1] for b in GEO[body]['brows']) - 8] = False
+    return (veil & fz) | low
+
 # --- elaborazione ------------------------------------------------------------
 def save(e, img=None, R=None, G=None, B=None):
     if img is not None:
@@ -558,6 +584,13 @@ for key, per in d['layers'].items():
             img[..., 3] *= 1 - soft
             R = np.where(same | jaw, 0.0, R).astype(np.float32)
             G = np.where(same | jaw, 0.0, G).astype(np.float32)
+            changed_img = True
+
+        if version < 5 and cat == 'hair':
+            veil = face_veil(img, base, base_skin[src_body], src_body)
+            soft = np.asarray(Image.fromarray((veil * 255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.6))).astype(np.float32) / 255
+            img[..., 3] *= 1 - soft
+            G = np.where(veil, 0.0, G).astype(np.float32)
             changed_img = True
 
         if version < 3 and cat == 'glasses':
