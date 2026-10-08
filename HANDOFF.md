@@ -87,7 +87,7 @@ Note:
 - **Ciglia per ogni forma d'occhio (8/10)**: 30 pezzi `eyes/<forma>__<ciglia>` generati con
   Higgsfield (job in `jobs.tsv`, circa 46 crediti) e costruiti da `build_lash_combos.py`.
 - **Estrazione dei capelli (8/10)**: niente più velatura del viso di partenza nell'attaccatura
-  (afro M e altre, passo 7 di `fix_masks.py`); le ombre dei capelli su braccia e maglietta sono velature
+  (afro M e altre, passo 7 di `fix_masks.py`), niente buchi o frammenti isolati (passo 8); le ombre dei capelli su braccia e maglietta sono velature
   nere, la pelle ridisegnata è trasparente, e niente più blocco di capelli sulla guancia (passo 6
   di `fix_masks.py`, su tutte le 36 pettinature).
 - **Pettinature M (8/10)**: tutte le 18 pettinature hanno ora la loro versione M (le ultime tre,

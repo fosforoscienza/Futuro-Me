@@ -23,7 +23,9 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      trasparente. Riconoscimento: stessi rapporti tra i canali del corpo base.
   7. Capelli: velatura semitrasparente del viso di partenza dentro il viso (attaccatura chiara,
      sopracciglia e occhi d'origine colorati come capelli): via se liscia e color pelle.
-  8. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  8. Capelli: buchi piccoli dentro le ciocche riempiti col colore vicino, frammenti minuscoli
+     staccati sopra il viso tolti.
+  9. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -49,7 +51,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 5
+VERSION = 8
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -407,6 +409,93 @@ def face_veil(img, base, base_skin_mask, body):
     low[:min(b[1] for b in GEO[body]['brows']) - 8] = False
     return (veil & fz) | low
 
+# --- 8. puntini nei capelli ----------------------------------------------------
+def components(mask, max_area):
+    """Componenti 4-connesse di `mask` con area <= max_area (liste di indici piatti)."""
+    h, w = mask.shape
+    flat = mask.ravel()
+    seen = np.zeros(flat.size, bool)
+    out = []
+    for start in np.flatnonzero(flat):
+        if seen[start]:
+            continue
+        seen[start] = True
+        comp, stack, big = [start], [start], False
+        while stack:
+            i = stack.pop()
+            y, x = divmod(i, w)
+            for j in ((i - w) if y else -1, (i + w) if y < h - 1 else -1, (i - 1) if x else -1, (i + 1) if x < w - 1 else -1):
+                if j >= 0 and flat[j] and not seen[j]:
+                    seen[j] = True
+                    stack.append(j)
+                    if not big:
+                        comp.append(j)
+                        big = len(comp) > max_area
+        if not big:
+            out.append(np.array(comp))
+    return out
+
+
+def hair_dots(img, G, body, eyes):
+    """Riempie i buchi piccoli circondati da capelli e toglie i frammenti minuscoli sul viso."""
+    e_y0, e_x0 = np.nonzero(img[..., 3] > 0)
+    y0, y1, x0, x1 = e_y0.min(), e_y0.max() + 1, e_x0.min(), e_x0.max() + 1
+    a = img[y0:y1, x0:x1, 3]
+    sub = img[y0:y1, x0:x1]
+    g = G[y0:y1, x0:x1]
+    h, w = a.shape
+    solid = a > 200
+    fill = np.zeros((h, w), bool)
+    for comp in components(a < 200, 60):  # anche i buchi con bordo semitrasparente
+        ys, xs = np.divmod(comp, w)
+        if ys.min() == 0 or xs.min() == 0 or ys.max() == h - 1 or xs.max() == w - 1:
+            continue
+        m = np.zeros((h, w), bool)
+        m[ys, xs] = True
+        ring = np.asarray(Image.fromarray((m * 255).astype('uint8')).filter(ImageFilter.MaxFilter(5))) > 128
+        ring &= ~m
+        if solid[ring].mean() > 0.85:
+            fill |= m
+    if fill.any():
+        # colore: diffusione dai pixel di capelli vicini
+        known = ~fill & solid
+        col = np.where(known[..., None], sub[..., :3], 0.0)
+        wgt = known.astype(np.float32)
+        rgb = sub[..., :3].copy()
+        todo = fill.copy()
+        for _ in range(12):
+            if not todo.any():
+                break
+            acc = np.zeros_like(col)
+            cnt = np.zeros_like(wgt)
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    acc += np.roll(np.roll(col, dy, 0), dx, 1)
+                    cnt += np.roll(np.roll(wgt, dy, 0), dx, 1)
+            new = todo & (cnt > 0)
+            rgb[new] = acc[new] / cnt[new][:, None]
+            col[new] = rgb[new]
+            wgt[new] = 1
+            todo &= ~new
+        sub[..., :3] = np.where(fill[..., None], rgb, sub[..., :3])
+        sub[..., 3] = np.where(fill, 255.0, sub[..., 3])
+        g[fill] = 1.0
+    # frammenti minuscoli staccati sopra il viso
+    zone = face_zone(body)[y0:y1, x0:x1]
+    specks = np.zeros((h, w), bool)
+    for comp in components(sub[..., 3] > 10, 40):
+        ys, xs = np.divmod(comp, w)
+        if zone[ys, xs].mean() > 0.5:
+            specks[ys, xs] = True
+    specks = np.asarray(Image.fromarray((specks * 255).astype('uint8')).filter(ImageFilter.MaxFilter(3))) > 128
+    sub[..., 3] = np.where(specks & zone, 0.0, sub[..., 3])
+    img[y0:y1, x0:x1] = sub
+    G[y0:y1, x0:x1] = g
+    # niente capelli (o resti delle ciglia d'origine) sugli occhi
+    near = grow(eyes, 4)
+    img[..., 3] = np.where(near, 0.0, img[..., 3])
+    return int(fill.sum()), int((specks & zone).sum())
+
 # --- elaborazione ------------------------------------------------------------
 def save(e, img=None, R=None, G=None, B=None):
     if img is not None:
@@ -591,6 +680,11 @@ for key, per in d['layers'].items():
             soft = np.asarray(Image.fromarray((veil * 255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.6))).astype(np.float32) / 255
             img[..., 3] *= 1 - soft
             G = np.where(veil, 0.0, G).astype(np.float32)
+            changed_img = True
+
+        if version < 8 and cat == 'hair':
+            G = G.copy()
+            hair_dots(img, G, src_body, eye_open[src_body])
             changed_img = True
 
         if version < 3 and cat == 'glasses':
