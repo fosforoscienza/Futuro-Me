@@ -469,7 +469,11 @@ def process(body, fname):
     print(body, key, 'shift', dx, dy, 'box', e['w'], e['h'], e.get('mask') is not None, flush=True)
     return key, body, e
 
+import multiprocessing
 from multiprocessing import Pool
+
+# su macOS il default è "spawn", che rilancerebbe questo script (senza __main__) in ogni processo
+multiprocessing.set_start_method('fork', force=True)
 
 def work(job):
     return process(*job)

@@ -856,22 +856,22 @@
     "fixed": 3
    },
    "M": {
-    "src": "/avatar/F/hair__buzz.webp",
-    "x": 337,
-    "y": 75,
-    "w": 158,
-    "h": 357,
-    "mask": "/avatar/F/hair__buzz.mask.png",
+    "src": "/avatar/M/hair__buzz.webp",
+    "x": 269,
+    "y": 78,
+    "w": 266,
+    "h": 409,
+    "mask": "/avatar/M/hair__buzz.mask.png",
     "stats": {
      "G": {
-      "mu": 0.5384,
-      "sd": 0.1573
+      "mu": 0.5676,
+      "sd": 0.1518
      },
      "B": null
     },
     "shift": [
      0,
-     0
+     1
     ],
     "fixed": 3
    }
@@ -1024,22 +1024,22 @@
     "fixed": 3
    },
    "M": {
-    "src": "/avatar/F/hair__chignon.webp",
-    "x": 301,
-    "y": 39,
-    "w": 195,
-    "h": 393,
-    "mask": "/avatar/F/hair__chignon.mask.png",
+    "src": "/avatar/M/hair__chignon.webp",
+    "x": 324,
+    "y": 51,
+    "w": 212,
+    "h": 436,
+    "mask": "/avatar/M/hair__chignon.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4828,
-      "sd": 0.1596
+      "mu": 0.5014,
+      "sd": 0.1561
      },
      "B": null
     },
     "shift": [
      0,
-     0
+     1
     ],
     "fixed": 3
    }
@@ -1318,22 +1318,22 @@
     "fixed": 3
    },
    "M": {
-    "src": "/avatar/F/hair__ricci_corti.webp",
-    "x": 301,
-    "y": 58,
-    "w": 199,
-    "h": 374,
-    "mask": "/avatar/F/hair__ricci_corti.mask.png",
+    "src": "/avatar/M/hair__ricci_corti.webp",
+    "x": 269,
+    "y": 61,
+    "w": 257,
+    "h": 389,
+    "mask": "/avatar/M/hair__ricci_corti.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4646,
-      "sd": 0.1759
+      "mu": 0.4747,
+      "sd": 0.173
      },
      "B": null
     },
     "shift": [
      0,
-     0
+     1
     ],
     "fixed": 3
    }

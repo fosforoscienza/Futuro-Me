@@ -86,9 +86,9 @@ Note:
   sole come tinta semitrasparente (passo 5 di `fix_masks.py`).
 - **Ciglia per ogni forma d'occhio (8/10)**: 30 pezzi `eyes/<forma>__<ciglia>` generati con
   Higgsfield (job in `jobs.tsv`, circa 46 crediti) e costruiti da `build_lash_combos.py`.
-- **Pezzi condivisi F→M** (capelli, cappelli, occhiali, gioielli generati solo su F): su M il
-  contorno non combacia col viso (es. guancia seghettata con "lunghi con frangetta", residui
-  con afro e treccine). Servirebbero le versioni M delle 18 pettinature.
+- **Pettinature M (8/10)**: tutte le 18 pettinature hanno ora la loro versione M (le ultime tre,
+  buzz, chignon e ricci corti, generate l'8/10). Cappelli, occhiali e gioielli restano generati solo
+  su F e riusati su M.
 - Su telefono l'anteprima fissa dell'avatar occupa metà schermo: l'elenco dei tagli scorre
   in poco spazio. Il taglio di partenza ora c'è (M "Medi (ciuffo)", F "Mossi lunghi sciolti",
   `DEFAULT_HAIR` in `src/lib/avatar/config.ts`).
