@@ -16,7 +16,9 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      copiate identiche dal corpo base diventano trasparenti, la pelle in ombra rimasta
      (sotto le ascelle, attorno all'impianto) è marcata come pelle. Con gli incarnati scuri
      prima restava chiara. Nei busti e nelle gambe si richiudono i buchi della stoffa beige.
-  5. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  5. Occhiali (generati sul viso F): lenti chiare trasparenti, lenti colorate come tinta
+     uniforme semitrasparente, così dietro si vedono pelle e occhi scelti.
+  6. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -42,7 +44,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 2
+VERSION = 3
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -271,6 +273,69 @@ def diff_to(img, base):
     dd = np.abs(img[..., :3] - base[..., :3]).max(-1)
     return np.asarray(Image.fromarray(np.clip(dd, 0, 255).astype('uint8')).filter(ImageFilter.BoxBlur(1))).astype(np.float32)
 
+# --- 5. lenti degli occhiali --------------------------------------------------
+def lens_layer(img, base, body, eye_op, st):
+    """Occhiali generati sul viso F: dietro le lenti c'era quel viso (pelle chiara, occhi
+    castani). Lenti chiare: l'interno diventa trasparente e restano montatura e riflessi.
+    Lenti colorate: tinta uniforme semitrasparente (trasmissione stimata sul viso di
+    partenza), così sotto si vedono pelle e occhi scelti, scuriti dalla lente."""
+    a0 = img[..., 3:4] / 255
+    B = base[..., :3]
+    O = img[..., :3] * a0 + B * (1 - a0)              # come appariva sul viso di partenza
+    face = face_zone(body) & (img[..., 3] > 0)
+    L, S = lum(O), satur(O)
+    dd = np.abs(O - B).max(-1)
+    m = Image.new('L', (W, H), 0)
+    dr = ImageDraw.Draw(m)
+    for x0, y0, x1, y1 in GEO[body]['eyes']:
+        dr.ellipse((x0 - 16, y0 - 14, x1 + 16, y1 + 16), fill=255)
+    ez = (np.asarray(m) > 128) & (img[..., 3] > 0)
+    # pelle vista attraverso la lente: color pelle e chiara come la pelle (le montature
+    # marroni o tartaruga hanno la stessa tinta ma sono più scure; i bordi dorati sono saturi)
+    rim = (dd > 35) & (S > 0.3)
+    blobs = np.asarray(Image.fromarray((rim * 255).astype('uint8')).filter(ImageFilter.MinFilter(5))
+                       .filter(ImageFilter.MaxFilter(5))) > 128
+    rim &= ~blobs                                       # solo linee sottili, non chiazze
+    seen_skin = ((skin_like(O, st, 1.5, minL=128) & ~rim) | (dd < 18)) & face
+    clear = seen_skin[ez].mean() > 0.3
+    out = img.copy()
+    if clear:
+        frame = ((L < 115) | ((S > 0.5) & ~skin_like(O, st, 1.5, minL=40))) & ~grow(eye_op, 2)
+        frame = np.asarray(Image.fromarray((frame * 255).astype('uint8')).filter(ImageFilter.MinFilter(3))
+                           .filter(ImageFilter.MaxFilter(3))) > 128
+        seen = (ez & ~frame) | seen_skin
+    else:
+        # modello della lente O = t*B + r per canale, robusto (scarta montatura e riflessi)
+        sel = ez.copy()
+        for _ in range(4):
+            t, r = np.zeros(3), np.zeros(3)
+            for c in range(3):
+                A = np.vstack([B[sel][:, c], np.ones(sel.sum())]).T
+                (t[c], r[c]), *_ = np.linalg.lstsq(A, O[sel][:, c], rcond=None)
+            t = np.clip(t, 0, 0.95)
+            res = np.abs(O - (B * t + r)).max(-1)
+            sel = ez & (res < max(12, np.percentile(res[ez], 60)))
+        res = np.abs(O - (B * t + r)).max(-1)
+        lens = face & (res < 22)
+        lens = np.asarray(Image.fromarray((lens * 255).astype('uint8')).filter(ImageFilter.MaxFilter(3))
+                          .filter(ImageFilter.MinFilter(3))) > 128
+        lens &= face & (img[..., 3] > 0)
+        ts = float(t.mean())
+        tint = np.clip(r / max(1 - ts, 0.05), 0, 255)
+        # riflessi: dove la lente è più chiara del previsto resta il pixel originale
+        glare = np.clip((L - lum(B * t + r) - 15) / 30, 0, 1)
+        col = tint[None, None, :] * (1 - glare[..., None]) + O * glare[..., None]
+        alpha = (1 - ts) * (1 - glare) + glare
+        out[..., :3] = np.where(lens[..., None], col, out[..., :3])
+        out[..., 3] = np.where(lens, alpha * 255, out[..., 3])
+        seen = seen_skin & ~lens
+    seen = np.asarray(Image.fromarray((seen * 255).astype('uint8')).filter(ImageFilter.MinFilter(3))
+                      .filter(ImageFilter.MaxFilter(3))) > 128
+    seen &= face
+    soft = np.asarray(Image.fromarray((seen * 255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.6))).astype(np.float32) / 255
+    out[..., 3] *= 1 - soft
+    return out, bool(clear)
+
 # --- elaborazione ------------------------------------------------------------
 def save(e, img=None, R=None, G=None, B=None):
     if img is not None:
@@ -435,6 +500,10 @@ for key, per in d['layers'].items():
                     e['mask'] = e['src'].replace('.webp', '.mask.png')
                     has_mask = True
                     old = np.zeros((H, W, 3), np.float32)
+
+        if version < 3 and cat == 'glasses':
+            img, _ = lens_layer(img, base, src_body, eye_open[src_body], skin[src_body])
+            changed_img = True
 
         mask_changed = has_mask and np.abs(np.dstack([R, G, B]) - old).max() > 1 / 255
         save(e, img if changed_img else None, *((R, G, B) if mask_changed else (None, None, None)))

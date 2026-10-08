@@ -82,6 +82,8 @@ Note:
 - **Somministrazione inizio/fine anno con confronto anonimo**: discussa ma non implementata
   (in attesa di decisione). Oggi ogni invio è indipendente, senza codice di collegamento.
 - Crediti Higgsfield residui al 7/10: 306,75.
+- **Occhiali (8/10)**: dietro le lenti non c'è più il viso F; lenti chiare trasparenti, lenti da
+  sole come tinta semitrasparente (passo 5 di `fix_masks.py`).
 - **Ciglia per ogni forma d'occhio (8/10)**: 30 pezzi `eyes/<forma>__<ciglia>` generati con
   Higgsfield (job in `jobs.tsv`, circa 46 crediti) e costruiti da `build_lash_combos.py`.
 - **Pezzi condivisi F→M** (capelli, cappelli, occhiali, gioielli generati solo su F): su M il
@@ -91,8 +93,7 @@ Note:
   in poco spazio. Il taglio di partenza ora c'è (M "Medi (ciuffo)", F "Mossi lunghi sciolti",
   `DEFAULT_HAIR` in `src/lib/avatar/config.ts`).
 - Difetti minori negli asset: bordo bianco seghettato all'attaccatura di alcune pettinature;
-  con sopracciglia "Nessuna" si vede il contorno di quelle cancellate; occhiali "aviatore" con
-  la pelle F dietro la lente; blocco di capelli sulla guancia destra con i capelli lunghi su F;
+  con sopracciglia "Nessuna" si vede il contorno di quelle cancellate; blocco di capelli sulla guancia destra con i capelli lunghi su F;
   fascia grigia dei pantaloncini base in vita con alcuni costumi; maniche del trench M con
   chiazze un po' più chiare.
 
