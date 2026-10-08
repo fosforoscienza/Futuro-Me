@@ -37,3 +37,8 @@ poi copiare i file e le voci del manifest che servono.
 Per aggiungere un pezzo: generarlo come modifica del corpo base (stessa
 inquadratura), aggiungerlo in `raw/`, rilanciare lo script e collegarlo a una
 scelta in `src/lib/avatar/config.ts`.
+
+`rebuild_hairline.py` rifà l'attaccatura di un pezzo di capelli dalla sua immagine
+sorgente quando l'estrazione la taglia male (usato per `hair/afro` F): trova la pelle del
+viso della sorgente con un riempimento dal centro del viso e considera capelli tutto il
+resto della testa. Va lanciato dopo `fix_masks.py`.

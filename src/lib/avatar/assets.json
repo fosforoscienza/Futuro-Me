@@ -879,15 +879,15 @@
   "hair/afro": {
    "F": {
     "src": "/avatar/F/hair__afro.webp",
-    "x": 248,
+    "x": 246,
     "y": 25,
-    "w": 352,
-    "h": 547,
+    "w": 358,
+    "h": 546,
     "mask": "/avatar/F/hair__afro.mask.png",
     "stats": {
      "G": {
-      "mu": 0.3682,
-      "sd": 0.1651
+      "mu": 0.3691,
+      "sd": 0.1697
      },
      "B": null
     },
@@ -895,7 +895,8 @@
      0,
      -2
     ],
-    "fixed": 8
+    "fixed": 8,
+    "hairline": true
    },
    "M": {
     "src": "/avatar/M/hair__afro.webp",
