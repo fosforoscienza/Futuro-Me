@@ -266,13 +266,16 @@ function layerKeys(sel: AvatarSelection): string[] {
   const hijab = sel.cappello === "hijab";
   const jewels = sel.gioielli.map((id) => pick("gioielli", id));
   const extras = sel.altro.map((id) => pick("altro", id));
+  // forma d'occhio + ciglia: c'è un pezzo generato apposta (eyes/<forma>__<ciglia>);
+  // le ciglia da sole sono disegnate sugli occhi del corpo base
+  const eyes = pick("occhi", sel.occhi);
+  const lashes = pick("ciglia", sel.ciglia);
+  const combo = eyes && lashes ? `${eyes}__${lashes.split("/")[1]}` : undefined;
+  const eyeKeys = combo && M.layers[combo] ? [combo] : [lashes, eyes];
   const keys = [
     // la vitiligine è uno strato della pelle: subito sopra il corpo base
     ...extras.filter((k) => k?.startsWith("skin/")),
-    // le ciglia sono disegnate sugli occhi del corpo base: sotto la forma d'occhio
-    // scelta restano visibili solo dove escono, senza un secondo contorno
-    pick("ciglia", sel.ciglia),
-    pick("occhi", sel.occhi),
+    ...eyeKeys,
     pick("naso", sel.naso),
     pick("bocca", sel.bocca),
     pick("sopracciglia", sel.sopracciglia),

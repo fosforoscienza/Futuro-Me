@@ -5247,6 +5247,636 @@
     ],
     "fixed": 2
    }
+  },
+  "eyes/allungati_grandi__corte": {
+   "F": {
+    "src": "/avatar/F/eyes__allungati_grandi__corte.webp",
+    "x": 350,
+    "y": 152,
+    "w": 148,
+    "h": 66,
+    "mask": "/avatar/F/eyes__allungati_grandi__corte.mask.png",
+    "shift": [
+     0,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4283,
+      "sd": 0.1316
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_grandi__corte.webp",
+    "x": 351,
+    "y": 150,
+    "w": 145,
+    "h": 70,
+    "mask": "/avatar/M/eyes__allungati_grandi__corte.mask.png",
+    "shift": [
+     -2,
+     -1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.5475,
+      "sd": 0.1339
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/allungati_grandi__lunghe": {
+   "F": {
+    "src": "/avatar/F/eyes__allungati_grandi__lunghe.webp",
+    "x": 350,
+    "y": 149,
+    "w": 148,
+    "h": 75,
+    "mask": "/avatar/F/eyes__allungati_grandi__lunghe.mask.png",
+    "shift": [
+     0,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4223,
+      "sd": 0.1363
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_grandi__lunghe.webp",
+    "x": 350,
+    "y": 149,
+    "w": 146,
+    "h": 71,
+    "mask": "/avatar/M/eyes__allungati_grandi__lunghe.mask.png",
+    "shift": [
+     -2,
+     -1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.5373,
+      "sd": 0.1451
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/allungati_grandi__lunghissime": {
+   "F": {
+    "src": "/avatar/F/eyes__allungati_grandi__lunghissime.webp",
+    "x": 337,
+    "y": 134,
+    "w": 174,
+    "h": 88,
+    "mask": "/avatar/F/eyes__allungati_grandi__lunghissime.mask.png",
+    "shift": [
+     0,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4019,
+      "sd": 0.139
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_grandi__lunghissime.webp",
+    "x": 325,
+    "y": 135,
+    "w": 194,
+    "h": 85,
+    "mask": "/avatar/M/eyes__allungati_grandi__lunghissime.mask.png",
+    "shift": [
+     -2,
+     -1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.5182,
+      "sd": 0.1642
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/allungati_piccoli__corte": {
+   "F": {
+    "src": "/avatar/F/eyes__allungati_piccoli__corte.webp",
+    "x": 350,
+    "y": 152,
+    "w": 148,
+    "h": 70,
+    "mask": "/avatar/F/eyes__allungati_piccoli__corte.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4912,
+      "sd": 0.1491
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_piccoli__corte.webp",
+    "x": 353,
+    "y": 150,
+    "w": 143,
+    "h": 70,
+    "mask": "/avatar/M/eyes__allungati_piccoli__corte.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4703,
+      "sd": 0.1535
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/allungati_piccoli__lunghe": {
+   "F": {
+    "src": "/avatar/F/eyes__allungati_piccoli__lunghe.webp",
+    "x": 350,
+    "y": 150,
+    "w": 148,
+    "h": 72,
+    "mask": "/avatar/F/eyes__allungati_piccoli__lunghe.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4888,
+      "sd": 0.1495
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_piccoli__lunghe.webp",
+    "x": 353,
+    "y": 150,
+    "w": 143,
+    "h": 70,
+    "mask": "/avatar/M/eyes__allungati_piccoli__lunghe.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.459,
+      "sd": 0.1423
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/allungati_piccoli__lunghissime": {
+   "F": {
+    "src": "/avatar/F/eyes__allungati_piccoli__lunghissime.webp",
+    "x": 350,
+    "y": 149,
+    "w": 149,
+    "h": 73,
+    "mask": "/avatar/F/eyes__allungati_piccoli__lunghissime.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4554,
+      "sd": 0.1316
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_piccoli__lunghissime.webp",
+    "x": 342,
+    "y": 138,
+    "w": 165,
+    "h": 82,
+    "mask": "/avatar/M/eyes__allungati_piccoli__lunghissime.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4306,
+      "sd": 0.1186
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/mandorla_piccoli__corte": {
+   "F": {
+    "src": "/avatar/F/eyes__mandorla_piccoli__corte.webp",
+    "x": 350,
+    "y": 152,
+    "w": 148,
+    "h": 67,
+    "mask": "/avatar/F/eyes__mandorla_piccoli__corte.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4205,
+      "sd": 0.1198
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__mandorla_piccoli__corte.webp",
+    "x": 353,
+    "y": 150,
+    "w": 143,
+    "h": 70,
+    "mask": "/avatar/M/eyes__mandorla_piccoli__corte.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4304,
+      "sd": 0.1223
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/mandorla_piccoli__lunghe": {
+   "F": {
+    "src": "/avatar/F/eyes__mandorla_piccoli__lunghe.webp",
+    "x": 350,
+    "y": 152,
+    "w": 148,
+    "h": 67,
+    "mask": "/avatar/F/eyes__mandorla_piccoli__lunghe.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4181,
+      "sd": 0.1242
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__mandorla_piccoli__lunghe.webp",
+    "x": 353,
+    "y": 147,
+    "w": 143,
+    "h": 73,
+    "mask": "/avatar/M/eyes__mandorla_piccoli__lunghe.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4287,
+      "sd": 0.125
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/mandorla_piccoli__lunghissime": {
+   "F": {
+    "src": "/avatar/F/eyes__mandorla_piccoli__lunghissime.webp",
+    "x": 343,
+    "y": 147,
+    "w": 164,
+    "h": 72,
+    "mask": "/avatar/F/eyes__mandorla_piccoli__lunghissime.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4041,
+      "sd": 0.1315
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__mandorla_piccoli__lunghissime.webp",
+    "x": 345,
+    "y": 141,
+    "w": 158,
+    "h": 79,
+    "mask": "/avatar/M/eyes__mandorla_piccoli__lunghissime.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4244,
+      "sd": 0.1233
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/tondi_grandi__corte": {
+   "F": {
+    "src": "/avatar/F/eyes__tondi_grandi__corte.webp",
+    "x": 350,
+    "y": 152,
+    "w": 148,
+    "h": 71,
+    "mask": "/avatar/F/eyes__tondi_grandi__corte.mask.png",
+    "shift": [
+     0,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4545,
+      "sd": 0.116
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__tondi_grandi__corte.webp",
+    "x": 351,
+    "y": 150,
+    "w": 145,
+    "h": 64,
+    "mask": "/avatar/M/eyes__tondi_grandi__corte.mask.png",
+    "shift": [
+     -2,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4947,
+      "sd": 0.1022
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/tondi_grandi__lunghe": {
+   "F": {
+    "src": "/avatar/F/eyes__tondi_grandi__lunghe.webp",
+    "x": 350,
+    "y": 149,
+    "w": 148,
+    "h": 69,
+    "mask": "/avatar/F/eyes__tondi_grandi__lunghe.mask.png",
+    "shift": [
+     0,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4487,
+      "sd": 0.1178
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__tondi_grandi__lunghe.webp",
+    "x": 353,
+    "y": 148,
+    "w": 143,
+    "h": 66,
+    "mask": "/avatar/M/eyes__tondi_grandi__lunghe.mask.png",
+    "shift": [
+     -2,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.484,
+      "sd": 0.1078
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/tondi_grandi__lunghissime": {
+   "F": {
+    "src": "/avatar/F/eyes__tondi_grandi__lunghissime.webp",
+    "x": 345,
+    "y": 140,
+    "w": 160,
+    "h": 83,
+    "mask": "/avatar/F/eyes__tondi_grandi__lunghissime.mask.png",
+    "shift": [
+     0,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4484,
+      "sd": 0.119
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__tondi_grandi__lunghissime.webp",
+    "x": 339,
+    "y": 137,
+    "w": 166,
+    "h": 77,
+    "mask": "/avatar/M/eyes__tondi_grandi__lunghissime.mask.png",
+    "shift": [
+     -2,
+     0
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4829,
+      "sd": 0.1089
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/tondi_piccoli__corte": {
+   "F": {
+    "src": "/avatar/F/eyes__tondi_piccoli__corte.webp",
+    "x": 350,
+    "y": 152,
+    "w": 148,
+    "h": 70,
+    "mask": "/avatar/F/eyes__tondi_piccoli__corte.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4058,
+      "sd": 0.1261
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__tondi_piccoli__corte.webp",
+    "x": 353,
+    "y": 150,
+    "w": 143,
+    "h": 69,
+    "mask": "/avatar/M/eyes__tondi_piccoli__corte.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4925,
+      "sd": 0.1206
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/tondi_piccoli__lunghe": {
+   "F": {
+    "src": "/avatar/F/eyes__tondi_piccoli__lunghe.webp",
+    "x": 350,
+    "y": 152,
+    "w": 148,
+    "h": 70,
+    "mask": "/avatar/F/eyes__tondi_piccoli__lunghe.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4005,
+      "sd": 0.1269
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__tondi_piccoli__lunghe.webp",
+    "x": 353,
+    "y": 142,
+    "w": 143,
+    "h": 78,
+    "mask": "/avatar/M/eyes__tondi_piccoli__lunghe.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4841,
+      "sd": 0.113
+     }
+    },
+    "fixed": 2
+   }
+  },
+  "eyes/tondi_piccoli__lunghissime": {
+   "F": {
+    "src": "/avatar/F/eyes__tondi_piccoli__lunghissime.webp",
+    "x": 330,
+    "y": 139,
+    "w": 188,
+    "h": 85,
+    "mask": "/avatar/F/eyes__tondi_piccoli__lunghissime.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.3894,
+      "sd": 0.1336
+     }
+    },
+    "fixed": 2
+   },
+   "M": {
+    "src": "/avatar/M/eyes__tondi_piccoli__lunghissime.webp",
+    "x": 353,
+    "y": 149,
+    "w": 143,
+    "h": 71,
+    "mask": "/avatar/M/eyes__tondi_piccoli__lunghissime.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4899,
+      "sd": 0.1177
+     }
+    },
+    "fixed": 2
+   }
   }
  },
  "objects": {

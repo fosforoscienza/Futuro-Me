@@ -365,7 +365,12 @@ for key, per in d['layers'].items():
         if version < 2 and cat == 'brows':
             R = np.clip(np.maximum(R, brow_ring(G, img[..., 3])) * (1 - G), 0, 1)
         if version < 1 and cat == 'eyes':
-            Bn, _ = iris_mask(img, body, skin[body])
+            if '__' in key:
+                # forma d'occhio + ciglia: l'interno dell'occhio è quello della forma, quindi
+                # anche l'iride (le ciglia folte ingannerebbero la ricerca della pupilla)
+                Bn = load(d['layers'][key.split('__')[0]][body], 'mask', 'RGB')[..., 2] / 255 * (img[..., 3] > 0)
+            else:
+                Bn, _ = iris_mask(img, body, skin[body])
             R = np.clip(np.maximum(R, B * (1 - Bn) * skin_like(img[..., :3], skin[body], 1.3, minL=40)) - Bn, 0, 1)
             B = Bn
 

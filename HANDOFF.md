@@ -82,9 +82,8 @@ Note:
 - **Somministrazione inizio/fine anno con confronto anonimo**: discussa ma non implementata
   (in attesa di decisione). Oggi ogni invio è indipendente, senza codice di collegamento.
 - Crediti Higgsfield residui al 7/10: 306,75.
-- **Ciglia**: sono disegnate sull'occhio base ("a mandorla grandi"); con le altre forme si
-  vedono solo dove escono (con "tondi grandi" quasi niente). Soluzione vera: generare le
-  ciglia per ogni forma d'occhio (5 forme × 3 ciglia × 2 corpi = 30 immagini Higgsfield).
+- **Ciglia per ogni forma d'occhio (8/10)**: 30 pezzi `eyes/<forma>__<ciglia>` generati con
+  Higgsfield (job in `jobs.tsv`, circa 46 crediti) e costruiti da `build_lash_combos.py`.
 - **Pezzi condivisi F→M** (capelli, cappelli, occhiali, gioielli generati solo su F): su M il
   contorno non combacia col viso (es. guancia seghettata con "lunghi con frangetta", residui
   con afro e treccine). Servirebbero le versioni M delle 18 pettinature.

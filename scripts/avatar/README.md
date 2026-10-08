@@ -13,8 +13,16 @@ generati da `build_assets.py` a partire dalle immagini create con Higgsfield
 ```bash
 python3 -m pip install pillow numpy
 python3 -I scripts/avatar/build_assets.py raw public/avatar src/lib/avatar/assets.json
+python3 -I scripts/avatar/build_lash_combos.py raw public/avatar src/lib/avatar/assets.json
 python3 -I scripts/avatar/fix_masks.py public/avatar src/lib/avatar/assets.json
 ```
+
+`build_lash_combos.py` crea i pezzi `eyes/<forma>__<ciglia>` (forma d'occhio con le sue
+ciglia): le ciglia di `lashes/*` sono disegnate sull'occhio del corpo base e non
+combaciano con le altre forme. Le immagini sono modifiche di `eyes__<forma>.png`
+("aggiungi solo le ciglia") salvate come `raw/<F|M>/eyes__<forma>__<ciglia>.png`;
+dentro l'occhio si tiene la forma originale e dall'immagine generata si prendono solo le
+ciglia. Il renderer usa il pezzo combinato quando sono scelte sia la forma sia le ciglia.
 
 `fix_masks.py` rifinisce gli asset già generati (non servono le immagini sorgenti) e va
 lanciato dopo ogni `build_assets.py`: maschera morbida delle sopracciglia senza l'ombra
