@@ -86,6 +86,9 @@ Note:
   sole come tinta semitrasparente (passo 5 di `fix_masks.py`).
 - **Ciglia per ogni forma d'occhio (8/10)**: 30 pezzi `eyes/<forma>__<ciglia>` generati con
   Higgsfield (job in `jobs.tsv`, circa 46 crediti) e costruiti da `build_lash_combos.py`.
+- **Estrazione dei capelli (8/10)**: le ombre dei capelli su braccia e maglietta sono velature
+  nere, la pelle ridisegnata è trasparente, e niente più blocco di capelli sulla guancia (passo 6
+  di `fix_masks.py`, su tutte le 36 pettinature).
 - **Pettinature M (8/10)**: tutte le 18 pettinature hanno ora la loro versione M (le ultime tre,
   buzz, chignon e ricci corti, generate l'8/10). Cappelli, occhiali e gioielli restano generati solo
   su F e riusati su M.
@@ -93,7 +96,7 @@ Note:
   in poco spazio. Il taglio di partenza ora c'è (M "Medi (ciuffo)", F "Mossi lunghi sciolti",
   `DEFAULT_HAIR` in `src/lib/avatar/config.ts`).
 - Difetti minori negli asset: bordo bianco seghettato all'attaccatura di alcune pettinature;
-  con sopracciglia "Nessuna" si vede il contorno di quelle cancellate; blocco di capelli sulla guancia destra con i capelli lunghi su F;
+  con sopracciglia "Nessuna" si vede il contorno di quelle cancellate;
   fascia grigia dei pantaloncini base in vita con alcuni costumi; maniche del trench M con
   chiazze un po' più chiare.
 

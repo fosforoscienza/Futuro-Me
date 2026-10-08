@@ -18,7 +18,10 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      prima restava chiara. Nei busti e nelle gambe si richiudono i buchi della stoffa beige.
   5. Occhiali (generati sul viso F): lenti chiare trasparenti, lenti colorate come tinta
      uniforme semitrasparente, così dietro si vedono pelle e occhi scelti.
-  6. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  6. Capelli: le ombre che i capelli proiettano su braccia e maglietta (prima colorate come
+     capelli) diventano velature nere semitrasparenti, la pelle ridisegnata più chiara diventa
+     trasparente. Riconoscimento: stessi rapporti tra i canali del corpo base.
+  7. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -44,7 +47,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 3
+VERSION = 4
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -336,6 +339,48 @@ def lens_layer(img, base, body, eye_op, st):
     out[..., 3] *= 1 - soft
     return out, bool(clear)
 
+# --- 6. ombre nei capelli -----------------------------------------------------
+GEO_FACE_BOTTOM = 245
+
+def hair_shading(img, base, base_skin_mask, st, y_arm=300):
+    """Pixel che sono solo il corpo base illuminato diversamente: rapporti tra i canali
+    simili a quelli del corpo base (sotto le spalle, sulla pelle, si tollera di più perché
+    in ombra la pelle diventa più satura). Restituisce maschera e rapporto di luminosità."""
+    O, B = img[..., :3], base[..., :3]
+    on = (img[..., 3] > 0) & (base[..., 3] > 128) & (lum(O) > 12) & (lum(B) > 12)
+    r = O / np.maximum(B, 1)
+    spread = r.max(-1) / np.maximum(r.min(-1), 1e-3)
+    k = lum(O) / np.maximum(lum(B), 1)
+    lim = np.full((H, W), 1.18, np.float32)
+    arm = base_skin_mask.copy()
+    arm[:y_arm] = False
+    lim[arm] = 1.3
+    same = on & (spread < lim)
+    # sulle braccia anche la pelle ridisegnata più chiara (tinta di pelle, sopra pelle)
+    same |= on & arm & skin_like(O, st, 1.4, minL=40)
+    same = np.asarray(Image.fromarray((same * 255).astype('uint8')).filter(ImageFilter.MinFilter(3))
+                      .filter(ImageFilter.MaxFilter(3))) > 128
+    # solo sotto il viso: sopra, ciocche e frangia sulla fronte hanno la tinta della pelle
+    same[:GEO_FACE_BOTTOM] = False
+    same &= on
+    # sulle braccia anche i puntini isolati rimasti tra le zone d'ombra
+    closed = np.asarray(Image.fromarray((same * 255).astype('uint8')).filter(ImageFilter.MaxFilter(7))
+                        .filter(ImageFilter.MinFilter(7))) > 128
+    same |= closed & arm & on
+    return same, k
+
+
+def jaw_hair(img, base_skin_mask, body):
+    """Capelli sopra la pelle del viso sotto gli occhi (il riempimento "capelli dietro il collo"
+    di build_assets.py a volte copre la guancia con un blocco a bordo dritto)."""
+    f = GEO[body]['face']
+    m = Image.new('L', (W, H), 0)
+    ImageDraw.Draw(m).ellipse(f, fill=255)
+    face = np.asarray(m) > 128
+    face[:max(e[3] for e in GEO[body]['eyes']) + 4] = False
+    inner = np.asarray(Image.fromarray((base_skin_mask * 255).astype('uint8')).filter(ImageFilter.MinFilter(5))) > 128
+    return face & inner & (img[..., 3] > 0)
+
 # --- elaborazione ------------------------------------------------------------
 def save(e, img=None, R=None, G=None, B=None):
     if img is not None:
@@ -500,6 +545,20 @@ for key, per in d['layers'].items():
                     e['mask'] = e['src'].replace('.webp', '.mask.png')
                     has_mask = True
                     old = np.zeros((H, W, 3), np.float32)
+
+        if version < 4 and cat == 'hair':
+            same, k = hair_shading(img, base, base_skin[src_body], skin[src_body])
+            shade = same & (k < 0.97)
+            a = img[..., 3] / 255
+            # ombra: nero con alfa pari alla luce tolta, valida su qualunque incarnato
+            img[..., :3] = np.where(shade[..., None], 0.0, img[..., :3])
+            img[..., 3] = np.where(shade, np.clip(1 - k, 0, 0.6) * a * 255, np.where(same, 0.0, img[..., 3]))
+            jaw = jaw_hair(img, base_skin[src_body], src_body)
+            soft = np.asarray(Image.fromarray((jaw * 255).astype('uint8')).filter(ImageFilter.GaussianBlur(1))).astype(np.float32) / 255
+            img[..., 3] *= 1 - soft
+            R = np.where(same | jaw, 0.0, R).astype(np.float32)
+            G = np.where(same | jaw, 0.0, G).astype(np.float32)
+            changed_img = True
 
         if version < 3 and cat == 'glasses':
             img, _ = lens_layer(img, base, src_body, eye_open[src_body], skin[src_body])

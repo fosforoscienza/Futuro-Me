@@ -33,7 +33,7 @@
      "sd": 0.1441
     }
    },
-   "fixed": 3
+   "fixed": 4
   },
   "M": {
    "src": "/avatar/M/base.webp",
@@ -64,7 +64,7 @@
      "sd": 0.1368
     }
    },
-   "fixed": 3
+   "fixed": 4
   }
  },
  "layers": {
@@ -87,7 +87,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/brows__folte.webp",
@@ -107,7 +107,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "brows/nessuna": {
@@ -122,7 +122,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/brows__nessuna.webp",
@@ -135,7 +135,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "arms/bracciale": {
@@ -153,7 +153,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/arms__bracciale.webp",
@@ -169,7 +169,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "brows/sottili": {
@@ -191,7 +191,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/brows__sottili.webp",
@@ -211,7 +211,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "arms/tatuaggi": {
@@ -226,7 +226,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/arms__tatuaggi.webp",
@@ -239,7 +239,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "arms/orologio": {
@@ -257,7 +257,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/arms__orologio.webp",
@@ -273,7 +273,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/allungati_grandi": {
@@ -295,7 +295,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_grandi.webp",
@@ -315,7 +315,7 @@
      -2,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/mandorla_piccoli": {
@@ -337,7 +337,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__mandorla_piccoli.webp",
@@ -357,7 +357,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/allungati_piccoli": {
@@ -379,7 +379,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_piccoli.webp",
@@ -399,7 +399,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/tondi_grandi": {
@@ -421,7 +421,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi.webp",
@@ -441,7 +441,7 @@
      -2,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/tondi_piccoli": {
@@ -463,7 +463,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_piccoli.webp",
@@ -483,7 +483,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/aviatore": {
@@ -501,7 +501,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__aviatore.webp",
@@ -517,7 +517,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/cateye": {
@@ -535,7 +535,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__cateye.webp",
@@ -551,7 +551,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/geek": {
@@ -569,7 +569,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__geek.webp",
@@ -585,7 +585,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/leggeri": {
@@ -603,7 +603,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__leggeri.webp",
@@ -619,7 +619,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/tondi": {
@@ -637,7 +637,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__tondi.webp",
@@ -653,7 +653,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/squadrati": {
@@ -671,7 +671,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__squadrati.webp",
@@ -687,7 +687,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/tondi_spessi": {
@@ -705,7 +705,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__tondi_spessi.webp",
@@ -721,7 +721,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/veloce": {
@@ -739,7 +739,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__veloce.webp",
@@ -755,7 +755,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "glasses/wayfarer": {
@@ -773,7 +773,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/glasses__wayfarer.webp",
@@ -789,7 +789,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/bob": {
@@ -802,8 +802,8 @@
     "mask": "/avatar/F/hair__bob.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4708,
-      "sd": 0.1799
+      "mu": 0.4694,
+      "sd": 0.1812
      },
      "B": null
     },
@@ -811,7 +811,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__bob.webp",
@@ -822,8 +822,8 @@
     "mask": "/avatar/M/hair__bob.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4702,
-      "sd": 0.1805
+      "mu": 0.4671,
+      "sd": 0.182
      },
      "B": null
     },
@@ -831,7 +831,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/buzz": {
@@ -853,7 +853,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__buzz.webp",
@@ -864,8 +864,8 @@
     "mask": "/avatar/M/hair__buzz.mask.png",
     "stats": {
      "G": {
-      "mu": 0.5676,
-      "sd": 0.1518
+      "mu": 0.5673,
+      "sd": 0.1515
      },
      "B": null
     },
@@ -873,7 +873,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/afro": {
@@ -886,8 +886,8 @@
     "mask": "/avatar/F/hair__afro.mask.png",
     "stats": {
      "G": {
-      "mu": 0.3761,
-      "sd": 0.1696
+      "mu": 0.3709,
+      "sd": 0.1672
      },
      "B": null
     },
@@ -895,7 +895,7 @@
      0,
      -2
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__afro.webp",
@@ -906,8 +906,8 @@
     "mask": "/avatar/M/hair__afro.mask.png",
     "stats": {
      "G": {
-      "mu": 0.3969,
-      "sd": 0.1807
+      "mu": 0.3908,
+      "sd": 0.1787
      },
      "B": null
     },
@@ -915,7 +915,7 @@
      1,
      -2
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/caschetto": {
@@ -928,8 +928,8 @@
     "mask": "/avatar/F/hair__caschetto.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4509,
-      "sd": 0.1786
+      "mu": 0.443,
+      "sd": 0.1783
      },
      "B": null
     },
@@ -937,7 +937,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__caschetto.webp",
@@ -948,8 +948,8 @@
     "mask": "/avatar/M/hair__caschetto.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4505,
-      "sd": 0.1731
+      "mu": 0.4437,
+      "sd": 0.1719
      },
      "B": null
     },
@@ -957,7 +957,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/ciuffo": {
@@ -979,7 +979,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__ciuffo.webp",
@@ -990,7 +990,7 @@
     "mask": "/avatar/M/hair__ciuffo.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4814,
+      "mu": 0.4813,
       "sd": 0.172
      },
      "B": null
@@ -999,7 +999,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/chignon": {
@@ -1012,7 +1012,7 @@
     "mask": "/avatar/F/hair__chignon.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4828,
+      "mu": 0.4827,
       "sd": 0.1596
      },
      "B": null
@@ -1021,7 +1021,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__chignon.webp",
@@ -1041,7 +1041,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/coda": {
@@ -1054,8 +1054,8 @@
     "mask": "/avatar/F/hair__coda.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4664,
-      "sd": 0.1796
+      "mu": 0.4658,
+      "sd": 0.1794
      },
      "B": null
     },
@@ -1063,7 +1063,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__coda.webp",
@@ -1074,7 +1074,7 @@
     "mask": "/avatar/M/hair__coda.mask.png",
     "stats": {
      "G": {
-      "mu": 0.5076,
+      "mu": 0.5064,
       "sd": 0.1767
      },
      "B": null
@@ -1083,7 +1083,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/frangetta": {
@@ -1096,8 +1096,8 @@
     "mask": "/avatar/F/hair__frangetta.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4713,
-      "sd": 0.1643
+      "mu": 0.4694,
+      "sd": 0.165
      },
      "B": null
     },
@@ -1105,7 +1105,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__frangetta.webp",
@@ -1116,7 +1116,7 @@
     "mask": "/avatar/M/hair__frangetta.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4754,
+      "mu": 0.4753,
       "sd": 0.1525
      },
      "B": null
@@ -1125,7 +1125,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/lisci_lunghi": {
@@ -1138,8 +1138,8 @@
     "mask": "/avatar/F/hair__lisci_lunghi.mask.png",
     "stats": {
      "G": {
-      "mu": 0.486,
-      "sd": 0.1547
+      "mu": 0.477,
+      "sd": 0.1596
      },
      "B": null
     },
@@ -1147,7 +1147,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__lisci_lunghi.webp",
@@ -1158,8 +1158,8 @@
     "mask": "/avatar/M/hair__lisci_lunghi.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4782,
-      "sd": 0.1458
+      "mu": 0.4611,
+      "sd": 0.1432
      },
      "B": null
     },
@@ -1167,7 +1167,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/mossi_coda": {
@@ -1180,8 +1180,8 @@
     "mask": "/avatar/F/hair__mossi_coda.mask.png",
     "stats": {
      "G": {
-      "mu": 0.5037,
-      "sd": 0.1499
+      "mu": 0.4931,
+      "sd": 0.1501
      },
      "B": null
     },
@@ -1189,7 +1189,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__mossi_coda.webp",
@@ -1200,8 +1200,8 @@
     "mask": "/avatar/M/hair__mossi_coda.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4971,
-      "sd": 0.165
+      "mu": 0.4822,
+      "sd": 0.1684
      },
      "B": null
     },
@@ -1209,7 +1209,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/lunghi_frangetta": {
@@ -1222,8 +1222,8 @@
     "mask": "/avatar/F/hair__lunghi_frangetta.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4613,
-      "sd": 0.1498
+      "mu": 0.4523,
+      "sd": 0.1511
      },
      "B": null
     },
@@ -1231,7 +1231,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__lunghi_frangetta.webp",
@@ -1242,8 +1242,8 @@
     "mask": "/avatar/M/hair__lunghi_frangetta.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4799,
-      "sd": 0.1498
+      "mu": 0.4689,
+      "sd": 0.1452
      },
      "B": null
     },
@@ -1251,7 +1251,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/mossi": {
@@ -1264,8 +1264,8 @@
     "mask": "/avatar/F/hair__mossi.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4676,
-      "sd": 0.1554
+      "mu": 0.4583,
+      "sd": 0.1583
      },
      "B": null
     },
@@ -1273,7 +1273,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__mossi.webp",
@@ -1284,8 +1284,8 @@
     "mask": "/avatar/M/hair__mossi.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4594,
-      "sd": 0.1506
+      "mu": 0.4423,
+      "sd": 0.1465
      },
      "B": null
     },
@@ -1293,7 +1293,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/ricci_corti": {
@@ -1306,7 +1306,7 @@
     "mask": "/avatar/F/hair__ricci_corti.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4646,
+      "mu": 0.4645,
       "sd": 0.1759
      },
      "B": null
@@ -1315,7 +1315,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__ricci_corti.webp",
@@ -1326,8 +1326,8 @@
     "mask": "/avatar/M/hair__ricci_corti.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4747,
-      "sd": 0.173
+      "mu": 0.4745,
+      "sd": 0.1727
      },
      "B": null
     },
@@ -1335,7 +1335,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/ricci_medi": {
@@ -1348,8 +1348,8 @@
     "mask": "/avatar/F/hair__ricci_medi.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4025,
-      "sd": 0.1943
+      "mu": 0.4012,
+      "sd": 0.194
      },
      "B": null
     },
@@ -1357,7 +1357,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__ricci_medi.webp",
@@ -1368,8 +1368,8 @@
     "mask": "/avatar/M/hair__ricci_medi.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4214,
-      "sd": 0.1841
+      "mu": 0.4208,
+      "sd": 0.1842
      },
      "B": null
     },
@@ -1377,7 +1377,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/treccia": {
@@ -1390,8 +1390,8 @@
     "mask": "/avatar/F/hair__treccia.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4447,
-      "sd": 0.1734
+      "mu": 0.4306,
+      "sd": 0.1735
      },
      "B": null
     },
@@ -1399,7 +1399,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__treccia.webp",
@@ -1410,8 +1410,8 @@
     "mask": "/avatar/M/hair__treccia.mask.png",
     "stats": {
      "G": {
-      "mu": 0.5041,
-      "sd": 0.1426
+      "mu": 0.4964,
+      "sd": 0.1449
      },
      "B": null
     },
@@ -1419,7 +1419,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/ricci_lunghi": {
@@ -1432,8 +1432,8 @@
     "mask": "/avatar/F/hair__ricci_lunghi.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4323,
-      "sd": 0.1746
+      "mu": 0.4246,
+      "sd": 0.1748
      },
      "B": null
     },
@@ -1441,7 +1441,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__ricci_lunghi.webp",
@@ -1452,8 +1452,8 @@
     "mask": "/avatar/M/hair__ricci_lunghi.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4013,
-      "sd": 0.1776
+      "mu": 0.3845,
+      "sd": 0.171
      },
      "B": null
     },
@@ -1461,7 +1461,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hat/casco": {
@@ -1479,7 +1479,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/hat__casco.webp",
@@ -1495,7 +1495,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/undercut": {
@@ -1517,7 +1517,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__undercut.webp",
@@ -1528,7 +1528,7 @@
     "mask": "/avatar/M/hair__undercut.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4857,
+      "mu": 0.4856,
       "sd": 0.1809
      },
      "B": null
@@ -1537,7 +1537,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hat/cowboy": {
@@ -1555,7 +1555,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "F": {
     "src": "/avatar/F/hat__cowboy.webp",
@@ -1571,7 +1571,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hair/treccine": {
@@ -1584,8 +1584,8 @@
     "mask": "/avatar/F/hair__treccine.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4483,
-      "sd": 0.1757
+      "mu": 0.4244,
+      "sd": 0.1776
      },
      "B": null
     },
@@ -1593,7 +1593,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hair__treccine.webp",
@@ -1604,8 +1604,8 @@
     "mask": "/avatar/M/hair__treccine.mask.png",
     "stats": {
      "G": {
-      "mu": 0.4541,
-      "sd": 0.1691
+      "mu": 0.4284,
+      "sd": 0.1642
      },
      "B": null
     },
@@ -1613,7 +1613,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hat/cuoco": {
@@ -1631,7 +1631,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/hat__cuoco.webp",
@@ -1647,7 +1647,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hat/lana": {
@@ -1665,7 +1665,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/hat__lana.webp",
@@ -1681,7 +1681,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hat/snapback": {
@@ -1699,7 +1699,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/hat__snapback.webp",
@@ -1715,7 +1715,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hat/hijab": {
@@ -1733,7 +1733,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/hat__hijab.webp",
@@ -1749,7 +1749,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hat/visiera": {
@@ -1767,7 +1767,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/hat__visiera.webp",
@@ -1783,7 +1783,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "hat/tesa_larga": {
@@ -1801,7 +1801,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/hat__tesa_larga.webp",
@@ -1817,7 +1817,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "incl/impianto": {
@@ -1835,7 +1835,7 @@
      0,
      1
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/F/incl__impianto.mask.png"
    },
    "M": {
@@ -1852,7 +1852,7 @@
      0,
      1
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/F/incl__impianto.mask.png"
    }
   },
@@ -1871,7 +1871,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__cerchio.webp",
@@ -1887,7 +1887,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "incl/bastone": {
@@ -1905,7 +1905,7 @@
      0,
      0
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/F/incl__bastone.mask.png"
    },
    "M": {
@@ -1922,7 +1922,7 @@
      0,
      1
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/M/incl__bastone.mask.png"
    }
   },
@@ -1941,7 +1941,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__cerchio_grandi.webp",
@@ -1957,7 +1957,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "incl/stampelle": {
@@ -1975,7 +1975,7 @@
      0,
      0
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/F/incl__stampelle.mask.png"
    },
    "M": {
@@ -1992,7 +1992,7 @@
      0,
      0
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/M/incl__stampelle.mask.png"
    }
   },
@@ -2011,7 +2011,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__diamante.webp",
@@ -2027,7 +2027,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "jewel/medusa": {
@@ -2045,7 +2045,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__medusa.webp",
@@ -2061,7 +2061,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "jewel/dilatatore": {
@@ -2079,7 +2079,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__dilatatore.webp",
@@ -2095,7 +2095,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "jewel/naso_anello": {
@@ -2113,7 +2113,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__naso_anello.webp",
@@ -2129,7 +2129,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "jewel/naso_diamante": {
@@ -2147,7 +2147,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__naso_diamante.webp",
@@ -2163,7 +2163,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "jewel/pendenti": {
@@ -2181,7 +2181,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__pendenti.webp",
@@ -2197,7 +2197,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "jewel/perle": {
@@ -2215,7 +2215,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__perle.webp",
@@ -2231,7 +2231,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "jewel/septum": {
@@ -2249,7 +2249,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__septum.webp",
@@ -2265,7 +2265,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "jewel/sopracciglio": {
@@ -2283,7 +2283,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/jewel__sopracciglio.webp",
@@ -2299,7 +2299,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "lashes/corte": {
@@ -2318,7 +2318,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/lashes__corte.webp",
@@ -2335,7 +2335,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "lashes/lunghe": {
@@ -2354,7 +2354,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/lashes__lunghe.webp",
@@ -2371,7 +2371,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "lashes/lunghissime": {
@@ -2390,7 +2390,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/lashes__lunghissime.webp",
@@ -2407,7 +2407,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/corti": {
@@ -2431,7 +2431,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__corti.webp",
@@ -2453,7 +2453,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/completo": {
@@ -2477,7 +2477,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__completo.webp",
@@ -2499,7 +2499,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/costume": {
@@ -2523,7 +2523,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__costume.webp",
@@ -2545,7 +2545,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/cuoco": {
@@ -2569,7 +2569,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__cuoco.webp",
@@ -2591,7 +2591,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/gonna_corta": {
@@ -2615,7 +2615,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__gonna_corta.webp",
@@ -2637,7 +2637,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/eleganti": {
@@ -2660,7 +2660,7 @@
      0,
      0
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/F/legs__eleganti.mask.png"
    },
    "M": {
@@ -2682,7 +2682,7 @@
      0,
      0
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/M/legs__eleganti.mask.png"
    }
   },
@@ -2707,7 +2707,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__gonna_lunga.webp",
@@ -2729,7 +2729,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/jeans": {
@@ -2753,7 +2753,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__jeans.webp",
@@ -2775,7 +2775,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/palazzo": {
@@ -2799,7 +2799,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__palazzo.webp",
@@ -2821,7 +2821,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/militari": {
@@ -2845,7 +2845,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__militari.webp",
@@ -2867,7 +2867,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/pilota": {
@@ -2891,7 +2891,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__pilota.webp",
@@ -2913,7 +2913,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/polizia": {
@@ -2937,7 +2937,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__polizia.webp",
@@ -2959,7 +2959,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "makeup/intenso": {
@@ -2974,7 +2974,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/makeup__intenso.webp",
@@ -2987,7 +2987,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "makeup/leggero": {
@@ -3002,7 +3002,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/makeup__leggero.webp",
@@ -3015,7 +3015,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "makeup/moderato": {
@@ -3030,7 +3030,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/makeup__moderato.webp",
@@ -3043,7 +3043,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "mouth/carnose": {
@@ -3062,7 +3062,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/mouth__carnose.webp",
@@ -3079,7 +3079,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/tuta": {
@@ -3103,7 +3103,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/legs__tuta.webp",
@@ -3125,7 +3125,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "legs/vigile": {
@@ -3148,7 +3148,7 @@
      0,
      0
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/F/legs__vigile.mask.png"
    },
    "M": {
@@ -3170,7 +3170,7 @@
      0,
      -1
     ],
-    "fixed": 3,
+    "fixed": 4,
     "mask": "/avatar/M/legs__vigile.mask.png"
    }
   },
@@ -3190,7 +3190,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/mouth__sup_sottile.webp",
@@ -3207,7 +3207,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "mouth/sup_carnoso": {
@@ -3226,7 +3226,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/mouth__sup_carnoso.webp",
@@ -3243,7 +3243,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "nose/aquilino": {
@@ -3262,7 +3262,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/nose__aquilino.webp",
@@ -3279,7 +3279,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "nose/greco": {
@@ -3298,7 +3298,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/nose__greco.webp",
@@ -3315,7 +3315,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "neck/catena_trap": {
@@ -3333,7 +3333,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/neck__catena_trap.webp",
@@ -3349,7 +3349,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "neck/catenina": {
@@ -3367,7 +3367,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/neck__catenina.webp",
@@ -3383,7 +3383,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "nose/insu": {
@@ -3402,7 +3402,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/nose__insu.webp",
@@ -3419,7 +3419,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "nose/patata": {
@@ -3438,7 +3438,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/nose__patata.webp",
@@ -3455,7 +3455,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "nose/punta": {
@@ -3474,7 +3474,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/nose__punta.webp",
@@ -3491,7 +3491,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "other/bandana": {
@@ -3509,7 +3509,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/other__bandana.webp",
@@ -3525,7 +3525,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "other/lenti": {
@@ -3543,7 +3543,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "F": {
     "src": "/avatar/F/other__lenti.webp",
@@ -3559,7 +3559,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "other/cuffie": {
@@ -3577,7 +3577,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/other__cuffie.webp",
@@ -3593,7 +3593,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "other/corona": {
@@ -3611,7 +3611,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/F/other__corona.webp",
@@ -3627,7 +3627,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/ballerine": {
@@ -3646,7 +3646,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__ballerine.webp",
@@ -3663,7 +3663,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/anfibi": {
@@ -3682,7 +3682,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__anfibi.webp",
@@ -3699,7 +3699,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/antinfortunistiche": {
@@ -3717,7 +3717,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__antinfortunistiche.webp",
@@ -3733,7 +3733,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/cowboy": {
@@ -3751,7 +3751,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__cowboy.webp",
@@ -3767,7 +3767,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/eleganti": {
@@ -3786,7 +3786,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__eleganti.webp",
@@ -3803,7 +3803,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/infradito": {
@@ -3822,7 +3822,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__infradito.webp",
@@ -3839,7 +3839,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/jordan": {
@@ -3858,7 +3858,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__jordan.webp",
@@ -3875,7 +3875,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/sneakers": {
@@ -3894,7 +3894,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__sneakers.webp",
@@ -3911,7 +3911,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/sandali": {
@@ -3930,7 +3930,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__sandali.webp",
@@ -3947,7 +3947,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "shoes/tacchi": {
@@ -3966,7 +3966,7 @@
      1,
      2
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/shoes__tacchi.webp",
@@ -3983,7 +3983,7 @@
      0,
      -1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "skin/vitiligine": {
@@ -4002,7 +4002,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/skin__vitiligine.webp",
@@ -4019,7 +4019,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/camice": {
@@ -4038,7 +4038,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__camice.webp",
@@ -4055,7 +4055,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/blazer": {
@@ -4074,7 +4074,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__blazer.webp",
@@ -4091,7 +4091,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/bikini": {
@@ -4110,7 +4110,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/camicia": {
@@ -4129,7 +4129,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__camicia.webp",
@@ -4146,7 +4146,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/camicia_jeans": {
@@ -4165,7 +4165,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__camicia_jeans.webp",
@@ -4182,7 +4182,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/canotta_basket": {
@@ -4201,7 +4201,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__canotta_basket.webp",
@@ -4218,7 +4218,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/canotta_bianca": {
@@ -4237,7 +4237,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__canotta_bianca.webp",
@@ -4254,7 +4254,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/canotta_colorata": {
@@ -4273,7 +4273,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__canotta_colorata.webp",
@@ -4290,7 +4290,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/cappotto_blu": {
@@ -4309,7 +4309,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__cappotto_blu.webp",
@@ -4326,7 +4326,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/catarifrangente": {
@@ -4345,7 +4345,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__catarifrangente.webp",
@@ -4362,7 +4362,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/cappotto_beige": {
@@ -4381,7 +4381,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__cappotto_beige.webp",
@@ -4398,7 +4398,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/collo_alto": {
@@ -4417,7 +4417,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__collo_alto.webp",
@@ -4434,7 +4434,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/completo": {
@@ -4453,7 +4453,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__completo.webp",
@@ -4470,7 +4470,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/felpa": {
@@ -4489,7 +4489,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__felpa.webp",
@@ -4506,7 +4506,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/flanella": {
@@ -4525,7 +4525,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__flanella.webp",
@@ -4542,7 +4542,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/cuoco": {
@@ -4561,7 +4561,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__cuoco.webp",
@@ -4578,7 +4578,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/gilet": {
@@ -4597,7 +4597,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__gilet.webp",
@@ -4614,7 +4614,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/girocollo": {
@@ -4633,7 +4633,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__girocollo.webp",
@@ -4650,7 +4650,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/luxury": {
@@ -4669,7 +4669,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__luxury.webp",
@@ -4686,7 +4686,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/hawaiana": {
@@ -4705,7 +4705,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__hawaiana.webp",
@@ -4722,7 +4722,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/militare": {
@@ -4741,7 +4741,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__militare.webp",
@@ -4758,7 +4758,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/polizia": {
@@ -4777,7 +4777,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__polizia.webp",
@@ -4794,7 +4794,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/pilota": {
@@ -4813,7 +4813,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__pilota.webp",
@@ -4830,7 +4830,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/pelle": {
@@ -4849,7 +4849,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__pelle.webp",
@@ -4866,7 +4866,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/righe": {
@@ -4885,7 +4885,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__righe.webp",
@@ -4902,7 +4902,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/righe_corte": {
@@ -4921,7 +4921,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__righe_corte.webp",
@@ -4938,7 +4938,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/scollo_v": {
@@ -4957,7 +4957,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__scollo_v.webp",
@@ -4974,7 +4974,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/top": {
@@ -4993,7 +4993,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "F": {
     "src": "/avatar/F/torso__top.webp",
@@ -5010,7 +5010,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/trench": {
@@ -5029,7 +5029,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__trench.webp",
@@ -5046,7 +5046,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/tshirt_bianca": {
@@ -5065,7 +5065,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__tshirt_bianca.webp",
@@ -5082,7 +5082,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/tshirt_nera": {
@@ -5101,7 +5101,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__tshirt_nera.webp",
@@ -5118,7 +5118,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/tshirt_colorata": {
@@ -5137,7 +5137,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__tshirt_colorata.webp",
@@ -5154,7 +5154,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/tshirt_rock": {
@@ -5173,7 +5173,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__tshirt_rock.webp",
@@ -5190,7 +5190,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/vigile": {
@@ -5209,7 +5209,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/torso__vigile.webp",
@@ -5226,7 +5226,7 @@
      0,
      1
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "torso/nudo": {
@@ -5245,7 +5245,7 @@
      0,
      0
     ],
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/allungati_grandi__corte": {
@@ -5267,7 +5267,7 @@
       "sd": 0.1316
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_grandi__corte.webp",
@@ -5287,7 +5287,7 @@
       "sd": 0.1339
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/allungati_grandi__lunghe": {
@@ -5309,7 +5309,7 @@
       "sd": 0.1363
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_grandi__lunghe.webp",
@@ -5329,7 +5329,7 @@
       "sd": 0.1451
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/allungati_grandi__lunghissime": {
@@ -5351,7 +5351,7 @@
       "sd": 0.139
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_grandi__lunghissime.webp",
@@ -5371,7 +5371,7 @@
       "sd": 0.1642
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/allungati_piccoli__corte": {
@@ -5393,7 +5393,7 @@
       "sd": 0.1491
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_piccoli__corte.webp",
@@ -5413,7 +5413,7 @@
       "sd": 0.1535
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/allungati_piccoli__lunghe": {
@@ -5435,7 +5435,7 @@
       "sd": 0.1495
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_piccoli__lunghe.webp",
@@ -5455,7 +5455,7 @@
       "sd": 0.1423
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/allungati_piccoli__lunghissime": {
@@ -5477,7 +5477,7 @@
       "sd": 0.1316
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_piccoli__lunghissime.webp",
@@ -5497,7 +5497,7 @@
       "sd": 0.1186
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/mandorla_piccoli__corte": {
@@ -5519,7 +5519,7 @@
       "sd": 0.1198
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__mandorla_piccoli__corte.webp",
@@ -5539,7 +5539,7 @@
       "sd": 0.1223
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/mandorla_piccoli__lunghe": {
@@ -5561,7 +5561,7 @@
       "sd": 0.1242
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__mandorla_piccoli__lunghe.webp",
@@ -5581,7 +5581,7 @@
       "sd": 0.125
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/mandorla_piccoli__lunghissime": {
@@ -5603,7 +5603,7 @@
       "sd": 0.1315
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__mandorla_piccoli__lunghissime.webp",
@@ -5623,7 +5623,7 @@
       "sd": 0.1233
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/tondi_grandi__corte": {
@@ -5645,7 +5645,7 @@
       "sd": 0.116
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__corte.webp",
@@ -5665,7 +5665,7 @@
       "sd": 0.1022
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/tondi_grandi__lunghe": {
@@ -5687,7 +5687,7 @@
       "sd": 0.1178
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__lunghe.webp",
@@ -5707,7 +5707,7 @@
       "sd": 0.1078
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/tondi_grandi__lunghissime": {
@@ -5729,7 +5729,7 @@
       "sd": 0.119
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__lunghissime.webp",
@@ -5749,7 +5749,7 @@
       "sd": 0.1089
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/tondi_piccoli__corte": {
@@ -5771,7 +5771,7 @@
       "sd": 0.1261
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_piccoli__corte.webp",
@@ -5791,7 +5791,7 @@
       "sd": 0.1206
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/tondi_piccoli__lunghe": {
@@ -5813,7 +5813,7 @@
       "sd": 0.1269
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_piccoli__lunghe.webp",
@@ -5833,7 +5833,7 @@
       "sd": 0.113
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   },
   "eyes/tondi_piccoli__lunghissime": {
@@ -5855,7 +5855,7 @@
       "sd": 0.1336
      }
     },
-    "fixed": 3
+    "fixed": 4
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_piccoli__lunghissime.webp",
@@ -5875,7 +5875,7 @@
       "sd": 0.1177
      }
     },
-    "fixed": 3
+    "fixed": 4
    }
   }
  },
