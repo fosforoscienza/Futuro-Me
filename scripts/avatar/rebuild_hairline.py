@@ -94,6 +94,19 @@ face |= ~outside
 face[HEAD_BOTTOM + 1:] = False
 face = np.asarray(Image.fromarray((face * 255).astype('uint8')).filter(ImageFilter.MaxFilter(3))
                   .filter(ImageFilter.MinFilter(3))) > 128
+# bordo del viso in ombra (lungo la mandibola): tinta di pelle anche se scura, a pochi pixel
+# dal viso; altrimenti resta un filo di pelle d'origine colorato come i capelli
+Ls = lum(src)
+qs = src / np.maximum(Ls[..., None], 1)
+fq = qs[face & (Ls > 60)]
+skin_tint = ((np.abs(qs - fq.mean(0)) / (fq.std(0) * 2.5 + 0.02)).max(-1) < 1) & (Ls > 35)
+ring = np.asarray(Image.fromarray((face * 255).astype('uint8')).filter(ImageFilter.MaxFilter(9))) > 128
+edge = face.copy()
+for _ in range(4):
+    g = edge.copy()
+    g[1:] |= edge[:-1]; g[:-1] |= edge[1:]; g[:, 1:] |= edge[:, :-1]; g[:, :-1] |= edge[:, 1:]
+    edge = g & (face | (ring & skin_tint))
+face = edge
 sat = (src.max(-1) - src.min(-1)) / np.maximum(src.max(-1), 1)
 bg = (lum(src) > 225) & (sat < 0.08)
 hair = ~face & ~bg

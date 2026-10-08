@@ -886,8 +886,8 @@
     "mask": "/avatar/F/hair__afro.mask.png",
     "stats": {
      "G": {
-      "mu": 0.3691,
-      "sd": 0.1697
+      "mu": 0.3679,
+      "sd": 0.1707
      },
      "B": null
     },
