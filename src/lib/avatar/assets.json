@@ -279,41 +279,41 @@
   "eyes/allungati_grandi": {
    "F": {
     "src": "/avatar/F/eyes__allungati_grandi.webp",
-    "x": 348,
-    "y": 150,
-    "w": 152,
-    "h": 59,
+    "x": 350,
+    "y": 152,
+    "w": 150,
+    "h": 52,
     "mask": "/avatar/F/eyes__allungati_grandi.mask.png",
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4292,
-      "sd": 0.1327
+      "mu": 0.4287,
+      "sd": 0.1344
      }
     },
     "shift": [
      0,
-     0
+     1
     ],
     "fixed": 19
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_grandi.webp",
-    "x": 349,
-    "y": 142,
-    "w": 150,
-    "h": 63,
+    "x": 351,
+    "y": 149,
+    "w": 147,
+    "h": 55,
     "mask": "/avatar/M/eyes__allungati_grandi.mask.png",
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.5508,
-      "sd": 0.1349
+      "mu": 0.4736,
+      "sd": 0.1322
      }
     },
     "shift": [
-     -2,
-     -1
+     0,
+     0
     ],
     "fixed": 19
    }
@@ -405,41 +405,41 @@
   "eyes/tondi_grandi": {
    "F": {
     "src": "/avatar/F/eyes__tondi_grandi.webp",
-    "x": 349,
-    "y": 150,
-    "w": 151,
-    "h": 60,
+    "x": 350,
+    "y": 152,
+    "w": 150,
+    "h": 53,
     "mask": "/avatar/F/eyes__tondi_grandi.mask.png",
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4642,
-      "sd": 0.1257
+      "mu": 0.4379,
+      "sd": 0.1186
      }
     },
     "shift": [
      0,
-     0
+     1
     ],
     "fixed": 19
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi.webp",
-    "x": 349,
-    "y": 142,
-    "w": 149,
-    "h": 63,
+    "x": 351,
+    "y": 144,
+    "w": 146,
+    "h": 59,
     "mask": "/avatar/M/eyes__tondi_grandi.mask.png",
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.5013,
-      "sd": 0.1083
+      "mu": 0.4182,
+      "sd": 0.1299
      }
     },
     "shift": [
-     -2,
-     0
+     0,
+     1
     ],
     "fixed": 19
    }
@@ -5255,8 +5255,28 @@
     "x": 350,
     "y": 152,
     "w": 148,
-    "h": 66,
+    "h": 70,
     "mask": "/avatar/F/eyes__allungati_grandi__corte.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4275,
+      "sd": 0.1348
+     }
+    },
+    "fixed": 19
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_grandi__corte.webp",
+    "x": 353,
+    "y": 150,
+    "w": 143,
+    "h": 67,
+    "mask": "/avatar/M/eyes__allungati_grandi__corte.mask.png",
     "shift": [
      0,
      0
@@ -5264,28 +5284,8 @@
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4283,
-      "sd": 0.1316
-     }
-    },
-    "fixed": 19
-   },
-   "M": {
-    "src": "/avatar/M/eyes__allungati_grandi__corte.webp",
-    "x": 351,
-    "y": 150,
-    "w": 145,
-    "h": 70,
-    "mask": "/avatar/M/eyes__allungati_grandi__corte.mask.png",
-    "shift": [
-     -2,
-     -1
-    ],
-    "stats": {
-     "G": null,
-     "B": {
-      "mu": 0.5475,
-      "sd": 0.1339
+      "mu": 0.4666,
+      "sd": 0.1314
      }
     },
     "fixed": 19
@@ -5295,10 +5295,30 @@
    "F": {
     "src": "/avatar/F/eyes__allungati_grandi__lunghe.webp",
     "x": 350,
-    "y": 149,
+    "y": 152,
     "w": 148,
-    "h": 75,
+    "h": 72,
     "mask": "/avatar/F/eyes__allungati_grandi__lunghe.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4196,
+      "sd": 0.1387
+     }
+    },
+    "fixed": 19
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_grandi__lunghe.webp",
+    "x": 353,
+    "y": 150,
+    "w": 143,
+    "h": 69,
+    "mask": "/avatar/M/eyes__allungati_grandi__lunghe.mask.png",
     "shift": [
      0,
      0
@@ -5306,28 +5326,8 @@
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4223,
-      "sd": 0.1363
-     }
-    },
-    "fixed": 19
-   },
-   "M": {
-    "src": "/avatar/M/eyes__allungati_grandi__lunghe.webp",
-    "x": 350,
-    "y": 149,
-    "w": 146,
-    "h": 71,
-    "mask": "/avatar/M/eyes__allungati_grandi__lunghe.mask.png",
-    "shift": [
-     -2,
-     -1
-    ],
-    "stats": {
-     "G": null,
-     "B": {
-      "mu": 0.5373,
-      "sd": 0.1451
+      "mu": 0.4606,
+      "sd": 0.1422
      }
     },
     "fixed": 19
@@ -5336,11 +5336,31 @@
   "eyes/allungati_grandi__lunghissime": {
    "F": {
     "src": "/avatar/F/eyes__allungati_grandi__lunghissime.webp",
-    "x": 337,
-    "y": 134,
-    "w": 174,
-    "h": 88,
+    "x": 329,
+    "y": 138,
+    "w": 190,
+    "h": 85,
     "mask": "/avatar/F/eyes__allungati_grandi__lunghissime.mask.png",
+    "shift": [
+     0,
+     1
+    ],
+    "stats": {
+     "G": null,
+     "B": {
+      "mu": 0.4169,
+      "sd": 0.1365
+     }
+    },
+    "fixed": 19
+   },
+   "M": {
+    "src": "/avatar/M/eyes__allungati_grandi__lunghissime.webp",
+    "x": 347,
+    "y": 146,
+    "w": 155,
+    "h": 74,
+    "mask": "/avatar/M/eyes__allungati_grandi__lunghissime.mask.png",
     "shift": [
      0,
      0
@@ -5348,28 +5368,8 @@
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4019,
-      "sd": 0.139
-     }
-    },
-    "fixed": 19
-   },
-   "M": {
-    "src": "/avatar/M/eyes__allungati_grandi__lunghissime.webp",
-    "x": 325,
-    "y": 135,
-    "w": 194,
-    "h": 85,
-    "mask": "/avatar/M/eyes__allungati_grandi__lunghissime.mask.png",
-    "shift": [
-     -2,
-     -1
-    ],
-    "stats": {
-     "G": null,
-     "B": {
-      "mu": 0.5182,
-      "sd": 0.1642
+      "mu": 0.4342,
+      "sd": 0.1346
      }
     },
     "fixed": 19
@@ -5633,37 +5633,37 @@
     "x": 350,
     "y": 152,
     "w": 148,
-    "h": 71,
+    "h": 70,
     "mask": "/avatar/F/eyes__tondi_grandi__corte.mask.png",
     "shift": [
      0,
-     0
+     1
     ],
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4545,
-      "sd": 0.116
+      "mu": 0.4365,
+      "sd": 0.1159
      }
     },
     "fixed": 19
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__corte.webp",
-    "x": 351,
+    "x": 353,
     "y": 150,
-    "w": 145,
-    "h": 64,
+    "w": 143,
+    "h": 70,
     "mask": "/avatar/M/eyes__tondi_grandi__corte.mask.png",
     "shift": [
-     -2,
-     0
+     0,
+     1
     ],
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4947,
-      "sd": 0.1022
+      "mu": 0.4178,
+      "sd": 0.127
      }
     },
     "fixed": 19
@@ -5673,19 +5673,19 @@
    "F": {
     "src": "/avatar/F/eyes__tondi_grandi__lunghe.webp",
     "x": 350,
-    "y": 149,
+    "y": 152,
     "w": 148,
-    "h": 69,
+    "h": 72,
     "mask": "/avatar/F/eyes__tondi_grandi__lunghe.mask.png",
     "shift": [
      0,
-     0
+     1
     ],
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4487,
-      "sd": 0.1178
+      "mu": 0.4275,
+      "sd": 0.1201
      }
     },
     "fixed": 19
@@ -5693,19 +5693,19 @@
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__lunghe.webp",
     "x": 353,
-    "y": 148,
+    "y": 150,
     "w": 143,
-    "h": 66,
+    "h": 69,
     "mask": "/avatar/M/eyes__tondi_grandi__lunghe.mask.png",
     "shift": [
-     -2,
-     0
+     0,
+     1
     ],
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.484,
-      "sd": 0.1078
+      "mu": 0.4036,
+      "sd": 0.1304
      }
     },
     "fixed": 19
@@ -5714,40 +5714,40 @@
   "eyes/tondi_grandi__lunghissime": {
    "F": {
     "src": "/avatar/F/eyes__tondi_grandi__lunghissime.webp",
-    "x": 345,
+    "x": 340,
     "y": 140,
-    "w": 160,
-    "h": 83,
+    "w": 169,
+    "h": 78,
     "mask": "/avatar/F/eyes__tondi_grandi__lunghissime.mask.png",
     "shift": [
      0,
-     0
+     1
     ],
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4484,
-      "sd": 0.119
+      "mu": 0.4063,
+      "sd": 0.1296
      }
     },
     "fixed": 19
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__lunghissime.webp",
-    "x": 339,
-    "y": 137,
-    "w": 166,
-    "h": 77,
+    "x": 340,
+    "y": 140,
+    "w": 169,
+    "h": 80,
     "mask": "/avatar/M/eyes__tondi_grandi__lunghissime.mask.png",
     "shift": [
-     -2,
-     0
+     0,
+     1
     ],
     "stats": {
      "G": null,
      "B": {
-      "mu": 0.4829,
-      "sd": 0.1089
+      "mu": 0.3988,
+      "sd": 0.119
      }
     },
     "fixed": 19

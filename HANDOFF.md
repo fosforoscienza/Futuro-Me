@@ -84,6 +84,8 @@ Note:
 - Crediti Higgsfield residui al 9/10: circa 245.
 - **Occhiali (8/10)**: dietro le lenti non c'è più il viso F; lenti chiare trasparenti, lenti da
   sole come tinta semitrasparente (passo 5 di `fix_masks.py`).
+- **Occhi grandi (9/10)**: "Tondi grandi" e "Allungati grandi" rigenerati più contenuti (prima
+  erano enormi, soprattutto su M), con le loro ciglia; job in `jobs.tsv`.
 - **Ciglia per ogni forma d'occhio (8/10)**: 30 pezzi `eyes/<forma>__<ciglia>` generati con
   Higgsfield (job in `jobs.tsv`, circa 46 crediti) e costruiti da `build_lash_combos.py`.
 - **Estrazione dei capelli (8/10)**: niente più velatura del viso di partenza nell'attaccatura
