@@ -25,7 +25,9 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      sopracciglia e occhi d'origine colorati come capelli): via se liscia e color pelle.
   8. Capelli: buchi piccoli dentro le ciocche riempiti col colore vicino, frammenti minuscoli
      staccati sopra il viso tolti.
-  9. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  9. Sopracciglia "Nessuna": il pezzo copre per intero l'impronta del sopracciglio del corpo base
+     (prima dal bordo semitrasparente ne traspariva il contorno, visibile con "Nessuna").
+  10. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -51,7 +53,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 9
+VERSION = 10
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -496,6 +498,38 @@ def hair_dots(img, G, body, eyes):
     img[..., 3] = np.where(near, 0.0, img[..., 3])
     return int(fill.sum()), int((specks & zone).sum())
 
+# --- 9. sopracciglia piene sull'impronta di quelle del corpo base ----------------
+def diffuse_fill(rgb, known, todo, it=30):
+    """Colore dei pixel `todo` diffuso dai vicini `known`."""
+    col = np.where(known[..., None], rgb, 0.0)
+    wgt = known.astype(np.float32)
+    out = rgb.copy()
+    todo = todo & ~known
+    for _ in range(it):
+        if not todo.any():
+            break
+        acc, cnt = np.zeros_like(col), np.zeros_like(wgt)
+        for dy in (-1, 0, 1):
+            for dx in (-1, 0, 1):
+                acc += np.roll(np.roll(col, dy, 0), dx, 1)
+                cnt += np.roll(np.roll(wgt, dy, 0), dx, 1)
+        new = todo & (cnt > 0)
+        out[new] = acc[new] / cnt[new][:, None]
+        col[new] = out[new]
+        wgt[new] = 1
+        todo &= ~new
+    return out
+
+
+def brows_cover(img, R, G, base_brow):
+    foot = grow(base_brow > 0.03, 2)
+    known = img[..., 3] > 230
+    img[..., :3] = np.where((foot & ~known)[..., None], diffuse_fill(img[..., :3], known, foot), img[..., :3])
+    # pelle dove serve (il sopracciglio nuovo resta sopracciglio)
+    R = np.where(foot & ~known & (G < 0.3), 1.0, R).astype(np.float32)
+    img[..., 3] = np.where(foot, 255.0, img[..., 3])
+    return R
+
 # --- elaborazione ------------------------------------------------------------
 def save(e, img=None, R=None, G=None, B=None):
     if img is not None:
@@ -509,6 +543,7 @@ bases = {b: load(d['bodies'][b]) for b in ('F', 'M')}
 base_skin = {}
 skin = {b: skin_stats(bases[b], b) for b in ('F', 'M')}
 eye_open = {}
+base_brow = {}
 eye_core = {}  # bianco dell'occhio e iride del corpo base: la zona da non coprire coi capelli
 
 # corpo base: sopracciglia e iridi
@@ -518,6 +553,7 @@ for body in ('F', 'M'):
     version = int(e.get('fixed', 0))
     old = load(e, 'mask', 'RGB') / 255
     G = brows_mask(img, body)
+    base_brow[body] = G
     B, eye_open[body] = iris_mask(img, body, skin[body])
     boxes = np.zeros((H, W), bool)
     for x0, y0, x1, y1 in GEO[body]['eyes']:
@@ -686,6 +722,10 @@ for key, per in d['layers'].items():
             soft = np.asarray(Image.fromarray((veil * 255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.6))).astype(np.float32) / 255
             img[..., 3] *= 1 - soft
             G = np.where(veil, 0.0, G).astype(np.float32)
+            changed_img = True
+
+        if version < 10 and key == 'brows/nessuna':
+            R = brows_cover(img, R, G, base_brow[body])
             changed_img = True
 
         if version < 9 and cat == 'hair':
