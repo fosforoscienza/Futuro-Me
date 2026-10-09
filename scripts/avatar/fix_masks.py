@@ -51,7 +51,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 8
+VERSION = 9
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -492,7 +492,7 @@ def hair_dots(img, G, body, eyes):
     img[y0:y1, x0:x1] = sub
     G[y0:y1, x0:x1] = g
     # niente capelli (o resti delle ciglia d'origine) sugli occhi
-    near = grow(eyes, 4)
+    near = eyes
     img[..., 3] = np.where(near, 0.0, img[..., 3])
     return int(fill.sum()), int((specks & zone).sum())
 
@@ -509,6 +509,7 @@ bases = {b: load(d['bodies'][b]) for b in ('F', 'M')}
 base_skin = {}
 skin = {b: skin_stats(bases[b], b) for b in ('F', 'M')}
 eye_open = {}
+eye_core = {}  # bianco dell'occhio e iride del corpo base: la zona da non coprire coi capelli
 
 # corpo base: sopracciglia e iridi
 for body in ('F', 'M'):
@@ -518,6 +519,11 @@ for body in ('F', 'M'):
     old = load(e, 'mask', 'RGB') / 255
     G = brows_mask(img, body)
     B, eye_open[body] = iris_mask(img, body, skin[body])
+    boxes = np.zeros((H, W), bool)
+    for x0, y0, x1, y1 in GEO[body]['eyes']:
+        boxes[y0 - 2:y1 + 2, x0 - 2:x1 + 2] = True
+    sclera = (lum(img[..., :3]) > 150) & (satur(img[..., :3]) < 0.22) & (img[..., 3] > 128)
+    eye_core[body] = grow(boxes & (sclera | (B > 0.2)), 3)
     R = old[..., 0]
     if version < 1:
         R = np.clip(np.maximum(R, old[..., 1] * skin_like(img[..., :3], skin[body], 1.3, minL=60)) - G - B, 0, 1)
@@ -682,9 +688,9 @@ for key, per in d['layers'].items():
             G = np.where(veil, 0.0, G).astype(np.float32)
             changed_img = True
 
-        if version < 8 and cat == 'hair':
+        if version < 9 and cat == 'hair':
             G = G.copy()
-            hair_dots(img, G, src_body, eye_open[src_body])
+            hair_dots(img, G, src_body, eye_core[src_body])
             changed_img = True
 
         if version < 3 and cat == 'glasses':
