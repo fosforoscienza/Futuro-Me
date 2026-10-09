@@ -66,7 +66,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 18
+VERSION = 19
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -534,6 +534,15 @@ def diffuse_fill(rgb, known, todo, it=30):
     return out
 
 
+def run_end(row, xs):
+    """Ultimo x della prima corsa continua di True lungo xs (-1 se non ce n'è)."""
+    on = np.flatnonzero(row)
+    if not len(on):
+        return -1
+    stop = np.flatnonzero(~row[on[0]:])
+    return int(xs[on[0] + stop[0] - 1] if len(stop) else xs[-1])
+
+
 def brows_cover(img, R, G, base_brow):
     foot = grow(base_brow > 0.03, 2)
     known = img[..., 3] > 230
@@ -830,7 +839,7 @@ for key, per in d['layers'].items():
                 img[..., 3] = np.where(lump, 0.0, a)
                 changed_img = True
 
-        if version < 18 and key == 'torso/camice':
+        if version < 19 and key == 'torso/camice':
             a = img[..., 3]
             rows = np.arange(H)[:, None] * np.ones((1, W))
             cloth = (a > 200) & (R < 0.5) & (lum(img[..., :3]) > 150)
@@ -847,7 +856,7 @@ for key, per in d['layers'].items():
             top = cuff.max() + 4 if len(cuff) else 640
             notch = closed & (a < 128) & ~bhand & (base[..., 3] < 128) & (rows >= top) & grow(bhand, 12)
             # bordo interno della falda accanto alle mani: dentellato dove c'era la mano d'origine,
-            # si porta al bordo delle righe vicine (percentile verso la mano)
+            # si porta all'inviluppo del bordo dalla parte della mano
             ys_h, xs_h = np.nonzero(bhand)
             for side in (0, 1):
                 sel = (xs_h > W // 2) if side else (xs_h < W // 2)
@@ -855,23 +864,35 @@ for key, per in d['layers'].items():
                     continue
                 hy0, hy1 = ys_h[sel].min(), ys_h[sel].max()
                 hx0, hx1 = xs_h[sel].min(), xs_h[sel].max()
-                ys = np.arange(max(top, hy0), min(hy1 + 60, H))
+                ys = np.arange(hy0 + 5, min(hy1 + 60, H))  # dalla cima della mano, sotto il polsino
                 if side:   # mano a destra: falda a sinistra della mano
                     xr = np.arange(max(hx0 - 140, 0), hx0)
-                    edge = np.array([xr[cloth[y, xr]].max() if cloth[y, xr].any() else -1 for y in ys])
+                    edge = np.array([run_end(cloth[y, xr], xr) for y in ys])
                 else:      # mano a sinistra: falda a destra della mano
-                    xr = np.arange(hx1 + 1, min(hx1 + 141, W))
-                    edge = np.array([xr[cloth[y, xr]].min() if cloth[y, xr].any() else -1 for y in ys])
+                    xr = np.arange(min(hx1 + 140, W - 1), hx1, -1)
+                    edge = np.array([run_end(cloth[y, xr], xr) for y in ys])
                 ok = edge >= 0
                 if ok.sum() < 20:
                     continue
+                # bordo dritto: inviluppo dei punti del bordo dalla parte della mano (le
+                # rientranze lasciate dalla mano d'origine stanno sotto l'inviluppo)
+                py, pe = ys[ok], edge[ok] * (1 if side else -1)
+                hull_ = []
+                for p_ in zip(py, pe):
+                    while len(hull_) >= 2:
+                        (y1, e1), (y2, e2) = hull_[-2], hull_[-1]
+                        if (e2 - e1) * (p_[0] - y1) <= (p_[1] - e1) * (y2 - y1):
+                            hull_.pop()
+                        else:
+                            break
+                    hull_.append(p_)
+                hy_, he_ = zip(*hull_)
+                target = np.interp(ys, hy_, he_) * (1 if side else -1)
                 for i, y in enumerate(ys):
                     if not ok[i]:
                         continue
-                    win = edge[max(0, i - 60):i + 61]
-                    win = win[win >= 0]
-                    target = int(np.percentile(win, 95 if side else 5))  # verso la mano
-                    lo, hi = (edge[i] + 1, target + 1) if side else (target, edge[i])
+                    t = int(round(target[i]))
+                    lo, hi = (edge[i] + 1, t + 1) if side else (t, edge[i])
                     for x in range(lo, hi):
                         if not bhand[y, x] and a[y, x] < 128:
                             notch[y, x] = True
