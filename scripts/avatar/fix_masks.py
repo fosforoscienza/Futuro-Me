@@ -34,7 +34,10 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
   12. Busti e gambe: via le sbavature attaccate al capo sotto la vita (orlo del gilet, polsini
      del camice) e gli aloni sottili lungo il contorno delle braccia.
   13. Capelli: i vuoti racchiusi tra capelli e testa (tempie) si riempiono col colore dei capelli.
-  14. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  14. Corpo base: niente pelle dentro i pantaloncini (ombre scambiate per pelle). Busti: la
+     pelle del capo prende gradualmente la tinta della pelle del corpo base dove si incontrano
+     (niente linea sul braccio con canotte e torso nudo).
+  15. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -60,7 +63,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 15
+VERSION = 16
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -582,6 +585,9 @@ for body in ('F', 'M'):
         add = (img[..., 3] > 128) & warm & (R < 0.3) & (G < 0.3) & (B < 0.3) & (shorts < 0.3)
         R = np.maximum(R, add.astype(np.float32))
         R = np.clip(np.maximum(R, brow_ring(G, img[..., 3])) * (1 - G) - B, 0, 1)
+    if version < 16:
+        x0, y0, x1, y1 = SHORTS[body]
+        R[y0 + 10:y1 - 30, x0 + 20:x1 - 25] = 0
     if version < VERSION:
         save(e, None, R, G, B)
     base_skin[body] = R > 0.5
@@ -819,6 +825,25 @@ for key, per in d['layers'].items():
             lump &= ~opened
             if lump.any():
                 img[..., 3] = np.where(lump, 0.0, a)
+                changed_img = True
+
+        if version < 16 and cat == 'torso':
+            a = img[..., 3]
+            S_ = (R > 0.5) & (a > 128)
+            exposed = base_skin[src_body] & (a < 128)
+            edge_l = S_ & grow(exposed, 3)
+            edge_b = exposed & grow(S_, 3)
+            edge_l[:300] = False
+            edge_b[:300] = False
+            if edge_l.sum() > 50 and edge_b.sum() > 50:
+                q = lambda px: px / np.maximum(lum(px)[..., None], 1)
+                corr = q(base[..., :3])[edge_b].mean(0) / q(img[..., :3])[edge_l].mean(0)
+                w = np.zeros((H, W), np.float32)
+                cur = edge_l.copy()
+                for step in range(40):
+                    w = np.where(cur & (w == 0), 1 - step / 40, w)
+                    cur = grow(cur) & S_
+                img[..., :3] = np.clip(img[..., :3] * (1 + w[..., None] * (corr - 1)), 0, 255)
                 changed_img = True
 
         if version < 13 and cat == 'hair':

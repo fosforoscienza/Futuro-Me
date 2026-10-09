@@ -81,7 +81,7 @@ Note:
 - Il piercing "medusa" è etichettato "Piercing al labbro" perché cade sotto il labbro.
 - **Somministrazione inizio/fine anno con confronto anonimo**: discussa ma non implementata
   (in attesa di decisione). Oggi ogni invio è indipendente, senza codice di collegamento.
-- Crediti Higgsfield residui al 7/10: 306,75.
+- Crediti Higgsfield residui al 9/10: circa 245.
 - **Occhiali (8/10)**: dietro le lenti non c'è più il viso F; lenti chiare trasparenti, lenti da
   sole come tinta semitrasparente (passo 5 di `fix_masks.py`).
 - **Ciglia per ogni forma d'occhio (8/10)**: 30 pezzi `eyes/<forma>__<ciglia>` generati con
@@ -102,9 +102,10 @@ Note:
   La fascia grigia in vita con i costumi non c'è nel sito: il renderer la colora come il costume.
   Sistemati anche (passi 11-15): grumi sotto l'orlo del gilet M e del completo F, sbavature dei
   polsini del camice, aloni sul contorno delle braccia (torso nudo, canotte), fessure chiare alle
-  tempie (frangetta F, ricci lunghi F). Restano piccoli residui: una linea leggerissima sul braccio
-  con canotta colorata M e torso nudo, una macchietta grigia sull'orlo destro del gilet M e sulla
-  coscia destra, qualche dente bianco sul polsino destro del camice M.
+  tempie (frangetta F, ricci lunghi F). Il 9/10 gilet, camice e canotta colorata M sono stati
+  rigenerati su Higgsfield (job in `jobs.tsv`), tolta l'ombra scambiata per pelle sulla coscia del
+  corpo base M e accordata la tinta della pelle dei busti con quella delle braccia (passo 14).
+  Resta una linea molto leggera sulle braccia con alcune canotte e incarnati chiari.
 
 ## Verifiche utili in locale
 
