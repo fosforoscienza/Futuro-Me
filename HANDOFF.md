@@ -106,7 +106,8 @@ Note:
   rigenerati su Higgsfield (job in `jobs.tsv`), tolta l'ombra scambiata per pelle sulla coscia del
   corpo base M e accordata la tinta della pelle dei busti con quella delle braccia (passo 14).
   Tolta anche la linea sulle braccia con canotte, top e torso nudo (ombra dell'orlo della manica
-  del corpo base, passo 14 di `fix_masks.py`).
+  del corpo base, passo 14 di `fix_masks.py`) e sistemati i polsini del camice: mani senza resti
+  della mano d'origine e falda accanto alla mano destra M raddrizzata (passo 15).
 
 ## Verifiche utili in locale
 

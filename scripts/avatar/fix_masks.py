@@ -38,7 +38,9 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      pelle del capo prende gradualmente la tinta della pelle del corpo base dove si incontrano
      (niente linea sul braccio con canotte e torso nudo); la pelle del capo copre con alfa pieno
      qualche pixel oltre il suo bordo, sopra l'ombra dell'orlo della manica del corpo base.
-  15. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  15. Camice: via i resti della mano d'origine sopra le mani del corpo base, e chiusi i vuoti
+     lasciati dalla mano lungo il bordo della falda.
+  16. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -64,7 +66,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 17
+VERSION = 18
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -827,6 +829,58 @@ for key, per in d['layers'].items():
             if lump.any():
                 img[..., 3] = np.where(lump, 0.0, a)
                 changed_img = True
+
+        if version < 18 and key == 'torso/camice':
+            a = img[..., 3]
+            rows = np.arange(H)[:, None] * np.ones((1, W))
+            cloth = (a > 200) & (R < 0.5) & (lum(img[..., :3]) > 150)
+            cols = np.arange(W)[None, :] * np.ones((H, 1))
+            sx0, _, sx1, sy1 = SHORTS[src_body]
+            bhand = base_skin[src_body] & (base[..., 3] > 128) & (rows >= 620) & (rows <= sy1) & \
+                ((cols < sx0 + 5) | (cols > sx1 - 5))   # solo le mani, ai lati dei pantaloncini
+            # sopra la mano del corpo base si vede la mano del corpo base (niente resti d'origine)
+            hand = bhand & (a > 0) & ~grow(cloth, 3)
+            # vuoti tra la mano e il bordo della falda, sotto i polsini: chiusi col bianco del camice
+            occ = ((a > 128) | bhand).astype(np.uint8) * 255
+            closed = np.asarray(Image.fromarray(occ).filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.MinFilter(9))) > 128
+            cuff = np.flatnonzero(((cloth & grow(bhand, 2)).any(1)))
+            top = cuff.max() + 4 if len(cuff) else 640
+            notch = closed & (a < 128) & ~bhand & (base[..., 3] < 128) & (rows >= top) & grow(bhand, 12)
+            # bordo interno della falda accanto alle mani: dentellato dove c'era la mano d'origine,
+            # si porta al bordo delle righe vicine (percentile verso la mano)
+            ys_h, xs_h = np.nonzero(bhand)
+            for side in (0, 1):
+                sel = (xs_h > W // 2) if side else (xs_h < W // 2)
+                if not sel.any():
+                    continue
+                hy0, hy1 = ys_h[sel].min(), ys_h[sel].max()
+                hx0, hx1 = xs_h[sel].min(), xs_h[sel].max()
+                ys = np.arange(max(top, hy0), min(hy1 + 60, H))
+                if side:   # mano a destra: falda a sinistra della mano
+                    xr = np.arange(max(hx0 - 140, 0), hx0)
+                    edge = np.array([xr[cloth[y, xr]].max() if cloth[y, xr].any() else -1 for y in ys])
+                else:      # mano a sinistra: falda a destra della mano
+                    xr = np.arange(hx1 + 1, min(hx1 + 141, W))
+                    edge = np.array([xr[cloth[y, xr]].min() if cloth[y, xr].any() else -1 for y in ys])
+                ok = edge >= 0
+                if ok.sum() < 20:
+                    continue
+                for i, y in enumerate(ys):
+                    if not ok[i]:
+                        continue
+                    win = edge[max(0, i - 60):i + 61]
+                    win = win[win >= 0]
+                    target = int(np.percentile(win, 95 if side else 5))  # verso la mano
+                    lo, hi = (edge[i] + 1, target + 1) if side else (target, edge[i])
+                    for x in range(lo, hi):
+                        if not bhand[y, x] and a[y, x] < 128:
+                            notch[y, x] = True
+            img[..., 3] = np.where(hand, 0.0, a)
+            if notch.any():
+                img[..., :3] = np.where(notch[..., None], diffuse_fill(img[..., :3], cloth, notch, 20), img[..., :3])
+                img[..., 3] = np.where(notch, 255.0, img[..., 3])
+                R = np.where(notch, 0.0, R).astype(np.float32)
+            changed_img = True
 
         if version < 17 and cat == 'torso':
             # bordo inferiore della pelle del capo sul braccio: lì c'è l'ombra dell'orlo della manica
