@@ -27,7 +27,9 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      staccati sopra il viso tolti.
   9. Sopracciglia "Nessuna": il pezzo copre per intero l'impronta del sopracciglio del corpo base
      (prima dal bordo semitrasparente ne traspariva il contorno, visibile con "Nessuna").
-  10. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  10. Busti e gambe: i buchi trasparenti racchiusi dal capo (maniche e fondo del trench) si
+     riempiono col colore della stoffa intorno.
+  11. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -53,7 +55,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 10
+VERSION = 12
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -654,7 +656,46 @@ for key, per in d['layers'].items():
             bg = (lum(px) > 235) & (satur(px) < 0.06)
             fill = ((inner & ~bg) | deep) & (a < 250)
             if fill.any():
+                # dove era quasi trasparente il colore memorizzato non è affidabile (scuro o
+                # color pelle): si prende quello della stoffa intorno, che non è pelle
+                blank = fill & (a < 40)
+                cloth = (a > 200) & (R < 0.5)
+                img[..., :3] = np.where(blank[..., None], diffuse_fill(img[..., :3], cloth, blank, 60), img[..., :3])
+                R = np.where(blank, 0.0, R).astype(np.float32)
                 img[..., 3] = np.where(fill, 255.0, a)
+                changed_img = True
+
+        if version < 12 and cat in ('torso', 'legs'):
+            ys_, xs_ = np.nonzero(img[..., 3] > 0)
+            y0_, y1_, x0_, x1_ = ys_.min(), ys_.max() + 1, xs_.min(), xs_.max() + 1
+            sub = img[y0_:y1_, x0_:x1_]
+            hole = np.zeros((H, W), bool)
+            for comp in components(sub[..., 3] < 128, 3000):
+                yy, xx = np.divmod(comp, x1_ - x0_)
+                if yy.min() == 0 or xx.min() == 0 or yy.max() == y1_ - y0_ - 1 or xx.max() == x1_ - x0_ - 1:
+                    continue
+                # lo spazio tra braccio e fianco è sfondo vero: si riempie solo sopra il corpo
+                if (base[yy + y0_, xx + x0_, 3] > 128).mean() < 0.5:
+                    continue
+                hole[yy + y0_, xx + x0_] = True
+            # isole color pelle dentro la stoffa (macchie sul fondo del trench): circondate solo
+            # da stoffa; mani e scollo toccano lo sfondo o la pelle e restano
+            cloth = (img[..., 3] > 200) & (R < 0.5)
+            csub = cloth[y0_:y1_, x0_:x1_]
+            skinish = (R > 0.5) | (base_skin[src_body] & (np.abs(img[..., :3] - base[..., :3]).max(-1) < 14))
+            cloth = (img[..., 3] > 200) & ~skinish
+            csub = cloth[y0_:y1_, x0_:x1_]
+            for comp in components((sub[..., 3] > 128) & skinish[y0_:y1_, x0_:x1_], 2000):
+                yy, xx = np.divmod(comp, x1_ - x0_)
+                m = np.zeros(csub.shape, bool)
+                m[yy, xx] = True
+                ring = (np.asarray(Image.fromarray((m * 255).astype('uint8')).filter(ImageFilter.MaxFilter(7))) > 128) & ~m
+                if ring.any() and csub[ring].mean() > 0.9:
+                    hole[yy + y0_, xx + x0_] = True
+            if hole.any():
+                img[..., :3] = np.where(hole[..., None], diffuse_fill(img[..., :3], cloth & ~hole, hole, 80), img[..., :3])
+                img[..., 3] = np.where(hole, 255.0, img[..., 3])
+                R = np.where(hole, 0.0, R).astype(np.float32)
                 changed_img = True
 
         if version < 2 and cat in BODY:
