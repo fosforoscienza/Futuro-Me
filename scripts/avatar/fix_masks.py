@@ -29,7 +29,12 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      (prima dal bordo semitrasparente ne traspariva il contorno, visibile con "Nessuna").
   10. Busti e gambe: i buchi trasparenti racchiusi dal capo (maniche e fondo del trench) si
      riempiono col colore della stoffa intorno.
-  11. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  11. Busti e gambe: via i frammenti staccati dal capo (gilet, polsini del camice) e le
+     strisce sottili sopra la pelle delle braccia (torso nudo, canotte).
+  12. Busti e gambe: via le sbavature attaccate al capo sotto la vita (orlo del gilet, polsini
+     del camice) e gli aloni sottili lungo il contorno delle braccia.
+  13. Capelli: i vuoti racchiusi tra capelli e testa (tempie) si riempiono col colore dei capelli.
+  14. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -55,7 +60,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 12
+VERSION = 15
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -560,7 +565,9 @@ for body in ('F', 'M'):
     boxes = np.zeros((H, W), bool)
     for x0, y0, x1, y1 in GEO[body]['eyes']:
         boxes[y0 - 2:y1 + 2, x0 - 2:x1 + 2] = True
-    sclera = (lum(img[..., :3]) > 150) & (satur(img[..., :3]) < 0.22) & (img[..., 3] > 128)
+    # bianco dell'occhio: chiaro e quasi senza colore (i riflessi della pelle sono più saturi)
+    sclera = (lum(img[..., :3]) > 150) & (satur(img[..., :3]) < 0.12) & (img[..., 3] > 128) & \
+        ~skin_like(img[..., :3], skin[body], 1.3, minL=60)
     eye_core[body] = grow(boxes & (sclera | (B > 0.2)), 3)
     R = old[..., 0]
     if version < 1:
@@ -764,6 +771,80 @@ for key, per in d['layers'].items():
             img[..., 3] *= 1 - soft
             G = np.where(veil, 0.0, G).astype(np.float32)
             changed_img = True
+
+        if version < 13 and cat in ('torso', 'legs'):
+            a = img[..., 3]
+            # strisce sottili (1-2 px) sopra la pelle del corpo base
+            on = (a > 20).astype(np.uint8) * 255
+            opened = np.asarray(Image.fromarray(on).filter(ImageFilter.MinFilter(5)).filter(ImageFilter.MaxFilter(5))) > 128
+            thin = (a > 20) & ~opened & grow(base_skin[src_body], 1)
+            # frammenti staccati dal capo
+            ys_, xs_ = np.nonzero(a > 20)
+            y0_, y1_, x0_, x1_ = ys_.min(), ys_.max() + 1, xs_.min(), xs_.max() + 1
+            frag = np.zeros((H, W), bool)
+            for comp in components((a[y0_:y1_, x0_:x1_] > 20) & ~thin[y0_:y1_, x0_:x1_], 400):
+                yy, xx = np.divmod(comp, x1_ - x0_)
+                frag[yy + y0_, xx + x0_] = True
+            drop = thin | frag
+            if drop.any():
+                img[..., 3] = np.where(drop, 0.0, a)
+                changed_img = True
+
+        if version < 14 and cat in ('torso', 'legs'):
+            a = img[..., 3]
+            on = (a > 20)
+            onu = on.astype(np.uint8) * 255
+            # sbavature sotto la vita: tolte dall'apertura morfologica e in un intorno quasi vuoto
+            opened = np.asarray(Image.fromarray(onu).filter(ImageFilter.MinFilter(11)).filter(ImageFilter.MaxFilter(11))) > 128
+            dens = np.asarray(Image.fromarray(onu).filter(ImageFilter.BoxBlur(7))).astype(np.float32) / 255
+            rows = np.arange(H)[:, None] > 540
+            drip = on & ~opened & (dens < 0.5) & rows
+            # aloni sottili lungo il contorno del braccio
+            opened5 = np.asarray(Image.fromarray(onu).filter(ImageFilter.MinFilter(5)).filter(ImageFilter.MaxFilter(5))) > 128
+            halo = on & ~opened5 & grow(base_skin[src_body], 4)
+            drop = drip | halo
+            if drop.any():
+                soft = np.asarray(Image.fromarray((drop * 255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.6))).astype(np.float32) / 255
+                img[..., 3] = a * (1 - np.maximum(soft, drop))
+                changed_img = True
+
+        if version < 15 and cat in ('torso', 'legs'):
+            # grumi più grossi appesi all'orlo (gilet): sporgono dal capo e stanno quasi soli
+            a = img[..., 3]
+            onu = ((a > 20) * 255).astype(np.uint8)
+            opened = np.asarray(Image.fromarray(onu).filter(ImageFilter.MinFilter(21)).filter(ImageFilter.MaxFilter(21))) > 128
+            dens = np.asarray(Image.fromarray(onu).filter(ImageFilter.BoxBlur(12))).astype(np.float32) / 255
+            lump = (a > 20) & ~opened & (dens < 0.45) & (np.arange(H)[:, None] > 560) & ~base_skin[src_body]
+            lump = np.asarray(Image.fromarray((lump * 255).astype('uint8')).filter(ImageFilter.MaxFilter(3))) > 128
+            lump &= ~opened
+            if lump.any():
+                img[..., 3] = np.where(lump, 0.0, a)
+                changed_img = True
+
+        if version < 13 and cat == 'hair':
+            # vuoto tra capelli e testa: né il pezzo né il corpo base coprono, ma tutto intorno sì
+            cover = (img[..., 3] > 128) | (base[..., 3] > 128)
+            zone = face_zone(src_body)
+            zone = np.asarray(Image.fromarray((zone * 255).astype('uint8')).filter(ImageFilter.MaxFilter(15))) > 128
+            ys_, xs_ = np.nonzero(zone)
+            y0_, y1_, x0_, x1_ = ys_.min(), ys_.max() + 1, xs_.min(), xs_.max() + 1
+            gap = np.zeros((H, W), bool)
+            for comp in components(~cover[y0_:y1_, x0_:x1_], 1500):
+                yy, xx = np.divmod(comp, x1_ - x0_)
+                if yy.min() == 0 or xx.min() == 0 or yy.max() == y1_ - y0_ - 1 or xx.max() == x1_ - x0_ - 1:
+                    continue
+                m = np.zeros((y1_ - y0_, x1_ - x0_), bool)
+                m[yy, xx] = True
+                ring = (np.asarray(Image.fromarray((m * 255).astype('uint8')).filter(ImageFilter.MaxFilter(5))) > 128) & ~m
+                if (img[y0_:y1_, x0_:x1_, 3][ring] > 128).mean() > 0.3:  # toccano i capelli
+                    gap[yy + y0_, xx + x0_] = True
+            if gap.any():
+                hairpx = (img[..., 3] > 200) & (G > 0.5)
+                img[..., :3] = np.where(gap[..., None], diffuse_fill(img[..., :3], hairpx, gap, 40), img[..., :3])
+                img[..., 3] = np.where(gap, 255.0, img[..., 3])
+                G = np.where(gap, 1.0, G).astype(np.float32)
+                R = np.where(gap, 0.0, R).astype(np.float32)
+                changed_img = True
 
         if version < 10 and key == 'brows/nessuna':
             R = brows_cover(img, R, G, base_brow[body])

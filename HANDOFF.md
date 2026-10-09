@@ -100,9 +100,11 @@ Note:
 - **Difetti minori (9/10)**: sistemati i rettangoli chiari alle tempie (pettinature M), il contorno
   delle sopracciglia con "Nessuna" e i buchi e le macchie del trench (passi 9-10 di `fix_masks.py`).
   La fascia grigia in vita con i costumi non c'è nel sito: il renderer la colora come il costume.
-  Restano: macchie scure sulla camicia sotto il gilet M, polsini bianchi frastagliati del camice,
-  linee chiare sul bordo delle braccia con torso nudo e canotte, sottili fessure chiare alle tempie
-  con frangetta F e ricci lunghi F.
+  Sistemati anche (passi 11-15): grumi sotto l'orlo del gilet M e del completo F, sbavature dei
+  polsini del camice, aloni sul contorno delle braccia (torso nudo, canotte), fessure chiare alle
+  tempie (frangetta F, ricci lunghi F). Restano piccoli residui: una linea leggerissima sul braccio
+  con canotta colorata M e torso nudo, una macchietta grigia sull'orlo destro del gilet M e sulla
+  coscia destra, qualche dente bianco sul polsino destro del camice M.
 
 ## Verifiche utili in locale
 
