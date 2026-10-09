@@ -105,7 +105,8 @@ Note:
   tempie (frangetta F, ricci lunghi F). Il 9/10 gilet, camice e canotta colorata M sono stati
   rigenerati su Higgsfield (job in `jobs.tsv`), tolta l'ombra scambiata per pelle sulla coscia del
   corpo base M e accordata la tinta della pelle dei busti con quella delle braccia (passo 14).
-  Resta una linea molto leggera sulle braccia con alcune canotte e incarnati chiari.
+  Tolta anche la linea sulle braccia con canotte, top e torso nudo (ombra dell'orlo della manica
+  del corpo base, passo 14 di `fix_masks.py`).
 
 ## Verifiche utili in locale
 

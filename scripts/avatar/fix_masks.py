@@ -36,7 +36,8 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
   13. Capelli: i vuoti racchiusi tra capelli e testa (tempie) si riempiono col colore dei capelli.
   14. Corpo base: niente pelle dentro i pantaloncini (ombre scambiate per pelle). Busti: la
      pelle del capo prende gradualmente la tinta della pelle del corpo base dove si incontrano
-     (niente linea sul braccio con canotte e torso nudo).
+     (niente linea sul braccio con canotte e torso nudo); la pelle del capo copre con alfa pieno
+     qualche pixel oltre il suo bordo, sopra l'ombra dell'orlo della manica del corpo base.
   15. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
@@ -63,7 +64,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 16
+VERSION = 17
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -825,6 +826,38 @@ for key, per in d['layers'].items():
             lump &= ~opened
             if lump.any():
                 img[..., 3] = np.where(lump, 0.0, a)
+                changed_img = True
+
+        if version < 17 and cat == 'torso':
+            # bordo inferiore della pelle del capo sul braccio: lì c'è l'ombra dell'orlo della manica
+            # del corpo base. Colonna per colonna si interpola tra la pelle del capo 8 px sopra e la
+            # pelle pulita del corpo base 5 px sotto il bordo.
+            a = img[..., 3]
+            R = R.copy()  # R può essere una vista della maschera letta: il confronto la salverebbe
+            S_ = (R > 0.5) & (a > 200)
+            bskin = base_skin[src_body] & (base[..., 3] > 128)
+            done_any = False
+            for x in range(W):
+                col = S_[:, x]
+                ys = np.flatnonzero(col[300:900]) + 300
+                if not len(ys):
+                    continue
+                ends = ys[np.r_[np.diff(ys) > 1, True]]
+                for yb in ends:
+                    yt, yr = yb - 8, yb + 5
+                    if yt < 300 or yr >= H or not col[yt] or not bskin[yr, x] or a[yr, x] > 128:
+                        continue
+                    if not bskin[yb + 1:yr + 1, x].all():
+                        continue
+                    ct, cr = img[yt, x, :3].copy(), base[yr, x, :3]
+                    for y in range(yt + 1, yr):
+                        t = (y - yt) / (yr - yt)
+                        img[y, x, :3] = ct * (1 - t) + cr * t
+                        img[y, x, 3] = 255.0
+                        R[y, x] = 1.0
+                    done_any = True
+            if done_any:
+                R = np.asarray(R, np.float32)
                 changed_img = True
 
         if version < 16 and cat == 'torso':
