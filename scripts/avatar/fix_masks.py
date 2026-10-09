@@ -40,7 +40,9 @@ immagini sorgenti. È idempotente: i pezzi già ripuliti sono segnati nel manife
      qualche pixel oltre il suo bordo, sopra l'ombra dell'orlo della manica del corpo base.
   15. Camice: via i resti della mano d'origine sopra le mani del corpo base, e chiusi i vuoti
      lasciati dalla mano lungo il bordo della falda.
-  16. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
+  16. Occhi: tutto ciò che non è iride né bianco dell'occhio (solo la parte chiara collegata
+     all'iride) è pelle, compresi gli angoli e i bordi chiari verso la tempia.
+  17. Statistiche OKLab (media e deviazione della luminosità) di capelli e iridi, usate dal
      renderer per ricolorare conservando luci e ombre.
 
 Uso:
@@ -66,7 +68,7 @@ GEO = {
               brows=[(366, 136, 424, 164), (432, 136, 492, 164)]),
 }
 # versione delle rifiniture: i pezzi segnati con una versione più vecchia ricevono solo i passi nuovi
-VERSION = 19
+VERSION = 21
 # pezzi che toccano il viso: lì ciò che è uguale al corpo base diventa trasparente
 CLEAN = ('hair', 'hat', 'glasses', 'jewel', 'other', 'incl', 'lashes', 'skin', 'brows')
 # pantaloncini grigi del corpo base (x0, y0, x1, y1), come in build_assets.py
@@ -838,6 +840,21 @@ for key, per in d['layers'].items():
             if lump.any():
                 img[..., 3] = np.where(lump, 0.0, a)
                 changed_img = True
+
+        if version < 21 and cat == 'eyes':
+            a = img[..., 3]
+            px = img[..., :3]
+            white = (lum(px) > 150) & (satur(px) < 0.22) & (a > 0)
+            sclera = grow(B > 0.2, 2) & white
+            for _ in range(40):
+                g = grow(sclera) & white
+                if (g == sclera).all():
+                    break
+                sclera = g
+            # tutto ciò che non è bianco dell'occhio né iride è pelle (anche i bordi sfumati chiari)
+            pale = (a > 0) & ~sclera & (R < 0.5) & (B < 0.2)
+            if pale.any():
+                R = np.where(pale, 1.0, R).astype(np.float32)
 
         if version < 19 and key == 'torso/camice':
             a = img[..., 3]
