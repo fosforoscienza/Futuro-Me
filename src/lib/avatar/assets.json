@@ -591,10 +591,10 @@
   "glasses/leggeri": {
    "F": {
     "src": "/avatar/F/glasses__leggeri.webp",
-    "x": 352,
-    "y": 144,
-    "w": 145,
-    "h": 73,
+    "x": 363,
+    "y": 157,
+    "w": 122,
+    "h": 45,
     "stats": {
      "G": null,
      "B": null
@@ -607,10 +607,10 @@
    },
    "M": {
     "src": "/avatar/F/glasses__leggeri.webp",
-    "x": 352,
-    "y": 144,
-    "w": 145,
-    "h": 73,
+    "x": 363,
+    "y": 157,
+    "w": 122,
+    "h": 45,
     "stats": {
      "G": null,
      "B": null
@@ -625,10 +625,10 @@
   "glasses/tondi": {
    "F": {
     "src": "/avatar/F/glasses__tondi.webp",
-    "x": 353,
-    "y": 144,
-    "w": 143,
-    "h": 73,
+    "x": 365,
+    "y": 153,
+    "w": 118,
+    "h": 50,
     "stats": {
      "G": null,
      "B": null
@@ -641,10 +641,10 @@
    },
    "M": {
     "src": "/avatar/F/glasses__tondi.webp",
-    "x": 353,
-    "y": 144,
-    "w": 143,
-    "h": 73,
+    "x": 365,
+    "y": 153,
+    "w": 118,
+    "h": 50,
     "stats": {
      "G": null,
      "B": null

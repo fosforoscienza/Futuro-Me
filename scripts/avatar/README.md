@@ -49,4 +49,5 @@ resto della testa. Va lanciato dopo `fix_masks.py`.
 
 `rebuild_glasses.py` rifà gli occhiali da vista con montatura spessa (geek, squadrati, tondi
 spessi) dalla versione precedente al passo delle lenti di `fix_masks.py`, che spezzava la
-montatura; le istruzioni sono in testa allo script.
+montatura, e ridisegna come filo metallico quelli sottili (tondi metallici, montatura
+leggera), persi già nell'estrazione; le istruzioni sono in testa allo script.
