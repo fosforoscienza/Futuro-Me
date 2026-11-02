@@ -1,12 +1,11 @@
 import { connection } from "next/server";
-import { isAdmin, adminSecret } from "@/lib/admin-auth";
+import { redirect } from "next/navigation";
 import { newsDb } from "@/lib/news/db";
 import type { NewsArticleRow, NewsJobRun, NewsSource } from "@/lib/news/types";
 import { previousWeek } from "@/lib/news/week";
-import { logout } from "./actions";
+import { Shell, requireStaff } from "./shell";
 import {
   ArticleStatusButton,
-  LoginForm,
   RunJobForm,
   SourceForm,
   SourceRow,
@@ -32,30 +31,14 @@ function formatDateTime(value: string | null) {
 export default async function AdminPage() {
   // Sempre al momento della richiesta: dipende da sessione e variabili d'ambiente.
   await connection();
-  if (!adminSecret()) {
-    return (
-      <Shell>
-        <p className="text-on-surface-variant">
-          Console disattivata: imposta <code>ADMIN_SECRET</code> nelle variabili d&apos;ambiente.
-        </p>
-      </Shell>
-    );
-  }
-
-  if (!(await isAdmin())) {
-    return (
-      <Shell>
-        <div className="max-w-sm">
-          <LoginForm />
-        </div>
-      </Shell>
-    );
-  }
+  const account = await requireStaff();
+  // Le news sono solo dell'admin: il gestore entra direttamente negli studenti.
+  if (account.ruolo !== "admin") redirect("/admin/studenti");
 
   const db = newsDb();
   if (!db) {
     return (
-      <Shell loggedIn>
+      <Shell account={account} title="Console news" current="/admin">
         <p className="text-primary">
           Supabase non configurato: servono NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY.
         </p>
@@ -91,7 +74,7 @@ export default async function AdminPage() {
   const activeCount = sources.filter((s) => s.active).length;
 
   return (
-    <Shell loggedIn>
+    <Shell account={account} title="Console news" current="/admin">
       {dbError && (
         <p className="mb-8 text-primary">
           Errore del database: {dbError.message}. Hai applicato la migrazione
@@ -218,29 +201,5 @@ export default async function AdminPage() {
         )}
       </section>
     </Shell>
-  );
-}
-
-function Shell({ children, loggedIn = false }: { children: React.ReactNode; loggedIn?: boolean }) {
-  return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-10">
-      <header className="flex items-center justify-between gap-4 mb-10">
-        <div>
-          <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">Il Futuro Me</p>
-          <h1 className="text-3xl font-extrabold text-secondary tracking-tight">Console news</h1>
-        </div>
-        {loggedIn && (
-          <form action={logout}>
-            <button
-              type="submit"
-              className="rounded-full px-4 py-2 text-sm font-bold bg-surface-container-highest hover:bg-secondary/10 cursor-pointer"
-            >
-              Esci
-            </button>
-          </form>
-        )}
-      </header>
-      {children}
-    </div>
   );
 }

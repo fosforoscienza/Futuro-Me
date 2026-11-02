@@ -58,9 +58,9 @@ ordinate per data.
 
 ## Console `/admin`
 
-- Si entra con `ADMIN_SECRET`, cioè la stessa chiave che già protegge `/api/admin/*`. Il cookie di
-  sessione è firmato con HMAC, dura 12 ore e non contiene il segreto. Login limitato a 5
-  tentativi ogni 5 minuti per IP.
+- Si entra con l'account **admin** dal login unico `/it/accedi` (vedi `docs/account-studenti.md`).
+  Il gestore entra nella stessa console ma vede solo la sezione Studenti. `ADMIN_SECRET` resta
+  la chiave delle automazioni su `/api/admin/*` (task di Claude, curl).
 - Cosa si può fare:
   - vedere le fonti con l'esito dell'ultima lettura;
   - aggiungerle, modificarle, attivarle o disattivarle;
@@ -86,7 +86,7 @@ curl -X POST https://www.ilfuturome.it/api/admin/trigger-news \
 | `NEXT_PUBLIC_SUPABASE_URL` | sì | Supabase (già impostata per il questionario) |
 | `SUPABASE_SERVICE_ROLE_KEY` | sì | letture e scritture lato server (già impostata) |
 | `CRON_SECRET` | sì | Vercel la manda come `Authorization: Bearer …` alle chiamate cron. Senza, la route risponde 503 |
-| `ADMIN_SECRET` | sì | accesso a `/admin` e `/api/admin/*` (ripiego: `CRON_SECRET`) |
+| `ADMIN_SECRET` | sì | chiamate automatiche a `/api/admin/*` (ripiego: `CRON_SECRET`) |
 | `NEWS_MAX_PER_WEEK` | no | news massime per settimana (1-20, predefinito 6) |
 
 Nessun segreto è nel codice.

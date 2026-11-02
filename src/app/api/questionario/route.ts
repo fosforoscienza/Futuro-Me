@@ -3,11 +3,16 @@ import { createClient } from "@supabase/supabase-js";
 import { rateLimit } from "@/lib/rate-limit";
 import { toRow, type Answers } from "@/lib/questionario";
 import { validateAvatar } from "@/lib/avatar/config";
+import { isFase, isFaseAperta } from "@/lib/auth/area";
+import { getSession } from "@/lib/auth/session";
 
 /**
- * Salva una compilazione anonima del questionario.
- * Non viene salvato nessun dato che identifichi chi risponde (né IP né
- * user agent): l'IP serve solo al rate limit in memoria.
+ * Salva una compilazione del questionario.
+ * - Senza `fase`: anonima (pagina /questionario). Non viene salvato nessun
+ *   dato che identifichi chi risponde (né IP né user agent): l'IP serve solo
+ *   al rate limit in memoria.
+ * - Con `fase` ("inizio" | "fine"): dall'area personale, legata all'account
+ *   dello studente loggato; una sola compilazione per fase.
  */
 export async function POST(request: Request) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
@@ -20,7 +25,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
-  let body: { answers?: Answers; avatar?: unknown; website?: string };
+  let body: { answers?: Answers; avatar?: unknown; website?: string; fase?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -51,7 +56,27 @@ export async function POST(request: Request) {
   const supabase = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false },
   });
-  const { error } = await supabase.from("questionario_risposte").insert({ ...row, avatar });
+  let owner: { account_id: string; fase: string } | null = null;
+  if (body.fase !== undefined) {
+    if (!isFase(body.fase)) {
+      return NextResponse.json({ error: "Invalid phase" }, { status: 400 });
+    }
+    const account = await getSession();
+    if (account?.ruolo !== "studente") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (!(await isFaseAperta(supabase, body.fase))) {
+      return NextResponse.json({ error: "Phase closed" }, { status: 403 });
+    }
+    owner = { account_id: account.id, fase: body.fase };
+  }
+
+  const { error } = await supabase
+    .from("questionario_risposte")
+    .insert({ ...row, avatar, ...owner });
+  if (error?.code === "23505") {
+    return NextResponse.json({ error: "Already submitted" }, { status: 409 });
+  }
   if (error) {
     console.error("Questionario insert error:", error.message);
     return NextResponse.json(

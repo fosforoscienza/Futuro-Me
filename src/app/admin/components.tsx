@@ -2,7 +2,6 @@
 
 import { useActionState, useState, useTransition } from "react";
 import {
-  login,
   runJobNow,
   saveSource,
   setArticleStatus,
@@ -33,33 +32,6 @@ function Feedback({ state }: { state: ActionState }) {
     >
       {state.message}
     </p>
-  );
-}
-
-export function LoginForm() {
-  const [state, action, pending] = useActionState(login, null);
-  return (
-    <form action={action} className="space-y-4">
-      <label className="block text-sm font-bold text-secondary" htmlFor="secret">
-        Chiave admin (ADMIN_SECRET)
-      </label>
-      <input
-        id="secret"
-        name="secret"
-        type="password"
-        autoComplete="current-password"
-        required
-        className={input}
-      />
-      <button
-        type="submit"
-        disabled={pending}
-        className={`${button} bg-secondary text-white hover:bg-secondary/90`}
-      >
-        {pending ? "Verifica…" : "Entra"}
-      </button>
-      <Feedback state={state} />
-    </form>
   );
 }
 
