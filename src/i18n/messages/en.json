@@ -14,11 +14,9 @@
     "language": "Language"
   },
   "hero": {
-    "badge": "Kinetic Archive",
     "title": "Your Future,",
     "titleAccent": "Explored.",
     "subtitle": "Discover who you want to become: explore careers, understand the labour market and prepare for tomorrow's challenges.",
-    "futureLabel": "In 15 years",
     "futures": {
       "aiDev": "AI Developer",
       "dataAnalyst": "Data Analyst",
