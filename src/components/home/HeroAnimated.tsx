@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,19 +12,41 @@ import type { CastId } from "@/lib/avatar/cast";
 import { HeroWalker } from "./HeroWalker";
 
 /**
- * I tre "futuri me" dell'hero, da sinistra a destra, in fila sulla stessa linea
- * di terra. `ratio` è il rapporto dei file in public/avatar/hero (stessa scala per
- * tutti, così le altezze restano vere); `delay` scagliona i passi.
+ * I sei "futuri me" che possono comparire nell'hero: a ogni caricamento se ne
+ * scelgono tre a caso, così la pagina è sempre un po' diversa. `ratio` è il
+ * rapporto dei file in public/avatar/hero (stessa scala e linea di terra per
+ * tutti, così le altezze restano vere e i sei sono intercambiabili).
  */
-const FIGURES: { id: CastId; ratio: number; delay: number }[] = [
-  { id: "solarTech", ratio: 326 / 900, delay: 500 },
-  { id: "aiDev", ratio: 344 / 900, delay: 150 },
-  { id: "dataAnalyst", ratio: 362 / 900, delay: 850 },
+const POOL: { id: CastId; ratio: number }[] = [
+  { id: "solarTech", ratio: 326 / 900 },
+  { id: "aiDev", ratio: 344 / 900 },
+  { id: "dataAnalyst", ratio: 362 / 900 },
+  { id: "cyber", ratio: 412 / 900 },
+  { id: "biotech", ratio: 302 / 900 },
+  { id: "firefighter", ratio: 386 / 900 },
 ];
 
-/** Sovrapposizione per lato tra figure vicine e larghezza della scena, in pixel dei file (alti 900). */
+/** Ritardo dei passi per posizione (sinistra, centro, destra): parte prima chi sta al centro. */
+const DELAYS = [500, 150, 850];
+
+/** Sovrapposizione per lato tra figure vicine, in pixel dei file (alti 900). */
 const OVERLAP = 40;
-const STAGE_W = FIGURES.reduce((w, f) => w + f.ratio * 900, 0) - 4 * OVERLAP;
+/** Larghezza della scena: quella del terzetto più largo, così l'altezza non cambia tra un caricamento e l'altro. */
+const STAGE_W =
+  [...POOL]
+    .sort((a, b) => b.ratio - a.ratio)
+    .slice(0, 3)
+    .reduce((w, f) => w + f.ratio * 900, 0) -
+  4 * OVERLAP;
+
+/**
+ * Terzetto scelto nel browser, una volta per caricamento della pagina. Al server
+ * (e durante l'idratazione) non c'è ancora: la scena resta vuota per un attimo,
+ * mentre il suo ingresso CSS non è ancora partito.
+ */
+let trio: typeof POOL | null = null;
+const pickTrio = () => (trio ??= gsap.utils.shuffle([...POOL]).slice(0, 3));
+const noSubscribe = () => () => {};
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
@@ -34,6 +56,7 @@ const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 export function HeroAnimated() {
   const t = useTranslations();
   const root = useRef<HTMLElement>(null);
+  const figures = useSyncExternalStore(noSubscribe, pickTrio, () => null) ?? [];
 
   useGSAP(
     () => {
@@ -150,7 +173,7 @@ export function HeroAnimated() {
             aria-hidden="true"
             className="absolute -bottom-[3%] left-1/2 h-[9%] w-[105%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgb(150_46_22/0.22),rgb(150_46_22/0.08)_60%,transparent)]"
           />
-          {FIGURES.map((f, i) => (
+          {figures.map((f, i) => (
             <div
               key={f.id}
               aria-hidden="true"
@@ -160,16 +183,16 @@ export function HeroAnimated() {
               <HeroWalker
                 id={f.id}
                 ratio={f.ratio}
-                delay={f.delay}
+                delay={DELAYS[i]}
                 preload={i === 1}
                 sizes="(min-width: 1024px) 220px, 30vw"
               />
             </div>
           ))}
         </div>
-        <div data-hero-fade style={order(4)} className="mt-6 text-center">
+        <div data-hero-fade style={order(4)} className="mt-6 min-h-[1.75rem] text-center">
           <ul className="flex flex-wrap justify-center gap-x-5 gap-y-1 font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary">
-            {FIGURES.map((f) => (
+            {figures.map((f) => (
               <li key={f.id}>{t(`hero.futures.${f.id}`)}</li>
             ))}
           </ul>

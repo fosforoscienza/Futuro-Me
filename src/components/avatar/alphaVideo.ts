@@ -5,6 +5,20 @@ export function isWebKitOnly() {
 }
 
 /**
+ * iPhone e iPad (anche iPadOS che si presenta come Mac): lì il video con alfa
+ * compare con lo sfondo bianco, quindi gli avatar restano fermi nella loro posa.
+ */
+export function isIOS() {
+  const ua = navigator.userAgent;
+  return /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+}
+
+/** Il browser mostra correttamente i loop con trasparenza. */
+export function canPlayAlphaVideo() {
+  return !isIOS();
+}
+
+/**
  * Avvia un video con alfa (`<base>.mov` su Safari, `<base>.webm` altrove).
  * Safari rifiuta play() su un video a cui la sorgente è stata data da script
  * (NotAllowedError): parte solo se muto e autoplay sono impostati prima della

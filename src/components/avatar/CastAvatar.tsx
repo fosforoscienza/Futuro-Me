@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CAST, type CastId } from "@/lib/avatar/cast";
-import { isWebKitOnly, startAlphaVideo } from "./alphaVideo";
+import { canPlayAlphaVideo, isWebKitOnly, startAlphaVideo } from "./alphaVideo";
 
 /** Inquadratura comune dei file in public/avatar/cast (vedi cast.ts). */
 export const CAST_RATIO = 606 / 1043;
@@ -42,7 +42,7 @@ export function CastAvatar({
 
   useEffect(() => {
     const el = video.current;
-    if (!el) return;
+    if (!el || !canPlayAlphaVideo()) return;
     // Safari mette già in pausa da solo i video muti fuori schermo, e un play()
     // chiamato da script lì viene rifiutato: la pausa la gestiamo solo altrove.
     const manual = !isWebKitOnly();
