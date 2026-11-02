@@ -44,8 +44,9 @@ sorgente quando l'estrazione la taglia male (usato per `hair/afro` F): trova la 
 viso della sorgente con un riempimento dal centro del viso e considera capelli tutto il
 resto della testa. Va lanciato dopo `fix_masks.py`.
 
-`tone_down.py` attenua i pezzi troppo marcati (per ora i nasi M "all'insù", "aquilino" e
-"a patata") sugli asset già pubblicati; va lanciato dopo `fix_masks.py` ed è idempotente.
+`tone_down.py` attenua i pezzi troppo marcati (i nasi M "all'insù", "aquilino" e "a patata",
+le ciglia "lunghe" e "lunghissime" accorciate verso la palpebra) sugli asset già pubblicati;
+va lanciato dopo `fix_masks.py` ed è idempotente.
 
 `rebuild_glasses.py` rifà gli occhiali da vista con montatura spessa (geek, squadrati, tondi
 spessi) dalla versione precedente al passo delle lenti di `fix_masks.py`, che spezzava la

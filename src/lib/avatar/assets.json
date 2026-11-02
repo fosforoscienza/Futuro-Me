@@ -2342,10 +2342,10 @@
   "lashes/lunghe": {
    "F": {
     "src": "/avatar/F/lashes__lunghe.webp",
-    "x": 355,
-    "y": 141,
-    "w": 142,
-    "h": 65,
+    "x": 367,
+    "y": 157,
+    "w": 114,
+    "h": 29,
     "mask": "/avatar/F/lashes__lunghe.mask.png",
     "stats": {
      "G": null,
@@ -2355,14 +2355,15 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/lashes__lunghe.webp",
-    "x": 355,
-    "y": 141,
-    "w": 140,
-    "h": 65,
+    "x": 369,
+    "y": 153,
+    "w": 110,
+    "h": 28,
     "mask": "/avatar/M/lashes__lunghe.mask.png",
     "stats": {
      "G": null,
@@ -2372,16 +2373,17 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "lashes/lunghissime": {
    "F": {
     "src": "/avatar/F/lashes__lunghissime.webp",
-    "x": 354,
-    "y": 139,
-    "w": 145,
-    "h": 67,
+    "x": 363,
+    "y": 153,
+    "w": 122,
+    "h": 33,
     "mask": "/avatar/F/lashes__lunghissime.mask.png",
     "stats": {
      "G": null,
@@ -2391,14 +2393,15 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/lashes__lunghissime.webp",
-    "x": 354,
-    "y": 138,
-    "w": 145,
-    "h": 68,
+    "x": 364,
+    "y": 151,
+    "w": 120,
+    "h": 31,
     "mask": "/avatar/M/lashes__lunghissime.mask.png",
     "stats": {
      "G": null,
@@ -2408,7 +2411,8 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "legs/corti": {
@@ -5298,9 +5302,9 @@
    "F": {
     "src": "/avatar/F/eyes__allungati_grandi__lunghe.webp",
     "x": 350,
-    "y": 149,
+    "y": 150,
     "w": 148,
-    "h": 74,
+    "h": 57,
     "mask": "/avatar/F/eyes__allungati_grandi__lunghe.mask.png",
     "shift": [
      0,
@@ -5313,14 +5317,15 @@
       "sd": 0.1329
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_grandi__lunghe.webp",
-    "x": 353,
-    "y": 150,
-    "w": 143,
-    "h": 69,
+    "x": 352,
+    "y": 149,
+    "w": 145,
+    "h": 54,
     "mask": "/avatar/M/eyes__allungati_grandi__lunghe.mask.png",
     "shift": [
      0,
@@ -5333,16 +5338,17 @@
       "sd": 0.1422
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/allungati_grandi__lunghissime": {
    "F": {
     "src": "/avatar/F/eyes__allungati_grandi__lunghissime.webp",
-    "x": 336,
-    "y": 138,
-    "w": 177,
-    "h": 84,
+    "x": 350,
+    "y": 150,
+    "w": 148,
+    "h": 57,
     "mask": "/avatar/F/eyes__allungati_grandi__lunghissime.mask.png",
     "shift": [
      0,
@@ -5355,14 +5361,15 @@
       "sd": 0.1402
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_grandi__lunghissime.webp",
-    "x": 347,
-    "y": 146,
-    "w": 155,
-    "h": 74,
+    "x": 352,
+    "y": 149,
+    "w": 145,
+    "h": 54,
     "mask": "/avatar/M/eyes__allungati_grandi__lunghissime.mask.png",
     "shift": [
      0,
@@ -5375,7 +5382,8 @@
       "sd": 0.1346
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/allungati_piccoli__corte": {
@@ -5423,10 +5431,10 @@
   "eyes/allungati_piccoli__lunghe": {
    "F": {
     "src": "/avatar/F/eyes__allungati_piccoli__lunghe.webp",
-    "x": 350,
-    "y": 150,
+    "x": 351,
+    "y": 153,
     "w": 148,
-    "h": 72,
+    "h": 54,
     "mask": "/avatar/F/eyes__allungati_piccoli__lunghe.mask.png",
     "shift": [
      0,
@@ -5439,14 +5447,15 @@
       "sd": 0.1495
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_piccoli__lunghe.webp",
-    "x": 353,
+    "x": 352,
     "y": 150,
-    "w": 143,
-    "h": 70,
+    "w": 144,
+    "h": 52,
     "mask": "/avatar/M/eyes__allungati_piccoli__lunghe.mask.png",
     "shift": [
      0,
@@ -5459,16 +5468,17 @@
       "sd": 0.1423
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/allungati_piccoli__lunghissime": {
    "F": {
     "src": "/avatar/F/eyes__allungati_piccoli__lunghissime.webp",
-    "x": 350,
-    "y": 149,
-    "w": 149,
-    "h": 73,
+    "x": 351,
+    "y": 153,
+    "w": 148,
+    "h": 54,
     "mask": "/avatar/F/eyes__allungati_piccoli__lunghissime.mask.png",
     "shift": [
      0,
@@ -5481,14 +5491,15 @@
       "sd": 0.1316
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__allungati_piccoli__lunghissime.webp",
-    "x": 342,
-    "y": 138,
-    "w": 165,
-    "h": 82,
+    "x": 352,
+    "y": 150,
+    "w": 144,
+    "h": 52,
     "mask": "/avatar/M/eyes__allungati_piccoli__lunghissime.mask.png",
     "shift": [
      0,
@@ -5501,7 +5512,8 @@
       "sd": 0.1186
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/mandorla_piccoli__corte": {
@@ -5549,10 +5561,10 @@
   "eyes/mandorla_piccoli__lunghe": {
    "F": {
     "src": "/avatar/F/eyes__mandorla_piccoli__lunghe.webp",
-    "x": 350,
-    "y": 152,
+    "x": 351,
+    "y": 153,
     "w": 148,
-    "h": 67,
+    "h": 56,
     "mask": "/avatar/F/eyes__mandorla_piccoli__lunghe.mask.png",
     "shift": [
      0,
@@ -5565,14 +5577,15 @@
       "sd": 0.1242
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__mandorla_piccoli__lunghe.webp",
     "x": 353,
-    "y": 147,
-    "w": 143,
-    "h": 73,
+    "y": 149,
+    "w": 142,
+    "h": 52,
     "mask": "/avatar/M/eyes__mandorla_piccoli__lunghe.mask.png",
     "shift": [
      0,
@@ -5585,16 +5598,17 @@
       "sd": 0.125
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/mandorla_piccoli__lunghissime": {
    "F": {
     "src": "/avatar/F/eyes__mandorla_piccoli__lunghissime.webp",
-    "x": 343,
-    "y": 147,
-    "w": 164,
-    "h": 72,
+    "x": 351,
+    "y": 153,
+    "w": 148,
+    "h": 56,
     "mask": "/avatar/F/eyes__mandorla_piccoli__lunghissime.mask.png",
     "shift": [
      0,
@@ -5607,14 +5621,15 @@
       "sd": 0.1315
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__mandorla_piccoli__lunghissime.webp",
-    "x": 345,
-    "y": 141,
-    "w": 158,
-    "h": 79,
+    "x": 353,
+    "y": 149,
+    "w": 142,
+    "h": 52,
     "mask": "/avatar/M/eyes__mandorla_piccoli__lunghissime.mask.png",
     "shift": [
      0,
@@ -5627,7 +5642,8 @@
       "sd": 0.1233
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/tondi_grandi__corte": {
@@ -5675,10 +5691,10 @@
   "eyes/tondi_grandi__lunghe": {
    "F": {
     "src": "/avatar/F/eyes__tondi_grandi__lunghe.webp",
-    "x": 350,
-    "y": 152,
+    "x": 351,
+    "y": 153,
     "w": 148,
-    "h": 72,
+    "h": 52,
     "mask": "/avatar/F/eyes__tondi_grandi__lunghe.mask.png",
     "shift": [
      0,
@@ -5691,14 +5707,15 @@
       "sd": 0.1201
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__lunghe.webp",
-    "x": 353,
-    "y": 150,
-    "w": 143,
-    "h": 69,
+    "x": 352,
+    "y": 144,
+    "w": 144,
+    "h": 59,
     "mask": "/avatar/M/eyes__tondi_grandi__lunghe.mask.png",
     "shift": [
      0,
@@ -5711,16 +5728,17 @@
       "sd": 0.1304
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/tondi_grandi__lunghissime": {
    "F": {
     "src": "/avatar/F/eyes__tondi_grandi__lunghissime.webp",
-    "x": 340,
-    "y": 140,
-    "w": 169,
-    "h": 78,
+    "x": 351,
+    "y": 153,
+    "w": 148,
+    "h": 52,
     "mask": "/avatar/F/eyes__tondi_grandi__lunghissime.mask.png",
     "shift": [
      0,
@@ -5733,14 +5751,15 @@
       "sd": 0.1296
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__lunghissime.webp",
-    "x": 340,
-    "y": 140,
-    "w": 169,
-    "h": 80,
+    "x": 352,
+    "y": 144,
+    "w": 144,
+    "h": 59,
     "mask": "/avatar/M/eyes__tondi_grandi__lunghissime.mask.png",
     "shift": [
      0,
@@ -5753,7 +5772,8 @@
       "sd": 0.119
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/tondi_piccoli__corte": {
@@ -5801,10 +5821,10 @@
   "eyes/tondi_piccoli__lunghe": {
    "F": {
     "src": "/avatar/F/eyes__tondi_piccoli__lunghe.webp",
-    "x": 350,
-    "y": 152,
+    "x": 351,
+    "y": 153,
     "w": 148,
-    "h": 70,
+    "h": 54,
     "mask": "/avatar/F/eyes__tondi_piccoli__lunghe.mask.png",
     "shift": [
      0,
@@ -5817,14 +5837,15 @@
       "sd": 0.1269
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_piccoli__lunghe.webp",
-    "x": 353,
-    "y": 142,
+    "x": 352,
+    "y": 148,
     "w": 143,
-    "h": 78,
+    "h": 54,
     "mask": "/avatar/M/eyes__tondi_piccoli__lunghe.mask.png",
     "shift": [
      0,
@@ -5837,16 +5858,17 @@
       "sd": 0.113
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   },
   "eyes/tondi_piccoli__lunghissime": {
    "F": {
     "src": "/avatar/F/eyes__tondi_piccoli__lunghissime.webp",
-    "x": 330,
-    "y": 139,
-    "w": 188,
-    "h": 85,
+    "x": 350,
+    "y": 152,
+    "w": 149,
+    "h": 55,
     "mask": "/avatar/F/eyes__tondi_piccoli__lunghissime.mask.png",
     "shift": [
      0,
@@ -5859,14 +5881,15 @@
       "sd": 0.1336
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_piccoli__lunghissime.webp",
-    "x": 353,
-    "y": 149,
+    "x": 352,
+    "y": 148,
     "w": 143,
-    "h": 71,
+    "h": 54,
     "mask": "/avatar/M/eyes__tondi_piccoli__lunghissime.mask.png",
     "shift": [
      0,
@@ -5879,7 +5902,8 @@
       "sd": 0.1177
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "toned": 2
    }
   }
  },
