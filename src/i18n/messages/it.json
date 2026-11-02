@@ -69,15 +69,112 @@
     "partnersTitle": "I Partner"
   },
   "market": {
-    "title": "Mercato del Lavoro",
-    "subtitle": "Dati aggiornati sulle professioni in crescita, le competenze richieste e l'impatto dell'intelligenza artificiale.",
-    "topJobsTitle": "Professioni Più Richieste",
-    "aiImpactTitle": "Impatto dell'AI",
-    "aiImpactDesc": "L'intelligenza artificiale sta trasformando il mercato del lavoro. Ecco come prepararsi.",
-    "trendsTitle": "Tendenze del Mercato",
-    "skillsTitle": "Competenze Chiave",
-    "localContextTitle": "Il Contesto Locale",
-    "localContextDesc": "Focus sulla Provincia di Ancona e le Marche: tassi di occupazione, settori trainanti e opportunità per i giovani."
+    "title": "Mercato del lavoro",
+    "eyebrow": "Report · dati aggiornati a novembre 2026",
+    "titleLine1": "Il mercato del lavoro",
+    "titleLine2": "in numeri",
+    "subtitle": "Chi cercano le imprese, cosa cambia con l'intelligenza artificiale e com'è la situazione nelle Marche. Ogni numero ha la sua fonte.",
+    "million": "milioni",
+    "outOf100": "su 100",
+    "sourceLabel": "Fonte",
+    "waffleLabel": "{value} quadratini colorati su 100",
+    "heroStats": {
+      "total": "lavoratori che potranno servire in Italia dal 2025 al 2029",
+      "net": "posti di lavoro in più nel mondo entro il 2030",
+      "neet": "dei giovani marchigiani tra 15 e 29 anni non studia e non lavora, meno della media italiana"
+    },
+    "jobs": {
+      "title": "Chi cercano le imprese",
+      "desc": "Dal 2025 al 2029 in Italia serviranno tra {low} e {high} milioni di lavoratori: tra {replacementLow} e {replacementHigh} su 100 prenderanno il posto di chi esce dal lavoro, per esempio per la pensione. Queste sono le professioni qualificate più richieste.",
+      "low": "Scenario prudente",
+      "high": "In più nello scenario positivo",
+      "items": {
+        "healthTech": "Tecnici della salute",
+        "management": "Specialisti delle scienze gestionali, commerciali e bancarie",
+        "marketTech": "Tecnici dei rapporti con i mercati",
+        "engineers": "Ingegneri",
+        "doctors": "Medici",
+        "appDev": "Analisti e specialisti nella progettazione di applicazioni"
+      },
+      "hints": {
+        "healthTech": "infermieri, ostetriche, fisioterapisti, tecnici di laboratorio e di radiologia",
+        "management": "esperti di amministrazione, finanza, marketing e organizzazione d'impresa",
+        "marketTech": "tecnici delle vendite, degli acquisti, del marketing e della pubblicità",
+        "engineers": "ingegneri industriali, civili, elettronici, informatici e di altri settori",
+        "doctors": "medici di famiglia, specialisti e chirurghi",
+        "appDev": "chi analizza, progetta e sviluppa software e app"
+      }
+    },
+    "ai": {
+      "title": "L'intelligenza artificiale cambia il lavoro",
+      "desc": "Il World Economic Forum ha chiesto alle grandi imprese di tutto il mondo come cambierà il lavoro entro il 2030. Ecco cosa hanno risposto.",
+      "cyberCaption": "Reti e cybersicurezza è la seconda competenza che crescerà di più entro il 2030, dopo AI e big data.",
+      "balance": {
+        "kicker": "Entro il 2030, nel mondo",
+        "net": "posti di lavoro in più",
+        "created": "Posti nuovi",
+        "displaced": "Posti che spariscono o vengono sostituiti"
+      },
+      "skillsChange": {
+        "kicker": "Competenze",
+        "title": "Competenze che cambiano",
+        "desc": "Delle competenze richieste oggi, quasi 4 su 10 cambieranno o non serviranno più entro il 2030. In Italia la stima è {italy} su 100."
+      },
+      "aiTransform": {
+        "kicker": "Intelligenza artificiale",
+        "title": "Imprese che si aspettano una trasformazione",
+        "desc": "Pensano che AI e trattamento dei dati cambieranno la loro attività entro il 2030. Da sole, queste tecnologie creeranno {created} milioni di posti e ne sostituiranno {displaced} milioni."
+      },
+      "upskilling": {
+        "kicker": "Formazione",
+        "title": "Imprese che puntano sulla formazione",
+        "desc": "Vogliono far crescere le competenze di chi lavora già con loro. Imparare non finisce con la scuola."
+      }
+    },
+    "skills": {
+      "title": "Le competenze che contano",
+      "desc": "Quante imprese su 100, nel mondo, considerano fondamentale ciascuna competenza nel 2025.",
+      "items": {
+        "analytical": "Pensiero analitico",
+        "resilience": "Resilienza, flessibilità e agilità",
+        "leadership": "Leadership e influenza sociale",
+        "creative": "Pensiero creativo",
+        "motivation": "Motivazione e consapevolezza di sé",
+        "techLiteracy": "Alfabetizzazione tecnologica"
+      },
+      "growing": "Quelle che cresceranno di più entro il 2030: AI e big data, reti e cybersicurezza, alfabetizzazione tecnologica."
+    },
+    "local": {
+      "title": "Le Marche e la Provincia di Ancona",
+      "desc": "Come stanno i giovani della nostra regione rispetto all'Italia e all'Europa, e cosa cercano le imprese della provincia.",
+      "ancona": {
+        "kicker": "Provincia di Ancona, 2025",
+        "title": "delle assunzioni previste dalle imprese è difficile da coprire: quasi una su due.",
+        "desc": "Le imprese non trovano abbastanza candidati, o candidati con le competenze giuste. In provincia lavora il {employment}% delle persone tra 15 e 64 anni."
+      },
+      "neet": {
+        "title": "Giovani che non studiano e non lavorano",
+        "desc": "NEET tra 15 e 29 anni, in % (2025). Nelle Marche sono molti meno che nel 2019."
+      },
+      "unemployment": {
+        "title": "Disoccupazione giovanile",
+        "desc": "Giovani tra 15 e 29 anni che cercano lavoro e non lo trovano, in % (2025). Nelle Marche è salita rispetto al 2024."
+      },
+      "labels": {
+        "marche": "Marche",
+        "italia": "Italia",
+        "ue": "Unione europea",
+        "marche2019": "Marche 2019",
+        "marche2024": "Marche 2024"
+      }
+    },
+    "sources": {
+      "excelsior": "Unioncamere - Ministero del Lavoro, Sistema Excelsior, Previsioni dei fabbisogni occupazionali e professionali in Italia a medio termine (2025-2029), II aggiornamento, luglio 2026, tab. 2.2 e 5.2",
+      "wef": "World Economic Forum, Future of Jobs Report 2025, pp. 5-6, 18, 25, 34-37 e profilo Italia p. 156",
+      "eurostatNeet": "Eurostat, edat_lfse_22 (dati ISTAT, Rilevazione forze di lavoro), NEET 15-29 anni, 2019 e 2025",
+      "eurostatUnemp": "Eurostat, lfst_r_lfu3rt, tasso di disoccupazione 15-29 anni, 2024 e 2025",
+      "camcom": "Camera di Commercio delle Marche, Dataview 2026 - Mercato del lavoro, dati 2025 (Excelsior e Istat), p. 3"
+    }
   },
   "news": {
     "title": "News",
