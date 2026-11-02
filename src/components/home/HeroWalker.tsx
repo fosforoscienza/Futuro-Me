@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import type { CastId } from "@/lib/avatar/cast";
-import { startAlphaVideo } from "@/components/avatar/alphaVideo";
+import { canPlayAlphaVideo, startAlphaVideo } from "@/components/avatar/alphaVideo";
 
 const REDUCE = "(prefers-reduced-motion: reduce)";
 
@@ -16,7 +16,8 @@ const subscribe = (cb: () => void) => {
 /**
  * Un "futuro me" dell'hero: fa qualche passo verso chi guarda e chiude in una
  * posa, una volta sola, poi resta fermo sull'ultimo fotogramma. Parte `delay` ms
- * dopo essere entrato in vista. Con riduzione del movimento mostra subito la posa.
+ * dopo essere entrato in vista. Con riduzione del movimento e su iPhone/iPad
+ * mostra subito la posa.
  *
  * File in public/avatar/hero: <id>.webp (primo fotogramma), <id>-posa.webp
  * (ultimo), <id>.webm (VP9 con alfa) e <id>.mov (HEVC con alfa, per Safari).
@@ -39,7 +40,7 @@ export function HeroWalker({
   /** null al server: si decide al primo render nel browser. */
   const motion = useSyncExternalStore<boolean | null>(
     subscribe,
-    () => !window.matchMedia(REDUCE).matches,
+    () => !window.matchMedia(REDUCE).matches && canPlayAlphaVideo(),
     () => null
   );
   const [playing, setPlaying] = useState(false);

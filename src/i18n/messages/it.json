@@ -20,7 +20,10 @@
     "futures": {
       "aiDev": "AI Developer",
       "dataAnalyst": "Data Analyst",
-      "solarTech": "Tecnica delle rinnovabili"
+      "solarTech": "Tecnica delle rinnovabili",
+      "cyber": "Cybersecurity Specialist",
+      "biotech": "Biotecnologo",
+      "firefighter": "Vigile del fuoco"
     }
   },
   "home": {
