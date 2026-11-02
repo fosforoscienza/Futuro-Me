@@ -306,7 +306,8 @@
       "schools": "Schools",
       "universities": "Universities"
     },
-    "supportTitle": "Support"
+    "supportTitle": "Support",
+    "newTab": "opens in a new tab"
   },
   "account": {
     "loginTitle": "Sign in",
