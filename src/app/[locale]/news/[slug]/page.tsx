@@ -6,6 +6,7 @@ import { Link } from "@/i18n/routing";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { newsArticles, type NewsArticle } from "@/lib/news-data";
 import { getAllNews, getNewsBySlug } from "@/lib/news/repository";
+import { NewsImage } from "@/components/news/NewsImage";
 
 // Le news statiche sono prerenderizzate; quelle del job vengono generate alla
 // prima visita e aggiornate dopo ogni pubblicazione.
@@ -96,6 +97,30 @@ function ArticleContent({
           {article.title}
         </h1>
 
+        {/* Photo */}
+        <figure className="mb-8">
+          <NewsImage
+            src={article.imageUrl}
+            alt={article.title}
+            category={article.category}
+            showCredit={false}
+            className="aspect-[16/9] w-full rounded-[1.5rem]"
+          />
+          {article.imageUrl && (
+            <figcaption className="mt-2 text-xs text-outline">
+              {t("photo")}:{" "}
+              <a
+                href={article.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                {article.source}
+              </a>
+            </figcaption>
+          )}
+        </figure>
+
         {/* Source */}
         <div className="text-sm text-outline mb-10 pb-10 border-b border-outline-variant/30 space-y-3">
           <p>
@@ -171,17 +196,26 @@ function ArticleContent({
               <Link
                 key={related.slug}
                 href={`/news/${related.slug}` as "/news/[slug]"}
-                className="bg-surface-container-lowest p-6 rounded-[1.5rem] hover:translate-y-[-2px] transition-transform group"
+                className="bg-surface-container-lowest rounded-[1.5rem] overflow-hidden hover:translate-y-[-2px] transition-transform group"
               >
-                <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold px-3 py-1 rounded-full">
-                  {t(`categories.${related.category}`)}
-                </span>
-                <h4 className="font-[var(--font-plus-jakarta)] font-bold text-secondary mt-3 group-hover:text-primary transition-colors">
-                  {related.title}
-                </h4>
-                <p className="text-xs text-outline mt-2">
-                  {t("source")}: {related.source}
-                </p>
+                <NewsImage
+                  src={related.imageUrl}
+                  alt=""
+                  category={related.category}
+                  credit={related.source}
+                  className="aspect-[16/9] w-full"
+                />
+                <div className="p-6">
+                  <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold px-3 py-1 rounded-full">
+                    {t(`categories.${related.category}`)}
+                  </span>
+                  <h4 className="font-[var(--font-plus-jakarta)] font-bold text-secondary mt-3 group-hover:text-primary transition-colors">
+                    {related.title}
+                  </h4>
+                  <p className="text-xs text-outline mt-2">
+                    {t("source")}: {related.source}
+                  </p>
+                </div>
               </Link>
             ))}
           </div>

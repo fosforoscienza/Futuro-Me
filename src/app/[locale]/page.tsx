@@ -15,6 +15,7 @@ import {
 import type { NewsArticle } from "@/lib/news-data";
 import { getAllNews } from "@/lib/news/repository";
 import { HeroAnimated } from "@/components/home/HeroAnimated";
+import { NewsImage } from "@/components/news/NewsImage";
 
 // Ultime news dal job settimanale: al massimo un'ora di ritardo, e la home
 // viene rigenerata subito dopo ogni pubblicazione.
@@ -168,24 +169,33 @@ function HomeContent({
             <Link
               key={news.slug}
               href={`/news/${news.slug}` as "/news/[slug]"}
-              className="bg-surface-container-lowest p-6 rounded-[1.5rem] hover:translate-y-[-4px] transition-transform group block"
+              className="bg-surface-container-lowest rounded-[1.5rem] overflow-hidden hover:translate-y-[-4px] transition-transform group block"
             >
-              <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold px-3 py-1 rounded-full">
-                {t(`news.categories.${news.category}`)}
-              </span>
-              <h3 className="font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary mt-4 mb-2 group-hover:text-primary transition-colors">
-                {news.title}
-              </h3>
-              <p className="text-xs text-on-surface-variant">
-                {new Date(news.date).toLocaleDateString(locale === "en" ? "en-GB" : "it-IT", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </p>
-              <p className="text-xs text-outline mt-1">
-                {t("news.source")}: {news.source}
-              </p>
+              <NewsImage
+                src={news.imageUrl}
+                alt=""
+                category={news.category}
+                credit={news.source}
+                className="aspect-[16/9] w-full"
+              />
+              <div className="p-6">
+                <span className="bg-tertiary-container text-on-tertiary-container text-xs font-bold px-3 py-1 rounded-full">
+                  {t(`news.categories.${news.category}`)}
+                </span>
+                <h3 className="font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary mt-4 mb-2 group-hover:text-primary transition-colors">
+                  {news.title}
+                </h3>
+                <p className="text-xs text-on-surface-variant">
+                  {new Date(news.date).toLocaleDateString(locale === "en" ? "en-GB" : "it-IT", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </p>
+                <p className="text-xs text-outline mt-1">
+                  {t("news.source")}: {news.source}
+                </p>
+              </div>
             </Link>
           ))}
         </div>

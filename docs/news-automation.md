@@ -47,10 +47,16 @@ nell'elenco sia nella pagina della news.
    Senza chiave, o se la chiamata fallisce, il job pubblica comunque estratti delle fonti in
    italiano, con una soglia di pertinenza più alta e al massimo 2 news per fonte. Il campo
    `summary_method` registra quale dei due metodi è stato usato.
-5. **Pubblicazione.** Le news vanno in `news_articles` con stato `published`, senza approvazione
+5. **Foto.** Ogni news ha la foto di copertina dell'articolo originale: `og:image` o
+   `twitter:image` della pagina, altrimenti l'immagine del feed (enclosure, media:content,
+   prima `<img>`). La legge sempre il sito, mai chi pubblica. Viene mostrata con il credito
+   "Foto: fonte" e il link all'originale. Se manca o la testata ne blocca l'uso esterno, compare
+   un'immagine di riserva con colore e icona della categoria (`src/components/news/NewsImage.tsx`).
+   La CSP permette `img-src https:`. Migrazione `20261102020000_news_images.sql`.
+6. **Pubblicazione.** Le news vanno in `news_articles` con stato `published`, senza approvazione
    manuale. Il job poi invalida la cache di home, elenco news, pagine news e sitemap. Le pagine
    si aggiornano comunque almeno una volta all'ora.
-6. **Registro.** Ogni esecuzione del lunedì o manuale scrive una riga in `news_job_runs`: stato,
+7. **Registro.** Ogni esecuzione del lunedì o manuale scrive una riga in `news_job_runs`: stato,
    conteggi, messaggio e log per fonte. Non si pubblica due volte la stessa settimana, a meno di
    usare "Forza".
 

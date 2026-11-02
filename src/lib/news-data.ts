@@ -10,6 +10,8 @@ export type NewsArticle = {
   sourceUrl: string;
   /** True per le news pubblicate dal job settimanale. */
   auto?: boolean;
+  /** Foto dell'articolo originale (credito: la fonte). */
+  imageUrl?: string | null;
 };
 
 /**

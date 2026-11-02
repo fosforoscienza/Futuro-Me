@@ -12,6 +12,8 @@ export type Candidate = {
   title: string;
   url: string;
   publishedAt: string | null;
+  /** Foto di copertina dell'articolo originale, se trovata. */
+  imageUrl: string | null;
   text: string;
 };
 
