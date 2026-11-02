@@ -50,6 +50,7 @@ export type AvatarSelection = {
   cappello: string;
   occhiali: string;
   gioielli: string[];
+  orecchie: string;
   altro: string[];
   torso: string;
   braccia: string[];
@@ -76,6 +77,7 @@ export const DEFAULT_SELECTION: AvatarSelection = {
   cappello: "nessuno",
   occhiali: "nessuno",
   gioielli: [],
+  orecchie: "entrambe",
   altro: [],
   torso: "base",
   braccia: [],
@@ -364,6 +366,15 @@ export const LEVELS: Level[] = [
             ["catenina", "Catenina elegante"],
             ["catena_trap", "Catena grossa (stile trap)"],
           ]),
+        ],
+      },
+      {
+        id: "orecchie",
+        label: "Orecchini su",
+        kind: "single",
+        choices: [
+          { id: "entrambe", label: "Entrambe le orecchie" },
+          { id: "una", label: "Un orecchio solo" },
         ],
       },
       {
