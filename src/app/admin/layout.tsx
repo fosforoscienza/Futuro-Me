@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Console news | Il Futuro Me",
+  title: "Console | Il Futuro Me",
   robots: { index: false, follow: false },
 };
 

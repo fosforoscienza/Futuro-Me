@@ -1,14 +1,7 @@
 "use server";
 
-import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import {
-  checkAdminSecret,
-  endAdminSession,
-  isAdmin,
-  startAdminSession,
-} from "@/lib/admin-auth";
-import { rateLimit } from "@/lib/rate-limit";
+import { isAdmin } from "@/lib/admin-auth";
 import { newsDb } from "@/lib/news/db";
 import { fetchFeed } from "@/lib/news/feeds";
 import { revalidateNews, runNewsJob } from "@/lib/news/pipeline";
@@ -35,24 +28,6 @@ function httpUrl(value: string): string | null {
   } catch {
     return null;
   }
-}
-
-export async function login(_prev: ActionState, form: FormData): Promise<ActionState> {
-  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
-  if (!rateLimit(`admin-login:${ip}`, { limit: 5, windowSeconds: 300 }).success) {
-    return { ok: false, message: "Troppi tentativi: riprova tra qualche minuto." };
-  }
-  if (!checkAdminSecret(field(form, "secret"))) {
-    return { ok: false, message: "Chiave non valida." };
-  }
-  await startAdminSession();
-  revalidatePath("/admin");
-  return { ok: true, message: "Accesso eseguito." };
-}
-
-export async function logout() {
-  await endAdminSession();
-  revalidatePath("/admin");
 }
 
 /** Crea (senza id) o aggiorna (con id) una fonte. */

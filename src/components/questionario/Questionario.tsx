@@ -38,6 +38,7 @@ import {
 import { AvatarCanvas } from "@/components/avatar/AvatarCanvas";
 import { AvatarLevel } from "@/components/avatar/AvatarLevel";
 import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
+import type { Fase } from "@/lib/auth/area";
 
 type Status = "intro" | "form" | "sending" | "done";
 
@@ -72,7 +73,17 @@ const sectionOf = new Map(
 
 const headline = "font-[var(--font-plus-jakarta)]";
 
-export function Questionario() {
+const FASE_LABEL: Record<Fase, string> = {
+  inizio: "Inizio progetto",
+  fine: "Fine progetto",
+};
+
+/**
+ * Senza `fase` è il questionario anonimo della pagina /questionario.
+ * Con `fase` è quello dell'area personale: le risposte si legano all'account
+ * dello studente e alla fase, e alla fine si torna all'area (`areaHref`).
+ */
+export function Questionario({ fase, areaHref }: { fase?: Fase; areaHref?: string } = {}) {
   const [status, setStatus] = useState<Status>("intro");
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
@@ -132,8 +143,20 @@ export function Questionario() {
       const res = await fetch("/api/questionario", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers, avatar, website }),
+        body: JSON.stringify({ answers, avatar, website, fase }),
       });
+      if (res.status === 401) {
+        setStatus("form");
+        setSubmitError(
+          "La tua sessione è scaduta. Apri un'altra scheda, accedi di nuovo e poi torna qui per inviare: le risposte restano in questa pagina."
+        );
+        return;
+      }
+      if (res.status === 409) {
+        // Già compilato (es. da un altro dispositivo): mostra l'area aggiornata.
+        if (areaHref) window.location.assign(areaHref);
+        return;
+      }
       if (!res.ok) throw new Error(String(res.status));
       setStatus("done");
       scrollToTop();
@@ -178,7 +201,7 @@ export function Questionario() {
         <div className="flex items-center gap-2 mb-4">
           <Sparkles size={16} className="text-primary" />
           <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">
-            Questionario anonimo
+            {fase ? FASE_LABEL[fase] : "Questionario anonimo"}
           </p>
         </div>
         <h1
@@ -193,9 +216,14 @@ export function Questionario() {
         ref={topRef}
         className={`${step.kind === "avatar" || status === "done" ? "max-w-6xl" : "max-w-3xl"} mx-auto px-6 scroll-mt-28`}
       >
-        {status === "intro" && <Intro onStart={start} />}
+        {status === "intro" && <Intro onStart={start} personal={Boolean(fase)} />}
 
-        {status === "done" && <Done avatar={avatar} onRestart={restart} />}
+        {status === "done" &&
+          (fase && areaHref ? (
+            <QuestionarioDone avatar={avatar} backHref={areaHref} />
+          ) : (
+            <QuestionarioDone avatar={avatar} onRestart={restart} />
+          ))}
 
         {(status === "form" || status === "sending") && (
           <>
@@ -312,7 +340,7 @@ export function Questionario() {
   );
 }
 
-function Intro({ onStart }: { onStart: () => void }) {
+function Intro({ onStart, personal }: { onStart: () => void; personal: boolean }) {
   return (
     <div className="bg-surface-container-low p-8 md:p-10 rounded-[1.5rem] max-w-3xl">
       <h2 className={`text-2xl ${headline} font-bold text-secondary mb-4`}>
@@ -331,7 +359,9 @@ function Intro({ onStart }: { onStart: () => void }) {
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
           <ShieldCheck size={20} className="text-secondary shrink-0" />
           <span className="text-sm font-bold text-secondary">
-            Anonimo: non ti chiediamo il nome
+            {personal
+              ? "Senza nome: resta legato solo al tuo username"
+              : "Anonimo: non ti chiediamo il nome"}
           </span>
         </li>
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
@@ -358,12 +388,23 @@ function Intro({ onStart }: { onStart: () => void }) {
   );
 }
 
-function Done({
+/** Avatar finale con download; nell'area personale riporta all'area invece di ricominciare. */
+export function QuestionarioDone({
   avatar,
   onRestart,
+  backHref,
+  title = "Grazie!",
+  text = "Le tue risposte sono state inviate. Ecco il tuo Futuro Me: puoi salvarlo e tenerlo come ricordo.",
+  downloadLabel = "Scarica l'avatar",
+  backLabel = "Torna alla tua area",
 }: {
   avatar: AvatarSelection;
-  onRestart: () => void;
+  onRestart?: () => void;
+  backHref?: string;
+  title?: string;
+  text?: string;
+  downloadLabel?: string;
+  backLabel?: string;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const download = () => {
@@ -399,27 +440,35 @@ function Done({
             <Check size={28} />
           </div>
           <h2 className={`text-3xl ${headline} font-extrabold mb-4`}>
-            Grazie!
+            {title}
           </h2>
-          <p className="text-white/80 text-lg leading-relaxed max-w-xl">
-            Le tue risposte sono state inviate. Ecco il tuo Futuro Me: puoi
-            salvarlo e tenerlo come ricordo.
-          </p>
+          <p className="text-white/80 text-lg leading-relaxed max-w-xl">{text}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               type="button"
               onClick={download}
               className="bg-white text-secondary px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:scale-105 transition-transform cursor-pointer"
             >
-              <Download size={16} /> Scarica l&apos;avatar
+              <Download size={16} /> {downloadLabel}
             </button>
-            <button
-              type="button"
-              onClick={onRestart}
-              className="bg-white/15 text-white px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:bg-white/25 transition-colors cursor-pointer"
-            >
-              <RotateCcw size={16} /> Nuova compilazione
-            </button>
+            {backHref ? (
+              <a
+                href={backHref}
+                className="bg-white/15 text-white px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:bg-white/25 transition-colors"
+              >
+                <ArrowLeft size={16} /> {backLabel}
+              </a>
+            ) : (
+              onRestart && (
+                <button
+                  type="button"
+                  onClick={onRestart}
+                  className="bg-white/15 text-white px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:bg-white/25 transition-colors cursor-pointer"
+                >
+                  <RotateCcw size={16} /> Nuova compilazione
+                </button>
+              )
+            )}
           </div>
         </div>
         <div className="absolute -right-6 -bottom-6 opacity-10">
