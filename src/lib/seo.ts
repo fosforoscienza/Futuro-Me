@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { defaultLocale, locales } from "@/i18n/config";
 import { BASE_URL, CONTACT_EMAIL, SITE_NAME } from "./constants";
-import { partners, type Partner } from "./partners";
+import { CARIVERONA_URL, partners, type Partner } from "./partners";
 
 /**
  * Metadata e dati strutturati (JSON-LD) condivisi da tutte le pagine pubbliche.
@@ -40,13 +40,34 @@ type PageMetadataInput = {
   /** Il titolo è già completo: non aggiungere " | Il Futuro Me". */
   absoluteTitle?: boolean;
   article?: { publishedTime: string; modifiedTime?: string; section?: string };
+  /** Anteprima specifica della pagina (es. la card della news); default quella della lingua. */
+  image?: { url: string; alt: string };
 };
+
+/** Immagine di condivisione della lingua (src/app/[locale]/opengraph-image.tsx). */
+export function ogImageUrl(locale: string): string {
+  return `${pageUrl(locale)}/opengraph-image`;
+}
+
+export const OG_IMAGE_ALT = "Il Futuro Me — Orientamento e Carriere per Giovani";
 
 export function pageMetadata(input: PageMetadataInput): Metadata {
   const { locale, path, title, description, noindex, absoluteTitle, article } = input;
   const available = input.languages ?? locales;
   const canonical = pageUrl(input.canonicalLocale ?? locale, path);
   const fullTitle = absoluteTitle ? title : `${title} | ${SITE_NAME}`;
+  // openGraph della pagina sostituisce quello ereditato (merge superficiale): senza
+  // images esplicite le pagine interne resterebbero senza anteprima. Un
+  // opengraph-image di un segmento figlio va quindi passato qui con `image`.
+  const ogLocale = input.canonicalLocale ?? locale;
+  const images = [
+    {
+      url: input.image?.url ?? ogImageUrl(ogLocale),
+      width: 1200,
+      height: 630,
+      alt: input.image?.alt ?? OG_IMAGE_ALT,
+    },
+  ];
 
   return {
     title: absoluteTitle ? { absolute: title } : title,
@@ -60,7 +81,8 @@ export function pageMetadata(input: PageMetadataInput): Metadata {
       description,
       url: canonical,
       siteName: SITE_NAME,
-      locale: OG_LOCALE[input.canonicalLocale ?? locale] ?? OG_LOCALE[defaultLocale],
+      images,
+      locale: OG_LOCALE[ogLocale] ?? OG_LOCALE[defaultLocale],
       alternateLocale: input.canonicalLocale
         ? undefined
         : available.filter((l) => l !== locale).map((l) => OG_LOCALE[l]),
@@ -73,7 +95,7 @@ export function pageMetadata(input: PageMetadataInput): Metadata {
           }
         : { type: "website" }),
     },
-    twitter: { card: "summary_large_image", title: fullTitle, description },
+    twitter: { card: "summary_large_image", title: fullTitle, description, images },
     ...(noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }
@@ -112,6 +134,9 @@ function partnerNode(partner: Partner): Node {
     "@type": PARTNER_TYPE[partner.group],
     "@id": partnerId(partner),
     name: partner.name,
+    // Il sito ufficiale lega il nodo all'entità che i motori conoscono già.
+    url: partner.url,
+    sameAs: [partner.url],
     ...(partner.logo ? { logo: `${BASE_URL}${partner.logo.src}` } : {}),
     ...(partner.group === "lead"
       ? {
@@ -145,6 +170,15 @@ export function siteGraph(texts: SiteTexts): Node[] {
       name: SITE_NAME,
       alternateName: "Futuro Me",
       url: BASE_URL,
+      logo: {
+        "@type": "ImageObject",
+        "@id": `${BASE_URL}/#logo`,
+        url: `${BASE_URL}/icon-512.png`,
+        width: 512,
+        height: 512,
+        caption: SITE_NAME,
+      },
+      image: { "@id": `${BASE_URL}/#logo` },
       description: texts.description,
       email: CONTACT_EMAIL,
       contactPoint: {
@@ -171,7 +205,13 @@ export function siteGraph(texts: SiteTexts): Node[] {
     },
     partnerNode(lead),
     ...others.map(partnerNode),
-    { "@type": "Organization", "@id": FUNDER_ID, name: "Fondazione Cariverona" },
+    {
+      "@type": "Organization",
+      "@id": FUNDER_ID,
+      name: "Fondazione Cariverona",
+      url: CARIVERONA_URL,
+      sameAs: [CARIVERONA_URL],
+    },
     {
       "@type": "WebSite",
       "@id": WEBSITE_ID,

@@ -8,8 +8,7 @@ import { newsArticles, type NewsArticle } from "@/lib/news-data";
 import { getAllNews, getNewsBySlug } from "@/lib/news/repository";
 import { NewsImage } from "@/components/news/NewsImage";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { BASE_URL, SITE_NAME } from "@/lib/constants";
-import { pageMetadata, pageUrl, webPageNodes } from "@/lib/seo";
+import { ORGANIZATION_ID, pageMetadata, pageUrl, webPageNodes } from "@/lib/seo";
 
 // Le news statiche sono prerenderizzate; quelle del job vengono generate alla
 // prima visita e aggiornate dopo ogni pubblicazione.
@@ -38,8 +37,11 @@ export async function generateMetadata({
     languages: article.languages ?? ["it"],
     // Senza traduzione la pagina inglese ripete il testo italiano: canonical sull'originale.
     canonicalLocale: lang !== locale ? lang : undefined,
+    image: { url: `${pageUrl(lang, `/news/${slug}`)}/opengraph-image`, alt: article.title },
     article: {
       publishedTime: article.publishedAt ?? article.date,
+      // Le news non vengono modificate dopo la pubblicazione.
+      modifiedTime: article.publishedAt ?? article.date,
       section: t(`categories.${article.category}`),
     },
   });
@@ -83,6 +85,15 @@ function ArticleContent({
   const lang = article.lang ?? "it";
   const path = `/news/${article.slug}`;
   const url = pageUrl(lang, path);
+  // Data di pubblicazione su Il Futuro Me; `date` è quella dell'articolo originale.
+  const published = article.publishedAt ?? article.date;
+  const formatDate = (d: string) =>
+    new Date(d).toLocaleDateString(locale === "en" ? "en-GB" : "it-IT", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "Europe/Rome",
+    });
 
   // La fonte resta sempre citata: l'articolo è una sintesi dell'originale.
   const jsonLd = [
@@ -105,11 +116,14 @@ function ArticleContent({
       inLanguage: lang,
       url,
       mainEntityOfPage: { "@id": `${url}#webpage` },
-      datePublished: article.publishedAt ?? article.date,
+      datePublished: published,
+      dateModified: published,
       articleSection: t(`categories.${article.category}`),
-      image: article.imageUrl ? [article.imageUrl] : [`${pageUrl(lang)}/opengraph-image`],
-      author: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
-      publisher: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
+      // Immagine propria (opengraph-image.tsx accanto): la foto della fonte resta
+      // nella pagina con il suo credito, ma non la dichiariamo come nostra.
+      image: [`${url}/opengraph-image`],
+      author: { "@id": ORGANIZATION_ID },
+      publisher: { "@id": ORGANIZATION_ID },
       isBasedOn: {
         "@type": "CreativeWork",
         url: article.sourceUrl,
@@ -139,12 +153,7 @@ function ArticleContent({
             {t(`categories.${article.category}`)}
           </span>
           <span className="text-sm text-on-surface-variant">
-            {t("publishedOn")}{" "}
-            {new Date(article.date).toLocaleDateString(locale === "en" ? "en-GB" : "it-IT", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+            {t("publishedOn")} <time dateTime={published}>{formatDate(published)}</time>
           </span>
         </div>
 
@@ -189,6 +198,11 @@ function ArticleContent({
             >
               {article.source}
             </a>
+            {article.date !== published.slice(0, 10) && (
+              <>
+                {" "}(<time dateTime={article.date}>{formatDate(article.date)}</time>)
+              </>
+            )}
           </p>
           {article.auto && (
             <p className="text-xs text-on-surface-variant">{t("autoNote")}</p>
