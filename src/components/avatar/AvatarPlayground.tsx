@@ -1,11 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Download, RotateCcw, Shuffle, Sparkles } from "lucide-react";
+import { Download, RotateCcw, Sparkles } from "lucide-react";
 import {
   DEFAULT_SELECTION,
   LEVELS,
-  fitToBody,
   withBody,
   type AvatarSelection,
 } from "@/lib/avatar/config";
@@ -14,22 +13,6 @@ import { AvatarLevel } from "./AvatarLevel";
 
 const headline = "font-[var(--font-plus-jakarta)]";
 const START: AvatarSelection = withBody(DEFAULT_SELECTION, "F");
-
-/** Combinazione casuale, utile per provare velocemente molte varianti. */
-function randomSelection(): AvatarSelection {
-  const out: Record<string, unknown> = { ...DEFAULT_SELECTION };
-  for (const group of LEVELS.flatMap((l) => l.groups)) {
-    const ids = group.choices.map((c) => c.id);
-    const pick = () => ids[Math.floor(Math.random() * ids.length)];
-    if (group.kind === "multi") {
-      const n = Math.floor(Math.random() * ((group.max ?? 2) + 1));
-      out[group.id] = [...new Set(Array.from({ length: n }, pick))].slice(0, group.max ?? 2);
-    } else {
-      out[group.id] = pick();
-    }
-  }
-  return fitToBody(out as AvatarSelection);
-}
 
 /** Pagina di prova dell'avatar: tutti i livelli liberi, senza questionario. */
 export function AvatarPlayground() {
@@ -100,13 +83,6 @@ export function AvatarPlayground() {
         </nav>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setSelection(randomSelection())}
-            className={`${button} bg-tertiary-fixed text-on-tertiary-fixed hover:bg-tertiary-fixed-dim`}
-          >
-            <Shuffle size={16} /> Avatar a caso
-          </button>
           <button
             type="button"
             onClick={() => setSelection(START)}
