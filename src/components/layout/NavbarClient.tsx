@@ -67,6 +67,10 @@ export function NavbarClient() {
           </Link>
           <button
             className="md:hidden text-secondary cursor-pointer"
+            type="button"
+            aria-label={mobileOpen ? t("closeMenu") : t("openMenu")}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -74,30 +78,38 @@ export function NavbarClient() {
         </div>
       </div>
 
-      {mobileOpen && (
-        <div className="md:hidden bg-surface/95 backdrop-blur-xl px-6 pb-6 space-y-4">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="block text-secondary font-bold text-lg"
-              onClick={() => setMobileOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <button
-            onClick={() => {
-              switchLocale();
-              setMobileOpen(false);
-            }}
-            className="flex items-center gap-2 text-secondary/70 cursor-pointer"
+      <div
+        id="mobile-menu"
+        hidden={!mobileOpen}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            setMobileOpen(false);
+            document.querySelector<HTMLButtonElement>('[aria-controls="mobile-menu"]')?.focus();
+          }
+        }}
+        className="md:hidden bg-surface/95 backdrop-blur-xl px-6 pb-6 space-y-4"
+      >
+        {navLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="block text-secondary font-bold text-lg"
+            onClick={() => setMobileOpen(false)}
           >
-            <Globe size={18} />
-            <span>{locale === "it" ? "English" : "Italiano"}</span>
-          </button>
-        </div>
-      )}
+            {link.label}
+          </Link>
+        ))}
+        <button
+          onClick={() => {
+            switchLocale();
+            setMobileOpen(false);
+          }}
+          className="flex items-center gap-2 text-secondary/70 cursor-pointer"
+        >
+          <Globe size={18} />
+          <span>{locale === "it" ? "English" : "Italiano"}</span>
+        </button>
+      </div>
     </>
   );
 }

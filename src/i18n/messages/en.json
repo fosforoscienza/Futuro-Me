@@ -17,6 +17,8 @@
     "archive": "Archive",
     "contacts": "Contacts",
     "signIn": "Sign In",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "language": "Language"
   },
   "hero": {
@@ -273,6 +275,7 @@
     "message": "This site uses technical cookies to ensure proper functioning and to store your language preference.",
     "accept": "Accept",
     "reject": "Reject",
+    "dismiss": "Got it",
     "learnMore": "Privacy Policy"
   },
   "contacts": {
@@ -319,7 +322,7 @@
     "passwordConfirm": "Repeat password",
     "classCode": "Class code",
     "classCodePlaceholder": "e.g. 3B-K7QM-X4PZ",
-    "usernameHint": "3 to 24 characters: lowercase letters, numbers, dot or underscore. Don't use your full name.",
+    "usernameHint": "3 to 24 characters: letters, numbers, dots or underscores. Uppercase letters are converted to lowercase. Do not use your first and last name.",
     "passwordHint": "At least 8 characters. Pick one you will remember, but don't share it with classmates.",
     "loginButton": "Sign in",
     "loginPending": "Signing in…",
@@ -329,6 +332,7 @@
     "signupLink": "Sign up with your class code",
     "haveAccount": "Already have an account?",
     "loginLink": "Sign in",
+    "passwordHelp": "Contact support",
     "forgotPassword": "Forgot your password? Ask the project coordinator to reset it.",
     "privacyNote": "We don't ask for your name, surname or email: just a username and password. Read the <link>privacy policy</link>.",
     "showPassword": "Show password",

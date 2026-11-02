@@ -27,10 +27,12 @@ function PasswordInput({
   id,
   autoComplete,
   describedBy,
+  minLength,
 }: {
   id: string;
   autoComplete: string;
   describedBy?: string;
+  minLength?: number;
 }) {
   const t = useTranslations("account");
   const [visible, setVisible] = useState(false);
@@ -42,6 +44,7 @@ function PasswordInput({
         type={visible ? "text" : "password"}
         autoComplete={autoComplete}
         required
+        minLength={minLength}
         maxLength={72}
         aria-describedby={describedBy}
         className={`${input} pr-12`}
@@ -95,7 +98,12 @@ export function LoginForm() {
       <button type="submit" disabled={pending} className={submit}>
         {pending ? t("loginPending") : t("loginButton")} <ArrowRight size={16} />
       </button>
-      <p className={hint}>{t("forgotPassword")}</p>
+      <p className={hint}>
+        {t("forgotPassword")}{" "}
+        <Link href="/contatti" className="font-bold text-secondary underline underline-offset-2">
+          {t("passwordHelp")}
+        </Link>
+      </p>
       <p className="text-sm text-on-surface-variant pt-2 border-t border-outline-variant/60">
         {t("noAccount")}{" "}
         <Link href="/registrati" className="font-bold text-secondary underline underline-offset-4">
@@ -161,7 +169,7 @@ export function SignupForm() {
         <label htmlFor="password" className={label}>
           {t("password")}
         </label>
-        <PasswordInput id="password" autoComplete="new-password" describedBy="password-hint" />
+        <PasswordInput id="password" autoComplete="new-password" describedBy="password-hint" minLength={8} />
         <p id="password-hint" className={hint}>
           {t("passwordHint")}
         </p>
@@ -170,7 +178,7 @@ export function SignupForm() {
         <label htmlFor="password2" className={label}>
           {t("passwordConfirm")}
         </label>
-        <PasswordInput id="password2" autoComplete="new-password" />
+        <PasswordInput id="password2" autoComplete="new-password" minLength={8} />
       </div>
       <ErrorMessage state={state} />
       <button type="submit" disabled={pending} className={submit}>

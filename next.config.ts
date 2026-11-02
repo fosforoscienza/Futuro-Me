@@ -5,7 +5,9 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const cspDirectives = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  // Next.js needs eval for development diagnostics, never in production.
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
+  "object-src 'none'",
   "style-src 'self' 'unsafe-inline'",
   // https: per le foto delle news, prese dagli articoli originali delle fonti.
   "img-src 'self' data: blob: https:",

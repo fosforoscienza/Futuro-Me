@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from "node:crypto";
 import { cache } from "react";
+import { isSessionCurrent } from "./session-validity";
 import { cookies } from "next/headers";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
@@ -68,11 +69,14 @@ export const getSession = cache(async (): Promise<SessionAccount | null> => {
 
   const { data } = await db
     .from("sessioni")
-    .select("expires_at, account:account_id(id, username, ruolo, classe:classe_id(scuola, nome))")
+    .select("created_at, expires_at, account:account_id(id, username, ruolo, password_cambiata_at, classe:classe_id(scuola, nome))")
     .eq("token_hash", hashToken(token))
     .maybeSingle();
-  if (!data || new Date(data.expires_at).getTime() < Date.now()) return null;
-  return data.account as unknown as SessionAccount;
+  if (!data) return null;
+  const account = data.account as unknown as (SessionAccount & { password_cambiata_at: string }) | null;
+  if (!account) return null;
+  if (!isSessionCurrent(data.created_at, data.expires_at, account.password_cambiata_at)) return null;
+  return { id: account.id, username: account.username, ruolo: account.ruolo, classe: account.classe };
 });
 
 export async function endSession() {

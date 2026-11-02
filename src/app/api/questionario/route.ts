@@ -32,6 +32,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ error: "Invalid JSON object" }, { status: 400 });
+  }
+
   // Honeypot: campo nascosto che solo i bot compilano.
   if (body.website) {
     return NextResponse.json({ success: true });

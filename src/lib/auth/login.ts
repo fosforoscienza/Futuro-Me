@@ -27,20 +27,26 @@ export async function checkCredentials(
     return { ok: false, error: "tooMany" };
   }
 
-  const username = normalizeUsername(rawUsername).slice(0, 64);
+  const username = normalizeUsername(rawUsername);
+  if (!username || username.length > 64 || !password || password.length > 72) {
+    return { ok: false, error: "invalid" };
+  }
   const since = new Date(Date.now() - WINDOW_MINUTES * 60 * 1000).toISOString();
-  const { count } = await db
+  const { count, error: attemptsError } = await db
     .from("login_tentativi")
     .select("id", { count: "exact", head: true })
     .eq("username", username)
     .gte("created_at", since);
-  if ((count ?? 0) >= MAX_FAILURES) return { ok: false, error: "tooMany" };
+  if (attemptsError || count === null) return { ok: false, error: "invalid" };
+  if (count >= MAX_FAILURES) return { ok: false, error: "tooMany" };
 
-  const { data: account } = await db
+  const { data: account, error: accountError } = await db
     .from("account")
     .select("id, ruolo, password_hash")
     .eq("username", username)
     .maybeSingle();
+
+  if (accountError) return { ok: false, error: "invalid" };
 
   // Hash calcolato comunque: i tempi non rivelano se l'username esiste.
   const valid = await verifyPassword(password, account?.password_hash ?? DUMMY_HASH);
@@ -54,7 +60,8 @@ export async function checkCredentials(
     return { ok: false, error: "invalid" };
   }
 
-  await db.from("login_tentativi").delete().eq("username", username);
+  const { error: clearError } = await db.from("login_tentativi").delete().eq("username", username);
+  if (clearError) return { ok: false, error: "invalid" };
   return { ok: true, account: { id: account.id, ruolo: account.ruolo } };
 }
 
