@@ -386,7 +386,6 @@ export const LEVELS: Level[] = [
             ["cuffie", "Cuffie per la musica"],
             ["bandana", "Bandana sulla fronte"],
             ["corona", "Corona di fiori"],
-            ["lenti", "Lenti da orefice"],
           ]),
           ...items("skin", [["vitiligine", "Vitiligine"]]),
         ],
