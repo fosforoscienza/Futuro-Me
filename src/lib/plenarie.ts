@@ -18,6 +18,10 @@ export type Plenary = {
   /** Giorno, YYYY-MM-DD. */
   date: string;
   school: string;
+  /** Nome ufficiale della scuola partner (src/lib/partners.ts), per i dati strutturati. */
+  partner: string;
+  /** Comune dell'incontro, solo se certo: nel nome della scuola e senza un luogo diverso. */
+  town?: string;
   /** Luogo, se diverso dalla scuola. */
   place?: string;
   slots: PlenarySlot[];
@@ -29,12 +33,15 @@ export const FIRST_PLENARY: Plenary[] = [
   {
     date: "2026-11-03",
     school: "Fagnani",
+    partner: "IC Senigallia Centro – Fagnani",
     place: "San Rocco",
     slots: [{ from: "8:30", to: "10:30", year: 2, classes: 6 }],
   },
   {
     date: "2026-11-04",
     school: "Ostra",
+    partner: "Istituto Comprensivo Ostra",
+    town: "Ostra",
     slots: [
       { from: "9:00", to: "10:30", year: 3, classes: 3 },
       { from: "10:30", to: "12:00", year: 2, classes: 3 },
@@ -43,6 +50,7 @@ export const FIRST_PLENARY: Plenary[] = [
   {
     date: "2026-11-09",
     school: "Corinaldesi Padovano",
+    partner: "IIS Corinaldesi Padovano",
     totalClasses: 10,
     slots: [
       { from: "9:00", to: "10:40", year: 2 },
@@ -52,6 +60,7 @@ export const FIRST_PLENARY: Plenary[] = [
   {
     date: "2026-11-10",
     school: "Liceo Medi",
+    partner: "Liceo Scientifico Enrico Medi",
     slots: [
       { from: "9:00", to: "11:00", year: 2, group: 1 },
       { from: "11:00", to: "13:00", year: 2, group: 2 },

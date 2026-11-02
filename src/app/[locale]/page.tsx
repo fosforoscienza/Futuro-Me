@@ -10,6 +10,8 @@ import { HomeMotion } from "@/components/home/HomeMotion";
 import { CastAvatar } from "@/components/avatar/CastAvatar";
 import { FIRST_PLENARY, plenaryStatus, type PlenarySlot } from "@/lib/plenarie";
 import { NewsImage } from "@/components/news/NewsImage";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { ORGANIZATION_ID, pageMetadata, pageUrl, webPageNodes } from "@/lib/seo";
 
 // Ultime news dal job settimanale: al massimo un'ora di ritardo, e la home
 // viene rigenerata subito dopo ogni pubblicazione.
@@ -23,7 +25,13 @@ export async function generateMetadata({
   const { locale } = await params;
   const messages = await getMessages({ locale });
   const meta = messages.meta as Record<string, string>;
-  return { title: meta.title, description: meta.description };
+  return pageMetadata({
+    locale,
+    path: "",
+    title: meta.title,
+    description: meta.description,
+    absoluteTitle: true,
+  });
 }
 
 export default async function HomePage({
@@ -75,8 +83,49 @@ function HomeContent({
   const newsDate = (iso: string) =>
     new Date(iso).toLocaleDateString(dateLocale, { day: "numeric", month: "long", year: "numeric" });
 
+  // Ora italiana di novembre (CET, +01:00), come gli orari della Plenaria.
+  const at = (iso: string, time: string) => `${iso}T${time.padStart(5, "0")}:00+01:00`;
+  const plenaryEvents = FIRST_PLENARY.map((p) => ({
+    "@type": "Event",
+    "@id": `${pageUrl(locale)}#plenaria-${p.date}`,
+    name: t("meta.plenaryEvent", { school: p.school }),
+    description: [
+      t("home.plenary.intro"),
+      ...p.slots.map((s) => `${s.from}-${s.to}: ${slotText(s)}.`),
+    ].join(" "),
+    startDate: at(p.date, p.slots[0].from),
+    endDate: at(p.date, p.slots[p.slots.length - 1].to),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    inLanguage: "it",
+    location: {
+      "@type": "Place",
+      name: p.place ? `${p.place} (${p.partner})` : p.partner,
+      address: {
+        "@type": "PostalAddress",
+        ...(p.town ? { addressLocality: p.town } : {}),
+        addressRegion: "AN",
+        addressCountry: "IT",
+      },
+    },
+    organizer: { "@id": ORGANIZATION_ID },
+    audience: { "@type": "EducationalAudience", educationalRole: "student" },
+  }));
+
   return (
     <div className="pb-24 md:pb-12">
+      <JsonLd
+        data={[
+          ...webPageNodes({
+            locale,
+            path: "",
+            name: t("meta.title"),
+            description: t("meta.description"),
+            homeName: t("nav.home"),
+          }),
+          ...plenaryEvents,
+        ]}
+      />
       <HeroAnimated />
 
       <HomeMotion locale={locale}>

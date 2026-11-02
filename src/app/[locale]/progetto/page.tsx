@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import {
   Target,
@@ -12,6 +12,10 @@ import {
 } from "lucide-react";
 import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
 import { SectionAvatar } from "@/components/avatar/SectionAvatar";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { projectFaq } from "@/lib/project-facts";
+import { BASE_URL } from "@/lib/constants";
+import { ORGANIZATION_ID, pageMetadata, webPageNodes } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -21,7 +25,12 @@ export async function generateMetadata({
   const { locale } = await params;
   const messages = await getMessages({ locale });
   const project = messages.project as Record<string, string>;
-  return { title: project.title, description: project.subtitle };
+  return pageMetadata({
+    locale,
+    path: "/progetto",
+    title: project.title,
+    description: project.subtitle,
+  });
 }
 
 export default async function ProgettoPage({
@@ -37,6 +46,10 @@ export default async function ProgettoPage({
 
 function ProgettoContent() {
   const t = useTranslations("project");
+  const tNav = useTranslations("nav");
+  const locale = useLocale();
+  // Riepilogo citabile (chi, cosa, dove, quando), riusato anche da llms.txt.
+  const faq = projectFaq(t, locale);
 
   const objectives = [
     { icon: Target, title: t("obj1Title"), desc: t("obj1Desc") },
@@ -77,6 +90,30 @@ function ProgettoContent() {
 
   return (
     <div className="pb-24 md:pb-12">
+      <JsonLd
+        data={[
+          ...webPageNodes({
+            locale,
+            path: "/progetto",
+            type: "AboutPage",
+            name: t("title"),
+            description: t("subtitle"),
+            homeName: tNav("home"),
+            breadcrumbs: [{ name: t("title"), path: "/progetto" }],
+            extra: { mainEntity: { "@id": ORGANIZATION_ID } },
+          }),
+          {
+            "@type": "FAQPage",
+            "@id": `${BASE_URL}/${locale}/progetto#faq`,
+            inLanguage: locale,
+            mainEntity: faq.map((item) => ({
+              "@type": "Question",
+              name: item.q,
+              acceptedAnswer: { "@type": "Answer", text: item.a },
+            })),
+          },
+        ]}
+      />
       {/* Header */}
       <header className="relative px-6 max-w-7xl mx-auto pt-12 pb-16 lg:min-h-[27rem]">
         <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4">
@@ -101,6 +138,23 @@ function ProgettoContent() {
             {t("overview")}
           </p>
         </div>
+      </section>
+
+      {/* In breve: domande e risposte */}
+      <section id="in-breve" className="max-w-7xl mx-auto px-6 pt-20">
+        <h2 className="text-2xl font-[var(--font-plus-jakarta)] font-bold text-secondary mb-10">
+          {t("faq.title")}
+        </h2>
+        <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 max-w-5xl">
+          {faq.map((item) => (
+            <div key={item.q}>
+              <dt className="font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary">
+                {item.q}
+              </dt>
+              <dd className="mt-2 text-on-surface-variant leading-relaxed">{item.a}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       {/* Objectives */}

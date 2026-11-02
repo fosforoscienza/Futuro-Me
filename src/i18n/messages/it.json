@@ -1,7 +1,13 @@
 {
   "meta": {
     "title": "Il Futuro Me | Orientamento e Carriere per Giovani",
-    "description": "Piattaforma di orientamento per giovani 12-16 anni. Esplora carriere, mercato del lavoro e impatto dell'AI sul futuro professionale."
+    "description": "Piattaforma di orientamento per giovani 12-16 anni. Esplora carriere, mercato del lavoro e impatto dell'AI sul futuro professionale.",
+    "audience": "Ragazze e ragazzi tra 12 e 16 anni",
+    "avatarTitle": "Prova avatar",
+    "avatarDescription": "Prova l'avatar de Il Futuro Me senza compilare il questionario.",
+    "questionnaireTitle": "Questionario",
+    "questionnaireDescription": "Questionario anonimo su pensieri, desideri e aspirazioni per il futuro.",
+    "plenaryEvent": "La prima Plenaria de Il Futuro Me: {school}"
   },
   "nav": {
     "home": "Home",
@@ -81,7 +87,21 @@
     "wp3Title": "Comunità Educante",
     "wp3Desc": "Incontri periodici, tavola rotonda interattiva e laboratori formativi per insegnanti, operatori del Terzo Settore e famiglie.",
     "wp4Title": "Gestione e Comunicazione",
-    "wp4Desc": "Project management, monitoraggio, valutazione d'impatto, rendicontazione e comunicazione del progetto."
+    "wp4Desc": "Project management, monitoraggio, valutazione d'impatto, rendicontazione e comunicazione del progetto.",
+    "faq": {
+      "title": "In breve",
+      "whatQ": "Che cos'è Il Futuro Me?",
+      "whatA": "Un percorso di orientamento integrato e multidimensionale per ragazze e ragazzi tra i 12 e i 16 anni. Li aiuta a conoscere le possibilità formative e lavorative e a scegliere con consapevolezza, insieme alle famiglie e alla Comunità Educante.",
+      "whoQ": "Chi lo promuove?",
+      "whoA": "Fondazione Caritas Senigallia ETS, ente capofila, con {thirdSector}. Partecipano le scuole ({schools}) e le università ({universities}).",
+      "whereQ": "Dove si svolge?",
+      "whereA": "Nella Provincia di Ancona, con le scuole di Senigallia, Arcevia e Ostra.",
+      "whenQ": "Quando sono i primi incontri?",
+      "whenA": "La prima Plenaria con le classi di quattro scuole è il {dates}.",
+      "doQ": "Cosa fanno ragazze e ragazzi?",
+      "fundQ": "Chi lo sostiene?",
+      "fundA": "Il progetto è realizzato nell’ambito del Bando Direzione Giovani 2024, con il sostegno di Fondazione Cariverona."
+    }
   },
   "market": {
     "title": "Mercato del lavoro",
@@ -257,7 +277,16 @@
   },
   "contacts": {
     "metaTitle": "Contatti",
-    "metaDescription": "Contattaci per informazioni sul progetto Il Futuro Me, collaborazioni o feedback. Fondazione Caritas Senigallia ETS."
+    "metaDescription": "Contattaci per informazioni sul progetto Il Futuro Me, collaborazioni o feedback. Fondazione Caritas Senigallia ETS.",
+    "eyebrow": "Connettiti",
+    "title": "Contatti",
+    "intro": "Per informazioni sul progetto, collaborazioni o feedback, contattaci.",
+    "promoterTitle": "Ente Promotore",
+    "location": "Senigallia, Provincia di Ancona",
+    "funding": "Bando Direzione Giovani 2024 — Fondazione Cariverona",
+    "feedbackTitle": "Feedback sul Progetto",
+    "feedbackBody": "Il tuo contributo è fondamentale per migliorare la piattaforma. Condividi le tue idee, suggerimenti o segnalazioni.",
+    "feedbackCta": "Invia Feedback"
   },
   "footer": {
     "description": "Una piattaforma innovativa per navigare il futuro del lavoro e dello sviluppo professionale attraverso strumenti di orientamento e contenuti ispiratori.",

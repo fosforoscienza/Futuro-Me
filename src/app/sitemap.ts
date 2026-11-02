@@ -1,48 +1,41 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
-import { BASE_URL } from "@/lib/constants";
 import { getAllNews } from "@/lib/news/repository";
+import { languageAlternates, pageUrl } from "@/lib/seo";
 
 export const revalidate = 3600;
 
-const staticRoutes = [
-  "/",
-  "/progetto",
-  "/mercato-lavoro",
-  "/news",
-  "/archivio",
-  "/contatti",
-  "/privacy",
-];
+// Solo pagine indicizzabili: fuori archivio (contenuti d'esempio), questionario,
+// avatar, accesso, area studenti e console /admin (tutte noindex).
+const staticRoutes = ["", "/progetto", "/mercato-lavoro", "/news", "/contatti", "/privacy"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticEntries = staticRoutes.flatMap((route) => {
-    const languages: Record<string, string> = {};
-    for (const locale of locales) {
-      languages[locale] = `${BASE_URL}/${locale}${route === "/" ? "" : route}`;
-    }
+  // Le news del job arrivano dal database: la sitemap si aggiorna da sola.
+  const news = await getAllNews("it");
+  const latest = news[0]?.publishedAt ?? news[0]?.date;
 
+  const staticEntries = staticRoutes.flatMap((route) => {
+    const languages = languageAlternates(route);
     return locales.map((locale) => ({
-      url: `${BASE_URL}/${locale}${route === "/" ? "" : route}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: route === "/" ? 1.0 : 0.8,
+      url: pageUrl(locale, route),
+      // Home e news cambiano a ogni pubblicazione; le altre pagine non hanno una data affidabile.
+      ...((route === "" || route === "/news") && latest ? { lastModified: new Date(latest) } : {}),
+      changeFrequency: route === "" || route === "/news" ? ("weekly" as const) : ("monthly" as const),
+      priority: route === "" ? 1.0 : 0.8,
       alternates: { languages },
     }));
   });
 
-  const newsEntries = (await getAllNews("it")).flatMap((article) => {
-    const languages: Record<string, string> = {};
-    for (const locale of locales) {
-      languages[locale] = `${BASE_URL}/${locale}/news/${article.slug}`;
-    }
-
-    return locales.map((locale) => ({
-      url: `${BASE_URL}/${locale}/news/${article.slug}`,
-      lastModified: new Date(article.date),
+  const newsEntries = news.flatMap((article) => {
+    const path = `/news/${article.slug}`;
+    const available = article.languages ?? ["it"];
+    const languages = languageAlternates(path, available);
+    return available.map((locale) => ({
+      url: pageUrl(locale, path),
+      lastModified: new Date(article.publishedAt ?? article.date),
       changeFrequency: "monthly" as const,
       priority: 0.6,
-      alternates: { languages },
+      ...(languages ? { alternates: { languages } } : {}),
     }));
   });
 

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { newsArticles, type NewsArticle } from "@/lib/news-data";
 import { getAllNews, getNewsBySlug } from "@/lib/news/repository";
 import { NewsImage } from "@/components/news/NewsImage";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { BASE_URL, SITE_NAME } from "@/lib/constants";
+import { pageMetadata, pageUrl, webPageNodes } from "@/lib/seo";
 
 // Le news statiche sono prerenderizzate; quelle del job vengono generate alla
 // prima visita e aggiornate dopo ogni pubblicazione.
@@ -24,11 +27,22 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   const article = await getNewsBySlug(slug, locale);
   if (!article) return {};
+  const t = await getTranslations({ locale, namespace: "news" });
+  const lang = article.lang ?? "it";
 
-  return {
+  return pageMetadata({
+    locale,
+    path: `/news/${slug}`,
     title: article.title,
     description: article.excerpt,
-  };
+    languages: article.languages ?? ["it"],
+    // Senza traduzione la pagina inglese ripete il testo italiano: canonical sull'originale.
+    canonicalLocale: lang !== locale ? lang : undefined,
+    article: {
+      publishedTime: article.publishedAt ?? article.date,
+      section: t(`categories.${article.category}`),
+    },
+  });
 }
 
 export default async function NewsDetailPage({
@@ -65,10 +79,52 @@ function ArticleContent({
   locale: string;
 }) {
   const t = useTranslations("news");
+  const tNav = useTranslations("nav");
+  const lang = article.lang ?? "it";
+  const path = `/news/${article.slug}`;
+  const url = pageUrl(lang, path);
+
+  // La fonte resta sempre citata: l'articolo è una sintesi dell'originale.
+  const jsonLd = [
+    ...webPageNodes({
+      locale: lang,
+      path,
+      name: article.title,
+      description: article.excerpt,
+      homeName: tNav("home"),
+      breadcrumbs: [
+        { name: t("title"), path: "/news" },
+        { name: article.title, path },
+      ],
+    }),
+    {
+      "@type": "NewsArticle",
+      "@id": `${url}#article`,
+      headline: article.title.length > 110 ? `${article.title.slice(0, 109)}…` : article.title,
+      description: article.excerpt,
+      inLanguage: lang,
+      url,
+      mainEntityOfPage: { "@id": `${url}#webpage` },
+      datePublished: article.publishedAt ?? article.date,
+      articleSection: t(`categories.${article.category}`),
+      image: article.imageUrl ? [article.imageUrl] : [`${pageUrl(lang)}/opengraph-image`],
+      author: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
+      publisher: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
+      isBasedOn: {
+        "@type": "CreativeWork",
+        url: article.sourceUrl,
+        datePublished: article.date,
+        publisher: { "@type": "Organization", name: article.source },
+      },
+      citation: article.sourceUrl,
+      ...(article.auto ? { abstract: t("autoNote") } : {}),
+    },
+  ];
 
   return (
     <div className="pb-24 md:pb-12">
-      <div className="max-w-3xl mx-auto px-6">
+      <JsonLd data={jsonLd} />
+      <div className="max-w-3xl mx-auto px-6" lang={lang}>
         {/* Back link */}
         <Link
           href="/news"

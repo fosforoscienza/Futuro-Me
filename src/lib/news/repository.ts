@@ -25,7 +25,8 @@ const getPublishedRows = unstable_cache(
 );
 
 function toArticle(row: NewsArticleRow, locale: string): NewsArticle {
-  const en = locale === "en";
+  // Senza traduzione la versione inglese mostra il testo italiano.
+  const en = locale === "en" && Boolean(row.title_en);
   return {
     slug: row.slug,
     title: (en && row.title_en) || row.title,
@@ -38,6 +39,9 @@ function toArticle(row: NewsArticleRow, locale: string): NewsArticle {
     sourceUrl: row.source_url,
     auto: true,
     imageUrl: row.image_url,
+    lang: en ? "en" : "it",
+    languages: row.title_en ? ["it", "en"] : ["it"],
+    publishedAt: row.published_at,
   };
 }
 

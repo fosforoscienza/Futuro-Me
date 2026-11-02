@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
-import { NextIntlClientProvider, useMessages } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import type { Metadata, Viewport } from "next";
+import { notFound } from "next/navigation";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { Plus_Jakarta_Sans, Manrope } from "next/font/google";
 import { routing } from "@/i18n/routing";
-import { locales } from "@/i18n/config";
-import { BASE_URL } from "@/lib/constants";
+import { BASE_URL, SITE_NAME } from "@/lib/constants";
+import { siteGraph } from "@/lib/seo";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -28,8 +29,10 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-const ogLocaleMap: Record<string, string> = { it: "it_IT", en: "en_GB" };
+export const viewport: Viewport = { themeColor: "#962e16" };
 
+// Valori di base: ogni pagina pubblica imposta canonical, hreflang e Open Graph
+// con pageMetadata (src/lib/seo.ts). Qui niente canonical, che le pagine erediterebbero.
 export async function generateMetadata({
   params,
 }: {
@@ -39,37 +42,19 @@ export async function generateMetadata({
   const messages = await getMessages({ locale });
   const meta = messages.meta as Record<string, string>;
 
-  const url = `${BASE_URL}/${locale}`;
-
-  const languages: Record<string, string> = {};
-  for (const l of locales) {
-    languages[l] = `${BASE_URL}/${l}`;
-  }
-
   return {
     metadataBase: new URL(BASE_URL),
     title: {
-      template: `%s | Il Futuro Me`,
+      template: `%s | ${SITE_NAME}`,
       default: meta.title,
     },
     description: meta.description,
-    alternates: {
-      canonical: url,
-      languages,
-    },
+    applicationName: SITE_NAME,
     openGraph: {
-      title: meta.title,
-      description: meta.description,
-      url,
-      siteName: "Il Futuro Me",
-      locale: ogLocaleMap[locale] ?? "it_IT",
+      siteName: SITE_NAME,
       type: "website",
     },
-    twitter: {
-      card: "summary_large_image",
-      title: meta.title,
-      description: meta.description,
-    },
+    twitter: { card: "summary_large_image" },
   };
 }
 
@@ -81,8 +66,11 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  // Senza questo controllo /llms.txt o /qualsiasi diventavano pagine con lang="qualsiasi".
+  if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   const messages = await getMessages();
+  const t = await getTranslations({ locale });
 
   return (
     <html
@@ -91,24 +79,11 @@ export default async function LocaleLayout({
     >
       <body className="min-h-screen bg-background text-on-surface font-[var(--font-manrope)]">
         <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Il Futuro Me",
-            url: BASE_URL,
-            description:
-              "Piattaforma di orientamento per giovani 12-16 anni.",
-            foundingOrganization: {
-              "@type": "EducationalOrganization",
-              name: "Fondazione Caritas Senigallia ETS",
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Senigallia",
-                addressRegion: "AN",
-                addressCountry: "IT",
-              },
-            },
-          }}
+          data={siteGraph({
+            description: `${t("project.subtitle")} ${t("project.overview")}`,
+            fundedBy: t("footer.fundedBy"),
+            audience: t("meta.audience"),
+          })}
         />
         <NextIntlClientProvider messages={messages}>
           <Navbar />
