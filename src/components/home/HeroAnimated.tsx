@@ -1,6 +1,11 @@
 "use client";
 
+import { useRef } from "react";
 import { useTranslations } from "next-intl";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/routing";
 import { ArrowRight } from "lucide-react";
 import type { CastId } from "@/lib/avatar/cast";
@@ -21,32 +26,91 @@ const FIGURES: { id: CastId; ratio: number; delay: number }[] = [
 const OVERLAP = 40;
 const STAGE_W = FIGURES.reduce((w, f) => w + f.ratio * 900, 0) - 4 * OVERLAP;
 
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
+
 /** Posizione nella sequenza d'ingresso CSS (vedi globals.css). */
 const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 export function HeroAnimated() {
   const t = useTranslations();
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const title = root.current!.querySelector<HTMLElement>("[data-hero-title]")!;
+        const sub = root.current!.querySelector<HTMLElement>("[data-hero-sub]")!;
+        // Il CSS li tiene nascosti fino a qui (con un ripiego a tempo se lo script non parte)
+        const chars = SplitText.create(title, { type: "words,chars", mask: "chars", charsClass: "char-lift" });
+        const lines = SplitText.create(sub, { type: "lines", mask: "lines" });
+        gsap.set([title, sub], { visibility: "visible" });
+
+        gsap
+          .timeline({ defaults: { ease: "expo.out" } })
+          .from(chars.chars, { yPercent: 115, rotate: 7, duration: 1.2, stagger: 0.024 })
+          .from(lines.lines, { yPercent: 105, duration: 1, stagger: 0.09, ease: "power4.out" }, 0.45);
+
+        // Uscita: scorrendo, il testo sale e sbiadisce, la scena scende più lenta
+        gsap
+          .timeline({
+            scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: 0.5 },
+          })
+          .to("[data-hero-copy]", { yPercent: -18, autoAlpha: 0.25, ease: "none" }, 0)
+          .to("[data-hero-stage]", { yPercent: 10, ease: "none" }, 0);
+
+        return () => {
+          chars.revert();
+          lines.revert();
+        };
+      });
+
+      // Le lettere del titolo si sollevano vicino al puntatore
+      mm.add("(prefers-reduced-motion: no-preference) and (pointer: fine)", () => {
+        const title = root.current!.querySelector<HTMLElement>("[data-hero-title]")!;
+        // lettere già divise dal contesto precedente (stessa condizione, eseguito prima)
+        // si solleva la maschera della lettera, così la lettera non viene tagliata
+        const targets = gsap.utils
+          .toArray<HTMLElement>(".char-lift", title)
+          .map((c) => c.parentElement as HTMLElement);
+        const lift = targets.map((c) => gsap.quickTo(c, "y", { duration: 0.5, ease: "power3.out" }));
+        const move = (e: PointerEvent) => {
+          targets.forEach((c, i) => {
+            const r = c.getBoundingClientRect();
+            const d = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+            lift[i](d < 140 ? -10 * (1 - d / 140) : 0);
+          });
+        };
+        const leave = () => lift.forEach((fn) => fn(0));
+        title.addEventListener("pointermove", move);
+        title.addEventListener("pointerleave", leave);
+        return () => {
+          title.removeEventListener("pointermove", move);
+          title.removeEventListener("pointerleave", leave);
+        };
+      });
+
+      return () => mm.revert();
+    },
+    { scope: root }
+  );
 
   return (
     <header
+      ref={root}
       className="relative overflow-x-clip px-6 max-w-7xl mx-auto pt-10 md:pt-16 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center"
     >
-      <div className="lg:col-span-7">
-        <h1 className="text-5xl md:text-7xl font-[var(--font-plus-jakarta)] font-extrabold text-secondary tracking-tighter leading-[0.95]">
-          <span className="block overflow-hidden pb-[0.08em]">
-            <span data-hero-line className="block" style={order(0)}>
-              {t("hero.title")}
-            </span>
-          </span>
-          <span className="block overflow-hidden pb-[0.08em]">
-            <span data-hero-line className="block text-primary" style={order(1)}>
-              {t("hero.titleAccent")}
-            </span>
-          </span>
+      <div data-hero-copy className="lg:col-span-7">
+        <h1
+          data-hero-title
+          className="text-5xl md:text-7xl font-[var(--font-plus-jakarta)] font-extrabold text-secondary tracking-tighter leading-[1]"
+        >
+          <span className="block pb-[0.06em]">{t("hero.title")}</span>
+          <span className="block pb-[0.06em] text-primary">{t("hero.titleAccent")}</span>
         </h1>
         <p
-          data-hero-fade
-          style={order(1)}
+          data-hero-sub
           className="mt-7 text-lg md:text-xl text-on-surface-variant max-w-[34rem] leading-relaxed"
         >
           {t("hero.subtitle")}
@@ -78,6 +142,7 @@ export function HeroAnimated() {
       <div className="lg:col-span-5 flex flex-col items-center">
         <div
           data-hero-fade
+          data-hero-stage
           style={{ ...order(2), aspectRatio: `${STAGE_W} / 900` }}
           className="relative flex w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] items-end justify-center"
         >
