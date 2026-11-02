@@ -40,6 +40,7 @@ export type NewsArticleRow = {
   source_id: string | null;
   original_title: string | null;
   original_published_at: string | null;
+  image_url: string | null;
   week_start: string;
   status: "published" | "hidden";
   summary_method: "ai" | "extract";

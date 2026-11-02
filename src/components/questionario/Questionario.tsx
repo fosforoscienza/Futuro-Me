@@ -37,6 +37,7 @@ import {
 } from "@/lib/avatar/config";
 import { AvatarCanvas } from "@/components/avatar/AvatarCanvas";
 import { AvatarLevel } from "@/components/avatar/AvatarLevel";
+import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
 
 type Status = "intro" | "form" | "sending" | "done";
 
@@ -174,7 +175,7 @@ export function Questionario() {
 
   return (
     <div className="pb-24 md:pb-12">
-      <header className="px-6 max-w-5xl mx-auto pt-12 pb-10">
+      <header className="relative px-6 max-w-5xl mx-auto pt-12 pb-10 lg:min-h-[25rem]">
         <div className="flex items-center gap-2 mb-4">
           <Sparkles size={16} className="text-primary" />
           <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">
@@ -186,6 +187,7 @@ export function Questionario() {
         >
           Il Futuro Me
         </h1>
+        <HeaderAvatar id="dronePilot" hopKey={status === "form" ? stepIndex : status} />
       </header>
 
       <div

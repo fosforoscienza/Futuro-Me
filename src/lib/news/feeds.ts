@@ -7,6 +7,8 @@ export type FeedItem = {
   url: string;
   description: string;
   publishedAt: Date | null;
+  /** Immagine indicata dal feed (enclosure, media:content, prima <img>). */
+  imageUrl: string | null;
 };
 
 export const USER_AGENT =
@@ -173,6 +175,38 @@ function atomLink(link: unknown): string {
   return "";
 }
 
+/** Solo URL http(s) assoluti, risolti rispetto alla pagina. */
+export function absoluteImageUrl(value: string | null | undefined, base: string): string | null {
+  if (!value) return null;
+  try {
+    const u = new URL(decodeEntities(value.trim()), base);
+    return u.protocol === "https:" || u.protocol === "http:" ? u.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Immagine di un elemento del feed: enclosure, media:content/thumbnail o prima <img>. */
+function feedImage(raw: Record<string, unknown>, html: string, base: string): string | null {
+  const candidates: unknown[] = [
+    ...asArray(raw.enclosure as Record<string, unknown> | Record<string, unknown>[]).filter(
+      (e) => !e["@_type"] || String(e["@_type"]).startsWith("image")
+    ),
+    ...asArray(raw["media:content"] as Record<string, unknown> | Record<string, unknown>[]).filter(
+      (m) => !m["@_medium"] || m["@_medium"] === "image"
+    ),
+    ...asArray(raw["media:thumbnail"] as Record<string, unknown> | Record<string, unknown>[]),
+  ];
+  for (const c of candidates) {
+    if (c && typeof c === "object") {
+      const url = absoluteImageUrl(text((c as Record<string, unknown>)["@_url"]), base);
+      if (url) return url;
+    }
+  }
+  const img = html.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1];
+  return absoluteImageUrl(img, base);
+}
+
 /** Converte l'XML di un feed RSS 2.0, RSS 1.0 (RDF) o Atom in elementi. */
 export function parseFeed(xml: string, baseUrl: string): FeedItem[] {
   const doc = parser.parse(xml) as Record<string, Record<string, unknown>>;
@@ -206,12 +240,12 @@ export function parseFeed(xml: string, baseUrl: string): FeedItem[] {
       continue;
     }
 
-    const description = htmlToText(
+    const rawHtml =
       text(raw["content:encoded"]) ||
-        text(raw.description) ||
-        text(raw.summary) ||
-        text(raw.content)
-    );
+      text(raw.description) ||
+      text(raw.summary) ||
+      text(raw.content);
+    const description = htmlToText(rawHtml);
 
     items.push({
       title,
@@ -225,6 +259,7 @@ export function parseFeed(xml: string, baseUrl: string): FeedItem[] {
           raw.updated ??
           raw["a10:updated"]
       ),
+      imageUrl: feedImage(raw, rawHtml, url),
     });
   }
   return items;
@@ -262,21 +297,38 @@ export async function fetchFeed(feedUrl: string): Promise<FeedItem[]> {
   return parseFeed(xml, feedUrl);
 }
 
+export type ArticlePage = { text: string; imageUrl: string | null };
+
+/** Valore di un meta tag (property o name), in qualsiasi ordine di attributi. */
+function metaContent(html: string, names: string[]): string | null {
+  for (const name of names) {
+    const re = new RegExp(
+      `<meta[^>]+(?:property|name)=["']${name}["'][^>]*content=["']([^"']+)["']|<meta[^>]+content=["']([^"']+)["'][^>]*(?:property|name)=["']${name}["']`,
+      "i"
+    );
+    const m = html.match(re);
+    if (m) return m[1] ?? m[2] ?? null;
+  }
+  return null;
+}
+
 /**
- * Testo leggibile di una pagina articolo (meta description + paragrafi),
- * usato per riassumere con più contesto della sola descrizione del feed.
+ * Pagina dell'articolo: testo leggibile (meta description + paragrafi), usato
+ * per riassumere con più contesto del feed, e immagine di copertina
+ * (og:image / twitter:image).
  */
-export async function fetchArticleText(url: string, maxChars = 6000) {
+export async function fetchArticlePage(url: string, maxChars = 6000): Promise<ArticlePage> {
   try {
     const res = await fetchWithTimeout(url, 12_000, "text/html");
-    if (!res.ok) return "";
+    if (!res.ok) return { text: "", imageUrl: null };
     const type = res.headers.get("content-type") ?? "";
-    if (!type.includes("html")) return "";
+    if (!type.includes("html")) return { text: "", imageUrl: null };
     const html = (await res.text()).slice(0, 1_500_000);
-    const meta =
-      html.match(
-        /<meta[^>]+(?:name|property)=["'](?:og:)?description["'][^>]*content=["']([^"']+)["']/i
-      )?.[1] ?? "";
+    const meta = metaContent(html, ["og:description", "description"]) ?? "";
+    const imageUrl = absoluteImageUrl(
+      metaContent(html, ["og:image:secure_url", "og:image", "twitter:image", "twitter:image:src"]),
+      res.url || url
+    );
     const body =
       html.match(/<article[\s\S]*?<\/article>/i)?.[0] ??
       html.match(/<main[\s\S]*?<\/main>/i)?.[0] ??
@@ -286,9 +338,9 @@ export async function fetchArticleText(url: string, maxChars = 6000) {
       // Scarta etichette di interfaccia, firme e didascalie brevi.
       .filter((p) => p.length > 80);
     const unique = [...new Set([decodeEntities(meta), ...paragraphs])].filter(Boolean);
-    return unique.join("\n").slice(0, maxChars);
+    return { text: unique.join("\n").slice(0, maxChars), imageUrl };
   } catch {
-    return "";
+    return { text: "", imageUrl: null };
   }
 }
 

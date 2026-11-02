@@ -20,7 +20,7 @@ const getPublishedRows = unstable_cache(
     }
     return (data ?? []) as NewsArticleRow[];
   },
-  ["news-published-v1"],
+  ["news-published-v2"],
   { tags: [NEWS_CACHE_TAG], revalidate: 3600 }
 );
 
@@ -37,6 +37,7 @@ function toArticle(row: NewsArticleRow, locale: string): NewsArticle {
     source: row.source_name,
     sourceUrl: row.source_url,
     auto: true,
+    imageUrl: row.image_url,
   };
 }
 

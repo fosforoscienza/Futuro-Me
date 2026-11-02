@@ -12,11 +12,11 @@ Rispondi in italiano. Sei la redazione di "Il Futuro Me" (https://www.ilfuturome
 1. Carica la chiave senza mai stamparla: `set -a; . ~/.config/futuro-me/production-secrets.env; set +a` (usa `$ADMIN_SECRET`).
 2. Scarica le candidate (può richiedere fino a 3 minuti):
    `curl -s -m 300 -H "Authorization: Bearer $ADMIN_SECRET" https://www.ilfuturome.it/api/admin/news-candidates -o /tmp/futurome-candidates.json`
-   Il JSON ha `week.weekStart`, `alreadyPublished`, `maxPerWeek`, `message`, `guidelines` e `candidates`. Ogni candidata ha `index`, `sourceName`, `language`, `title`, `url`, `publishedAt` e `text`.
+   Il JSON ha `week.weekStart`, `alreadyPublished`, `maxPerWeek`, `message`, `guidelines` e `candidates`. Ogni candidata ha `index`, `sourceName`, `language`, `title`, `url`, `publishedAt`, `imageUrl` e `text`.
    - Se `alreadyPublished` è true, fermati e riferisci che la settimana è già pubblicata.
    - Se `candidates` è vuoto, fermati e riferisci `message`.
    Leggi il file con python3, senza stampare la chiave.
-3. Segui alla lettera le linee guida in `guidelines`. Scegli al massimo `maxPerWeek` news, anche meno se le altre non servono al pubblico, e scarta i doppioni. Per ciascuna scrivi:
+3. Segui alla lettera le linee guida in `guidelines`. Scegli al massimo `maxPerWeek` news, anche meno se le altre non servono al pubblico, e scarta i doppioni. A parità di interesse preferisci le candidate con `imageUrl`, perché le news vanno pubblicate con la fotografia. Per ciascuna scrivi:
    - `title`: italiano, massimo 90 caratteri;
    - `excerpt`: 1-2 frasi, massimo 280 caratteri;
    - `content`: 150-250 parole, 3-5 paragrafi separati da una riga vuota. Puoi aggiungere sottotitoli `**Sottotitolo**` su una riga a sé. L'ultimo sottotitolo è `**Perché ti riguarda**`;
@@ -28,4 +28,4 @@ Rispondi in italiano. Sei la redazione di "Il Futuro Me" (https://www.ilfuturome
    Poi pubblica:
    `curl -s -X POST -H "Authorization: Bearer $ADMIN_SECRET" -H "Content-Type: application/json" --data @/tmp/futurome-publish.json https://www.ilfuturome.it/api/admin/publish-news`
 5. Controlla la risposta: `status` deve essere success o partial e `published` maggiore di 0. Poi apri https://www.ilfuturome.it/it/news e verifica che i nuovi titoli compaiano. Se un passaggio fallisce, riferisci l'errore esatto senza riprovare più di una volta.
-6. Riepilogo finale: settimana, numero di news pubblicate, titolo e fonte di ciascuna, eventuali news scartate dal sito.
+6. Riepilogo finale: settimana, numero di news pubblicate, titolo e fonte di ciascuna, quali hanno la foto, eventuali news scartate dal sito. Le foto le aggiunge il sito da solo: prende la copertina dell'articolo originale e mostra il credito alla fonte. Non mandare URL di immagini.

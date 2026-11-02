@@ -10,6 +10,12 @@ export type NewsArticle = {
   sourceUrl: string;
   /** True per le news pubblicate dal job settimanale. */
   auto?: boolean;
+  /** Foto dell'articolo originale (credito: la fonte). */
+  imageUrl?: string | null;
+  /** Credito della foto, se diverso dalla fonte (es. foto libera Wikimedia). */
+  imageCredit?: string;
+  /** Pagina della foto (licenza e autore), se diversa dall'articolo. */
+  imageCreditUrl?: string;
 };
 
 /**
@@ -47,6 +53,11 @@ Le imprese che operano in Italia prevedono una crescita netta per ingegneri dell
     date: "2025-01-07",
     source: "World Economic Forum — Future of Jobs Report 2025",
     sourceUrl: "https://reports.weforum.org/docs/WEF_Future_of_Jobs_Report_2025.pdf",
+    imageUrl:
+      "https://assets.weforum.org/article/image/TCML-wgxGyIz_m2KdmdrnYqePsiZvyVs0JaRzh0m5RA.jpg",
+    imageCredit: "World Economic Forum",
+    imageCreditUrl:
+      "https://www.weforum.org/stories/2025/01/future-of-jobs-report-2025-jobs-of-the-future-and-the-skills-you-need-to-get-them/",
   },
   {
     slug: "competenze-2025",
@@ -78,6 +89,8 @@ Per chi si sta orientando, il messaggio è chiaro: pensiero critico, comunicazio
     source: "LinkedIn News — Skills on the Rise 2025",
     sourceUrl:
       "https://www.linkedin.com/pulse/linkedin-skills-rise-2025-15-fastest-growing-us-linkedin-news-hy0le",
+    imageUrl:
+      "https://media.licdn.com/dms/image/v2/D5612AQE2ZAyVHwrJBw/article-cover_image-shrink_720_1280/B56ZWksM_bHoAI-/0/1742224807782?e=2147483647&v=beta&t=18Omfc4GkBeX1yLSqukIEAbdBM_aCH2eK1PLzbiScn8",
   },
   {
     slug: "green-jobs-futuro",
@@ -106,6 +119,11 @@ La domanda c'è e le imprese faticano a trovare persone preparate: per chi si st
     source: "Fondazione Symbola e Unioncamere — Rapporto GreenItaly 2025",
     sourceUrl:
       "https://symbola.net/wp-content/uploads/2025/11/comunicatostampa2025-002.pdf",
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Three_men_installing_solar_panels_on_a_house.jpg/1280px-Three_men_installing_solar_panels_on_a_house.jpg",
+    imageCredit: "W.carter, CC0, via Wikimedia Commons",
+    imageCreditUrl:
+      "https://commons.wikimedia.org/wiki/File:Three_men_installing_solar_panels_on_a_house.jpg",
   },
   {
     slug: "formazione-digitale-marche",
@@ -137,6 +155,8 @@ I bandi e i progetti finanziati sono pubblicati sul sito del Fondo per la Repubb
     date: "2024-09-21",
     source: "TiConsiglio — Fondo per la Repubblica Digitale",
     sourceUrl: "https://www.ticonsiglio.com/fondo-repubblica-digitale-formazione/",
+    imageUrl:
+      "https://www.ticonsiglio.com/wp-content/uploads/2023/06/digitale.jpg",
   },
   {
     slug: "prompt-engineering",
@@ -170,6 +190,8 @@ Nell'era dell'AI le competenze umanistiche (linguaggio, logica, comunicazione) c
     source: "Il Sole 24 Ore — The Prompt Engineer, a key figure in AI",
     sourceUrl:
       "https://en.ilsole24ore.com/art/the-prompt-engineer-key-figure-manage-challenges-of-artificial-intelligence-company-AFoifbqD",
+    imageUrl:
+      "https://i2.res.24o.it/images2010/S24/Documenti/2024/09/12/Immagini/Ritagli/prompt-engeneer-kx0G-U28235744666ZdE-1440x752@IlSole24Ore-Web.jpeg?r=1170x507",
   },
   {
     slug: "apprendistato-crescita",
@@ -196,5 +218,10 @@ L'apprendistato permette di lavorare e studiare insieme, con un contratto e uno 
     source: "INAPP — XXIII Rapporto di monitoraggio sull'apprendistato (Ministero del Lavoro)",
     sourceUrl:
       "https://www.lavoro.gov.it/temi-e-priorita-orientamento-e-formazione/studi-e-statistiche/xxiii-rapporto-di-monitoraggio-2023-2024",
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Tanner_Greeson%2C_O%27Neill_Electric_Inside_Electrician_Apprentice_%2831661038144%29.jpg/1280px-Tanner_Greeson%2C_O%27Neill_Electric_Inside_Electrician_Apprentice_%2831661038144%29.jpg",
+    imageCredit: "Oregon Department of Transportation, CC BY 2.0, via Wikimedia Commons",
+    imageCreditUrl:
+      "https://commons.wikimedia.org/wiki/File:Tanner_Greeson,_O%27Neill_Electric_Inside_Electrician_Apprentice_(31661038144).jpg",
   },
 ];

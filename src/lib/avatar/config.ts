@@ -183,6 +183,12 @@ export const OBJECT_PLACEMENT: Record<string, { slot: "hand" | "floor" | "behind
   coniglio: { slot: "floor", size: 170 },
   yoga: { slot: "floor", size: 300 },
   borsone: { slot: "floor", size: 300 },
+  laptop: { slot: "hand", size: 210 },
+  tablet: { slot: "hand", size: 160 },
+  smartphone: { slot: "hand", size: 120 },
+  pannello_solare: { slot: "floor", size: 330 },
+  microscopio: { slot: "floor", size: 380 },
+  drone: { slot: "floor", size: 270 },
 };
 
 export const LEVELS: Level[] = [
@@ -557,6 +563,12 @@ export const LEVELS: Level[] = [
             ["tavolozza", "Tavolozza e pennello"],
             ["macchina_foto", "Macchina fotografica"],
             ["tavolo_architetto", "Tavolo da architetto"],
+            ["laptop", "Laptop"],
+            ["tablet", "Tablet con grafici"],
+            ["smartphone", "Smartphone"],
+            ["pannello_solare", "Pannello solare"],
+            ["microscopio", "Carrello con microscopio"],
+            ["drone", "Drone con radiocomando"],
             ["mappamondo", "Mappamondo"],
             ["pacco", "Pacco postale"],
             ["cloche", "Cloche del ristorante"],

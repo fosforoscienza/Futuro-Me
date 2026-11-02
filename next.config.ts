@@ -7,7 +7,8 @@ const cspDirectives = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  // https: per le foto delle news, prese dagli articoli originali delle fonti.
+  "img-src 'self' data: blob: https:",
   "font-src 'self'",
   `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""}`,
   "frame-ancestors 'none'",

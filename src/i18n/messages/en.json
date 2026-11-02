@@ -20,9 +20,9 @@
     "subtitle": "Discover who you want to become: explore careers, understand the labour market and prepare for tomorrow's challenges.",
     "futureLabel": "In 15 years",
     "futures": {
-      "doctor": "Doctor on the ward",
-      "musician": "Musician on stage",
-      "chef": "Chef in the kitchen"
+      "aiDev": "AI Developer",
+      "dataAnalyst": "Data Analyst",
+      "solarTech": "Renewable energy technician"
     }
   },
   "home": {
@@ -69,15 +69,112 @@
     "partnersTitle": "Partners"
   },
   "market": {
-    "title": "Labour Market",
-    "subtitle": "Up-to-date data on growing professions, required skills and the impact of artificial intelligence.",
-    "topJobsTitle": "Most In-Demand Professions",
-    "aiImpactTitle": "AI Impact",
-    "aiImpactDesc": "Artificial intelligence is transforming the labour market. Here's how to prepare.",
-    "trendsTitle": "Market Trends",
-    "skillsTitle": "Key Skills",
-    "localContextTitle": "Local Context",
-    "localContextDesc": "Focus on the Province of Ancona and the Marche region: employment rates, leading sectors and opportunities for young people."
+    "title": "Labour market",
+    "eyebrow": "Report · data updated November 2026",
+    "titleLine1": "The labour market",
+    "titleLine2": "in numbers",
+    "subtitle": "Who employers are looking for, what artificial intelligence changes and how things stand in the Marche region. Every number has its source.",
+    "million": "million",
+    "outOf100": "in 100",
+    "sourceLabel": "Source",
+    "waffleLabel": "{value} coloured squares out of 100",
+    "heroStats": {
+      "total": "workers Italy may need from 2025 to 2029",
+      "net": "more jobs worldwide by 2030",
+      "neet": "of young people aged 15-29 in the Marche are not in work, education or training, below the Italian average"
+    },
+    "jobs": {
+      "title": "Who employers are looking for",
+      "desc": "From 2025 to 2029 Italy will need between {low} and {high} million workers: {replacementLow} to {replacementHigh} in 100 will replace people leaving work, for example when they retire. These are the most in-demand skilled professions.",
+      "low": "Cautious scenario",
+      "high": "Extra in the positive scenario",
+      "items": {
+        "healthTech": "Health technicians",
+        "management": "Management, commercial and banking specialists",
+        "marketTech": "Market relations technicians",
+        "engineers": "Engineers",
+        "doctors": "Doctors",
+        "appDev": "Application analysts and designers"
+      },
+      "hints": {
+        "healthTech": "nurses, midwives, physiotherapists, lab and radiology technicians",
+        "management": "experts in administration, finance, marketing and business organisation",
+        "marketTech": "sales, purchasing, marketing and advertising technicians",
+        "engineers": "industrial, civil, electronic, computer and other engineers",
+        "doctors": "family doctors, specialists and surgeons",
+        "appDev": "people who analyse, design and build software and apps"
+      }
+    },
+    "ai": {
+      "title": "Artificial intelligence is changing work",
+      "desc": "The World Economic Forum asked large companies around the world how work will change by 2030. This is what they said.",
+      "cyberCaption": "Networks and cybersecurity is the second fastest-growing skill to 2030, after AI and big data.",
+      "balance": {
+        "kicker": "By 2030, worldwide",
+        "net": "more jobs",
+        "created": "New jobs",
+        "displaced": "Jobs that disappear or are replaced"
+      },
+      "skillsChange": {
+        "kicker": "Skills",
+        "title": "Skills that change",
+        "desc": "Of the skills needed today, almost 4 in 10 will change or become outdated by 2030. In Italy the estimate is {italy} in 100."
+      },
+      "aiTransform": {
+        "kicker": "Artificial intelligence",
+        "title": "Companies expecting a transformation",
+        "desc": "They expect AI and information processing to transform their business by 2030. On their own, these technologies will create {created} million jobs and replace {displaced} million."
+      },
+      "upskilling": {
+        "kicker": "Training",
+        "title": "Companies investing in training",
+        "desc": "They plan to grow the skills of the people already working for them. Learning does not stop at school."
+      }
+    },
+    "skills": {
+      "title": "The skills that matter",
+      "desc": "How many companies in 100, worldwide, consider each skill core in 2025.",
+      "items": {
+        "analytical": "Analytical thinking",
+        "resilience": "Resilience, flexibility and agility",
+        "leadership": "Leadership and social influence",
+        "creative": "Creative thinking",
+        "motivation": "Motivation and self-awareness",
+        "techLiteracy": "Technological literacy"
+      },
+      "growing": "Fastest growing by 2030: AI and big data, networks and cybersecurity, technological literacy."
+    },
+    "local": {
+      "title": "The Marche region and the Province of Ancona",
+      "desc": "How young people in our region compare with Italy and Europe, and what local employers are looking for.",
+      "ancona": {
+        "kicker": "Province of Ancona, 2025",
+        "title": "of the hires companies plan are hard to fill: almost one in two.",
+        "desc": "Companies cannot find enough candidates, or candidates with the right skills. In the province, {employment}% of people aged 15-64 are in work."
+      },
+      "neet": {
+        "title": "Young people not in work, education or training",
+        "desc": "NEETs aged 15-29, in % (2025). In the Marche there are far fewer than in 2019."
+      },
+      "unemployment": {
+        "title": "Youth unemployment",
+        "desc": "Young people aged 15-29 looking for work without finding it, in % (2025). In the Marche it rose compared with 2024."
+      },
+      "labels": {
+        "marche": "Marche",
+        "italia": "Italy",
+        "ue": "European Union",
+        "marche2019": "Marche 2019",
+        "marche2024": "Marche 2024"
+      }
+    },
+    "sources": {
+      "excelsior": "Unioncamere - Italian Ministry of Labour, Excelsior Information System, Medium-term occupational needs forecasts for Italy (2025-2029), 2nd update, July 2026, tables 2.2 and 5.2",
+      "wef": "World Economic Forum, Future of Jobs Report 2025, pp. 5-6, 18, 25, 34-37 and Italy profile p. 156",
+      "eurostatNeet": "Eurostat, edat_lfse_22 (ISTAT Labour Force Survey data), NEETs aged 15-29, 2019 and 2025",
+      "eurostatUnemp": "Eurostat, lfst_r_lfu3rt, unemployment rate aged 15-29, 2024 and 2025",
+      "camcom": "Marche Chamber of Commerce, Dataview 2026 - Labour market, 2025 data (Excelsior and Istat), p. 3"
+    }
   },
   "news": {
     "title": "News",
@@ -94,7 +191,9 @@
     "publishedOn": "Published on",
     "relatedNews": "Related news",
     "readOriginal": "Read the original article",
-    "autoNote": "Summary by the Il Futuro Me editorial team, based on the source article. For full details, always read the original."
+    "autoNote": "Summary by the Il Futuro Me editorial team, based on the source article. For full details, always read the original.",
+    "photo": "Photo",
+    "highlights": "Highlights"
   },
   "archive": {
     "title": "Archive",

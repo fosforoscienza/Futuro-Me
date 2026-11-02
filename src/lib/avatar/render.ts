@@ -297,8 +297,15 @@ function layerKeys(sel: AvatarSelection): string[] {
   return keys.filter((k): k is string => Boolean(k));
 }
 
-/** Rende la scena completa su `canvas` (dimensioni SCENE_W x SCENE_H). */
-export async function renderAvatar(canvas: HTMLCanvasElement, sel: AvatarSelection) {
+/**
+ * Rende la scena completa su `canvas` (dimensioni SCENE_W x SCENE_H).
+ * Con `bare` niente sfondo né ombra: serve per gli avatar scontornati del sito.
+ */
+export async function renderAvatar(
+  canvas: HTMLCanvasElement,
+  sel: AvatarSelection,
+  { bare = false }: { bare?: boolean } = {}
+) {
   const body: Body = sel.corpo === "M" ? "M" : "F";
   const base = M.bodies[body];
   const legs = findChoice("gambe", sel.gambe)?.layer;
@@ -336,7 +343,7 @@ export async function renderAvatar(canvas: HTMLCanvasElement, sel: AvatarSelecti
 
   if (env) {
     ctx.drawImage(env, 0, 0, SCENE_W, SCENE_H);
-  } else {
+  } else if (!bare) {
     const g = ctx.createLinearGradient(0, 0, 0, SCENE_H);
     g.addColorStop(0, "#fff9eb");
     g.addColorStop(1, "#efe8d5");
@@ -346,13 +353,15 @@ export async function renderAvatar(canvas: HTMLCanvasElement, sel: AvatarSelecti
 
   // Ombra a terra
   const feetY = AVATAR_Y + 1215 * AVATAR_SCALE;
-  ctx.save();
-  ctx.fillStyle = "rgba(30, 28, 16, 0.18)";
-  ctx.filter = "blur(10px)";
-  ctx.beginPath();
-  ctx.ellipse(SCENE_W / 2, feetY, 150, 22, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
+  if (!bare) {
+    ctx.save();
+    ctx.fillStyle = "rgba(30, 28, 16, 0.18)";
+    ctx.filter = "blur(10px)";
+    ctx.beginPath();
+    ctx.ellipse(SCENE_W / 2, feetY, 150, 22, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
 
   // Avatar: composto a piena risoluzione e poi scalato nella scena
   const av = document.createElement("canvas");

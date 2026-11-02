@@ -10,6 +10,8 @@ import {
   Globe,
   Settings,
 } from "lucide-react";
+import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
+import { SectionAvatar } from "@/components/avatar/SectionAvatar";
 
 export async function generateMetadata({
   params,
@@ -88,7 +90,7 @@ function ProgettoContent() {
   return (
     <div className="pb-24 md:pb-12">
       {/* Header */}
-      <header className="px-6 max-w-7xl mx-auto pt-12 pb-16">
+      <header className="relative px-6 max-w-7xl mx-auto pt-12 pb-16 lg:min-h-[27rem]">
         <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4">
           Futuro Me
         </p>
@@ -98,6 +100,7 @@ function ProgettoContent() {
         <p className="mt-8 text-xl text-on-surface-variant max-w-2xl leading-relaxed">
           {t("subtitle")}
         </p>
+        <HeaderAvatar id="teacher" />
       </header>
 
       {/* Overview */}
@@ -146,7 +149,11 @@ function ProgettoContent() {
           <h2 className="text-2xl font-[var(--font-plus-jakarta)] font-bold text-secondary mb-10">
             {t("phasesTitle")}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6">
+            <SectionAvatar
+              id="student"
+              className="absolute right-6 bottom-full h-40 md:right-10 md:h-60"
+            />
             {phases.map((phase, i) => {
               const Icon = phase.icon;
               return (

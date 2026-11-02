@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { requireNewsDb } from "./db";
-import { fetchArticleText, fetchFeedPages, normalizeUrl } from "./feeds";
+import { fetchArticlePage, fetchFeedPages, normalizeUrl } from "./feeds";
 import {
   capPerSource,
   dedupe,
@@ -58,6 +58,7 @@ type StoredItem = {
   title: string;
   description: string;
   publishedAt: Date;
+  imageUrl: string | null;
   source: NewsSource;
   score: number;
 };
@@ -141,6 +142,7 @@ export async function collectFeeds(
           title: item.title.slice(0, 500),
           description: item.description.slice(0, 4000),
           published_at: item.publishedAt.toISOString(),
+          image_url: item.imageUrl,
         });
       }
       if (rows.size > 0) {
@@ -214,7 +216,7 @@ async function selectWeekItems(
 
   const { data: stored, error: storedError } = await db
     .from("news_feed_items")
-    .select("url,title,description,published_at,source_id")
+    .select("url,title,description,published_at,source_id,image_url")
     .gte("published_at", week.from.toISOString())
     .lt("published_at", week.to.toISOString())
     .limit(5000);
@@ -234,6 +236,7 @@ async function selectWeekItems(
       title,
       description,
       publishedAt: new Date(row.published_at as string),
+      imageUrl: (row.image_url as string | null) ?? null,
       source,
       score,
     });
@@ -295,8 +298,8 @@ async function selectWeekItems(
 /** Testo dei candidati: pagina dell'articolo se più ricca della descrizione. */
 async function withArticleText(pool: StoredItem[]): Promise<Candidate[]> {
   const candidates = await mapWithConcurrency(pool, 5, async (item) => {
-    const page = await fetchArticleText(item.url);
-    const text = page.length > item.description.length ? page : item.description;
+    const page = await fetchArticlePage(item.url);
+    const text = page.text.length > item.description.length ? page.text : item.description;
     return {
       index: 0,
       sourceName: item.source.name,
@@ -305,6 +308,7 @@ async function withArticleText(pool: StoredItem[]): Promise<Candidate[]> {
       title: item.title,
       url: item.url,
       publishedAt: item.publishedAt.toISOString().slice(0, 10),
+      imageUrl: page.imageUrl ?? item.imageUrl,
       text: text || item.title,
     };
   });
@@ -461,6 +465,7 @@ export async function runNewsJob(options: RunOptions): Promise<RunResult> {
         source_id: item.source.id,
         original_title: c.title,
         original_published_at: item.publishedAt.toISOString(),
+        image_url: c.imageUrl,
         week_start: week.weekStart,
         status: "published",
         summary_method: s.method,
@@ -592,10 +597,18 @@ export async function publishEditorialItems(options: {
   const urls = [...new Set(options.items.map((i) => normalizeUrl(i.url)))];
   const { data: found, error: foundError } = await db
     .from("news_feed_items")
-    .select("url,title,published_at,source_id,news_sources(id,name,active)")
+    .select("url,title,published_at,source_id,image_url,news_sources(id,name,active)")
     .in("url", urls);
   if (foundError) throw new Error(foundError.message);
   const byUrl = new Map((found ?? []).map((f) => [f.url as string, f]));
+
+  // Foto: la copertina della pagina originale, letta qui sul server; se manca,
+  // quella del feed. Mai un URL arrivato nella richiesta.
+  const images = new Map<string, string | null>();
+  await mapWithConcurrency([...byUrl.keys()], 5, async (url) => {
+    const page = await fetchArticlePage(url, 0);
+    images.set(url, page.imageUrl ?? (byUrl.get(url)?.image_url as string | null) ?? null);
+  });
 
   const rows = [];
   for (const item of options.items) {
@@ -623,6 +636,7 @@ export async function publishEditorialItems(options: {
       source_id: source.id,
       original_title: feedItem.title as string,
       original_published_at: feedItem.published_at as string,
+      image_url: images.get(url) ?? null,
       week_start: week.weekStart,
       status: "published",
       summary_method: "ai",
