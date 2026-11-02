@@ -323,24 +323,6 @@ export const LEVELS: Level[] = [
         ],
       },
       {
-        id: "cappello",
-        label: "Cappelli",
-        kind: "single",
-        choices: [
-          none(),
-          ...items("hat", [
-            ["visiera", "Cappello con visiera"],
-            ["snapback", "Cappello con visiera piatta"],
-            ["cowboy", "Cappello da cowboy"],
-            ["tesa_larga", "Cappello a tesa larga"],
-            ["lana", "Cappello di lana"],
-            ["casco", "Casco antinfortunistico"],
-            ["cuoco", "Cappello da cuoco"],
-            ["hijab", "Hijab"],
-          ]),
-        ],
-      },
-      {
         id: "occhiali",
         label: "Occhiali",
         kind: "single",
@@ -625,10 +607,29 @@ export const LEVELS: Level[] = [
 ];
 
 /**
- * Ausili e impianto acustico: non sono più un livello del configuratore, ma restano
- * disegnabili per gli avatar del cast del sito (vedi cast.ts).
+ * Cappelli, ausili e impianto acustico: non sono più scelte del configuratore (i cappelli
+ * si sovrapponevano ai capelli), ma restano disegnabili per gli avatar del cast del sito
+ * (vedi cast.ts).
  */
-const INCLUSION_GROUPS: Group[] = [
+const CAST_ONLY_GROUPS: Group[] = [
+  {
+    id: "cappello",
+    label: "Cappelli",
+    kind: "single",
+    choices: [
+      none(),
+      ...items("hat", [
+        ["visiera", "Cappello con visiera"],
+        ["snapback", "Cappello con visiera piatta"],
+        ["cowboy", "Cappello da cowboy"],
+        ["tesa_larga", "Cappello a tesa larga"],
+        ["lana", "Cappello di lana"],
+        ["casco", "Casco antinfortunistico"],
+        ["cuoco", "Cappello da cuoco"],
+        ["hijab", "Hijab"],
+      ]),
+    ],
+  },
   {
     id: "ausilio",
     label: "Ausili per muoversi",
@@ -652,7 +653,7 @@ const INCLUSION_GROUPS: Group[] = [
   },
 ];
 
-const ALL_GROUPS = [...LEVELS.flatMap((l) => l.groups), ...INCLUSION_GROUPS];
+const ALL_GROUPS = [...LEVELS.flatMap((l) => l.groups), ...CAST_ONLY_GROUPS];
 
 export function findChoice(groupId: keyof AvatarSelection, id: string) {
   return ALL_GROUPS.find((g) => g.id === groupId)?.choices.find((c) => c.id === id);
