@@ -6085,6 +6085,36 @@
    "src": "/avatar/obj/zaino.webp",
    "w": 296,
    "h": 420
+  },
+  "laptop": {
+   "src": "/avatar/obj/laptop.webp",
+   "w": 420,
+   "h": 333
+  },
+  "tablet": {
+   "src": "/avatar/obj/tablet.webp",
+   "w": 286,
+   "h": 420
+  },
+  "smartphone": {
+   "src": "/avatar/obj/smartphone.webp",
+   "w": 220,
+   "h": 420
+  },
+  "pannello_solare": {
+   "src": "/avatar/obj/pannello_solare.webp",
+   "w": 420,
+   "h": 365
+  },
+  "microscopio": {
+   "src": "/avatar/obj/microscopio.webp",
+   "w": 310,
+   "h": 420
+  },
+  "drone": {
+   "src": "/avatar/obj/drone.webp",
+   "w": 420,
+   "h": 385
   }
  },
  "envs": {
