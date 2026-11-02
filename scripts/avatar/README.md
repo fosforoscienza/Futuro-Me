@@ -15,6 +15,7 @@ python3 -m pip install pillow numpy
 python3 -I scripts/avatar/build_assets.py raw public/avatar src/lib/avatar/assets.json
 python3 -I scripts/avatar/build_lash_combos.py raw public/avatar src/lib/avatar/assets.json
 python3 -I scripts/avatar/fix_masks.py public/avatar src/lib/avatar/assets.json
+python3 -I scripts/avatar/tone_down.py public/avatar src/lib/avatar/assets.json
 ```
 
 `build_lash_combos.py` crea i pezzi `eyes/<forma>__<ciglia>` (forma d'occhio con le sue
@@ -42,3 +43,6 @@ scelta in `src/lib/avatar/config.ts`.
 sorgente quando l'estrazione la taglia male (usato per `hair/afro` F): trova la pelle del
 viso della sorgente con un riempimento dal centro del viso e considera capelli tutto il
 resto della testa. Va lanciato dopo `fix_masks.py`.
+
+`tone_down.py` attenua i pezzi troppo marcati (per ora i nasi M "all'insù", "aquilino" e
+"a patata") sugli asset già pubblicati; va lanciato dopo `fix_masks.py` ed è idempotente.

@@ -3280,7 +3280,8 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 1
    }
   },
   "nose/greco": {
@@ -3420,7 +3421,8 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 1
    }
   },
   "nose/patata": {
@@ -3456,7 +3458,8 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 1
    }
   },
   "nose/punta": {
