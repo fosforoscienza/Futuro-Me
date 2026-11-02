@@ -3,24 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CAST, type CastId } from "@/lib/avatar/cast";
+import { isWebKitOnly, startAlphaVideo } from "./alphaVideo";
 
 /** Inquadratura comune dei file in public/avatar/cast (vedi cast.ts). */
 export const CAST_RATIO = 606 / 1043;
 
-/**
- * Safari e i browser iOS non mostrano il loop: il VP9 con alfa non lo leggono e
- * l'HEVC con alfa nella pagina resta invisibile. Lì resta l'immagine statica.
- */
-function isWebKitOnly() {
-  const ua = navigator.userAgent;
-  return /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua);
-}
 
 /**
  * Un avatar del cast senza sfondo, in piedi su un'ombra a terra morbida.
- * L'immagine statica c'è sempre; per gli avatar animati il loop video (VP9 con
- * alfa) si scarica solo la prima volta che l'avatar entra in vista, va in pausa
- * fuori schermo e non parte con la riduzione del movimento né su Safari.
+ * L'immagine statica c'è sempre; per gli avatar animati il loop video con alfa
+ * (HEVC su Safari, VP9 altrove) si scarica solo la prima volta che l'avatar
+ * entra in vista, va in pausa fuori schermo e non parte con la riduzione del
+ * movimento.
  * I piedi stanno a circa il 30% della larghezza; `flip` specchia l'avatar.
  */
 export function CastAvatar({
@@ -48,18 +42,25 @@ export function CastAvatar({
 
   useEffect(() => {
     const el = video.current;
-    if (!el || isWebKitOnly()) return;
+    if (!el) return;
+    // Safari mette già in pausa da solo i video muti fuori schermo, e un play()
+    // chiamato da script lì viene rifiutato: la pausa la gestiamo solo altrove.
+    const manual = !isWebKitOnly();
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
 
     const sync = () => {
-      if (!visible || reduce.matches) {
+      if (reduce.matches) {
         el.pause();
-        if (reduce.matches) setPlaying(false);
+        setPlaying(false);
         return;
       }
-      if (!el.getAttribute("src")) el.src = `${src}.webm`;
-      el.play().catch(() => {});
+      if (!visible) {
+        if (manual) el.pause();
+        return;
+      }
+      if (!el.getAttribute("src")) startAlphaVideo(el, src);
+      else if (manual) el.play().catch(() => {});
     };
 
     const io = new IntersectionObserver(
