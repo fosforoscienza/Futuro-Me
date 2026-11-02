@@ -5919,6 +5919,60 @@
     "fixed": 21,
     "toned": 2
    }
+  },
+  "jewel/pallina": {
+   "F": {
+    "src": "/avatar/F/jewel__pallina.webp",
+    "x": 363,
+    "y": 205,
+    "w": 121,
+    "h": 9,
+    "shift": [
+     0,
+     0
+    ],
+    "fixed": 21
+   },
+   "M": {
+    "src": "/avatar/M/jewel__pallina.webp",
+    "x": 364,
+    "y": 201,
+    "w": 119,
+    "h": 9,
+    "shift": [
+     0,
+     0
+    ],
+    "fixed": 21
+   }
+  },
+  "skin/lentiggini": {
+   "F": {
+    "src": "/avatar/F/skin__lentiggini.webp",
+    "x": 381,
+    "y": 179,
+    "w": 85,
+    "h": 30,
+    "shift": [
+     0,
+     0
+    ],
+    "fixed": 21,
+    "mask": "/avatar/F/skin__lentiggini.mask.png"
+   },
+   "M": {
+    "src": "/avatar/M/skin__lentiggini.webp",
+    "x": 381,
+    "y": 172,
+    "w": 83,
+    "h": 31,
+    "shift": [
+     0,
+     0
+    ],
+    "fixed": 21,
+    "mask": "/avatar/M/skin__lentiggini.mask.png"
+   }
   }
  },
  "objects": {
