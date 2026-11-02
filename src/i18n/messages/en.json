@@ -41,7 +41,22 @@
       "schools": "Partner schools",
       "hours": "Activity hours",
       "universities": "Universities"
-    }
+    },
+    "plenary": {
+      "title": "The first Plenary",
+      "intro": "In November we meet the classes of four schools for the project's first Plenary. Here is when.",
+      "status": {
+        "past": "Done",
+        "today": "Today",
+        "next": "Next"
+      },
+      "classes": "{count} {year, select, 2 {second-year} 3 {third-year} other {}} classes",
+      "group": "{group, select, 1 {First group} 2 {Second group} other {Group}} of {year, select, 2 {second-year} 3 {third-year} other {}} classes",
+      "yearOnly": "{year, select, 2 {Second-year} 3 {Third-year} other {}} classes",
+      "total": "{count} classes in all",
+      "place": "At {place}"
+    },
+    "numbersTitle": "The project in numbers"
   },
   "project": {
     "title": "The Project",
