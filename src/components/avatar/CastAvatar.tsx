@@ -3,18 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CAST, type CastId } from "@/lib/avatar/cast";
-import { canPlayAlphaVideo, isWebKitOnly, startAlphaVideo } from "./alphaVideo";
 
 /** Inquadratura comune dei file in public/avatar/cast (vedi cast.ts). */
 export const CAST_RATIO = 606 / 1043;
 
-
 /**
  * Un avatar del cast senza sfondo, in piedi su un'ombra a terra morbida.
- * L'immagine statica c'è sempre; per gli avatar animati il loop video con alfa
- * (HEVC su Safari, VP9 altrove) si scarica solo la prima volta che l'avatar
- * entra in vista, va in pausa fuori schermo e non parte con la riduzione del
- * movimento.
+ * L'immagine statica c'è sempre; per gli avatar animati il loop (<id>.anim.webp,
+ * WebP animato con trasparenza) si scarica solo la prima volta che l'avatar
+ * entra in vista e non parte con la riduzione del movimento. È un'immagine, non
+ * un video: Safari e iOS bloccavano o coprivano i video con alfa.
  * I piedi stanno a circa il 30% della larghezza; `flip` specchia l'avatar.
  */
 export function CastAvatar({
@@ -36,50 +34,29 @@ export function CastAvatar({
   flip?: boolean;
 }) {
   const animated = CAST[id].animated && !still;
-  const video = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const [start, setStart] = useState(false);
+  const [shown, setShown] = useState(false);
   const src = `/avatar/cast/${id}`;
 
   useEffect(() => {
-    const el = video.current;
-    if (!el || !canPlayAlphaVideo()) return;
-    // Safari mette già in pausa da solo i video muti fuori schermo, e un play()
-    // chiamato da script lì viene rifiutato: la pausa la gestiamo solo altrove.
-    const manual = !isWebKitOnly();
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let visible = false;
-
-    const sync = () => {
-      if (reduce.matches) {
-        el.pause();
-        setPlaying(false);
-        return;
-      }
-      if (!visible) {
-        if (manual) el.pause();
-        return;
-      }
-      if (!el.getAttribute("src")) startAlphaVideo(el, src);
-      else if (manual) el.play().catch(() => {});
-    };
-
+    const el = root.current;
+    if (!el || !animated || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const io = new IntersectionObserver(
       ([entry]) => {
-        visible = entry.isIntersecting;
-        sync();
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        setStart(true);
       },
       { rootMargin: "120px 0px" }
     );
     io.observe(el);
-    reduce.addEventListener("change", sync);
-    return () => {
-      io.disconnect();
-      reduce.removeEventListener("change", sync);
-    };
-  }, [src]);
+    return () => io.disconnect();
+  }, [animated]);
 
   return (
     <div
+      ref={root}
       aria-hidden="true"
       className={`relative pointer-events-none select-none ${className}`}
       style={{ aspectRatio: `${CAST_RATIO}` }}
@@ -95,17 +72,16 @@ export function CastAvatar({
           fill
           sizes={sizes}
           preload={preload}
-          className={`object-contain ${playing ? "opacity-0" : ""}`}
+          className={`object-contain ${shown ? "opacity-0" : ""}`}
         />
-        {animated && (
-          <video
-            ref={video}
-            className={`cast-video absolute inset-0 h-full w-full object-contain ${playing ? "" : "opacity-0"}`}
-            muted
-            loop
-            playsInline
-            preload="none"
-            onPlaying={() => setPlaying(true)}
+        {start && (
+          <Image
+            src={`${src}.anim.webp`}
+            alt=""
+            fill
+            unoptimized
+            onLoad={() => setShown(true)}
+            className={`object-contain ${shown ? "" : "opacity-0"}`}
           />
         )}
       </div>

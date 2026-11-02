@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import type { CastId } from "@/lib/avatar/cast";
-import { canPlayAlphaVideo, startAlphaVideo } from "@/components/avatar/alphaVideo";
 
 const REDUCE = "(prefers-reduced-motion: reduce)";
 
@@ -16,11 +15,14 @@ const subscribe = (cb: () => void) => {
 /**
  * Un "futuro me" dell'hero: fa qualche passo verso chi guarda e chiude in una
  * posa, una volta sola, poi resta fermo sull'ultimo fotogramma. Parte `delay` ms
- * dopo essere entrato in vista. Con riduzione del movimento e su iPhone/iPad
- * mostra subito la posa.
+ * dopo essere entrato in vista. Con riduzione del movimento mostra subito la posa.
+ *
+ * L'animazione è un WebP animato con trasparenza (riprodotto una volta), non un
+ * video: Safari e iOS bloccavano o coprivano i video con alfa (pulsante play,
+ * sfondo bianco), mentre un'immagine animata si comporta uguale ovunque.
  *
  * File in public/avatar/hero: <id>.webp (primo fotogramma), <id>-posa.webp
- * (ultimo), <id>.webm (VP9 con alfa) e <id>.mov (HEVC con alfa, per Safari).
+ * (ultimo) e <id>.anim.webp (camminata).
  */
 export function HeroWalker({
   id,
@@ -36,49 +38,51 @@ export function HeroWalker({
   preload?: boolean;
   sizes: string;
 }) {
-  const video = useRef<HTMLVideoElement>(null);
+  const root = useRef<HTMLDivElement>(null);
   /** null al server: si decide al primo render nel browser. */
   const motion = useSyncExternalStore<boolean | null>(
     subscribe,
-    () => !window.matchMedia(REDUCE).matches && canPlayAlphaVideo(),
+    () => !window.matchMedia(REDUCE).matches,
     () => null
   );
-  const [playing, setPlaying] = useState(false);
+  const [start, setStart] = useState(false);
+  const [shown, setShown] = useState(false);
   const src = `/avatar/hero/${id}`;
 
   useEffect(() => {
-    const el = video.current;
-    if (!el) return;
+    const el = root.current;
+    if (!el || !motion) return;
     let timer: number | undefined;
     const io = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
       io.disconnect();
-      timer = window.setTimeout(() => startAlphaVideo(el, src), delay);
+      timer = window.setTimeout(() => setStart(true), delay);
     });
     io.observe(el);
     return () => {
       io.disconnect();
       window.clearTimeout(timer);
     };
-  }, [motion, delay, src]);
+  }, [motion, delay]);
 
   return (
-    <div className="relative h-full" style={{ aspectRatio: `${ratio}` }}>
+    <div ref={root} className="relative h-full" style={{ aspectRatio: `${ratio}` }}>
       <Image
         src={motion === false ? `${src}-posa.webp` : `${src}.webp`}
         alt=""
         fill
         sizes={sizes}
         preload={preload}
-        className={`object-contain ${motion && playing ? "opacity-0" : ""}`}
+        className={`object-contain ${shown ? "opacity-0" : ""}`}
       />
-      {motion && (
-        <video
-          ref={video}
-          className={`cast-video absolute inset-0 h-full w-full object-contain ${playing ? "" : "opacity-0"}`}
-          muted
-          playsInline
-          onPlaying={() => setPlaying(true)}
+      {motion && start && (
+        <Image
+          src={`${src}.anim.webp`}
+          alt=""
+          fill
+          unoptimized
+          onLoad={() => setShown(true)}
+          className={`object-contain ${shown ? "" : "opacity-0"}`}
         />
       )}
     </div>
