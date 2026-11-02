@@ -3,12 +3,10 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import type { CastId } from "@/lib/avatar/cast";
+import { startAlphaVideo } from "@/components/avatar/alphaVideo";
 
 const REDUCE = "(prefers-reduced-motion: reduce)";
 
-/** Safari e i browser iOS non mostrano il video con alfa (vedi CastAvatar): lì resta la posa. */
-const isWebKitOnly = () =>
-  /AppleWebKit/.test(navigator.userAgent) && !/Chrome|Chromium|Edg|Android/.test(navigator.userAgent);
 const subscribe = (cb: () => void) => {
   const mq = window.matchMedia(REDUCE);
   mq.addEventListener("change", cb);
@@ -18,11 +16,10 @@ const subscribe = (cb: () => void) => {
 /**
  * Un "futuro me" dell'hero: fa qualche passo verso chi guarda e chiude in una
  * posa, una volta sola, poi resta fermo sull'ultimo fotogramma. Parte `delay` ms
- * dopo essere entrato in vista. Con riduzione del movimento e su Safari mostra
- * subito la posa.
+ * dopo essere entrato in vista. Con riduzione del movimento mostra subito la posa.
  *
  * File in public/avatar/hero: <id>.webp (primo fotogramma), <id>-posa.webp
- * (ultimo) e <id>.webm (VP9 con alfa).
+ * (ultimo), <id>.webm (VP9 con alfa) e <id>.mov (HEVC con alfa, per Safari).
  */
 export function HeroWalker({
   id,
@@ -42,10 +39,11 @@ export function HeroWalker({
   /** null al server: si decide al primo render nel browser. */
   const motion = useSyncExternalStore<boolean | null>(
     subscribe,
-    () => !window.matchMedia(REDUCE).matches && !isWebKitOnly(),
+    () => !window.matchMedia(REDUCE).matches,
     () => null
   );
   const [playing, setPlaying] = useState(false);
+  const src = `/avatar/hero/${id}`;
 
   useEffect(() => {
     const el = video.current;
@@ -54,16 +52,14 @@ export function HeroWalker({
     const io = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
       io.disconnect();
-      timer = window.setTimeout(() => el.play().catch(() => {}), delay);
+      timer = window.setTimeout(() => startAlphaVideo(el, src), delay);
     });
     io.observe(el);
     return () => {
       io.disconnect();
       window.clearTimeout(timer);
     };
-  }, [motion, delay]);
-
-  const src = `/avatar/hero/${id}`;
+  }, [motion, delay, src]);
 
   return (
     <div className="relative h-full" style={{ aspectRatio: `${ratio}` }}>
@@ -81,11 +77,8 @@ export function HeroWalker({
           className="absolute inset-0 h-full w-full object-contain"
           muted
           playsInline
-          preload="auto"
           onPlaying={() => setPlaying(true)}
-        >
-          <source src={`${src}.webm`} type="video/webm" />
-        </video>
+        />
       )}
     </div>
   );
