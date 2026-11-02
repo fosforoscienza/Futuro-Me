@@ -6,67 +6,18 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Link } from "@/i18n/routing";
 import { ArrowRight } from "lucide-react";
-import { AvatarCanvas } from "@/components/avatar/AvatarCanvas";
-import { DEFAULT_SELECTION, fitToBody, type AvatarSelection } from "@/lib/avatar/config";
+import { CastAvatar } from "@/components/avatar/CastAvatar";
+import type { CastId } from "@/lib/avatar/cast";
 
-/** Tre "futuri me" d'esempio, costruiti con le stesse opzioni del configuratore. */
-const FUTURES: { key: "doctor" | "musician" | "chef"; selection: AvatarSelection }[] = [
-  {
-    key: "doctor",
-    selection: fitToBody({
-      ...DEFAULT_SELECTION,
-      corpo: "F",
-      pelle: "marrone",
-      capelli: "treccine",
-      coloreCapelli: "neri",
-      occhiali: "tondi",
-      torso: "camice",
-      gambe: "eleganti",
-      scarpe: "eleganti",
-      oggetti: ["stetoscopio"],
-      ambiente: "ospedale",
-    }),
-  },
-  {
-    key: "musician",
-    selection: fitToBody({
-      ...DEFAULT_SELECTION,
-      corpo: "M",
-      pelle: "rosa",
-      capelli: "ricci_medi",
-      coloreCapelli: "castano_chiaro",
-      torso: "tshirt_rock",
-      gambe: "jeans",
-      scarpe: "jordan",
-      oggetti: ["chitarra"],
-      ambiente: "palco",
-    }),
-  },
-  {
-    key: "chef",
-    selection: fitToBody({
-      ...DEFAULT_SELECTION,
-      corpo: "F",
-      pelle: "bianco_pallido",
-      capelli: "coda",
-      coloreCapelli: "rosso",
-      cappello: "cuoco",
-      torso: "cuoco",
-      gambe: "cuoco",
-      scarpe: "antinfortunistiche",
-      ambiente: "cucina",
-    }),
-  },
+/**
+ * I tre "futuri me" dell'hero, dal fondo al primo piano. `depth` regola quanto
+ * seguono il puntatore: chi è davanti si sposta di più.
+ */
+const FIGURES: { id: CastId; depth: number; className: string }[] = [
+  { id: "solarTech", depth: 0.4, className: "left-[-6%] bottom-[9%] h-[70%]" },
+  { id: "dataAnalyst", depth: 0.6, className: "left-[50%] bottom-[11%] h-[68%]" },
+  { id: "aiDev", depth: 1, className: "left-[16%] bottom-0 h-[90%]" },
 ];
-
-/** Posizioni della pila: davanti, dietro a destra, dietro a sinistra. */
-const SLOTS = [
-  { xPercent: 0, rotation: 0, scale: 1, zIndex: 3 },
-  { xPercent: 11, rotation: 5, scale: 0.9, zIndex: 2 },
-  { xPercent: -11, rotation: -5, scale: 0.82, zIndex: 1 },
-];
-
-const HOLD = 3.2;
 
 /** Posizione nella sequenza d'ingresso CSS (vedi globals.css). */
 const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
@@ -74,45 +25,42 @@ const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 export function HeroAnimated() {
   const t = useTranslations();
   const root = useRef<HTMLElement>(null);
-  const cycle = useRef<gsap.core.Timeline | null>(null);
 
   useGSAP(
     () => {
-      const cards = gsap.utils.toArray<HTMLElement>("[data-hero-card]");
-      const captions = gsap.utils.toArray<HTMLElement>("[data-hero-caption]");
-      cards.forEach((card, i) => gsap.set(card, SLOTS[i]));
-      gsap.set(captions, { yPercent: (i) => (i === 0 ? 0 : 100), opacity: (i) => (i === 0 ? 1 : 0) });
-
       const mm = gsap.matchMedia();
 
-      // L'ingresso è in CSS (globals.css); qui solo il ciclo dei futuri possibili:
-      // la carta davanti esce a sinistra e torna in fondo alla pila
+      // L'ingresso è in CSS (globals.css); qui solo il respiro della figura statica
+      // e la profondità che segue il puntatore
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({ repeat: -1, delay: 1.2 });
-        cards.forEach((_, k) => {
-          const front = cards[k];
-          const mid = cards[(k + 1) % 3];
-          const back = cards[(k + 2) % 3];
-          const at = `step${k}`;
-          tl.addLabel(at, `+=${HOLD}`)
-            .set(front, { zIndex: 4 }, at)
-            .to(front, { xPercent: -55, rotation: -14, opacity: 0, duration: 0.55, ease: "power2.in" }, at)
-            .to(mid, { ...SLOTS[0], duration: 0.8, ease: "power3.out" }, `${at}+=0.2`)
-            .to(back, { ...SLOTS[1], duration: 0.8, ease: "power3.out" }, `${at}+=0.28`)
-            .set(front, { ...SLOTS[2], opacity: 0 }, `${at}+=0.6`)
-            .to(front, { opacity: 1, duration: 0.5, ease: "power1.out" }, `${at}+=0.6`)
-            .to(captions[k], { yPercent: -100, opacity: 0, duration: 0.45, ease: "power2.in" }, at)
-            .fromTo(
-              captions[(k + 1) % 3],
-              { yPercent: 100, opacity: 0 },
-              { yPercent: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
-              `${at}+=0.3`
-            );
+        gsap.to("[data-hero-breathe]", {
+          scaleY: 1.012,
+          transformOrigin: "50% 100%",
+          duration: 2.4,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
         });
-        cycle.current = tl;
-        return () => {
-          cycle.current = null;
+      });
+
+      mm.add("(prefers-reduced-motion: no-preference) and (pointer: fine)", () => {
+        const header = root.current!;
+        const layers = gsap.utils.toArray<HTMLElement>("[data-hero-depth]").map((el) => ({
+          depth: Number(el.dataset.heroDepth),
+          x: gsap.quickTo(el, "x", { duration: 0.8, ease: "power3.out" }),
+          y: gsap.quickTo(el, "y", { duration: 0.8, ease: "power3.out" }),
+        }));
+        const move = (e: PointerEvent) => {
+          const r = header.getBoundingClientRect();
+          const dx = (e.clientX - r.left) / r.width - 0.5;
+          const dy = (e.clientY - r.top) / r.height - 0.5;
+          for (const l of layers) {
+            l.x(dx * 18 * l.depth);
+            l.y(dy * 10 * l.depth);
+          }
         };
+        header.addEventListener("pointermove", move);
+        return () => header.removeEventListener("pointermove", move);
       });
 
       return () => mm.revert();
@@ -123,7 +71,7 @@ export function HeroAnimated() {
   return (
     <header
       ref={root}
-      className="relative overflow-x-clip px-6 max-w-7xl mx-auto pt-10 md:pt-16 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-8 items-center"
+      className="relative overflow-x-clip px-6 max-w-7xl mx-auto pt-10 md:pt-16 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center"
     >
       <div className="lg:col-span-7">
         <p
@@ -176,40 +124,37 @@ export function HeroAnimated() {
         </div>
       </div>
 
-      <div
-        className="lg:col-span-5 flex flex-col items-center"
-        onMouseEnter={() => cycle.current?.pause()}
-        onMouseLeave={() => cycle.current?.resume()}
-      >
+      <div className="lg:col-span-5 flex flex-col items-center">
         <div
           data-hero-stage
-          aria-hidden="true"
-          className="relative w-full max-w-[260px] sm:max-w-[320px] lg:max-w-[330px] xl:max-w-[360px] aspect-[848/1264]"
+          className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] aspect-[460/520]"
         >
-          <div className="absolute -inset-x-10 inset-y-8 rounded-[2rem] bg-secondary-container/45 -rotate-3" />
-          {FUTURES.map((future) => (
+          {FIGURES.map((f, i) => (
             <div
-              key={future.key}
-              data-hero-card
-              className="absolute inset-0 will-change-transform rounded-[1.5rem] shadow-[0_28px_60px_-24px_rgba(150,46,22,0.45)]"
+              key={f.id}
+              data-hero-depth={f.depth}
+              className={`absolute ${f.className}`}
             >
-              <AvatarCanvas selection={future.selection} className="w-full h-full" />
+              <div data-hero-figure style={order(i)} className="h-full">
+                <div data-hero-breathe={f.id === "solarTech" ? "" : undefined} className="h-full">
+                  <CastAvatar
+                    id={f.id}
+                    preload={f.id === "aiDev"}
+                    sizes="(min-width: 1024px) 300px, 45vw"
+                    className="h-full"
+                  />
+                </div>
+              </div>
             </div>
           ))}
         </div>
-        <div data-hero-fade className="mt-8 text-center" style={order(4)}>
+        <div data-hero-fade style={order(4)} className="mt-6 text-center">
           <p className="text-sm text-on-surface-variant">{t("hero.futureLabel")}</p>
-          <div className="relative h-8 overflow-hidden min-w-[16rem]">
-            {FUTURES.map((future) => (
-              <p
-                key={future.key}
-                data-hero-caption
-                className="absolute inset-0 font-[var(--font-plus-jakarta)] font-bold text-xl text-secondary"
-              >
-                {t(`hero.futures.${future.key}`)}
-              </p>
+          <ul className="mt-1 flex flex-wrap justify-center gap-x-5 gap-y-1 font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary">
+            {FIGURES.map((f) => (
+              <li key={f.id}>{t(`hero.futures.${f.id}`)}</li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </header>

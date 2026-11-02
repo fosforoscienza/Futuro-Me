@@ -20,9 +20,9 @@
     "subtitle": "Scopri chi vuoi diventare: esplora carriere, capisci il mercato del lavoro e preparati alle sfide di domani.",
     "futureLabel": "Tra 15 anni",
     "futures": {
-      "doctor": "Medica in corsia",
-      "musician": "Musicista sul palco",
-      "chef": "Chef in cucina"
+      "aiDev": "AI Developer",
+      "dataAnalyst": "Data Analyst",
+      "solarTech": "Tecnica delle rinnovabili"
     }
   },
   "home": {

@@ -78,8 +78,8 @@ body {
 @keyframes hero-fade {
   from { opacity: 0; transform: translateY(16px); }
 }
-@keyframes hero-stage {
-  from { opacity: 0; transform: translateY(40px) rotate(2deg); }
+@keyframes hero-figure {
+  from { opacity: 0; transform: translateY(48px) scale(0.96); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -91,13 +91,10 @@ body {
     animation: hero-fade 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 80ms + 450ms);
   }
-  [data-hero-stage] {
-    animation: hero-stage 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+  [data-hero-figure] {
+    animation: hero-figure 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 140ms + 350ms);
   }
-}
-
-[data-hero-caption]:not(:first-child) {
-  opacity: 0;
 }
 
 .no-scrollbar::-webkit-scrollbar {
