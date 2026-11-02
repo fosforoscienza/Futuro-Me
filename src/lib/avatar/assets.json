@@ -4016,7 +4016,8 @@
      0,
      0
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 1
    },
    "M": {
     "src": "/avatar/M/skin__vitiligine.webp",
@@ -4033,7 +4034,8 @@
      0,
      0
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 1
    }
   },
   "torso/camice": {

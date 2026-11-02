@@ -3,8 +3,8 @@
 È idempotente: ogni pezzo ritoccato è segnato nel manifest ("toned") e non viene
 ritoccato due volte.
 
-  1. Nasi M "all'insù", "aquilino" e "a patata": il pezzo diventa in parte trasparente
-     e lascia vedere il naso del corpo base, così la forma resta ma è molto meno marcata.
+  1. Nasi M "all'insù", "aquilino" e "a patata" e vitiligine: il pezzo diventa in parte
+     trasparente e lascia vedere il corpo base, così la forma resta ma è molto meno marcata.
   2. Ciglia "lunghe" e "lunghissime" (eyes/<forma>__<ciglia> e lashes/*): erano enormi. Ogni
      ciglio si accorcia verso la palpebra: un pixel a distanza d dall'apertura dell'occhio
      prende il ciglio che stava a distanza d / f, quindi la radice resta attaccata alla
@@ -43,6 +43,8 @@ FADE = {
     ('nose/insu', 'M'): 0.45,
     ('nose/aquilino', 'M'): 0.45,
     ('nose/patata', 'M'): 0.55,
+    ('skin/vitiligine', 'F'): 0.4,
+    ('skin/vitiligine', 'M'): 0.4,
 }
 # ciglia -> quanto resta della lunghezza (oltre la palpebra)
 SHORTEN = {'lunghe': 0.72, 'lunghissime': 0.62}
