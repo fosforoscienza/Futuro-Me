@@ -34,7 +34,7 @@ export const CAST: Record<CastId, CastMember> = {
   aiDev: {
     id: "aiDev",
     kind: "attuale",
-    animated: true,
+    animated: false,
     selection: make({
       corpo: "F",
       pelle: "nero",
@@ -44,13 +44,12 @@ export const CAST: Record<CastId, CastMember> = {
       torso: "felpa",
       gambe: "jeans",
       scarpe: "jordan",
-      oggetti: ["laptop"],
     }),
   },
   dataAnalyst: {
     id: "dataAnalyst",
     kind: "attuale",
-    animated: true,
+    animated: false,
     selection: make({
       corpo: "M",
       pelle: "oliva",
@@ -61,7 +60,6 @@ export const CAST: Record<CastId, CastMember> = {
       gambe: "eleganti",
       scarpe: "sneakers",
       braccia: ["orologio"],
-      oggetti: ["tablet"],
     }),
   },
   solarTech: {
@@ -77,7 +75,6 @@ export const CAST: Record<CastId, CastMember> = {
       torso: "catarifrangente",
       gambe: "militari",
       scarpe: "antinfortunistiche",
-      oggetti: ["pannello_solare"],
     }),
   },
   doctor: {
