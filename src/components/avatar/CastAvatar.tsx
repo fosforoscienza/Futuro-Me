@@ -7,17 +7,20 @@ import { CAST, type CastId } from "@/lib/avatar/cast";
 /** Inquadratura comune dei file in public/avatar/cast (vedi cast.ts). */
 export const CAST_RATIO = 606 / 1043;
 
-/** Safari e tutti i browser iOS leggono l'alfa solo dall'HEVC (.mov), gli altri dal VP9 (.webm). */
-function wantsHevc() {
+/**
+ * Safari e i browser iOS non mostrano il loop: il VP9 con alfa non lo leggono e
+ * l'HEVC con alfa nella pagina resta invisibile. Lì resta l'immagine statica.
+ */
+function isWebKitOnly() {
   const ua = navigator.userAgent;
   return /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua);
 }
 
 /**
  * Un avatar del cast senza sfondo, in piedi su un'ombra a terra morbida.
- * L'immagine statica c'è sempre; per gli avatar animati il loop video si
- * scarica solo la prima volta che l'avatar entra in vista, va in pausa fuori
- * schermo e non parte con la riduzione del movimento.
+ * L'immagine statica c'è sempre; per gli avatar animati il loop video (VP9 con
+ * alfa) si scarica solo la prima volta che l'avatar entra in vista, va in pausa
+ * fuori schermo e non parte con la riduzione del movimento né su Safari.
  * I piedi stanno a circa il 30% della larghezza; `flip` specchia l'avatar.
  */
 export function CastAvatar({
@@ -45,7 +48,7 @@ export function CastAvatar({
 
   useEffect(() => {
     const el = video.current;
-    if (!el) return;
+    if (!el || isWebKitOnly()) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
 
@@ -55,7 +58,7 @@ export function CastAvatar({
         if (reduce.matches) setPlaying(false);
         return;
       }
-      if (!el.getAttribute("src")) el.src = `${src}.${wantsHevc() ? "mov" : "webm"}`;
+      if (!el.getAttribute("src")) el.src = `${src}.webm`;
       el.play().catch(() => {});
     };
 
