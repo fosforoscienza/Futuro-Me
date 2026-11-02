@@ -584,7 +584,7 @@ export const LEVELS: Level[] = [
     id: "lv5",
     number: 5,
     title: "L'ambiente",
-    intro: "Livello 5 sbloccato! Dove ti vedi tra 15 anni?",
+    intro: "Ultimo livello! Dove ti vedi tra 15 anni?",
     groups: [
       {
         id: "ambiente",
@@ -620,40 +620,37 @@ export const LEVELS: Level[] = [
       },
     ],
   },
+];
+
+/**
+ * Ausili e impianto acustico: non sono più un livello del configuratore, ma restano
+ * disegnabili per gli avatar del cast del sito (vedi cast.ts).
+ */
+const INCLUSION_GROUPS: Group[] = [
   {
-    id: "lv6",
-    number: 6,
-    title: "Inclusione",
-    intro:
-      "Ultimo livello. Se vuoi, puoi aggiungere al tuo avatar un ausilio: il futuro è di tutte e tutti.",
-    groups: [
-      {
-        id: "ausilio",
-        label: "Ausili per muoversi",
-        hint: "La carrozzina arriverà nella prossima versione.",
-        kind: "single",
-        choices: [
-          none(),
-          ...items("incl", [
-            ["stampelle", "Stampelle"],
-            ["bastone", "Bastone bianco"],
-          ]),
-        ],
-      },
-      {
-        id: "impianto",
-        label: "Impianto acustico",
-        kind: "single",
-        choices: [
-          { id: "no", label: "No" },
-          { id: "si", label: "Sì", layer: "incl/impianto" },
-        ],
-      },
+    id: "ausilio",
+    label: "Ausili per muoversi",
+    kind: "single",
+    choices: [
+      none(),
+      ...items("incl", [
+        ["stampelle", "Stampelle"],
+        ["bastone", "Bastone bianco"],
+      ]),
+    ],
+  },
+  {
+    id: "impianto",
+    label: "Impianto acustico",
+    kind: "single",
+    choices: [
+      { id: "no", label: "No" },
+      { id: "si", label: "Sì", layer: "incl/impianto" },
     ],
   },
 ];
 
-const ALL_GROUPS = LEVELS.flatMap((l) => l.groups);
+const ALL_GROUPS = [...LEVELS.flatMap((l) => l.groups), ...INCLUSION_GROUPS];
 
 export function findChoice(groupId: keyof AvatarSelection, id: string) {
   return ALL_GROUPS.find((g) => g.id === groupId)?.choices.find((c) => c.id === id);

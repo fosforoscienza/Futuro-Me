@@ -64,7 +64,6 @@ const STEPS: Step[] = [
   level("lv4"),
   block(21, 26),
   level("lv5"),
-  level("lv6"),
 ];
 
 const sectionOf = new Map(
@@ -338,7 +337,7 @@ function Intro({ onStart }: { onStart: () => void }) {
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
           <ListOrdered size={20} className="text-secondary shrink-0" />
           <span className="text-sm font-bold text-secondary">
-            26 domande e 7 livelli di avatar
+            26 domande e 6 livelli di avatar
           </span>
         </li>
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
