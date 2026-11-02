@@ -75,18 +75,6 @@ function ProgettoContent() {
     },
   ];
 
-  const partners = [
-    "Fondazione Caritas Senigallia ETS",
-    "Associazione Culturale NEXT ETS",
-    "Associazione Di.Te. ETS",
-    "IIS Corinaldesi Padovano",
-    "IC Ostra",
-    "IC Senigallia Centro - Fagnani",
-    "Liceo Scientifico Enrico Medi",
-    "Università Politecnica delle Marche",
-    "Università di Camerino",
-  ];
-
   return (
     <div className="pb-24 md:pb-12">
       {/* Header */}
@@ -182,27 +170,6 @@ function ProgettoContent() {
         </div>
       </section>
 
-      {/* Partners */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <h2 className="text-2xl font-[var(--font-plus-jakarta)] font-bold text-secondary mb-10">
-          {t("partnersTitle")}
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {partners.map((partner) => (
-            <div
-              key={partner}
-              className="bg-surface-container-lowest p-6 rounded-[1.5rem] flex items-center gap-4"
-            >
-              <div className="w-10 h-10 bg-secondary-container rounded-xl flex items-center justify-center shrink-0">
-                <span className="text-on-secondary-container font-bold text-sm">
-                  {partner.charAt(0)}
-                </span>
-              </div>
-              <p className="text-sm font-bold text-secondary">{partner}</p>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }
