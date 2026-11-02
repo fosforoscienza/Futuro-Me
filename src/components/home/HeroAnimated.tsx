@@ -1,76 +1,34 @@
 "use client";
 
-import { useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import { Link } from "@/i18n/routing";
 import { ArrowRight } from "lucide-react";
-import { CastAvatar } from "@/components/avatar/CastAvatar";
 import type { CastId } from "@/lib/avatar/cast";
+import { HeroWalker } from "./HeroWalker";
 
 /**
- * I tre "futuri me" dell'hero, dal fondo al primo piano. `depth` regola quanto
- * seguono il puntatore: chi è davanti si sposta di più.
+ * I tre "futuri me" dell'hero, da sinistra a destra, in fila sulla stessa linea
+ * di terra. `ratio` è il rapporto dei file in public/avatar/hero (stessa scala per
+ * tutti, così le altezze restano vere); `delay` scagliona i passi.
  */
-const FIGURES: { id: CastId; depth: number; className: string }[] = [
-  { id: "solarTech", depth: 0.4, className: "left-[-6%] bottom-[9%] h-[70%]" },
-  { id: "dataAnalyst", depth: 0.6, className: "left-[50%] bottom-[11%] h-[68%]" },
-  { id: "aiDev", depth: 1, className: "left-[16%] bottom-0 h-[90%]" },
+const FIGURES: { id: CastId; ratio: number; delay: number }[] = [
+  { id: "solarTech", ratio: 326 / 900, delay: 500 },
+  { id: "aiDev", ratio: 344 / 900, delay: 150 },
+  { id: "dataAnalyst", ratio: 362 / 900, delay: 850 },
 ];
+
+/** Sovrapposizione per lato tra figure vicine e larghezza della scena, in pixel dei file (alti 900). */
+const OVERLAP = 40;
+const STAGE_W = FIGURES.reduce((w, f) => w + f.ratio * 900, 0) - 4 * OVERLAP;
 
 /** Posizione nella sequenza d'ingresso CSS (vedi globals.css). */
 const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 export function HeroAnimated() {
   const t = useTranslations();
-  const root = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      // L'ingresso è in CSS (globals.css); qui solo il respiro della figura statica
-      // e la profondità che segue il puntatore
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.to("[data-hero-breathe]", {
-          scaleY: 1.012,
-          transformOrigin: "50% 100%",
-          duration: 2.4,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: no-preference) and (pointer: fine)", () => {
-        const header = root.current!;
-        const layers = gsap.utils.toArray<HTMLElement>("[data-hero-depth]").map((el) => ({
-          depth: Number(el.dataset.heroDepth),
-          x: gsap.quickTo(el, "x", { duration: 0.8, ease: "power3.out" }),
-          y: gsap.quickTo(el, "y", { duration: 0.8, ease: "power3.out" }),
-        }));
-        const move = (e: PointerEvent) => {
-          const r = header.getBoundingClientRect();
-          const dx = (e.clientX - r.left) / r.width - 0.5;
-          const dy = (e.clientY - r.top) / r.height - 0.5;
-          for (const l of layers) {
-            l.x(dx * 18 * l.depth);
-            l.y(dy * 10 * l.depth);
-          }
-        };
-        header.addEventListener("pointermove", move);
-        return () => header.removeEventListener("pointermove", move);
-      });
-
-      return () => mm.revert();
-    },
-    { scope: root }
-  );
 
   return (
     <header
-      ref={root}
       className="relative overflow-x-clip px-6 max-w-7xl mx-auto pt-10 md:pt-16 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center"
     >
       <div className="lg:col-span-7">
@@ -126,25 +84,28 @@ export function HeroAnimated() {
 
       <div className="lg:col-span-5 flex flex-col items-center">
         <div
-          data-hero-stage
-          className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] aspect-[460/520]"
+          data-hero-fade
+          style={{ ...order(2), aspectRatio: `${STAGE_W} / 900` }}
+          className="relative flex w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] items-end justify-center"
         >
+          <span
+            aria-hidden="true"
+            className="absolute -bottom-[3%] left-1/2 h-[9%] w-[105%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgb(150_46_22/0.22),rgb(150_46_22/0.08)_60%,transparent)]"
+          />
           {FIGURES.map((f, i) => (
             <div
               key={f.id}
-              data-hero-depth={f.depth}
-              className={`absolute ${f.className}`}
+              aria-hidden="true"
+              className={`relative h-full shrink-0 ${i === 1 ? "z-10" : ""}`}
+              style={{ marginInline: `${(-OVERLAP / STAGE_W) * 100}%` }}
             >
-              <div data-hero-figure style={order(i)} className="h-full">
-                <div data-hero-breathe={f.id === "solarTech" ? "" : undefined} className="h-full">
-                  <CastAvatar
-                    id={f.id}
-                    preload={f.id === "aiDev"}
-                    sizes="(min-width: 1024px) 300px, 45vw"
-                    className="h-full"
-                  />
-                </div>
-              </div>
+              <HeroWalker
+                id={f.id}
+                ratio={f.ratio}
+                delay={f.delay}
+                preload={i === 1}
+                sizes="(min-width: 1024px) 220px, 30vw"
+              />
             </div>
           ))}
         </div>
