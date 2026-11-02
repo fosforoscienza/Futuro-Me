@@ -154,6 +154,15 @@
     "feedback": "Feedback",
     "privacy": "Privacy",
     "copyright": "© 2025 Il Futuro Me. Kinetic Archive Project.",
-    "fundedBy": "Supported by Fondazione Cariverona – Direzione Giovani 2024"
+    "fundedBy": "A project of the Direzione Giovani 2024 call",
+    "cariveronaAlt": "Supported by Fondazione Cariverona",
+    "partnersTitle": "Project partners",
+    "partnerGroups": {
+      "lead": "Lead partner",
+      "thirdSector": "Third-sector organisations",
+      "schools": "Schools",
+      "universities": "Universities"
+    },
+    "supportTitle": "Support"
   }
 }
