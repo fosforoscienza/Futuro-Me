@@ -20,9 +20,9 @@
     "subtitle": "Discover who you want to become: explore careers, understand the labour market and prepare for tomorrow's challenges.",
     "futureLabel": "In 15 years",
     "futures": {
-      "doctor": "Doctor on the ward",
-      "musician": "Musician on stage",
-      "chef": "Chef in the kitchen"
+      "aiDev": "AI Developer",
+      "dataAnalyst": "Data Analyst",
+      "solarTech": "Renewable energy technician"
     }
   },
   "home": {
