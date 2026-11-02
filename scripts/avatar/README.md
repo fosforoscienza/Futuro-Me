@@ -15,6 +15,7 @@ python3 -m pip install pillow numpy
 python3 -I scripts/avatar/build_assets.py raw public/avatar src/lib/avatar/assets.json
 python3 -I scripts/avatar/build_lash_combos.py raw public/avatar src/lib/avatar/assets.json
 python3 -I scripts/avatar/fix_masks.py public/avatar src/lib/avatar/assets.json
+python3 -I scripts/avatar/tone_down.py public/avatar src/lib/avatar/assets.json
 ```
 
 `build_lash_combos.py` crea i pezzi `eyes/<forma>__<ciglia>` (forma d'occhio con le sue
@@ -42,3 +43,16 @@ scelta in `src/lib/avatar/config.ts`.
 sorgente quando l'estrazione la taglia male (usato per `hair/afro` F): trova la pelle del
 viso della sorgente con un riempimento dal centro del viso e considera capelli tutto il
 resto della testa. Va lanciato dopo `fix_masks.py`.
+
+`tone_down.py` attenua i pezzi troppo marcati (i nasi M "all'insù", "aquilino" e "a patata",
+le ciglia "lunghe" e "lunghissime" accorciate verso la palpebra, le sopracciglia "folte"
+meno alte) sugli asset già pubblicati;
+va lanciato dopo `fix_masks.py` ed è idempotente.
+
+`rebuild_glasses.py` rifà gli occhiali da vista con montatura spessa (geek, squadrati, tondi
+spessi) dalla versione precedente al passo delle lenti di `fix_masks.py`, che spezzava la
+montatura, e ridisegna come filo metallico quelli sottili (tondi metallici, montatura
+leggera), persi già nell'estrazione; le istruzioni sono in testa allo script.
+
+`mirror_bracelet.py` sposta il bracciale sul polso destro, ribaltato a specchio: era
+generato sullo stesso polso dell'orologio e scelti insieme si sovrapponevano.

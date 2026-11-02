@@ -103,6 +103,9 @@ export function withBody(sel: AvatarSelection, body: Body): AvatarSelection {
 const none = (label = "Nessuno"): Choice => ({ id: "nessuno", label });
 const items = (cat: string, list: [string, string][]): Choice[] =>
   list.map(([id, label]) => ({ id, label, layer: `${cat}/${id}` }));
+/** Riserva le scelte indicate a questi corpi: non tutti hanno tutto. */
+const only = (bodies: Body[], ids: string[], list: Choice[]): Choice[] =>
+  list.map((c) => (ids.includes(c.id) ? { ...c, bodies } : c));
 
 export const SKIN: Choice[] = [
   { id: "bianco_pallido", label: "Bianco pallido", color: [232, 196, 178] },
@@ -194,7 +197,7 @@ export const LEVELS: Level[] = [
     number: 0,
     title: "Chi sei?",
     intro:
-      "Prima di iniziare, crea la base del tuo avatar: sarà il “te” del futuro, tra 15 anni. Potrai usare tutti i vestiti e gli accessori qualunque corpo sceglierai.",
+      "Prima di iniziare, crea la base del tuo avatar: sarà il “te” del futuro, tra 15 anni. Alcuni tagli e dettagli del viso cambiano in base al corpo.",
     groups: [
       {
         id: "corpo",
@@ -218,7 +221,7 @@ export const LEVELS: Level[] = [
         id: "capelli",
         label: "Capelli",
         kind: "single",
-        choices: [
+        choices: only(["F"], ["bob", "caschetto", "lisci_lunghi", "lunghi_frangetta", "mossi", "mossi_coda", "ricci_lunghi", "treccia"], [
           none("No capelli"),
           ...items("hair", [
             ["buzz", "Buzz cut"],
@@ -240,7 +243,7 @@ export const LEVELS: Level[] = [
             ["treccine", "Treccine afro"],
             ["chignon", "Chignon"],
           ]),
-        ],
+        ]),
       },
       { id: "coloreCapelli", label: "Colore dei capelli", kind: "swatch", choices: HAIR_COLORS },
       {
@@ -262,11 +265,11 @@ export const LEVELS: Level[] = [
         kind: "single",
         choices: [
           none(),
-          ...items("makeup", [
+          ...only(["F"], ["leggero", "moderato", "intenso"], items("makeup", [
             ["leggero", "Leggero"],
             ["moderato", "Moderato"],
             ["intenso", "Intenso"],
-          ]),
+          ])),
         ],
       },
       {
@@ -276,7 +279,7 @@ export const LEVELS: Level[] = [
         choices: [
           ...items("lashes", [["corte", "Corte"]]),
           { id: "medie", label: "Medie" },
-          ...items("lashes", [["lunghe", "Lunghe"], ["lunghissime", "Lunghissime"]]),
+          ...only(["F"], ["lunghe", "lunghissime"], items("lashes", [["lunghe", "Lunghe"], ["lunghissime", "Lunghissime"]])),
         ],
       },
       {
@@ -360,7 +363,7 @@ export const LEVELS: Level[] = [
         hint: "Puoi sceglierne più di uno",
         kind: "multi",
         choices: [
-          ...items("jewel", [
+          ...only(["F"], ["perle", "pendenti"], items("jewel", [
             ["cerchio", "Orecchini a cerchio piccoli"],
             ["cerchio_grandi", "Orecchini a cerchio grandi"],
             ["diamante", "Orecchino diamante"],
@@ -372,7 +375,7 @@ export const LEVELS: Level[] = [
             ["septum", "Piercing septum"],
             ["medusa", "Piercing al labbro"],
             ["sopracciglio", "Piercing al sopracciglio"],
-          ]),
+          ])),
           ...items("neck", [
             ["catenina", "Catenina elegante"],
             ["catena_trap", "Catena grossa (stile trap)"],
@@ -389,7 +392,6 @@ export const LEVELS: Level[] = [
             ["cuffie", "Cuffie per la musica"],
             ["bandana", "Bandana sulla fronte"],
             ["corona", "Corona di fiori"],
-            ["lenti", "Lenti da orefice"],
           ]),
           ...items("skin", [["vitiligine", "Vitiligine"]]),
         ],
@@ -670,7 +672,7 @@ export function fitToBody(sel: AvatarSelection): AvatarSelection {
     };
     const value = sel[group.id];
     if (Array.isArray(value)) out[group.id] = value.filter(allowed);
-    else if (!allowed(value)) out[group.id] = DEFAULT_SELECTION[group.id];
+    else if (!allowed(value)) out[group.id] = group.id === "capelli" ? DEFAULT_HAIR[body] : DEFAULT_SELECTION[group.id];
   }
   return out as AvatarSelection;
 }

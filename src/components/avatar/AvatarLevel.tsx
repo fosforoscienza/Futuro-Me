@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, Sparkles, ZoomIn, ZoomOut } from "lucide-react";
-import { fitToBody, withBody, type AvatarSelection, type Body, type Group, type Level } from "@/lib/avatar/config";
+import { fitToBody, withBody, type AvatarSelection, type Body, type Choice, type Group, type Level } from "@/lib/avatar/config";
 import type { Focus } from "@/lib/avatar/render";
 import { AvatarCanvas } from "./AvatarCanvas";
 
@@ -38,6 +38,7 @@ export function AvatarLevel({
   };
 
   const hasBody = selection.corpo !== "";
+  const fits = (c: Choice) => !c.bodies || (selection.corpo !== "" && c.bodies.includes(selection.corpo));
   const [wide, setWide] = useState<Record<string, boolean>>({});
   const closeUp = LEVEL_FOCUS[level.id];
   const focus: Focus = closeUp && !wide[level.id] ? closeUp : "full";
@@ -106,7 +107,8 @@ export function AvatarLevel({
         </div>
 
         <div className="space-y-4">
-          {level.groups.map((group) => (
+          {/* un gruppo con una sola scelta per questo corpo (es. trucco per M) non serve */}
+          {level.groups.filter((g) => g.choices.filter(fits).length > 1).map((group) => (
             <fieldset
               key={group.id}
               className="bg-surface-container-lowest p-5 md:p-6 rounded-[1.5rem]"
@@ -120,7 +122,7 @@ export function AvatarLevel({
               )}
               <div className="mt-4 flex flex-wrap gap-2">
                 {group.choices
-                  .filter((c) => !c.bodies || (selection.corpo !== "" && c.bodies.includes(selection.corpo)))
+                  .filter(fits)
                   .map((choice) => {
                   const value = selection[group.id];
                   const checked = Array.isArray(value)
