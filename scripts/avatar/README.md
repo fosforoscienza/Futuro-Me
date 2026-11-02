@@ -52,3 +52,6 @@ va lanciato dopo `fix_masks.py` ed è idempotente.
 spessi) dalla versione precedente al passo delle lenti di `fix_masks.py`, che spezzava la
 montatura, e ridisegna come filo metallico quelli sottili (tondi metallici, montatura
 leggera), persi già nell'estrazione; le istruzioni sono in testa allo script.
+
+`mirror_bracelet.py` sposta il bracciale sul polso destro, ribaltato a specchio: era
+generato sullo stesso polso dell'orologio e scelti insieme si sovrapponevano.

@@ -141,10 +141,10 @@
   "arms/bracciale": {
    "F": {
     "src": "/avatar/F/arms__bracciale.webp",
-    "x": 246,
-    "y": 584,
-    "w": 362,
-    "h": 202,
+    "x": 242,
+    "y": 590,
+    "w": 80,
+    "h": 194,
     "stats": {
      "G": null,
      "B": null
@@ -153,14 +153,15 @@
      0,
      0
     ],
-    "fixed": 21
+    "fixed": 21,
+    "mirrored": 1
    },
    "M": {
     "src": "/avatar/M/arms__bracciale.webp",
-    "x": 255,
-    "y": 590,
-    "w": 358,
-    "h": 187,
+    "x": 238,
+    "y": 591,
+    "w": 56,
+    "h": 175,
     "stats": {
      "G": null,
      "B": null
@@ -169,7 +170,8 @@
      0,
      0
     ],
-    "fixed": 21
+    "fixed": 21,
+    "mirrored": 1
    }
   },
   "brows/sottili": {
