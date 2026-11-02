@@ -32,13 +32,6 @@ export function HeroAnimated() {
       className="relative overflow-x-clip px-6 max-w-7xl mx-auto pt-10 md:pt-16 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center"
     >
       <div className="lg:col-span-7">
-        <p
-          data-hero-fade
-          style={order(0)}
-          className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-5"
-        >
-          {t("hero.badge")}
-        </p>
         <h1 className="text-5xl md:text-7xl font-[var(--font-plus-jakarta)] font-extrabold text-secondary tracking-tighter leading-[0.95]">
           <span className="block overflow-hidden pb-[0.08em]">
             <span data-hero-line className="block" style={order(0)}>
@@ -110,8 +103,7 @@ export function HeroAnimated() {
           ))}
         </div>
         <div data-hero-fade style={order(4)} className="mt-6 text-center">
-          <p className="text-sm text-on-surface-variant">{t("hero.futureLabel")}</p>
-          <ul className="mt-1 flex flex-wrap justify-center gap-x-5 gap-y-1 font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary">
+          <ul className="flex flex-wrap justify-center gap-x-5 gap-y-1 font-[var(--font-plus-jakarta)] font-bold text-lg text-secondary">
             {FIGURES.map((f) => (
               <li key={f.id}>{t(`hero.futures.${f.id}`)}</li>
             ))}
