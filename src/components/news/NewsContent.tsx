@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { useState } from "react";
-import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import type { NewsArticle } from "@/lib/news-data";
 import { NewsImage } from "./NewsImage";
 
@@ -79,12 +79,6 @@ export function NewsContent({ articles }: { articles: NewsArticle[] }) {
     <div className="pb-24 md:pb-12">
       {/* Header */}
       <header className="px-6 max-w-7xl mx-auto pt-12 pb-16">
-        <div className="flex items-center gap-2 mb-4">
-          <Sparkles size={16} className="text-primary" />
-          <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">
-            Science Snack
-          </p>
-        </div>
         <h1 className="text-5xl md:text-7xl font-[var(--font-plus-jakarta)] font-extrabold text-secondary tracking-tighter max-w-3xl leading-[0.9]">
           {t("title")}
         </h1>
