@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Link } from "@/i18n/routing";
 import {
   ArrowLeft,
   ArrowRight,
@@ -377,6 +378,16 @@ function Intro({ onStart, personal }: { onStart: () => void; personal: boolean }
           </span>
         </li>
       </ul>
+      <p className="mt-6 text-sm text-on-surface-variant leading-relaxed">
+        {personal
+          ? "Le risposte e l’avatar saranno collegati al tuo account. "
+          : "Le risposte non saranno collegate a un account. "}
+        Non inserire nomi, contatti, informazioni sulla salute o altri dati personali
+        tuoi o di altre persone nei campi liberi.{" "}
+        <Link href="/privacy" className="font-bold text-secondary underline underline-offset-2">
+          Leggi l’informativa privacy
+        </Link>.
+      </p>
       <button
         type="button"
         onClick={onStart}

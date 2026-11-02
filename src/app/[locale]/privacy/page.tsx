@@ -42,6 +42,8 @@ function PrivacyContent() {
     { title: t("rightsTitle"), body: t("rightsBody") },
     { title: t("cookiesTitle"), body: t("cookiesBody") },
     { title: t("minorsTitle"), body: t("minorsBody") },
+    { title: t("recipientsTitle"), body: t("recipientsBody") },
+    { title: t("automatedTitle"), body: t("automatedBody") },
     { title: t("contactTitle"), body: t("contactBody") },
   ];
 
