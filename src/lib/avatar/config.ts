@@ -277,8 +277,10 @@ export const LEVELS: Level[] = [
         label: "Ciglia",
         kind: "single",
         choices: [
-          ...items("lashes", [["corte", "Corte"]]),
-          { id: "medie", label: "Medie" },
+          // "Corte" sono le ciglia del corpo base; "Medie" il pezzo lashes/corte, che le mostra
+          // davvero (prima "Medie" non cambiava nulla rispetto all'avatar di partenza)
+          { id: "corte", label: "Corte" },
+          { id: "medie", label: "Medie", layer: "lashes/corte" },
           ...only(["F"], ["lunghe", "lunghissime"], items("lashes", [["lunghe", "Lunghe"], ["lunghissime", "Lunghissime"]])),
         ],
       },
