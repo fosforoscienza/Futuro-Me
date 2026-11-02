@@ -5,6 +5,10 @@ import Image from "next/image";
 import type { CastId } from "@/lib/avatar/cast";
 
 const REDUCE = "(prefers-reduced-motion: reduce)";
+
+/** Safari e i browser iOS non mostrano il video con alfa (vedi CastAvatar): lì resta la posa. */
+const isWebKitOnly = () =>
+  /AppleWebKit/.test(navigator.userAgent) && !/Chrome|Chromium|Edg|Android/.test(navigator.userAgent);
 const subscribe = (cb: () => void) => {
   const mq = window.matchMedia(REDUCE);
   mq.addEventListener("change", cb);
@@ -14,10 +18,11 @@ const subscribe = (cb: () => void) => {
 /**
  * Un "futuro me" dell'hero: fa qualche passo verso chi guarda e chiude in una
  * posa, una volta sola, poi resta fermo sull'ultimo fotogramma. Parte `delay` ms
- * dopo essere entrato in vista. Con riduzione del movimento mostra subito la posa.
+ * dopo essere entrato in vista. Con riduzione del movimento e su Safari mostra
+ * subito la posa.
  *
  * File in public/avatar/hero: <id>.webp (primo fotogramma), <id>-posa.webp
- * (ultimo), <id>.mov (HEVC con alfa, Safari) e <id>.webm (VP9 con alfa).
+ * (ultimo) e <id>.webm (VP9 con alfa).
  */
 export function HeroWalker({
   id,
@@ -37,7 +42,7 @@ export function HeroWalker({
   /** null al server: si decide al primo render nel browser. */
   const motion = useSyncExternalStore<boolean | null>(
     subscribe,
-    () => !window.matchMedia(REDUCE).matches,
+    () => !window.matchMedia(REDUCE).matches && !isWebKitOnly(),
     () => null
   );
   const [playing, setPlaying] = useState(false);
@@ -79,7 +84,6 @@ export function HeroWalker({
           preload="auto"
           onPlaying={() => setPlaying(true)}
         >
-          <source src={`${src}.mov`} type='video/quicktime; codecs="hvc1"' />
           <source src={`${src}.webm`} type="video/webm" />
         </video>
       )}
