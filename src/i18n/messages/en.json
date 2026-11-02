@@ -17,7 +17,13 @@
     "badge": "Kinetic Archive",
     "title": "Your Future,",
     "titleAccent": "Explored.",
-    "subtitle": "A platform to discover who you want to become. Explore careers, understand the labour market and prepare for tomorrow's challenges with concrete tools and inspiring content."
+    "subtitle": "Discover who you want to become: explore careers, understand the labour market and prepare for tomorrow's challenges.",
+    "futureLabel": "In 15 years",
+    "futures": {
+      "doctor": "Doctor on the ward",
+      "musician": "Musician on stage",
+      "chef": "Chef in the kitchen"
+    }
   },
   "home": {
     "latestNews": "Latest News",
