@@ -41,7 +41,22 @@
       "schools": "Scuole partner",
       "hours": "Ore di attività",
       "universities": "Università"
-    }
+    },
+    "plenary": {
+      "title": "La prima Plenaria",
+      "intro": "A novembre incontriamo le classi di quattro scuole per la prima Plenaria del progetto. Ecco quando.",
+      "status": {
+        "past": "Fatta",
+        "today": "Oggi",
+        "next": "Prossima"
+      },
+      "classes": "{count} classi {year, select, 2 {seconde} 3 {terze} other {}}",
+      "group": "{group, select, 1 {Primo gruppo} 2 {Secondo gruppo} other {Gruppo}} di classi {year, select, 2 {seconde} 3 {terze} other {}}",
+      "yearOnly": "Classi {year, select, 2 {seconde} 3 {terze} other {}}",
+      "total": "{count} classi in tutto",
+      "place": "Al {place}"
+    },
+    "numbersTitle": "Il progetto in numeri"
   },
   "project": {
     "title": "Il Progetto",
