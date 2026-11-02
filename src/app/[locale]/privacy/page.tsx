@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -10,7 +11,12 @@ export async function generateMetadata({
   const { locale } = await params;
   const messages = await getMessages({ locale });
   const privacy = messages.privacy as Record<string, string>;
-  return { title: privacy.title, description: privacy.metaDescription };
+  return pageMetadata({
+    locale,
+    path: "/privacy",
+    title: privacy.title,
+    description: privacy.metaDescription,
+  });
 }
 
 export default async function PrivacyPage({

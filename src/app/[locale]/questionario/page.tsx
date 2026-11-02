@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { pageMetadata } from "@/lib/seo";
 import { Questionario } from "@/components/questionario/Questionario";
 
 // Pagina non ancora collegata dal sito: esclusa da motori di ricerca e sitemap.
-export const metadata: Metadata = {
-  title: "Questionario",
-  description:
-    "Questionario anonimo su pensieri, desideri e aspirazioni per il futuro.",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  return pageMetadata({
+    locale,
+    path: "/questionario",
+    title: t("questionnaireTitle"),
+    description: t("questionnaireDescription"),
+    noindex: true,
+  });
+}
 
 export default async function QuestionarioPage({
   params,

@@ -12,6 +12,7 @@ import {
   Table,
 } from "lucide-react";
 import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -21,7 +22,15 @@ export async function generateMetadata({
   const { locale } = await params;
   const messages = await getMessages({ locale });
   const archive = messages.archive as Record<string, string>;
-  return { title: archive.title, description: archive.subtitle };
+  // Fuori dall'indice finché la pagina mostra contenuti d'esempio (date e file
+  // non ancora reali): motori di ricerca e AI non devono citarli come dati del progetto.
+  return pageMetadata({
+    locale,
+    path: "/archivio",
+    title: archive.title,
+    description: archive.subtitle,
+    noindex: true,
+  });
 }
 
 export default async function ArchivioPage({

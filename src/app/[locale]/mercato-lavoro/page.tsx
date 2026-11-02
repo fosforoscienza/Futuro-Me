@@ -10,6 +10,8 @@ import {
   Wrench,
 } from "lucide-react";
 import { CastAvatar } from "@/components/avatar/CastAvatar";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { ORGANIZATION_ID, pageMetadata, pageUrl, webPageNodes } from "@/lib/seo";
 import { MarketMotion } from "@/components/market/MarketMotion";
 import { Num } from "@/components/market/Num";
 import { formatNumber } from "@/components/market/format";
@@ -33,7 +35,7 @@ type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "market" });
-  return { title: t("title"), description: t("subtitle") };
+  return pageMetadata({ locale, path: "/mercato-lavoro", title: t("title"), description: t("subtitle") });
 }
 
 const JOB_ICONS: Record<JobKey, typeof Stethoscope> = {
@@ -69,8 +71,98 @@ export default async function MercatoLavoroPage({ params }: Props) {
 
   const maxJob = Math.max(...TOP_JOBS.map((j) => j.high));
 
+  // Dati strutturati: un Dataset per fonte, con gli stessi numeri della pagina e il
+  // documento originale in isBasedOn, così chi cita un numero cita anche la fonte.
+  const url = pageUrl(locale, "/mercato-lavoro");
+  const tNav = await getTranslations({ locale, namespace: "nav" });
+  const en = locale === "en";
+  const sourceWork = (id: SourceId) => ({ "@type": "CreativeWork", name: t(`sources.${id}`), url: SOURCE_URLS[id] });
+  const value = (name: string, v: number, unitText: string) => ({ "@type": "PropertyValue", name, value: v, unitText });
+  const percent = (labels: { key: string; v: number }[], prefix: string) =>
+    labels.map((l) => value(`${prefix}: ${t(`local.labels.${l.key}`)}`, l.v, "%"));
+  const dataset = (id: SourceId, name: string, description: string, area: string, period: string, vars: object[]) => ({
+    "@type": "Dataset",
+    "@id": `${url}#dati-${id}`,
+    name,
+    description,
+    url,
+    inLanguage: locale,
+    isBasedOn: sourceWork(id),
+    citation: t(`sources.${id}`),
+    spatialCoverage: { "@type": "Place", name: area },
+    temporalCoverage: period,
+    variableMeasured: vars,
+    publisher: { "@id": ORGANIZATION_ID },
+    isAccessibleForFree: true,
+  });
+  const italy = en ? "Italy" : "Italia";
+  const workers = en ? "workers" : "lavoratori";
+  const millionJobs = en ? "million jobs" : "milioni di posti di lavoro";
+  const jsonLd = [
+    ...webPageNodes({
+      locale,
+      path: "/mercato-lavoro",
+      name: t("title"),
+      description: t("subtitle"),
+      homeName: tNav("home"),
+      breadcrumbs: [{ name: t("title"), path: "/mercato-lavoro" }],
+      extra: { citation: (Object.keys(SOURCE_URLS) as SourceId[]).map(sourceWork) },
+    }),
+    dataset(
+      "excelsior",
+      `${t("jobs.title")} (${italy}, 2025-2029)`,
+      t("jobs.desc", {
+        low: fmt(JOBS_TOTAL.low / 1e6, 1),
+        high: fmt(JOBS_TOTAL.high / 1e6, 1),
+        replacementLow: fmt(JOBS_TOTAL.replacementLow),
+        replacementHigh: fmt(JOBS_TOTAL.replacementHigh),
+      }),
+      italy,
+      "2025/2029",
+      [
+        { "@type": "PropertyValue", name: t("heroStats.total"), minValue: JOBS_TOTAL.low, maxValue: JOBS_TOTAL.high, unitText: workers },
+        ...TOP_JOBS.map((j) => ({
+          "@type": "PropertyValue",
+          name: t(`jobs.items.${j.key}`),
+          description: t(`jobs.hints.${j.key}`),
+          minValue: j.low,
+          maxValue: j.high,
+          unitText: workers,
+        })),
+      ]
+    ),
+    dataset("wef", `${t("ai.title")} (World Economic Forum, 2025-2030)`, `${t("ai.desc")} ${t("skills.desc")}`, en ? "World" : "Mondo", "2025/2030", [
+      value(t("ai.balance.created"), JOBS_BALANCE.created, millionJobs),
+      value(t("ai.balance.displaced"), JOBS_BALANCE.displaced, millionJobs),
+      value(t("ai.balance.net"), JOBS_BALANCE.net, millionJobs),
+      ...AI_STEPS.map((a) => value(t(`ai.${a.key}.title`), a.value, "%")),
+      value(`${t("ai.skillsChange.title")} (${italy})`, ITALY_SKILLS_CHANGE, "%"),
+      ...CORE_SKILLS.map((c) => value(t(`skills.items.${c.key}`), c.value, "%")),
+    ]),
+    dataset("eurostatNeet", t("local.neet.title"), t("local.neet.desc"), "Marche", "2019/2025", percent(
+      [{ key: "marche", v: NEET.marche }, { key: "italia", v: NEET.italia }, { key: "ue", v: NEET.ue }, { key: "marche2019", v: NEET.marche2019 }],
+      "NEET 15-29"
+    )),
+    dataset("eurostatUnemp", t("local.unemployment.title"), t("local.unemployment.desc"), "Marche", "2024/2025", percent(
+      [{ key: "marche", v: UNEMPLOYMENT.marche }, { key: "italia", v: UNEMPLOYMENT.italia }, { key: "ue", v: UNEMPLOYMENT.ue }, { key: "marche2024", v: UNEMPLOYMENT.marche2024 }],
+      en ? "Unemployment 15-29" : "Disoccupazione 15-29"
+    )),
+    dataset(
+      "camcom",
+      t("local.ancona.kicker"),
+      `${fmt(ANCONA.hardToFill, 1)}% ${t("local.ancona.title")} ${t("local.ancona.desc", { employment: fmt(ANCONA.employment, 1) })}`,
+      en ? "Province of Ancona" : "Provincia di Ancona",
+      "2025",
+      [
+        value(t("local.ancona.title"), ANCONA.hardToFill, "%"),
+        value(en ? "Employment rate 15-64" : "Tasso di occupazione 15-64", ANCONA.employment, "%"),
+      ]
+    ),
+  ];
+
   return (
     <MarketMotion locale={locale} className="overflow-x-clip pb-24 md:pb-12">
+      <JsonLd data={jsonLd} />
       {/* Hero: titolo e tre numeri chiave, ingresso in CSS come nella home */}
       <header className="max-w-7xl mx-auto px-6 pt-8 md:pt-14 pb-20 md:pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-end">
         <div className="lg:col-span-7" data-drift data-speed="-6">

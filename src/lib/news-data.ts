@@ -16,6 +16,12 @@ export type NewsArticle = {
   imageCredit?: string;
   /** Pagina della foto (licenza e autore), se diversa dall'articolo. */
   imageCreditUrl?: string;
+  /** Lingua del testo mostrato (default "it": le news a mano sono solo in italiano). */
+  lang?: "it" | "en";
+  /** Lingue in cui la news esiste davvero (default ["it"]), per hreflang e sitemap. */
+  languages?: ("it" | "en")[];
+  /** Pubblicazione su Il Futuro Me, se diversa da `date` (data dell'originale). */
+  publishedAt?: string;
 };
 
 /**

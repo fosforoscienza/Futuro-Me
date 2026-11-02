@@ -1,7 +1,13 @@
 {
   "meta": {
     "title": "Il Futuro Me | Career Guidance for Youth",
-    "description": "Career guidance platform for young people aged 12-16. Explore careers, labour market and AI's impact on professional futures."
+    "description": "Career guidance platform for young people aged 12-16. Explore careers, labour market and AI's impact on professional futures.",
+    "audience": "Young people aged 12-16",
+    "avatarTitle": "Try the avatar",
+    "avatarDescription": "Try the Il Futuro Me avatar without filling in the questionnaire.",
+    "questionnaireTitle": "Questionnaire",
+    "questionnaireDescription": "Anonymous questionnaire about thoughts, wishes and aspirations for the future.",
+    "plenaryEvent": "The first Il Futuro Me Plenary: {school}"
   },
   "nav": {
     "home": "Home",
@@ -81,7 +87,21 @@
     "wp3Title": "Educational Community",
     "wp3Desc": "Periodic meetings, interactive round tables and training workshops for teachers, third-sector workers and families.",
     "wp4Title": "Management & Communication",
-    "wp4Desc": "Project management, monitoring, impact evaluation, reporting and project communication."
+    "wp4Desc": "Project management, monitoring, impact evaluation, reporting and project communication.",
+    "faq": {
+      "title": "At a glance",
+      "whatQ": "What is Il Futuro Me?",
+      "whatA": "An integrated, multidimensional guidance journey for young people aged 12-16. It helps them learn about training and career opportunities and make informed choices, together with their families and the Educational Community.",
+      "whoQ": "Who runs it?",
+      "whoA": "Fondazione Caritas Senigallia ETS, the lead partner, together with {thirdSector}. Schools ({schools}) and universities ({universities}) take part.",
+      "whereQ": "Where does it take place?",
+      "whereA": "In the Province of Ancona, with schools in Senigallia, Arcevia and Ostra.",
+      "whenQ": "When are the first meetings?",
+      "whenA": "The first Plenary with the classes of four schools takes place on {dates}.",
+      "doQ": "What do the young people do?",
+      "fundQ": "Who supports it?",
+      "fundA": "The project is part of the Direzione Giovani 2024 call, with the support of Fondazione Cariverona."
+    }
   },
   "market": {
     "title": "Labour market",
@@ -257,7 +277,16 @@
   },
   "contacts": {
     "metaTitle": "Contacts",
-    "metaDescription": "Get in touch for information about Il Futuro Me, partnerships or feedback. Fondazione Caritas Senigallia ETS."
+    "metaDescription": "Get in touch for information about Il Futuro Me, partnerships or feedback. Fondazione Caritas Senigallia ETS.",
+    "eyebrow": "Connect",
+    "title": "Contacts",
+    "intro": "For information about the project, partnerships or feedback, get in touch.",
+    "promoterTitle": "Promoting organisation",
+    "location": "Senigallia, Province of Ancona",
+    "funding": "Direzione Giovani 2024 call — Fondazione Cariverona",
+    "feedbackTitle": "Feedback on the project",
+    "feedbackBody": "Your input is essential to improve the platform. Share your ideas, suggestions or reports.",
+    "feedbackCta": "Send feedback"
   },
   "footer": {
     "description": "An innovative platform for navigating the future of work and professional development through guidance tools and inspiring content.",
