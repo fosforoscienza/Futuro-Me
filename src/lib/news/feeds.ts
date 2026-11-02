@@ -1,5 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
 import { romeMidnight } from "./week";
+import { safeFetchText } from "./safe-fetch";
 
 /** Elemento di un feed RSS/Atom, normalizzato. */
 export type FeedItem = {
@@ -30,13 +31,8 @@ export async function fetchWithTimeout(
   url: string,
   timeoutMs: number,
   accept = "*/*"
-): Promise<Response> {
-  return fetch(url, {
-    headers: { "user-agent": USER_AGENT, accept },
-    redirect: "follow",
-    signal: AbortSignal.timeout(timeoutMs),
-    cache: "no-store",
-  });
+) {
+  return safeFetchText(url, timeoutMs, { "user-agent": USER_AGENT, accept });
 }
 
 function asArray<T>(value: T | T[] | undefined | null): T[] {
@@ -323,7 +319,7 @@ export async function fetchArticlePage(url: string, maxChars = 6000): Promise<Ar
     if (!res.ok) return { text: "", imageUrl: null };
     const type = res.headers.get("content-type") ?? "";
     if (!type.includes("html")) return { text: "", imageUrl: null };
-    const html = (await res.text()).slice(0, 1_500_000);
+    const html = await res.text();
     const meta = metaContent(html, ["og:description", "description"]) ?? "";
     const imageUrl = absoluteImageUrl(
       metaContent(html, ["og:image:secure_url", "og:image", "twitter:image", "twitter:image:src"]),

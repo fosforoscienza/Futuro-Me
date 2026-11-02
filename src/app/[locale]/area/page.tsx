@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ArrowRight, CheckCircle2, Circle, Lock, LogOut, Sparkles } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { AvatarCanvas } from "@/components/avatar/AvatarCanvas";
-import { logout } from "@/lib/auth/actions";
+import { LogoutForm } from "@/components/account/LogoutForm";
 import { getCompilazioni, isFaseFineAttiva, type Compilazione, type Fase } from "@/lib/auth/area";
 import { authDb, getSession } from "@/lib/auth/session";
 
@@ -58,15 +58,12 @@ export default async function AreaPage({ params }: { params: Promise<{ locale: s
               </p>
             )}
           </div>
-          <form action={logout}>
-            <input type="hidden" name="locale" value={locale} />
-            <button
-              type="submit"
-              className="rounded-full px-4 py-2.5 text-sm font-bold bg-surface-container-highest text-secondary hover:bg-secondary/10 inline-flex items-center gap-2 cursor-pointer"
-            >
-              <LogOut size={16} /> {t("logout")}
-            </button>
-          </form>
+          <LogoutForm
+            locale={locale}
+            className="rounded-full px-4 py-2.5 text-sm font-bold bg-surface-container-highest text-secondary hover:bg-secondary/10 inline-flex items-center gap-2 cursor-pointer disabled:opacity-60"
+          >
+            <LogOut size={16} /> {t("logout")}
+          </LogoutForm>
         </div>
         <p className="mt-6 text-lg text-on-surface-variant leading-relaxed max-w-2xl">
           {t("areaIntro")}

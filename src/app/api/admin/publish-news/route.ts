@@ -28,6 +28,9 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ error: "Invalid JSON object" }, { status: 400 });
+  }
   if (typeof body.weekStart !== "string" || !isMonday(body.weekStart)) {
     return NextResponse.json({ error: "weekStart deve essere un lunedì (YYYY-MM-DD)" }, { status: 400 });
   }
@@ -39,6 +42,9 @@ export async function POST(request: Request) {
     typeof v === "string" && v.trim().length > 0 && v.length <= max ? v : null;
   const items: EditorialItem[] = [];
   for (const [i, raw] of body.items.entries()) {
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+      return NextResponse.json({ error: `items[${i}]: invalid object` }, { status: 400 });
+    }
     const r = raw as Record<string, unknown>;
     const url = str(r.url, 2000);
     const title = str(r.title, 200);

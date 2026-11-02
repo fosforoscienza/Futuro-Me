@@ -21,61 +21,59 @@ const { checkCredentials } = await import("../src/lib/auth/login.ts");
 const { hashPassword } = await import("../src/lib/auth/password.ts");
 const { isSessionCurrent } = await import("../src/lib/auth/session-validity.ts");
 
-function database({ count = 0, countError = null, clearError = null, account = null } = {}) {
+// A synthetic key is used only for local unit tests; never a real service role.
+process.env.SUPABASE_SERVICE_ROLE_KEY = "local-test-key";
+function database({ allowed = true, rpcError = null, account = null } = {}) {
   const calls = [];
   return {
     calls,
-    from(table) {
-      calls.push(table);
-      const query = {
-        select() { return query; },
-        eq() { return query; },
-        gte: async () => ({ count, error: countError }),
-        maybeSingle: async () => ({ data: account, error: null }),
-        insert: async () => ({ error: null }),
-        delete() { return { eq: async () => ({ error: clearError }), lt: async () => ({ error: null }) }; },
-      };
-      return query;
+    rpc: async (_name, args) => {
+      calls.push(args);
+      return { data: allowed, error: rpcError };
+    },
+    from() {
+      return { select() { return this; }, eq() { return this; }, maybeSingle: async () => ({ data: account, error: null }) };
     },
   };
 }
 
-test("login fails closed when durable attempt counting is unavailable", async () => {
-  for (const options of [{ countError: { message: "unavailable" } }, { count: null }]) {
-    const db = database(options);
-    assert.equal((await checkCredentials(db, "student", "password", "test-db-error")).ok, false);
-    assert.deepEqual(db.calls, ["login_tentativi"]);
+test("login fails closed if the shared limiter fails or refuses the reservation", async () => {
+  for (const options of [{ rpcError: { message: "unavailable" } }, { allowed: false }, { allowed: null }]) {
+    assert.deepEqual(await checkCredentials(database(options), "student", "password", "ip"), { ok: false, error: "tooMany" });
   }
 });
 
-test("login blocks the eleventh attempt without reading credentials", async () => {
-  const db = database({ count: 10 });
-  assert.deepEqual(await checkCredentials(db, "student", "password", "test-lockout"), { ok: false, error: "tooMany" });
-  assert.deepEqual(db.calls, ["login_tentativi"]);
-});
-
-test("oversized login input is rejected before database and password hashing", async () => {
+test("oversized inputs never reach the shared limiter", async () => {
   const db = database();
   for (const [username, password] of [["a".repeat(65), "password"], ["student", "p".repeat(73)]]) {
-    assert.equal((await checkCredentials(db, username, password, "test-length")).ok, false);
+    assert.equal((await checkCredentials(db, username, password, "ip")).ok, false);
   }
   assert.deepEqual(db.calls, []);
 });
 
-test("valid credentials require a working attempt log; usernames remain case insensitive", async () => {
-  const account = { id: "student-id", ruolo: "studente", password_hash: await hashPassword("test-password") };
-  assert.deepEqual(await checkCredentials(database({ account }), "Student", "test-password", "test-valid"), {
-    ok: true, account: { id: "student-id", ruolo: "studente" },
+test("valid credentials return their exact version and hashed limiter keys", async () => {
+  const account = { id: "student-id", ruolo: "studente", password_hash: await hashPassword("test-password"), auth_version: "version-1" };
+  const db = database({ account });
+  assert.deepEqual(await checkCredentials(db, "Student", "test-password", "192.0.2.1"), {
+    ok: true, account: { id: "student-id", ruolo: "studente", authVersion: "version-1" },
   });
-  assert.equal((await checkCredentials(database({ account, clearError: { message: "unavailable" } }), "student", "test-password", "test-clear")).ok, false);
+  assert.equal(db.calls.length, 2);
+  for (const args of db.calls) assert.match(args.p_key_hash, /^[a-f0-9]{64}$/);
+  assert.equal(db.calls[1].p_limit, 10);
 });
 
-test("password changes invalidate earlier sessions even if deletion fails", () => {
+test("password rotation invalidates a session even when created after the reset", () => {
   const now = Date.parse("2026-11-02T12:00:00Z");
-  const expires = "2026-11-02T18:00:00Z";
-  assert.equal(isSessionCurrent("2026-11-02T10:00:00Z", expires, "2026-11-02T11:00:00Z", now), false);
-  assert.equal(isSessionCurrent("2026-11-02T11:00:00Z", expires, "2026-11-02T11:00:00Z", now), false);
-  assert.equal(isSessionCurrent("2026-11-02T11:01:00Z", expires, "2026-11-02T11:00:00Z", now), true);
-  assert.equal(isSessionCurrent("2026-11-02T11:01:00Z", new Date(now).toISOString(), "2026-11-02T11:00:00Z", now), false);
-  assert.equal(isSessionCurrent("invalid", expires, "2026-11-02T11:00:00Z", now), false);
+  assert.equal(isSessionCurrent("2026-11-02T18:00:00Z", "old", "new", now), false);
+  assert.equal(isSessionCurrent("2026-11-02T18:00:00Z", "new", "new", now), true);
+  assert.equal(isSessionCurrent(new Date(now).toISOString(), "new", "new", now), false);
+  assert.equal(isSessionCurrent("invalid", "new", "new", now), false);
+  assert.equal(isSessionCurrent("2026-11-02T18:00:00Z", null, null, now), false);
+});
+
+test("logout refuses to confirm revocation when the database fails", async () => {
+  const { revokeSession } = await import("../src/lib/auth/session-store.ts");
+  const db = (error) => ({ from: () => ({ delete: () => ({ eq: async () => ({ error }) }) }) });
+  await assert.rejects(revokeSession(db({ message: "offline" }), "token-hash"), /Revoca/);
+  await assert.doesNotReject(revokeSession(db(null), "token-hash"));
 });

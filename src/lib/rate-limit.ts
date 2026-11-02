@@ -19,7 +19,12 @@ export function rateLimit(
   { limit = 10, windowSeconds = 60 }: RateLimitOptions = {}
 ): { success: boolean; remaining: number } {
   const now = Date.now();
+  // Keep auxiliary local limits bounded; auth uses the shared database limiter.
+  for (const [storedKey, entry] of requests) {
+    if (entry.resetTime <= now) requests.delete(storedKey);
+  }
   const entry = requests.get(key);
+  if (!entry && requests.size >= 10000) return { success: false, remaining: 0 };
 
   if (!entry || now > entry.resetTime) {
     requests.set(key, { count: 1, resetTime: now + windowSeconds * 1000 });

@@ -116,14 +116,14 @@ export async function changeOwnPassword(_prev: StaffState, form: FormData): Prom
     return { ok: false, message: "La password attuale non è corretta." };
   }
 
-  const { error } = await db
+  const { data: updated, error } = await db
     .from("account")
     .update({ password_hash: await hashPassword(next), password_cambiata_at: new Date().toISOString() })
-    .eq("id", account.id);
+    .eq("id", account.id).select("auth_version").single();
   if (error) return { ok: false, message: error.message };
 
   // Chiude le sessioni su altri dispositivi e ne apre una nuova qui.
   await db.from("sessioni").delete().eq("account_id", account.id);
-  await createSession(db, account.id);
+  await createSession(db, account.id, updated.auth_version);
   return { ok: true, message: "Password aggiornata. Le altre sessioni sono state chiuse." };
 }

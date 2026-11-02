@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
-import { logout } from "@/lib/auth/actions";
+import { LogoutForm } from "@/components/account/LogoutForm";
 import { getSession, type SessionAccount } from "@/lib/auth/session";
 
 /** Solo admin e gestore: gli altri vanno al login o alla propria area. */
@@ -40,15 +40,12 @@ export function Shell({
           <p className="text-sm text-on-surface-variant">
             <strong className="text-secondary">{account.username}</strong> · {account.ruolo}
           </p>
-          <form action={logout}>
-            <input type="hidden" name="locale" value="it" />
-            <button
-              type="submit"
-              className="rounded-full px-4 py-2 text-sm font-bold bg-surface-container-highest hover:bg-secondary/10 cursor-pointer"
-            >
-              Esci
-            </button>
-          </form>
+          <LogoutForm
+            locale="it"
+            className="rounded-full px-4 py-2 text-sm font-bold bg-surface-container-highest hover:bg-secondary/10 cursor-pointer disabled:opacity-60"
+          >
+            Esci
+          </LogoutForm>
         </div>
       </header>
       <nav aria-label="Sezioni della console" className="flex flex-wrap gap-2 mb-10">

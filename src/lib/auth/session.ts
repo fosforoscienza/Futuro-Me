@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from "node:crypto";
 import { cache } from "react";
+import { revokeSession } from "./session-store";
 import { isSessionCurrent } from "./session-validity";
 import { cookies } from "next/headers";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -36,12 +37,14 @@ export function authDb(): SupabaseClient | null {
 const hashToken = (token: string) => createHash("sha256").update(token).digest("base64url");
 
 /** Da chiamare solo in server action o route handler (scrive il cookie). */
-export async function createSession(db: SupabaseClient, accountId: string) {
+export async function createSession(db: SupabaseClient, accountId: string, authVersion: string) {
+  if (!authVersion) throw new Error("Versione credenziali mancante");
   const token = randomBytes(32).toString("base64url");
   const now = new Date();
   const { error } = await db.from("sessioni").insert({
     token_hash: hashToken(token),
     account_id: accountId,
+    auth_version: authVersion,
     expires_at: new Date(now.getTime() + SESSION_SECONDS * 1000).toISOString(),
   });
   if (error) throw new Error(`Sessione non creata: ${error.message}`);
@@ -69,20 +72,24 @@ export const getSession = cache(async (): Promise<SessionAccount | null> => {
 
   const { data } = await db
     .from("sessioni")
-    .select("created_at, expires_at, account:account_id(id, username, ruolo, password_cambiata_at, classe:classe_id(scuola, nome))")
+    .select("expires_at, auth_version, account:account_id(id, username, ruolo, auth_version, classe:classe_id(scuola, nome))")
     .eq("token_hash", hashToken(token))
     .maybeSingle();
   if (!data) return null;
-  const account = data.account as unknown as (SessionAccount & { password_cambiata_at: string }) | null;
+  const account = data.account as unknown as (SessionAccount & { auth_version: string }) | null;
   if (!account) return null;
-  if (!isSessionCurrent(data.created_at, data.expires_at, account.password_cambiata_at)) return null;
+  if (!isSessionCurrent(data.expires_at, data.auth_version, account.auth_version)) return null;
   return { id: account.id, username: account.username, ruolo: account.ruolo, classe: account.classe };
 });
 
 export async function endSession() {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE)?.value;
-  if (token) await authDb()?.from("sessioni").delete().eq("token_hash", hashToken(token));
+  if (token) {
+    const db = authDb();
+    if (!db) throw new Error("Revoca sessione non disponibile");
+    await revokeSession(db, hashToken(token));
+  }
   store.delete(SESSION_COOKIE);
 }
 

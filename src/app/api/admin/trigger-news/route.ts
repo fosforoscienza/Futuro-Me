@@ -32,10 +32,16 @@ export async function POST(request: Request) {
     }
 
     let body: { weekStart?: unknown; force?: unknown } = {};
-    try {
-      body = await request.json();
-    } catch {
-      // Body vuoto: settimana precedente, senza forzare.
+    const rawBody = await request.text();
+    if (rawBody.trim()) {
+      try {
+        body = JSON.parse(rawBody);
+      } catch {
+        return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+      }
+    }
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json({ error: "Invalid JSON object" }, { status: 400 });
     }
     const weekStart =
       typeof body.weekStart === "string" && body.weekStart ? body.weekStart : undefined;

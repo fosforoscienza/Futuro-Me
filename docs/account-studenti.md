@@ -33,8 +33,9 @@ Ogni ragazzo e ragazza ha un account per compilare **questionario + avatar** due
   Studenti almeno 8 caratteri, staff almeno 12.
 - Sessioni su database (`sessioni`): cookie httpOnly `fm_sessione` con token casuale, in tabella
   solo lo SHA-256; durata 12 ore; logout e reset le chiudono davvero.
-- Limiti: 10 accessi falliti in 15 minuti per username (su database, regge su Vercel) più un
-  limite largo per IP in memoria; registrazioni limitate per IP; codici classe da ~40 bit.
+- Limiti: 10 tentativi in 15 minuti per username (anche quelli riusciti), 100 per IP in
+  5 minuti e 60 registrazioni per IP in 10 minuti: tutti atomici su database.
+  Codici classe da ~40 bit.
 - RLS attiva senza policy e privilegi revocati ad `anon`/`authenticated` su tutte le tabelle
   nuove: le legge e scrive solo il server con la service role.
 - Perché non Supabase Auth o next-auth: Supabase Auth vuole email (non le chiediamo ai minori) e
@@ -62,3 +63,6 @@ Ogni ragazzo e ragazza ha un account per compilare **questionario + avatar** due
 
 Nessuna nuova variabile d'ambiente su Vercel. `ADMIN_SECRET` serve ancora alle automazioni
 delle news, non più per entrare nella console.
+
+Per le migrazioni aggiuntive, i test e il rollout delle correzioni del secondo audit,
+vedi [security-hardening.md](security-hardening.md).

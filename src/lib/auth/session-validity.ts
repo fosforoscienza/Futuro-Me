@@ -1,13 +1,8 @@
-/** Password changes revoke previous sessions even if their deletion fails. */
+/** Sessions are bound to the exact credential version used for authentication. */
 export function isSessionCurrent(
-  createdAt: string,
-  expiresAt: string,
-  passwordChangedAt: string,
-  now = Date.now()
+  expiresAt: string, sessionVersion: string | null, accountVersion: string | null, now = Date.now()
 ): boolean {
-  const created = Date.parse(createdAt);
   const expires = Date.parse(expiresAt);
-  const changed = Date.parse(passwordChangedAt);
-  return Number.isFinite(created) && Number.isFinite(expires) && Number.isFinite(changed)
-    && expires > now && created > changed;
+  return Number.isFinite(expires) && expires > now &&
+    typeof sessionVersion === "string" && sessionVersion.length > 0 && sessionVersion === accountVersion;
 }
