@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import type { NewsArticle } from "@/lib/news-data";
 import { NewsImage } from "./NewsImage";
+import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
 
 const categories = ["all", "ai", "jobs", "training", "skills"] as const;
 
@@ -78,13 +79,14 @@ export function NewsContent({ articles }: { articles: NewsArticle[] }) {
   return (
     <div className="pb-24 md:pb-12">
       {/* Header */}
-      <header className="px-6 max-w-7xl mx-auto pt-12 pb-16">
+      <header className="relative px-6 max-w-7xl mx-auto pt-12 pb-16 lg:min-h-[27rem]">
         <h1 className="text-5xl md:text-7xl font-[var(--font-plus-jakarta)] font-extrabold text-secondary tracking-tighter max-w-3xl leading-[0.9]">
           {t("title")}
         </h1>
         <p className="mt-8 text-xl text-on-surface-variant max-w-2xl leading-relaxed">
           {t("subtitle")}
         </p>
+        <HeaderAvatar id="creator" />
       </header>
 
       {/* Category Filter */}

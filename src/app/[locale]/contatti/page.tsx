@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { Mail, MapPin, ExternalLink } from "lucide-react";
+import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
 
 export async function generateMetadata({
   params,
@@ -23,7 +24,7 @@ export default async function ContattiPage({
 
   return (
     <div className="pb-24 md:pb-12">
-      <header className="px-6 max-w-7xl mx-auto pt-12 pb-16">
+      <header className="relative px-6 max-w-7xl mx-auto pt-12 pb-16 lg:min-h-[27rem]">
         <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4">
           Connettiti
         </p>
@@ -33,6 +34,7 @@ export default async function ContattiPage({
         <p className="mt-8 text-xl text-on-surface-variant max-w-2xl leading-relaxed">
           Per informazioni sul progetto, collaborazioni o feedback, contattaci.
         </p>
+        <HeaderAvatar id="firefighter" />
       </header>
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">

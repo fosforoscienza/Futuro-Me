@@ -11,6 +11,7 @@ import {
   FileArchive,
   Table,
 } from "lucide-react";
+import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
 
 export async function generateMetadata({
   params,
@@ -84,7 +85,7 @@ function ArchivioContent() {
   return (
     <div className="pb-24 md:pb-12">
       {/* Header */}
-      <header className="px-6 max-w-7xl mx-auto pt-12 pb-16">
+      <header className="relative px-6 max-w-7xl mx-auto pt-12 pb-16 lg:min-h-[27rem]">
         <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4">
           Kinetic Archive
         </p>
@@ -94,6 +95,7 @@ function ArchivioContent() {
         <p className="mt-8 text-xl text-on-surface-variant max-w-2xl leading-relaxed">
           {t("subtitle")}
         </p>
+        <HeaderAvatar id="biotech" />
       </header>
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-8">
