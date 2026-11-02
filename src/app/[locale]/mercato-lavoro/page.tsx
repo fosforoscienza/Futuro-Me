@@ -1,5 +1,3 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
@@ -11,8 +9,7 @@ import {
   Stethoscope,
   Wrench,
 } from "lucide-react";
-import { CAST } from "@/lib/avatar/cast";
-import { CastFigure } from "@/components/market/CastFigure";
+import { CastAvatar } from "@/components/avatar/CastAvatar";
 import { MarketMotion } from "@/components/market/MarketMotion";
 import { Num } from "@/components/market/Num";
 import { formatNumber } from "@/components/market/format";
@@ -48,13 +45,6 @@ const JOB_ICONS: Record<JobKey, typeof Stethoscope> = {
   appDev: Code,
 };
 
-/** Il loop di cyber arriva da un'altra sessione: finché i file non ci sono resta il poster. */
-const castVideoReady = (id: "cyber") =>
-  CAST[id].animated &&
-  ["webm", "mov"].every((ext) =>
-    existsSync(path.join(process.cwd(), "public", "avatar", "cast", `${id}.${ext}`))
-  );
-
 const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 export default async function MercatoLavoroPage({ params }: Props) {
@@ -62,7 +52,6 @@ export default async function MercatoLavoroPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "market" });
   const fmt = (v: number, dec = 0) => formatNumber(v, locale, dec);
-  const cyberVideo = castVideoReady("cyber");
 
   const source = (id: SourceId, className = "") => (
     <p className={`text-xs leading-relaxed ${className}`}>
@@ -220,7 +209,14 @@ export default async function MercatoLavoroPage({ params }: Props) {
           <div className="pointer-events-none absolute right-0 top-6 w-28 sm:w-36 md:static md:col-span-4 md:w-auto md:flex md:justify-end md:items-start md:pt-10">
             <div data-avatar data-side="right" className="translate-x-[18%] md:translate-x-[14%] lg:translate-x-[10%] w-full md:max-w-[300px] lg:max-w-[340px]">
               <div data-drift data-speed="-10">
-                <CastFigure id="doctor" flip sizes="(min-width: 1024px) 340px, (min-width: 768px) 30vw, 144px" />
+                {/* specchiato: lo stetoscopio guarda verso il grafico */}
+                <div className="-scale-x-100">
+                  <CastAvatar
+                    id="doctor"
+                    className="w-full"
+                    sizes="(min-width: 1024px) 340px, (min-width: 768px) 30vw, 144px"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -231,45 +227,45 @@ export default async function MercatoLavoroPage({ params }: Props) {
       <section id="intelligenza-artificiale" className="scroll-mt-24">
         <div
           data-ai-stage
-          className="group/stage relative max-w-7xl mx-auto px-6 py-20 md:py-28 group-data-[pinned]/stage:min-h-[100dvh] group-data-[pinned]/stage:pt-28 group-data-[pinned]/stage:pb-10 grid grid-cols-1 md:grid-cols-12 gap-x-10 md:items-center"
+          className="group/stage relative max-w-7xl mx-auto px-6 py-20 md:py-28 group-data-[pinned]/stage:min-h-[100dvh] group-data-[pinned]/stage:pt-28 group-data-[pinned]/stage:pb-10 grid grid-cols-1 md:grid-cols-12 md:grid-rows-[auto_1fr] md:content-center gap-x-10"
         >
-          <div className="hidden md:block md:col-span-4 self-end">
-            <div data-group>
-              <div data-avatar data-side="left" className="-translate-x-[22%] lg:-translate-x-[16%] max-w-[330px]">
-                <div data-ai-figure>
-                  <CastFigure id="cyber" video={cyberVideo} sizes="(min-width: 1024px) 330px, 30vw" />
-                </div>
-              </div>
-              <p data-rise className="mt-4 max-w-[26ch] text-sm text-on-surface-variant leading-snug">
-                {t("ai.cyberCaption")}
-              </p>
-            </div>
+          <div data-group className="md:col-start-5 md:col-span-8 md:row-start-1">
+            <h2 className="text-3xl md:text-5xl font-[var(--font-plus-jakarta)] font-extrabold text-secondary tracking-tight leading-[1.05]">
+              <span className="block overflow-hidden pb-[0.06em]">
+                <span data-line className="block">
+                  {t("ai.title")}
+                </span>
+              </span>
+            </h2>
+            <p data-rise className="mt-5 text-on-surface-variant max-w-[60ch] leading-relaxed">
+              {t("ai.desc")}
+            </p>
           </div>
 
-          <div className="md:col-span-8">
-            <div data-group>
-              <h2 className="text-3xl md:text-5xl font-[var(--font-plus-jakarta)] font-extrabold text-secondary tracking-tight leading-[1.05]">
-                <span className="block overflow-hidden pb-[0.06em]">
-                  <span data-line className="block">
-                    {t("ai.title")}
-                  </span>
-                </span>
-              </h2>
-              <p data-rise className="mt-5 text-on-surface-variant max-w-[60ch] leading-relaxed">
-                {t("ai.desc")}
-              </p>
-
-              {/* Su mobile l'avatar sta accanto alla didascalia, uscendo dal bordo sinistro */}
-              <div className="md:hidden mt-8 -ml-6 flex items-end gap-4">
-                <div data-avatar data-side="left" className="w-28 shrink-0">
-                  <CastFigure id="cyber" video={cyberVideo} sizes="112px" />
-                </div>
-                <p data-rise className="pb-4 text-sm text-on-surface-variant leading-snug">
-                  {t("ai.cyberCaption")}
-                </p>
+          {/* cyber esce dal bordo sinistro: su desktop accanto a tutta la scena, su mobile accanto alla didascalia */}
+          <div
+            data-group
+            className="mt-8 -ml-6 flex items-end gap-4 md:mt-0 md:ml-0 md:block md:col-start-1 md:col-span-4 md:row-start-1 md:row-span-2 md:self-end"
+          >
+            <div
+              data-avatar
+              data-side="left"
+              className="w-28 shrink-0 md:w-auto md:max-w-[330px] md:-translate-x-[22%] lg:-translate-x-[16%]"
+            >
+              <div data-ai-figure>
+                <CastAvatar
+                  id="cyber"
+                  className="w-full"
+                  sizes="(min-width: 1024px) 330px, (min-width: 768px) 30vw, 112px"
+                />
               </div>
             </div>
+            <p data-rise className="pb-4 md:pb-0 md:mt-4 max-w-[26ch] text-sm text-on-surface-variant leading-snug">
+              {t("ai.cyberCaption")}
+            </p>
+          </div>
 
+          <div className="md:col-start-5 md:col-span-8 md:row-start-2 md:self-start">
             <div aria-hidden="true" className="hidden group-data-[pinned]/stage:flex mt-8 gap-2">
               {[0, 1, 2, 3].map((i) => (
                 <span key={i} className="h-1 w-12 overflow-hidden rounded-full bg-outline-variant/50">
