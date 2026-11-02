@@ -74,7 +74,7 @@ export function HeroWalker({
       {motion && (
         <video
           ref={video}
-          className="absolute inset-0 h-full w-full object-contain"
+          className={`cast-video absolute inset-0 h-full w-full object-contain ${playing ? "" : "opacity-0"}`}
           muted
           playsInline
           onPlaying={() => setPlaying(true)}
