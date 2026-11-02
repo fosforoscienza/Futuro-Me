@@ -409,10 +409,10 @@
   "eyes/tondi_grandi": {
    "F": {
     "src": "/avatar/F/eyes__tondi_grandi.webp",
-    "x": 350,
-    "y": 152,
-    "w": 150,
-    "h": 53,
+    "x": 351,
+    "y": 153,
+    "w": 148,
+    "h": 52,
     "mask": "/avatar/F/eyes__tondi_grandi.mask.png",
     "stats": {
      "G": null,
@@ -425,13 +425,14 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "scaled": 0.9
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi.webp",
-    "x": 351,
+    "x": 352,
     "y": 144,
-    "w": 146,
+    "w": 144,
     "h": 59,
     "mask": "/avatar/M/eyes__tondi_grandi.mask.png",
     "stats": {
@@ -445,7 +446,8 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "scaled": 0.9
    }
   },
   "eyes/tondi_piccoli": {
@@ -5653,10 +5655,10 @@
   "eyes/tondi_grandi__corte": {
    "F": {
     "src": "/avatar/F/eyes__tondi_grandi__corte.webp",
-    "x": 350,
-    "y": 152,
-    "w": 148,
-    "h": 70,
+    "x": 351,
+    "y": 153,
+    "w": 146,
+    "h": 69,
     "mask": "/avatar/F/eyes__tondi_grandi__corte.mask.png",
     "shift": [
      0,
@@ -5669,14 +5671,15 @@
       "sd": 0.1159
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "scaled": 0.9
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__corte.webp",
-    "x": 353,
-    "y": 150,
-    "w": 143,
-    "h": 70,
+    "x": 355,
+    "y": 151,
+    "w": 140,
+    "h": 67,
     "mask": "/avatar/M/eyes__tondi_grandi__corte.mask.png",
     "shift": [
      0,
@@ -5689,7 +5692,8 @@
       "sd": 0.127
      }
     },
-    "fixed": 21
+    "fixed": 21,
+    "scaled": 0.9
    }
   },
   "eyes/tondi_grandi__lunghe": {
@@ -5712,7 +5716,8 @@
      }
     },
     "fixed": 21,
-    "toned": 2
+    "toned": 2,
+    "scaled": 0.9
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__lunghe.webp",
@@ -5733,7 +5738,8 @@
      }
     },
     "fixed": 21,
-    "toned": 2
+    "toned": 2,
+    "scaled": 0.9
    }
   },
   "eyes/tondi_grandi__lunghissime": {
@@ -5756,7 +5762,8 @@
      }
     },
     "fixed": 21,
-    "toned": 2
+    "toned": 2,
+    "scaled": 0.9
    },
    "M": {
     "src": "/avatar/M/eyes__tondi_grandi__lunghissime.webp",
@@ -5777,7 +5784,8 @@
      }
     },
     "fixed": 21,
-    "toned": 2
+    "toned": 2,
+    "scaled": 0.9
    }
   },
   "eyes/tondi_piccoli__corte": {
