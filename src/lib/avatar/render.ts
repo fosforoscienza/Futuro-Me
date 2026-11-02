@@ -47,6 +47,9 @@ const M = assets as unknown as Manifest;
 export const SCENE_W = M.size[0];
 export const SCENE_H = M.size[1];
 
+/** Orecchini (non i piercing del viso): con "Un orecchio solo" se ne disegna metà. */
+const EARRINGS = /^jewel\/(cerchio|cerchio_grandi|diamante|pallina|perle|pendenti|dilatatore)$/;
+
 /** Scala e posizione dell'avatar nella scena, per lasciare spazio a sfondo e oggetti. */
 const AVATAR_SCALE = 0.84;
 const AVATAR_X = (SCENE_W - SCENE_W * AVATAR_SCALE) / 2;
@@ -329,7 +332,7 @@ export async function renderAvatar(
       keys.map(async (k) => {
         const layer = M.layers[k]?.[body];
         const t = k.startsWith("brows/") ? browTints : tints;
-        return layer ? { layer, img: await prepareLayer(layer, base.skin, t) } : null;
+        return layer ? { key: k, layer, img: await prepareLayer(layer, base.skin, t) } : null;
       })
     ),
     Promise.all(
@@ -371,8 +374,16 @@ export async function renderAvatar(
   actx.drawImage(baseImg, base.x, base.y);
   for (const part of parts) {
     if (!part) continue;
-    const { layer, img } = part;
-    if (layer.blend === "multiply") {
+    const { key, layer, img } = part;
+    if (sel.orecchie === "una" && EARRINGS.test(key)) {
+      // orecchino solo sull'orecchio a destra dell'immagine
+      actx.save();
+      actx.beginPath();
+      actx.rect(base.x + base.w / 2, 0, SCENE_W, SCENE_H);
+      actx.clip();
+      actx.drawImage(img, layer.x, layer.y);
+      actx.restore();
+    } else if (layer.blend === "multiply") {
       // moltiplica solo dentro la sagoma del pezzo, mantenendo la trasparenza
       const tmp = document.createElement("canvas");
       tmp.width = layer.w;

@@ -50,6 +50,7 @@ export type AvatarSelection = {
   cappello: string;
   occhiali: string;
   gioielli: string[];
+  orecchie: string;
   altro: string[];
   torso: string;
   braccia: string[];
@@ -76,6 +77,7 @@ export const DEFAULT_SELECTION: AvatarSelection = {
   cappello: "nessuno",
   occhiali: "nessuno",
   gioielli: [],
+  orecchie: "entrambe",
   altro: [],
   torso: "base",
   braccia: [],
@@ -277,8 +279,10 @@ export const LEVELS: Level[] = [
         label: "Ciglia",
         kind: "single",
         choices: [
-          ...items("lashes", [["corte", "Corte"]]),
-          { id: "medie", label: "Medie" },
+          // "Corte" sono le ciglia del corpo base; "Medie" il pezzo lashes/corte, che le mostra
+          // davvero (prima "Medie" non cambiava nulla rispetto all'avatar di partenza)
+          { id: "corte", label: "Corte" },
+          { id: "medie", label: "Medie", layer: "lashes/corte" },
           ...only(["F"], ["lunghe", "lunghissime"], items("lashes", [["lunghe", "Lunghe"], ["lunghissime", "Lunghissime"]])),
         ],
       },
@@ -321,24 +325,6 @@ export const LEVELS: Level[] = [
         ],
       },
       {
-        id: "cappello",
-        label: "Cappelli",
-        kind: "single",
-        choices: [
-          none(),
-          ...items("hat", [
-            ["visiera", "Cappello con visiera"],
-            ["snapback", "Cappello con visiera piatta"],
-            ["cowboy", "Cappello da cowboy"],
-            ["tesa_larga", "Cappello a tesa larga"],
-            ["lana", "Cappello di lana"],
-            ["casco", "Casco antinfortunistico"],
-            ["cuoco", "Cappello da cuoco"],
-            ["hijab", "Hijab"],
-          ]),
-        ],
-      },
-      {
         id: "occhiali",
         label: "Occhiali",
         kind: "single",
@@ -367,6 +353,7 @@ export const LEVELS: Level[] = [
             ["cerchio", "Orecchini a cerchio piccoli"],
             ["cerchio_grandi", "Orecchini a cerchio grandi"],
             ["diamante", "Orecchino diamante"],
+            ["pallina", "Orecchino a pallina"],
             ["perle", "Orecchini di perle"],
             ["pendenti", "Orecchini pendenti"],
             ["dilatatore", "Dilatatore ai lobi"],
@@ -383,6 +370,15 @@ export const LEVELS: Level[] = [
         ],
       },
       {
+        id: "orecchie",
+        label: "Orecchini su",
+        kind: "single",
+        choices: [
+          { id: "entrambe", label: "Entrambe le orecchie" },
+          { id: "una", label: "Un orecchio solo" },
+        ],
+      },
+      {
         id: "altro",
         label: "Altro",
         hint: "Puoi sceglierne più di uno",
@@ -393,7 +389,10 @@ export const LEVELS: Level[] = [
             ["bandana", "Bandana sulla fronte"],
             ["corona", "Corona di fiori"],
           ]),
-          ...items("skin", [["vitiligine", "Vitiligine"]]),
+          ...items("skin", [
+            ["lentiggini", "Lentiggini"],
+            ["vitiligine", "Vitiligine"],
+          ]),
         ],
       },
     ],
@@ -584,7 +583,7 @@ export const LEVELS: Level[] = [
     id: "lv5",
     number: 5,
     title: "L'ambiente",
-    intro: "Livello 5 sbloccato! Dove ti vedi tra 15 anni?",
+    intro: "Ultimo livello! Dove ti vedi tra 15 anni?",
     groups: [
       {
         id: "ambiente",
@@ -620,40 +619,56 @@ export const LEVELS: Level[] = [
       },
     ],
   },
+];
+
+/**
+ * Cappelli, ausili e impianto acustico: non sono più scelte del configuratore (i cappelli
+ * si sovrapponevano ai capelli), ma restano disegnabili per gli avatar del cast del sito
+ * (vedi cast.ts).
+ */
+const CAST_ONLY_GROUPS: Group[] = [
   {
-    id: "lv6",
-    number: 6,
-    title: "Inclusione",
-    intro:
-      "Ultimo livello. Se vuoi, puoi aggiungere al tuo avatar un ausilio: il futuro è di tutte e tutti.",
-    groups: [
-      {
-        id: "ausilio",
-        label: "Ausili per muoversi",
-        hint: "La carrozzina arriverà nella prossima versione.",
-        kind: "single",
-        choices: [
-          none(),
-          ...items("incl", [
-            ["stampelle", "Stampelle"],
-            ["bastone", "Bastone bianco"],
-          ]),
-        ],
-      },
-      {
-        id: "impianto",
-        label: "Impianto acustico",
-        kind: "single",
-        choices: [
-          { id: "no", label: "No" },
-          { id: "si", label: "Sì", layer: "incl/impianto" },
-        ],
-      },
+    id: "cappello",
+    label: "Cappelli",
+    kind: "single",
+    choices: [
+      none(),
+      ...items("hat", [
+        ["visiera", "Cappello con visiera"],
+        ["snapback", "Cappello con visiera piatta"],
+        ["cowboy", "Cappello da cowboy"],
+        ["tesa_larga", "Cappello a tesa larga"],
+        ["lana", "Cappello di lana"],
+        ["casco", "Casco antinfortunistico"],
+        ["cuoco", "Cappello da cuoco"],
+        ["hijab", "Hijab"],
+      ]),
+    ],
+  },
+  {
+    id: "ausilio",
+    label: "Ausili per muoversi",
+    kind: "single",
+    choices: [
+      none(),
+      ...items("incl", [
+        ["stampelle", "Stampelle"],
+        ["bastone", "Bastone bianco"],
+      ]),
+    ],
+  },
+  {
+    id: "impianto",
+    label: "Impianto acustico",
+    kind: "single",
+    choices: [
+      { id: "no", label: "No" },
+      { id: "si", label: "Sì", layer: "incl/impianto" },
     ],
   },
 ];
 
-const ALL_GROUPS = LEVELS.flatMap((l) => l.groups);
+const ALL_GROUPS = [...LEVELS.flatMap((l) => l.groups), ...CAST_ONLY_GROUPS];
 
 export function findChoice(groupId: keyof AvatarSelection, id: string) {
   return ALL_GROUPS.find((g) => g.id === groupId)?.choices.find((c) => c.id === id);

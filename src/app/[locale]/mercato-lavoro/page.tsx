@@ -9,8 +9,7 @@ import {
   Stethoscope,
   Wrench,
 } from "lucide-react";
-import { CAST } from "@/lib/avatar/cast";
-import { CastFigure } from "@/components/market/CastFigure";
+import { CastAvatar } from "@/components/avatar/CastAvatar";
 import { MarketMotion } from "@/components/market/MarketMotion";
 import { Num } from "@/components/market/Num";
 import { formatNumber } from "@/components/market/format";
@@ -211,7 +210,7 @@ export default async function MercatoLavoroPage({ params }: Props) {
             <div data-avatar data-side="right" className="translate-x-[18%] md:translate-x-[14%] lg:translate-x-[10%] w-full md:max-w-[300px] lg:max-w-[340px]">
               <div data-drift data-speed="-10">
                 {/* specchiato: lo stetoscopio guarda verso il grafico */}
-                <CastFigure id="doctor" flip sizes="(min-width: 1024px) 340px, (min-width: 768px) 30vw, 144px" />
+                <CastAvatar id="doctor" flip sizes="(min-width: 1024px) 340px, (min-width: 768px) 30vw, 144px" />
               </div>
             </div>
           </div>
@@ -248,9 +247,8 @@ export default async function MercatoLavoroPage({ params }: Props) {
               className="w-28 shrink-0 md:w-auto md:max-w-[330px] md:-translate-x-[22%] lg:-translate-x-[16%]"
             >
               <div data-ai-figure>
-                <CastFigure
+                <CastAvatar
                   id="cyber"
-                  video={CAST.cyber.animated}
                   sizes="(min-width: 1024px) 330px, (min-width: 768px) 30vw, 112px"
                 />
               </div>

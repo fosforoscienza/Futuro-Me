@@ -1,5 +1,6 @@
 "use client";
 
+import NextLink from "next/link";
 import { useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { useLocale } from "next-intl";
@@ -58,9 +59,13 @@ export function NavbarClient() {
               {locale === "it" ? "EN" : "IT"}
             </span>
           </button>
-          <button className="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2 rounded-xl font-bold active:scale-95 duration-200 cursor-pointer">
+          {/* La console admin sta fuori dalle lingue: link senza prefisso /it o /en */}
+          <NextLink
+            href="/admin"
+            className="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2 rounded-xl font-bold active:scale-95 duration-200"
+          >
             {t("signIn")}
-          </button>
+          </NextLink>
           <button
             className="md:hidden text-secondary cursor-pointer"
             onClick={() => setMobileOpen(!mobileOpen)}
