@@ -381,7 +381,7 @@ export default async function MercatoLavoroPage({ params }: Props) {
                   style={{ fontSize: `clamp(1.35rem, ${(skill.value / 69) * 4.2}vw, ${(skill.value / 69) * 3.4}rem)` }}
                 >
                   {t(`skills.items.${skill.key}`)}
-                  <span className="ml-2 inline-block text-[0.5em] font-bold text-secondary-fixed-dim">
+                  <span className="ml-2 inline-block text-[max(0.5em,0.875rem)] font-bold text-secondary-fixed-dim">
                     <Num value={skill.value} locale={locale} suffix="%" />
                   </span>
                 </span>
