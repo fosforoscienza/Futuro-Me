@@ -121,7 +121,7 @@ export function Footer() {
         </section>
 
         <div className="md:col-span-2 pt-8 border-t border-secondary/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-secondary/60">{t("copyright")}</p>
+          <p className="text-secondary/60">{t("copyright", { year: new Date().getFullYear() })}</p>
         </div>
       </div>
     </footer>
