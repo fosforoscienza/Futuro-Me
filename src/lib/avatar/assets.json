@@ -557,10 +557,10 @@
   "glasses/geek": {
    "F": {
     "src": "/avatar/F/glasses__geek.webp",
-    "x": 350,
-    "y": 144,
-    "w": 147,
-    "h": 73,
+    "x": 360,
+    "y": 155,
+    "w": 128,
+    "h": 50,
     "stats": {
      "G": null,
      "B": null
@@ -573,10 +573,10 @@
    },
    "M": {
     "src": "/avatar/F/glasses__geek.webp",
-    "x": 350,
-    "y": 144,
-    "w": 147,
-    "h": 73,
+    "x": 360,
+    "y": 155,
+    "w": 128,
+    "h": 50,
     "stats": {
      "G": null,
      "B": null
@@ -659,10 +659,10 @@
   "glasses/squadrati": {
    "F": {
     "src": "/avatar/F/glasses__squadrati.webp",
-    "x": 350,
-    "y": 144,
-    "w": 149,
-    "h": 73,
+    "x": 361,
+    "y": 155,
+    "w": 126,
+    "h": 49,
     "stats": {
      "G": null,
      "B": null
@@ -675,10 +675,10 @@
    },
    "M": {
     "src": "/avatar/F/glasses__squadrati.webp",
-    "x": 350,
-    "y": 144,
-    "w": 149,
-    "h": 73,
+    "x": 361,
+    "y": 155,
+    "w": 126,
+    "h": 49,
     "stats": {
      "G": null,
      "B": null
@@ -693,10 +693,10 @@
   "glasses/tondi_spessi": {
    "F": {
     "src": "/avatar/F/glasses__tondi_spessi.webp",
-    "x": 350,
-    "y": 144,
-    "w": 148,
-    "h": 73,
+    "x": 360,
+    "y": 152,
+    "w": 127,
+    "h": 54,
     "stats": {
      "G": null,
      "B": null
@@ -709,10 +709,10 @@
    },
    "M": {
     "src": "/avatar/F/glasses__tondi_spessi.webp",
-    "x": 350,
-    "y": 144,
-    "w": 148,
-    "h": 73,
+    "x": 360,
+    "y": 152,
+    "w": 127,
+    "h": 54,
     "stats": {
      "G": null,
      "B": null

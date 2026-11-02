@@ -46,3 +46,7 @@ resto della testa. Va lanciato dopo `fix_masks.py`.
 
 `tone_down.py` attenua i pezzi troppo marcati (per ora i nasi M "all'insù", "aquilino" e
 "a patata") sugli asset già pubblicati; va lanciato dopo `fix_masks.py` ed è idempotente.
+
+`rebuild_glasses.py` rifà gli occhiali da vista con montatura spessa (geek, squadrati, tondi
+spessi) dalla versione precedente al passo delle lenti di `fix_masks.py`, che spezzava la
+montatura; le istruzioni sono in testa allo script.
