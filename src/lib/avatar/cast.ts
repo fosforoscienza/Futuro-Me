@@ -22,7 +22,7 @@ export type CastMember = {
   id: CastId;
   /** Lavoro di oggi o emergente, oppure mestiere classico. */
   kind: "attuale" | "classico";
-  /** Ha un loop video (public/avatar/cast/<file>.webm e .mov). */
+  /** Ha un loop animato (public/avatar/cast/<id>.anim.webp). */
   animated: boolean;
   selection: AvatarSelection;
 };
