@@ -2,6 +2,7 @@ import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 import { collectFeeds, runNewsJob } from "@/lib/news/pipeline";
+import { canUseAI } from "@/lib/news/summarize";
 import { isPublishWindow, romeParts } from "@/lib/news/week";
 import type { JobLogEntry } from "@/lib/news/types";
 
@@ -46,7 +47,10 @@ export async function GET(request: Request) {
   const force = url.searchParams.get("force") === "1";
   const now = new Date();
 
-  if (!force && !isPublishWindow(now)) {
+  // Senza ANTHROPIC_API_KEY le news le scrive il task programmato di Claude
+  // Desktop (vedi docs/news-automation.md): il cron si limita a raccogliere.
+  const publishHere = force || (isPublishWindow(now) && canUseAI());
+  if (!publishHere) {
     const p = romeParts(now);
     try {
       const log: JobLogEntry[] = [];
@@ -54,7 +58,9 @@ export async function GET(request: Request) {
       return NextResponse.json({
         success: true,
         published: false,
-        message: `Raccolta giornaliera (a Roma sono le ${String(p.hour).padStart(2, "0")}:${String(p.minute).padStart(2, "0")}; si pubblica il lunedì alle 8)`,
+        message: isPublishWindow(now)
+          ? "Raccolta del lunedì: la pubblicazione la fa il task di Claude"
+          : `Raccolta giornaliera (a Roma sono le ${String(p.hour).padStart(2, "0")}:${String(p.minute).padStart(2, "0")}; si pubblica il lunedì alle 8)`,
         sources: collected.sourcesChecked,
         sourceErrors: collected.sourceErrors,
         itemsFound: collected.itemsFound,

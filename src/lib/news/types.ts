@@ -57,7 +57,7 @@ export type JobLogEntry = {
 /** Riga di public.news_job_runs. */
 export type NewsJobRun = {
   id: string;
-  trigger: "cron" | "manual";
+  trigger: "cron" | "manual" | "claude";
   status: "running" | "success" | "partial" | "error" | "skipped";
   week_start: string;
   week_end: string;

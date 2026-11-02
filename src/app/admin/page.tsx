@@ -103,15 +103,22 @@ export default async function AdminPage() {
       <section className="bg-surface-container-low rounded-3xl p-6 md:p-8 mb-10">
         <h2 className="text-xl font-bold text-secondary mb-1">Job settimanale</h2>
         <p className="text-sm text-on-surface-variant mb-6">
-          Ogni lunedì alle 8:00 (ora italiana) pubblica le news della settimana precedente,
-          lunedì-domenica, dalle {activeCount} fonti attive.
+          Ogni giorno raccoglie le notizie dalle {activeCount} fonti attive; ogni lunedì alle
+          8:00 (ora italiana) il task programmato di Claude Desktop scrive e pubblica le news
+          della settimana precedente, lunedì-domenica. &quot;Esegui ora&quot; pubblica subito, con
+          i riassunti di Claude solo se su Vercel c&apos;è ANTHROPIC_API_KEY, altrimenti con
+          estratti delle fonti.
         </p>
 
         {lastRun ? (
           <div className="mb-6 text-sm space-y-1">
             <p>
               <strong>Ultima esecuzione:</strong> {formatDateTime(lastRun.started_at)} (
-              {lastRun.trigger === "cron" ? "automatica" : "manuale"}) —{" "}
+              {lastRun.trigger === "cron"
+                ? "automatica"
+                : lastRun.trigger === "claude"
+                  ? "redazione Claude"
+                  : "manuale"}) —{" "}
               <span className={lastRun.status === "error" ? "text-primary font-bold" : "font-bold"}>
                 {STATUS_LABELS[lastRun.status]}
               </span>

@@ -44,7 +44,8 @@ const SummarySchema = z.object({
   ),
 });
 
-const SYSTEM_PROMPT = `Sei la redazione di "Il Futuro Me", un sito di orientamento per ragazze e ragazzi tra i 12 e i 16 anni di Senigallia (Marche). Ogni settimana scegli e riassumi le notizie più utili sul mondo del lavoro, la formazione, le competenze e l'impatto dell'intelligenza artificiale.
+/** Linee guida della redazione, usate anche dal task programmato di Claude. */
+export const EDITORIAL_GUIDELINES = `Sei la redazione di "Il Futuro Me", un sito di orientamento per ragazze e ragazzi tra i 12 e i 16 anni di Senigallia (Marche). Ogni settimana scegli e riassumi le notizie più utili sul mondo del lavoro, la formazione, le competenze e l'impatto dell'intelligenza artificiale.
 
 Come scegliere:
 - Preferisci notizie che aiutano a capire quali lavori crescono, quali competenze servono, come cambiano scuola e formazione, dati ufficiali su occupazione giovanile, NEET, apprendistato, ITS, transizione digitale e verde.
@@ -100,7 +101,7 @@ ${c.text}
       effort: "medium",
       format: betaZodOutputFormat(SummarySchema),
     },
-    system: SYSTEM_PROMPT,
+    system: EDITORIAL_GUIDELINES,
     messages: [
       {
         role: "user",
