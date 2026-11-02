@@ -100,7 +100,7 @@ export function CastAvatar({
         {animated && (
           <video
             ref={video}
-            className="absolute inset-0 h-full w-full object-contain"
+            className={`cast-video absolute inset-0 h-full w-full object-contain ${playing ? "" : "opacity-0"}`}
             muted
             loop
             playsInline

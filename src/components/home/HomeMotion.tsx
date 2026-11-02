@@ -35,10 +35,40 @@ export function HomeMotion({ locale, children }: { locale: string; children: Rea
         const el = root.current!;
         const restore: (() => void)[] = [];
         const below = (n: Element) => n.getBoundingClientRect().top > window.innerHeight * 0.92;
-        const format = new Intl.NumberFormat(locale === "en" ? "en-GB" : "it-IT");
+        const format = new Intl.NumberFormat(locale === "en" ? "en-GB" : "it-IT", { useGrouping: "always" });
+
+        /** Numeri che contano da 0 al valore; il testo originale torna al revert. */
+        const counters = (group: HTMLElement, tl: gsap.core.Timeline) => {
+          for (const n of gsap.utils.toArray<HTMLElement>("[data-hm-count]", group)) {
+            const to = Number(n.dataset.hmCount);
+            const original = n.textContent;
+            restore.push(() => {
+              n.textContent = original;
+            });
+            const p = { v: 0 };
+            n.textContent = format.format(0);
+            tl.to(
+              p,
+              {
+                v: to,
+                duration: 1.8,
+                ease: "power3.out",
+                onUpdate: () => {
+                  n.textContent = format.format(Math.round(p.v));
+                },
+              },
+              0.2
+            );
+          }
+        };
 
         for (const group of gsap.utils.toArray<HTMLElement>("[data-hm-group]", el)) {
-          if (!below(group)) continue;
+          if (!below(group)) {
+            // Già in vista all'idratazione (o ricaricando a metà pagina, come fa
+            // Safari): il resto non si rianima, ma i numeri contano lo stesso.
+            if (group.querySelector("[data-hm-count]")) counters(group, gsap.timeline());
+            continue;
+          }
           const tl = gsap.timeline({
             paused: true,
             defaults: { ease: "power4.out" },
@@ -61,27 +91,7 @@ export function HomeMotion({ locale, children }: { locale: string; children: Rea
               0.1
             );
           }
-          for (const n of gsap.utils.toArray<HTMLElement>("[data-hm-count]", group)) {
-            const to = Number(n.dataset.hmCount);
-            const original = n.textContent;
-            restore.push(() => {
-              n.textContent = original;
-            });
-            const p = { v: 0 };
-            n.textContent = format.format(0);
-            tl.to(
-              p,
-              {
-                v: to,
-                duration: 1.8,
-                ease: "power3.out",
-                onUpdate: () => {
-                  n.textContent = format.format(Math.round(p.v));
-                },
-              },
-              0.2
-            );
-          }
+          counters(group, tl);
         }
 
         // Timeline delle plenarie: la linea si disegna con lo scroll e accende le tappe

@@ -107,6 +107,15 @@ body {
   }
 }
 
+/* Video degli avatar: restano invisibili finché non suonano (vedi CastAvatar e
+   HeroWalker); se Safari blocca la riproduzione non deve comparire il suo
+   pulsante play con il velo scuro. */
+.cast-video::-webkit-media-controls-start-playback-button,
+.cast-video::-webkit-media-controls {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

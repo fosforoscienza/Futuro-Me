@@ -7,6 +7,7 @@ import type { NewsArticle } from "@/lib/news-data";
 import { getAllNews } from "@/lib/news/repository";
 import { HeroAnimated } from "@/components/home/HeroAnimated";
 import { HomeMotion } from "@/components/home/HomeMotion";
+import { CastAvatar } from "@/components/avatar/CastAvatar";
 import { FIRST_PLENARY, plenaryStatus, type PlenarySlot } from "@/lib/plenarie";
 import { NewsImage } from "@/components/news/NewsImage";
 
@@ -33,7 +34,7 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const latestNews = (await getAllNews(locale)).slice(0, 3);
+  const latestNews = (await getAllNews(locale)).slice(0, 5);
   return <HomeContent latestNews={latestNews} locale={locale} />;
 }
 
@@ -91,7 +92,7 @@ function HomeContent({
                   <dt className="mt-2 text-sm md:text-base text-on-surface-variant">{stat.label}</dt>
                   <dd className="font-[var(--font-plus-jakarta)] font-extrabold text-secondary text-5xl md:text-7xl tracking-tighter tabular-nums">
                     <span data-hm-count={stat.value}>
-                      {new Intl.NumberFormat(dateLocale).format(stat.value)}
+                      {new Intl.NumberFormat(dateLocale, { useGrouping: "always" }).format(stat.value)}
                     </span>
                   </dd>
                 </div>
@@ -112,6 +113,15 @@ function HomeContent({
             <p data-hm-rise className="mt-6 text-on-surface-variant leading-relaxed max-w-[38ch]">
               {t("home.plenary.intro")}
             </p>
+            {/* Una studentessa e un insegnante del cast, fermi: il pubblico della Plenaria */}
+            <div data-hm-rise className="mt-10 flex items-end">
+              <CastAvatar id="student" sizes="(min-width: 1024px) 160px, 30vw" className="h-52 md:h-64" />
+              <CastAvatar
+                id="teacher"
+                sizes="(min-width: 1024px) 160px, 30vw"
+                className="-ml-10 h-56 md:h-[17.5rem]"
+              />
+            </div>
           </div>
 
           <ol className="relative overflow-x-clip lg:col-span-8 pl-10 md:pl-14">
@@ -277,13 +287,13 @@ function HomeContent({
                     </p>
                   </div>
                 </Link>
-                <div className="lg:col-span-5 grid grid-cols-1 gap-6 content-start">
+                <div className="lg:col-span-5 grid grid-cols-1 gap-5 content-between">
                   {rest.map((news) => (
                     <Link
                       key={news.slug}
                       href={`/news/${news.slug}` as "/news/[slug]"}
                       data-hm-rise
-                      className="group grid grid-cols-[8rem_1fr] sm:grid-cols-[10rem_1fr] gap-5 items-start"
+                      className="group grid grid-cols-[7rem_1fr] sm:grid-cols-[8.5rem_1fr] gap-5 items-start"
                     >
                       <div className="overflow-hidden rounded-2xl">
                         <NewsImage
