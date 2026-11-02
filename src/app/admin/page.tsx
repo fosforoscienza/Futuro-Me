@@ -105,9 +105,8 @@ export default async function AdminPage() {
         <p className="text-sm text-on-surface-variant mb-6">
           Ogni giorno raccoglie le notizie dalle {activeCount} fonti attive; ogni lunedì alle
           8:00 (ora italiana) il task programmato di Claude Desktop scrive e pubblica le news
-          della settimana precedente, lunedì-domenica. &quot;Esegui ora&quot; pubblica subito, con
-          i riassunti di Claude solo se su Vercel c&apos;è ANTHROPIC_API_KEY, altrimenti con
-          estratti delle fonti.
+          della settimana precedente, lunedì-domenica. &quot;Esegui ora&quot; pubblica subito
+          estratti delle fonti, senza riassunto.
         </p>
 
         {lastRun ? (

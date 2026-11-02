@@ -2,11 +2,10 @@ import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 import { collectFeeds, runNewsJob } from "@/lib/news/pipeline";
-import { canUseAI } from "@/lib/news/summarize";
 import { isPublishWindow, romeParts } from "@/lib/news/week";
 import type { JobLogEntry } from "@/lib/news/types";
 
-// Feed, pagine degli articoli e riassunto con Claude: può servire qualche minuto.
+// Feed e pagine degli articoli: può servire qualche minuto.
 export const maxDuration = 300;
 
 function authorized(request: Request): boolean {
@@ -47,9 +46,9 @@ export async function GET(request: Request) {
   const force = url.searchParams.get("force") === "1";
   const now = new Date();
 
-  // Senza ANTHROPIC_API_KEY le news le scrive il task programmato di Claude
-  // Desktop (vedi docs/news-automation.md): il cron si limita a raccogliere.
-  const publishHere = force || (isPublishWindow(now) && canUseAI());
+  // Le news le scrive il task programmato di Claude Desktop (vedi
+  // docs/news-automation.md): il cron raccoglie e pubblica solo con ?force=1.
+  const publishHere = force;
   if (!publishHere) {
     const p = romeParts(now);
     try {

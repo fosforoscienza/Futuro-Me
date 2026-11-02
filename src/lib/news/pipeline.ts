@@ -11,13 +11,7 @@ import {
   shortHash,
   slugify,
 } from "./select";
-import {
-  canUseAI,
-  extractiveSummary,
-  summarizeWithClaude,
-  type Candidate,
-  type Summary,
-} from "./summarize";
+import { extractiveSummary, type Candidate, type Summary } from "./summarize";
 import {
   NEWS_CACHE_TAG,
   type JobLogEntry,
@@ -406,18 +400,13 @@ export async function runNewsJob(options: RunOptions): Promise<RunResult> {
 
     // 4. Testo completo dei candidati migliori e riassunto.
     const max = maxPerWeek();
-    const useAI = canUseAI();
-    const pool = useAI
-      ? capPerSource(kept, 3, MAX_CANDIDATES)
-      : // Senza AI non si traduce né si sceglie: soglia più alta, fonti in
-        // italiano, al massimo 2 news per fonte.
-        capPerSource(
-          kept.filter(
-            (k) => k.source.language === "it" && k.score >= MIN_RELEVANCE_EXTRACT
-          ),
-          2,
-          max
-        );
+    // Niente traduzione né scelta editoriale: soglia più alta, fonti in
+    // italiano, al massimo 2 news per fonte.
+    const pool = capPerSource(
+      kept.filter((k) => k.source.language === "it" && k.score >= MIN_RELEVANCE_EXTRACT),
+      2,
+      max
+    );
     if (pool.length === 0) {
       return await finish("success", "Nessuna news abbastanza pertinente da pubblicare", {
         ...counts,
@@ -427,25 +416,8 @@ export async function runNewsJob(options: RunOptions): Promise<RunResult> {
 
     const candidates = await withArticleText(pool);
 
-    let summaries: Summary[];
-    if (useAI) {
-      try {
-        summaries = await summarizeWithClaude(candidates, max);
-        log.push({ level: "info", message: `Claude ha scelto ${summaries.length} news su ${candidates.length}` });
-      } catch (error) {
-        log.push({
-          level: "error",
-          message: `Riassunto AI non riuscito, uso gli estratti: ${errorMessage(error)}`,
-        });
-        summaries = candidates.slice(0, max).map(extractiveSummary);
-      }
-    } else {
-      log.push({
-        level: "warn",
-        message: "ANTHROPIC_API_KEY non impostata: pubblico estratti delle fonti senza riassunto",
-      });
-      summaries = candidates.slice(0, max).map(extractiveSummary);
-    }
+    const summaries: Summary[] = candidates.slice(0, max).map(extractiveSummary);
+    log.push({ level: "info", message: `Pubblico estratti di ${summaries.length} news dalle fonti` });
 
     // 5. Pubblica.
     const rows = summaries.map((s) => {

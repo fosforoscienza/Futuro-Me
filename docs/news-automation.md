@@ -27,26 +27,19 @@ nell'elenco sia nella pagina della news.
    - scarta i doppioni: stesso URL già pubblicato, oppure titolo molto simile a un altro della
      settimana o delle 4 settimane precedenti;
    - prende al massimo 3 candidati per fonte (18 in tutto).
-4. **Riassunto.** Senza chiave API (configurazione attuale) le news le scrive il **task
+4. **Riassunto.** Le news le scrive il **task
    programmato di Claude Desktop** "News settimanali Il Futuro Me", ogni lunedì alle 8:00 sul
    Mac, con l'account Claude. Il task chiama `GET /api/admin/news-candidates`, che raccoglie i
    feed e restituisce le candidate con il testo degli articoli e le linee guida editoriali.
    Poi scrive i testi e li invia a `POST /api/admin/publish-news`. Il sito accetta solo URL
    raccolti davvero dalle fonti attive; nome della fonte, link e titolo originale li prende dal
    database. Prompt completo in [news-claude-task.md](news-claude-task.md). Il task gira solo
-   con l'app aperta: se il Mac è spento parte alla prima apertura. In questa configurazione il
-   cron di Vercel si limita a raccogliere.
+   con l'app aperta: se il Mac è spento parte alla prima apertura. Il cron di Vercel si limita
+   a raccogliere.
 
-   In alternativa, con `ANTHROPIC_API_KEY` impostata su Vercel, Claude (`claude-opus-5-5`, output JSON
-   validato con zod) sceglie fino a `NEWS_MAX_PER_WEEK` news (6 se non impostata) adatte a
-   ragazzi di 12-16 anni. Per ciascuna scrive titolo, sommario e testo in italiano, più la
-   traduzione inglese per `/en`. Il prompt vieta numeri o fatti che non compaiono nel testo della
-   fonte. Il job passa a Claude il testo della pagina originale, oppure la descrizione del feed se
-   la pagina non si legge.
-
-   Senza chiave, o se la chiamata fallisce, il job pubblica comunque estratti delle fonti in
-   italiano, con una soglia di pertinenza più alta e al massimo 2 news per fonte. Il campo
-   `summary_method` registra quale dei due metodi è stato usato.
+   "Esegui ora" nella console admin (e `?force=1` sul cron) pubblica invece estratti delle fonti
+   in italiano, senza riassunto, con una soglia di pertinenza più alta e al massimo 2 news per
+   fonte. Il campo `summary_method` registra quale dei due metodi è stato usato.
 5. **Foto.** Ogni news ha la foto di copertina dell'articolo originale: `og:image` o
    `twitter:image` della pagina, altrimenti l'immagine del feed (enclosure, media:content,
    prima `<img>`). La legge sempre il sito, mai chi pubblica. Viene mostrata con il credito
@@ -94,9 +87,7 @@ curl -X POST https://www.ilfuturome.it/api/admin/trigger-news \
 | `SUPABASE_SERVICE_ROLE_KEY` | sì | letture e scritture lato server (già impostata) |
 | `CRON_SECRET` | sì | Vercel la manda come `Authorization: Bearer …` alle chiamate cron. Senza, la route risponde 503 |
 | `ADMIN_SECRET` | sì | accesso a `/admin` e `/api/admin/*` (ripiego: `CRON_SECRET`) |
-| `ANTHROPIC_API_KEY` | no | solo per far scrivere le news al cron di Vercel; oggi le scrive il task di Claude Desktop |
 | `NEWS_MAX_PER_WEEK` | no | news massime per settimana (1-20, predefinito 6) |
-| `NEWS_SUMMARY_MODEL` | no | modello per il riassunto (predefinito `claude-opus-5-5`) |
 
 Nessun segreto è nel codice.
 
