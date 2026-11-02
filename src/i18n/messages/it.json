@@ -17,7 +17,13 @@
     "badge": "Kinetic Archive",
     "title": "Il Tuo Futuro,",
     "titleAccent": "Esplorato.",
-    "subtitle": "Una piattaforma per scoprire chi vuoi diventare. Esplora carriere, comprendi il mercato del lavoro e preparati alle sfide di domani con strumenti concreti e contenuti ispiratori."
+    "subtitle": "Scopri chi vuoi diventare: esplora carriere, capisci il mercato del lavoro e preparati alle sfide di domani.",
+    "futureLabel": "Tra 15 anni",
+    "futures": {
+      "doctor": "Medica in corsia",
+      "musician": "Musicista sul palco",
+      "chef": "Chef in cucina"
+    }
   },
   "home": {
     "latestNews": "Ultime News",
