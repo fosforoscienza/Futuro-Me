@@ -3,12 +3,12 @@ import { useTranslations } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import {
   TrendingUp,
-  Brain,
   Cpu,
   Stethoscope,
+  HeartPulse,
   Code,
-  Leaf,
-  Shield,
+  Wrench,
+  Handshake,
   BarChart3,
   Zap,
   Users,
@@ -44,30 +44,71 @@ export default async function MercatoLavoroPage({
 function MercatoContent() {
   const t = useTranslations("market");
 
+  // Fonti: ogni dato numerico della pagina ha la sua fonte accanto.
+  const EXCELSIOR = {
+    name: "Unioncamere – Ministero del Lavoro, Sistema Excelsior: previsioni dei fabbisogni occupazionali 2025-2029 (II aggiornamento, 2026), tab. 5.2",
+    url: "https://excelsior.unioncamere.net/sites/default/files/pubblicazioni/2025/report_previsivo_2025-29_agg.pdf",
+  };
+  const WEF = {
+    name: "World Economic Forum, Future of Jobs Report 2025",
+    url: "https://reports.weforum.org/docs/WEF_Future_of_Jobs_Report_2025.pdf",
+  };
+
+  // Lavoratori richiesti in Italia nel 2025-2029 (scenario negativo – positivo).
   const topJobs = [
-    { icon: Code, title: "Sviluppatore Software", growth: "+35%", demand: "Alta" },
-    { icon: Brain, title: "Specialista AI/ML", growth: "+45%", demand: "Molto Alta" },
-    { icon: Shield, title: "Cybersecurity Analyst", growth: "+28%", demand: "Alta" },
-    { icon: Stethoscope, title: "Professionista Sanitario", growth: "+22%", demand: "Alta" },
-    { icon: Leaf, title: "Green Economy Specialist", growth: "+30%", demand: "In crescita" },
-    { icon: BarChart3, title: "Data Analyst", growth: "+38%", demand: "Molto Alta" },
+    { icon: Stethoscope, title: "Tecnici della salute", need: "157.100 – 166.700" },
+    { icon: BarChart3, title: "Specialisti in scienze gestionali, commerciali e bancarie", need: "102.600 – 110.100" },
+    { icon: Handshake, title: "Tecnici dei rapporti con i mercati", need: "84.600 – 94.800" },
+    { icon: Wrench, title: "Ingegneri", need: "55.100 – 61.300" },
+    { icon: HeartPulse, title: "Medici", need: "55.000 – 59.400" },
+    { icon: Code, title: "Analisti e specialisti nella progettazione di applicazioni", need: "29.700 – 31.600" },
   ];
 
   const aiImpactAreas = [
     {
-      title: "Automazione Processi",
-      desc: "Il 30% delle attività lavorative potrebbe essere automatizzato entro il 2030, ma nuovi ruoli emergeranno per gestire e supervisionare i sistemi AI.",
-      percentage: 30,
+      title: "Competenze che cambiano",
+      desc: "Le imprese prevedono che il 39% delle competenze richieste oggi cambierà o diventerà superato tra il 2025 e il 2030. Nello stesso periodo si stimano 170 milioni di nuovi posti di lavoro nel mondo e 92 milioni sostituiti: un saldo di +78 milioni.",
+      percentage: 39,
+      label: "Competenze che cambiano entro il 2030",
     },
     {
-      title: "Nuove Professioni",
-      desc: "Prompt engineer, AI trainer, ethics officer — professioni che non esistevano 5 anni fa e che oggi sono tra le più ricercate.",
-      percentage: 65,
+      title: "AI e trattamento dei dati",
+      desc: "L'86% delle imprese si aspetta che intelligenza artificiale e trattamento delle informazioni trasformino la propria attività entro il 2030. Da sole, queste tecnologie creeranno 11 milioni di posti e ne sostituiranno 9 milioni.",
+      percentage: 86,
+      label: "Imprese che si aspettano una trasformazione",
     },
     {
-      title: "Competenze Ibride",
-      desc: "La combinazione di competenze tecniche e soft skills diventa essenziale. Il 78% delle aziende cerca profili 'T-shaped'.",
-      percentage: 78,
+      title: "Pensiero analitico",
+      desc: "Sette imprese su dieci considerano il pensiero analitico la competenza fondamentale; seguono resilienza, flessibilità e agilità, poi leadership e influenza sociale. L'85% dei datori di lavoro punta a far crescere le competenze dei propri dipendenti.",
+      percentage: 69,
+      label: "Imprese che lo ritengono essenziale",
+    },
+  ];
+
+  const localStats = [
+    {
+      value: "10,8%",
+      desc: "Giovani 15-29 anni NEET (né al lavoro né in studio o formazione) nelle Marche nel 2025: in Italia sono il 13,3%, nell'Unione europea l'11,0%. Nel 2019 nelle Marche erano il 15,3%.",
+      source: {
+        name: "Eurostat, edat_lfse_22 (dati ISTAT, Rilevazione forze di lavoro), 2025",
+        url: "https://ec.europa.eu/eurostat/databrowser/view/edat_lfse_22/default/table",
+      },
+    },
+    {
+      value: "14,4%",
+      desc: "Tasso di disoccupazione dei giovani 15-29 anni nelle Marche nel 2025, uguale alla media italiana (14,4%); nell'Unione europea è l'11,7%.",
+      source: {
+        name: "Eurostat, lfst_r_lfu3rt, 2025",
+        url: "https://ec.europa.eu/eurostat/databrowser/view/lfst_r_lfu3rt/default/table",
+      },
+    },
+    {
+      value: "50,6%",
+      desc: "Assunzioni previste dalle imprese della Provincia di Ancona che sono di difficile reperimento: una su due, nel 2024. Il tasso di occupazione 15-64 anni in provincia è del 66,2%.",
+      source: {
+        name: "Camera di Commercio delle Marche, Dataview 2025 – Mercato del lavoro (dati 2024)",
+        url: "https://www.marche.camcom.it/la-camera/novita-ed-eventi/novita/dataview-infografiche-e-dati-statistici-delleconomia-marchigiana/dataview-2025/mercato_lavoro_marche.pdf/view",
+      },
     },
   ];
 
@@ -101,6 +142,11 @@ function MercatoContent() {
           <h2 className="text-2xl font-[var(--font-plus-jakarta)] font-bold text-secondary mb-10">
             {t("topJobsTitle")}
           </h2>
+          <p className="text-on-surface-variant mb-8 max-w-2xl text-sm">
+            Lavoratori richiesti in Italia dal 2025 al 2029 (tra scenario
+            prudente e scenario positivo), per le professioni con il
+            fabbisogno più alto tra quelle qualificate.
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {topJobs.map((job) => {
               const Icon = job.icon;
@@ -117,19 +163,20 @@ function MercatoContent() {
                       />
                     </div>
                     <span className="text-primary font-bold text-sm flex items-center gap-1">
-                      <TrendingUp size={14} /> {job.growth}
+                      <TrendingUp size={14} /> {job.need}
                     </span>
                   </div>
                   <h3 className="font-[var(--font-plus-jakarta)] font-bold text-secondary mb-1">
                     {job.title}
                   </h3>
                   <p className="text-xs text-on-surface-variant">
-                    Domanda: {job.demand}
+                    lavoratori richiesti 2025-2029
                   </p>
                 </div>
               );
             })}
           </div>
+          <SourceNote source={EXCELSIOR} />
         </div>
       </section>
 
@@ -163,7 +210,7 @@ function MercatoContent() {
                 <div className="md:w-48 shrink-0">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-xs font-bold text-secondary">
-                      Impatto
+                      {area.label}
                     </span>
                     <span className="text-xs font-bold text-primary">
                       {area.percentage}%
@@ -180,6 +227,7 @@ function MercatoContent() {
             </div>
           ))}
         </div>
+        <SourceNote source={WEF} />
       </section>
 
       {/* Key Skills */}
@@ -218,34 +266,46 @@ function MercatoContent() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-surface-container-low p-8 rounded-[1.5rem]">
-            <p className="text-4xl font-[var(--font-plus-jakarta)] font-extrabold text-primary mb-2">
-              16,7%
-            </p>
-            <p className="text-sm text-on-surface-variant">
-              Tasso NEET a Senigallia (2019), sopra la media UE del 9%
-            </p>
-          </div>
-          <div className="bg-surface-container-low p-8 rounded-[1.5rem]">
-            <p className="text-4xl font-[var(--font-plus-jakarta)] font-extrabold text-primary mb-2">
-              51,3%
-            </p>
-            <p className="text-sm text-on-surface-variant">
-              Tasso di inattività giovanile (18-29 anni) nella Provincia di
-              Ancona
-            </p>
-          </div>
-          <div className="bg-surface-container-low p-8 rounded-[1.5rem]">
-            <p className="text-4xl font-[var(--font-plus-jakarta)] font-extrabold text-primary mb-2">
-              54,8%
-            </p>
-            <p className="text-sm text-on-surface-variant">
-              Studenti che seguono il consiglio orientativo nella scelta della
-              scuola superiore
-            </p>
-          </div>
+          {localStats.map((stat) => (
+            <div
+              key={stat.value}
+              className="bg-surface-container-low p-8 rounded-[1.5rem] flex flex-col"
+            >
+              <p className="text-4xl font-[var(--font-plus-jakarta)] font-extrabold text-primary mb-2">
+                {stat.value}
+              </p>
+              <p className="text-sm text-on-surface-variant">{stat.desc}</p>
+              <p className="text-xs text-outline mt-auto pt-4">
+                Fonte:{" "}
+                <a
+                  href={stat.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-primary"
+                >
+                  {stat.source.name}
+                </a>
+              </p>
+            </div>
+          ))}
         </div>
       </section>
     </div>
+  );
+}
+
+function SourceNote({ source }: { source: { name: string; url: string } }) {
+  return (
+    <p className="text-xs text-outline mt-6">
+      Fonte:{" "}
+      <a
+        href={source.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline hover:text-primary"
+      >
+        {source.name}
+      </a>
+    </p>
   );
 }

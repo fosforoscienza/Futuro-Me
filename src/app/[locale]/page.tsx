@@ -12,8 +12,13 @@ import {
   Clock,
   GraduationCap,
 } from "lucide-react";
-import { newsArticles } from "@/lib/news-data";
+import type { NewsArticle } from "@/lib/news-data";
+import { getAllNews } from "@/lib/news/repository";
 import { HeroAnimated } from "@/components/home/HeroAnimated";
+
+// Ultime news dal job settimanale: al massimo un'ora di ritardo, e la home
+// viene rigenerata subito dopo ogni pubblicazione.
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -34,10 +39,17 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return <HomeContent />;
+  const latestNews = (await getAllNews(locale)).slice(0, 3);
+  return <HomeContent latestNews={latestNews} locale={locale} />;
 }
 
-function HomeContent() {
+function HomeContent({
+  latestNews,
+  locale,
+}: {
+  latestNews: NewsArticle[];
+  locale: string;
+}) {
   const t = useTranslations();
 
   const stats = [
@@ -152,7 +164,7 @@ function HomeContent() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {newsArticles.slice(0, 3).map((news) => (
+          {latestNews.map((news) => (
             <Link
               key={news.slug}
               href={`/news/${news.slug}` as "/news/[slug]"}
@@ -165,11 +177,14 @@ function HomeContent() {
                 {news.title}
               </h3>
               <p className="text-xs text-on-surface-variant">
-                {new Date(news.date).toLocaleDateString("it-IT", {
+                {new Date(news.date).toLocaleDateString(locale === "en" ? "en-GB" : "it-IT", {
                   day: "numeric",
                   month: "long",
                   year: "numeric",
                 })}
+              </p>
+              <p className="text-xs text-outline mt-1">
+                {t("news.source")}: {news.source}
               </p>
             </Link>
           ))}

@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { NewsContent } from "@/components/news/NewsContent";
+import { getAllNews } from "@/lib/news/repository";
+
+// Le news automatiche arrivano dal database: pagina rigenerata al massimo ogni
+// ora e subito dopo ogni pubblicazione del job (revalidatePath).
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -21,5 +26,6 @@ export default async function NewsPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return <NewsContent />;
+  const articles = await getAllNews(locale);
+  return <NewsContent articles={articles} />;
 }

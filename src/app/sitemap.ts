@@ -1,7 +1,9 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
 import { BASE_URL } from "@/lib/constants";
-import { newsArticles } from "@/lib/news-data";
+import { getAllNews } from "@/lib/news/repository";
+
+export const revalidate = 3600;
 
 const staticRoutes = [
   "/",
@@ -13,7 +15,7 @@ const staticRoutes = [
   "/privacy",
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries = staticRoutes.flatMap((route) => {
     const languages: Record<string, string> = {};
     for (const locale of locales) {
@@ -29,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }));
   });
 
-  const newsEntries = newsArticles.flatMap((article) => {
+  const newsEntries = (await getAllNews("it")).flatMap((article) => {
     const languages: Record<string, string> = {};
     for (const locale of locales) {
       languages[locale] = `${BASE_URL}/${locale}/news/${article.slug}`;

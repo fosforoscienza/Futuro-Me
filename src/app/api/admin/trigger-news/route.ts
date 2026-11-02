@@ -1,16 +1,21 @@
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
+import { hasAdminBearer, isAdmin } from "@/lib/admin-auth";
+import { runNewsJob } from "@/lib/news/pipeline";
+import { isMonday } from "@/lib/news/week";
+
+export const maxDuration = 300;
 
 /**
- * Manual trigger for news fetching from the admin dashboard.
- * Same pipeline as the cron job, but triggered on demand.
+ * Avvio manuale del job delle news (stessa pipeline del cron), senza
+ * controllo dell'ora. Accetta "Authorization: Bearer <ADMIN_SECRET>" oppure la
+ * sessione della console /admin.
+ *
+ * Body JSON opzionale: { "weekStart": "YYYY-MM-DD" (lunedì), "force": true }
  */
 export async function POST(request: Request) {
   try {
-    // Verify admin secret until NextAuth is configured
-    const authHeader = request.headers.get("authorization");
-    const adminSecret = process.env.ADMIN_SECRET || process.env.CRON_SECRET;
-    if (adminSecret && authHeader !== `Bearer ${adminSecret}`) {
+    if (!hasAdminBearer(request) && !(await isAdmin())) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -26,18 +31,29 @@ export async function POST(request: Request) {
       );
     }
 
-    // Trigger the same pipeline as the cron job
-    const cronUrl = new URL("/api/cron/fetch-news", request.url);
-    const response = await fetch(cronUrl.toString(), {
-      headers: {
-        authorization: `Bearer ${process.env.CRON_SECRET || "dev"}`,
-      },
+    let body: { weekStart?: unknown; force?: unknown } = {};
+    try {
+      body = await request.json();
+    } catch {
+      // Body vuoto: settimana precedente, senza forzare.
+    }
+    const weekStart =
+      typeof body.weekStart === "string" && body.weekStart ? body.weekStart : undefined;
+    if (weekStart && !isMonday(weekStart)) {
+      return NextResponse.json(
+        { error: "weekStart deve essere un lunedì (YYYY-MM-DD)" },
+        { status: 400 }
+      );
+    }
+
+    const result = await runNewsJob({
+      trigger: "manual",
+      weekStart,
+      force: body.force === true,
     });
 
-    const result = await response.json();
-
     return NextResponse.json({
-      success: true,
+      success: result.status !== "error",
       message: "Manual news fetch triggered",
       result,
     });
