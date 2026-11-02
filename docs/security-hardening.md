@@ -63,6 +63,12 @@ La CSP mantiene unsafe-inline per la generazione statica: una CSP con nonce
 richiede un intervento separato su rendering/cache. Nessuna prova di attacco
 è stata eseguita sulla produzione e nessun dato degli studenti è stato usato.
 
-Stato di questa sessione: entrambe le migrazioni sono state provate solo nel
-PostgreSQL temporaneo. L'applicazione al database di produzione è in attesa
-di approvazione esplicita; il push deve attendere la prima migrazione.
+## Esito del rollout in produzione
+
+Il 2 novembre 2026, dopo l'approvazione esplicita dell'utente, entrambe le
+migrazioni sono state applicate tramite `ssh mac-mini`, container `supabase-db`.
+La prima prima del push, la seconda dopo il deploy riuscito del commit
+`03e9fa9353c4db3759993f2b0d9087653b2e6b39` su Vercel.
+Verificate homepage e pagina di accesso (HTTP 200, CSP corretta), permessi RPC
+(service_role autorizzato, anon escluso), RLS del limiter e versione obbligatoria
+per le nuove sessioni. Nessun test con credenziali o dati reali degli studenti.
