@@ -110,12 +110,12 @@ function ArticleContent({
             <figcaption className="mt-2 text-xs text-outline">
               {t("photo")}:{" "}
               <a
-                href={article.sourceUrl}
+                href={article.imageCreditUrl ?? article.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline"
               >
-                {article.source}
+                {article.imageCredit ?? article.source}
               </a>
             </figcaption>
           )}
@@ -202,7 +202,7 @@ function ArticleContent({
                   src={related.imageUrl}
                   alt=""
                   category={related.category}
-                  credit={related.source}
+                  credit={related.imageCredit ?? related.source}
                   className="aspect-[16/9] w-full"
                 />
                 <div className="p-6">

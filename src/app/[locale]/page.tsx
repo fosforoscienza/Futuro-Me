@@ -175,7 +175,7 @@ function HomeContent({
                 src={news.imageUrl}
                 alt=""
                 category={news.category}
-                credit={news.source}
+                credit={news.imageCredit ?? news.source}
                 className="aspect-[16/9] w-full"
               />
               <div className="p-6">
