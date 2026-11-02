@@ -45,7 +45,8 @@ viso della sorgente con un riempimento dal centro del viso e considera capelli t
 resto della testa. Va lanciato dopo `fix_masks.py`.
 
 `tone_down.py` attenua i pezzi troppo marcati (i nasi M "all'insù", "aquilino" e "a patata",
-le ciglia "lunghe" e "lunghissime" accorciate verso la palpebra) sugli asset già pubblicati;
+le ciglia "lunghe" e "lunghissime" accorciate verso la palpebra, le sopracciglia "folte"
+meno alte) sugli asset già pubblicati;
 va lanciato dopo `fix_masks.py` ed è idempotente.
 
 `rebuild_glasses.py` rifà gli occhiali da vista con montatura spessa (geek, squadrati, tondi

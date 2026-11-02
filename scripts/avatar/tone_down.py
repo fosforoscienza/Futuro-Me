@@ -13,6 +13,9 @@ ritoccato due volte.
      sopracciglia del corpo base con una toppa di pelle). lashes/lunghissime (occhi a mandorla
      grandi del corpo base) era una nuvola scura senza ciglia riconoscibili: si ricava da
      lashes/lunghe, accorciate meno.
+  3. Sopracciglia "folte": erano troppo grandi. Il sopracciglio (la parte più scura della
+     pelle sotto) si schiaccia verso il suo bordo inferiore, di BROW_KEEP in altezza, e si
+     appoggia sul pezzo "Nessuna", così il sopracciglio del corpo base non spunta sopra.
 
 Uso:
   python3 -I scripts/avatar/tone_down.py public/avatar src/lib/avatar/assets.json
@@ -41,6 +44,7 @@ SHORTEN = {'lunghe': 0.72, 'lunghissime': 0.62}
 LID = 2.0  # spessore della linea della palpebra, che resta com'è
 # pezzi rifatti da un altro pezzo: chiave -> (pezzo di partenza, quanto resta della lunghezza)
 FROM = {'lashes/lunghissime': ('lashes/lunghe', 0.95)}
+BROW_KEEP = 0.75  # altezza che resta alle sopracciglia folte
 
 
 def path(e, key='src'):
@@ -119,6 +123,40 @@ def shorten(e, src, plain, base, f):
     e.update(x=int(x0), y=int(y0), w=int(x1 - x0), h=int(y1 - y0))
 
 
+def thin_brows(e, none, base):
+    """Sopracciglia e schiacciate verso il bordo inferiore, sopra il pezzo none."""
+    F, Fm = place(e), place(e, 'mask', 'RGB')
+    N, Nm = place(none), place(none, 'mask', 'RGB')
+    B = place(base)
+    brow = np.clip((lum(over(N, B)) - lum(over(F, B)) - 8) / 40, 0, 1) * (F[..., 3] / 255)
+    yy, xx = np.mgrid[0:H, 0:W]
+    out, G = np.zeros_like(F), np.zeros((H, W), np.float32)
+    mid = e['x'] + e['w'] // 2
+    for side in (xx < mid, xx >= mid):
+        full = (brow > 0.6) & side
+        cols = np.nonzero(full.any(0))[0]
+        bottom = np.poly1d(np.polyfit(cols, [np.nonzero(full[:, c])[0].max() for c in cols], 2))
+        b = bottom(xx).astype(np.float32) + 1
+        at = [b - (b - yy) / BROW_KEEP, xx]
+        inside = side & (yy <= b + 3)
+        for c in range(3):
+            out[..., c] = np.where(inside, ndi.map_coordinates(F[..., c], at, order=1), out[..., c])
+        G = np.where(inside, ndi.map_coordinates(brow, at, order=1), G)
+    # sopracciglio sopra la pelle di "Nessuna"
+    aN = N[..., 3] / 255
+    a = G + aN * (1 - G)
+    rgb = (out[..., :3] * G[..., None] + N[..., :3] * (aN * (1 - G))[..., None]) / np.maximum(a, 1e-6)[..., None]
+    R = Nm[..., 0] * aN * (1 - G) / np.maximum(a, 1e-6)
+    Gm = 255 * G / np.maximum(a, 1e-6)
+    ys, xs = np.nonzero(a > 0.01)
+    y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
+    rgba = np.dstack([rgb, a * 255])[y0:y1, x0:x1]
+    Image.fromarray(np.clip(rgba, 0, 255).astype('uint8'), 'RGBA').save(path(e), 'WEBP', quality=90, method=6)
+    mk = np.dstack([R, Gm, np.zeros_like(R)])[y0:y1, x0:x1] * (a[y0:y1, x0:x1, None] > 0.01)
+    Image.fromarray(np.clip(mk, 0, 255).astype('uint8'), 'RGB').save(path(e, 'mask'), optimize=True)
+    e.update(x=int(x0), y=int(y0), w=int(x1 - x0), h=int(y1 - y0))
+
+
 for (key, body), k in FADE.items():
     e = d['layers'][key][body]
     if e.get('toned', 0) >= 1:
@@ -142,5 +180,12 @@ for key in sorted(d['layers'], key=lambda k: k not in FROM):
         shorten(e, dict(d['layers'][src][body]), plain, d['bodies'][body], f)
         e['toned'] = 2
         print(key, body, src, f, flush=True)
+
+for body in ('F', 'M'):
+    e = d['layers']['brows/folte'][body]
+    if e.get('toned', 0) < 3:
+        thin_brows(e, d['layers']['brows/nessuna'][body], d['bodies'][body])
+        e['toned'] = 3
+        print('brows/folte', body, BROW_KEEP, flush=True)
 
 json.dump(d, open(MANIFEST, 'w'), indent=1)

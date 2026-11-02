@@ -71,10 +71,10 @@
   "brows/folte": {
    "F": {
     "src": "/avatar/F/brows__folte.webp",
-    "x": 360,
-    "y": 132,
-    "w": 128,
-    "h": 39,
+    "x": 362,
+    "y": 134,
+    "w": 125,
+    "h": 36,
     "mask": "/avatar/F/brows__folte.mask.png",
     "stats": {
      "G": {
@@ -87,14 +87,15 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 3
    },
    "M": {
     "src": "/avatar/M/brows__folte.webp",
-    "x": 361,
-    "y": 132,
-    "w": 132,
-    "h": 41,
+    "x": 362,
+    "y": 136,
+    "w": 130,
+    "h": 35,
     "mask": "/avatar/M/brows__folte.mask.png",
     "stats": {
      "G": {
@@ -107,7 +108,8 @@
      0,
      1
     ],
-    "fixed": 21
+    "fixed": 21,
+    "toned": 3
    }
   },
   "brows/nessuna": {
