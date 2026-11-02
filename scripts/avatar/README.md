@@ -16,6 +16,7 @@ python3 -I scripts/avatar/build_assets.py raw public/avatar src/lib/avatar/asset
 python3 -I scripts/avatar/build_lash_combos.py raw public/avatar src/lib/avatar/assets.json
 python3 -I scripts/avatar/fix_masks.py public/avatar src/lib/avatar/assets.json
 python3 -I scripts/avatar/tone_down.py public/avatar src/lib/avatar/assets.json
+python3 -I scripts/avatar/add_pieces.py public/avatar src/lib/avatar/assets.json
 ```
 
 `build_lash_combos.py` crea i pezzi `eyes/<forma>__<ciglia>` (forma d'occhio con le sue
@@ -46,7 +47,8 @@ resto della testa. Va lanciato dopo `fix_masks.py`.
 
 `tone_down.py` attenua i pezzi troppo marcati (i nasi M "all'insù", "aquilino" e "a patata",
 le ciglia "lunghe" e "lunghissime" accorciate verso la palpebra, le sopracciglia "folte"
-meno alte) sugli asset già pubblicati;
+meno alte, gli occhi "tondi grandi" rimpiccioliti, la vitiligine più leggera) sugli asset
+già pubblicati;
 va lanciato dopo `fix_masks.py` ed è idempotente.
 
 `rebuild_glasses.py` rifà gli occhiali da vista con montatura spessa (geek, squadrati, tondi
@@ -56,3 +58,7 @@ leggera), persi già nell'estrazione; le istruzioni sono in testa allo script.
 
 `mirror_bracelet.py` sposta il bracciale sul polso destro, ribaltato a specchio: era
 generato sullo stesso polso dell'orologio e scelti insieme si sovrapponevano.
+
+`add_pieces.py` disegna i pezzi che non vengono da immagini generate: l'orecchino a
+pallina sui lobi e le lentiggini leggere (marcate come pelle, prendono l'incarnato scelto).
+Rilanciarlo li riscrive da capo.
