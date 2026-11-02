@@ -51,10 +51,10 @@
   credenziali, sessioni obsolete e permessi RPC.
 - `npm run lint`, `npx tsc --noEmit`, `npm run build` e smoke test HTTP locali.
 - `npm audit --omit=dev`: zero vulnerabilità segnalate dopo l'aggiornamento.
-  L'audit completo segnala ancora 16 voci moderate di sviluppo riconducibili
-  a minimatch <11.0.1 nella toolchain ESLint. npm propone downgrade incompatibili:
-  non applicati. Il codice runtime non include questa toolchain; monitorare
-  gli aggiornamenti upstream evitando glob non fidati nei controlli locali.
+  Nella prima revisione restavano 16 voci moderate della toolchain ESLint.
+  La revisione successiva le ha risolte usando minimatch 11.0.4 con un adattatore
+  CommonJS locale: vedi `tools/minimatch-compat/README.md`. Anche l'audit completo
+  ora segnala zero vulnerabilità, senza disabilitare audit o regole ESLint.
 
 ## Questioni non risolte tecnicamente
 
