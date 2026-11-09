@@ -51,7 +51,7 @@ export default async function AdminPage() {
     db.from("news_job_runs").select("*").order("started_at", { ascending: false }).limit(10),
     db
       .from("news_articles")
-      .select("id,slug,title,source_name,source_url,status,week_start,summary_method,published_at")
+      .select("id,slug,title,excerpt,content,source_name,source_url,status,week_start,summary_method,published_at")
       .order("published_at", { ascending: false })
       .limit(30),
   ]);
@@ -63,6 +63,8 @@ export default async function AdminPage() {
     | "id"
     | "slug"
     | "title"
+    | "excerpt"
+    | "content"
     | "source_name"
     | "source_url"
     | "status"
@@ -182,9 +184,13 @@ export default async function AdminPage() {
                 className="bg-surface-container-lowest rounded-xl p-4 flex flex-wrap items-center justify-between gap-3"
               >
                 <div className="min-w-0 text-sm">
-                  <a href={`/it/news/${a.slug}`} className="font-bold text-secondary hover:underline">
-                    {a.title}
-                  </a>
+                  {a.status === "published" ? (
+                    <a href={`/it/news/${a.slug}`} className="font-bold text-secondary hover:underline">
+                      {a.title}
+                    </a>
+                  ) : (
+                    <span className="font-bold text-secondary">{a.title}</span>
+                  )}
                   <p className="text-xs text-on-surface-variant">
                     Settimana {a.week_start} · Fonte:{" "}
                     <a href={a.source_url} target="_blank" rel="noopener noreferrer" className="underline">
@@ -193,6 +199,14 @@ export default async function AdminPage() {
                     · {a.summary_method === "ai" ? "riassunto AI" : "estratto"}
                     {a.status === "hidden" ? " · NASCOSTA" : ""}
                   </p>
+                  {a.status === "hidden" && (
+                    // Le news nascoste non hanno pagina: il testo si rivede qui.
+                    <details className="mt-2 text-xs text-on-surface-variant">
+                      <summary className="cursor-pointer font-bold">Rivedi il testo</summary>
+                      <p className="mt-2 font-bold">{a.excerpt}</p>
+                      <p className="mt-2 whitespace-pre-line">{a.content}</p>
+                    </details>
+                  )}
                 </div>
                 <ArticleStatusButton id={a.id} status={a.status} />
               </li>

@@ -55,6 +55,12 @@ export function Footer() {
               {t("feedback")}
             </Link>
             <Link
+              href="/metodo"
+              className="block text-secondary/60 hover:text-secondary transition-colors"
+            >
+              {t("method")}
+            </Link>
+            <Link
               href="/privacy"
               className="block text-secondary/60 hover:text-secondary transition-colors"
             >

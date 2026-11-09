@@ -37,14 +37,19 @@ export async function generateMetadata({
     languages: article.languages ?? ["it"],
     // Senza traduzione la pagina inglese ripete il testo italiano: canonical sull'originale.
     canonicalLocale: lang !== locale ? lang : undefined,
+    // Gli estratti ripetono il testo della fonte: visibili ma non indicizzati.
+    noindex: article.method === "extract",
     image: { url: `${pageUrl(lang, `/news/${slug}`)}/opengraph-image`, alt: article.title },
     article: {
       publishedTime: article.publishedAt ?? article.date,
-      // Le news non vengono modificate dopo la pubblicazione.
-      modifiedTime: article.publishedAt ?? article.date,
+      modifiedTime: article.updatedAt ?? article.publishedAt ?? article.date,
       section: t(`categories.${article.category}`),
     },
   });
+}
+
+function autoNoteKey(article: NewsArticle) {
+  return article.method === "extract" ? "autoNoteExtract" : "autoNoteAi";
 }
 
 export default async function NewsDetailPage({
@@ -117,7 +122,7 @@ function ArticleContent({
       url,
       mainEntityOfPage: { "@id": `${url}#webpage` },
       datePublished: published,
-      dateModified: published,
+      dateModified: article.updatedAt ?? published,
       articleSection: t(`categories.${article.category}`),
       // Immagine propria (opengraph-image.tsx accanto): la foto della fonte resta
       // nella pagina con il suo credito, ma non la dichiariamo come nostra.
@@ -131,7 +136,7 @@ function ArticleContent({
         publisher: { "@type": "Organization", name: article.source },
       },
       citation: article.sourceUrl,
-      ...(article.auto ? { abstract: t("autoNote") } : {}),
+      ...(article.auto ? { abstract: t(autoNoteKey(article)) } : {}),
     },
   ];
 
@@ -205,7 +210,12 @@ function ArticleContent({
             )}
           </p>
           {article.auto && (
-            <p className="text-xs text-on-surface-variant">{t("autoNote")}</p>
+            <p className="text-xs text-on-surface-variant">
+              {t(autoNoteKey(article))}{" "}
+              <Link href="/metodo" className="font-bold text-primary hover:underline">
+                {t("methodLink")}
+              </Link>
+            </p>
           )}
         </div>
 

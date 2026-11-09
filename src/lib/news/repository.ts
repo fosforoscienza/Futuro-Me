@@ -42,6 +42,7 @@ function toArticle(row: NewsArticleRow, locale: string): NewsArticle {
     lang: en ? "en" : "it",
     languages: row.title_en ? ["it", "en"] : ["it"],
     publishedAt: row.published_at,
+    method: row.summary_method,
   };
 }
 

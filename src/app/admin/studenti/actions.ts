@@ -108,7 +108,9 @@ export async function changeOwnPassword(_prev: StaffState, form: FormData): Prom
   const current = String(form.get("current") ?? "");
   const next = String(form.get("next") ?? "");
   if (next.length < 12) return { ok: false, message: "Per lo staff servono almeno 12 caratteri." };
-  if (passwordError(next)) return { ok: false, message: "Password troppo lunga (massimo 72 caratteri)." };
+  const weak = passwordError(next, account.username);
+  if (weak === "passwordLong") return { ok: false, message: "Password troppo lunga (massimo 72 caratteri)." };
+  if (weak) return { ok: false, message: "Password troppo facile da indovinare: evita parole comuni, sequenze e il tuo username." };
   if (next !== String(form.get("next2") ?? "")) return { ok: false, message: "Le due password non coincidono." };
 
   const { data } = await db.from("account").select("password_hash").eq("id", account.id).single();

@@ -11,7 +11,7 @@ import { CastAvatar } from "@/components/avatar/CastAvatar";
 import { FIRST_PLENARY, plenaryStatus, type PlenarySlot } from "@/lib/plenarie";
 import { NewsImage } from "@/components/news/NewsImage";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ORGANIZATION_ID, pageMetadata, pageUrl, webPageNodes } from "@/lib/seo";
+import { pageMetadata, webPageNodes } from "@/lib/seo";
 
 // Ultime news dal job settimanale: al massimo un'ora di ritardo, e la home
 // viene rigenerata subito dopo ogni pubblicazione.
@@ -66,7 +66,6 @@ function HomeContent({
   const sections = [
     { title: t("home.marketTitle"), desc: t("home.marketDesc"), href: "/mercato-lavoro" as const },
     { title: t("home.projectTitle"), desc: t("home.projectDesc"), href: "/progetto" as const },
-    { title: t("home.archiveTitle"), desc: t("home.archiveDesc"), href: "/archivio" as const },
   ];
 
   const status = plenaryStatus(FIRST_PLENARY.map((p) => p.date));
@@ -83,39 +82,12 @@ function HomeContent({
   const newsDate = (iso: string) =>
     new Date(iso).toLocaleDateString(dateLocale, { day: "numeric", month: "long", year: "numeric" });
 
-  // Ora italiana di novembre (CET, +01:00), come gli orari della Plenaria.
-  const at = (iso: string, time: string) => `${iso}T${time.padStart(5, "0")}:00+01:00`;
-  const plenaryEvents = FIRST_PLENARY.map((p) => ({
-    "@type": "Event",
-    "@id": `${pageUrl(locale)}#plenaria-${p.date}`,
-    name: t("meta.plenaryEvent", { school: p.school }),
-    description: [
-      t("home.plenary.intro"),
-      ...p.slots.map((s) => `${s.from}-${s.to}: ${slotText(s)}.`),
-    ].join(" "),
-    startDate: at(p.date, p.slots[0].from),
-    endDate: at(p.date, p.slots[p.slots.length - 1].to),
-    eventStatus: "https://schema.org/EventScheduled",
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    inLanguage: "it",
-    location: {
-      "@type": "Place",
-      name: p.place ? `${p.place} (${p.partner})` : p.partner,
-      address: {
-        "@type": "PostalAddress",
-        ...(p.town ? { addressLocality: p.town } : {}),
-        addressRegion: "AN",
-        addressCountry: "IT",
-      },
-    },
-    organizer: { "@id": ORGANIZATION_ID },
-    audience: { "@type": "EducationalAudience", educationalRole: "student" },
-  }));
-
   return (
     <div className="pb-24 md:pb-12">
       <JsonLd
         data={[
+          // Niente Event per le Plenarie: sono incontri a scuola per le classi,
+          // esclusi dai risultati evento di Google. Il calendario resta nella pagina.
           ...webPageNodes({
             locale,
             path: "",
@@ -123,7 +95,6 @@ function HomeContent({
             description: t("meta.description"),
             homeName: t("nav.home"),
           }),
-          ...plenaryEvents,
         ]}
       />
       <HeroAnimated />

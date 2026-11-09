@@ -22,12 +22,17 @@ export type NewsArticle = {
   languages?: ("it" | "en")[];
   /** Pubblicazione su Il Futuro Me, se diversa da `date` (data dell'originale). */
   publishedAt?: string;
+  /** News del job: riassunto AI o estratto della fonte (questo non è indicizzato). */
+  method?: "ai" | "extract";
+  /** Ultima revisione del testo, se successiva alla pubblicazione. */
+  updatedAt?: string;
 };
 
 /**
  * News scritte a mano. I numeri sono stati ricontrollati sulle fonti
- * originali il 2 novembre 2026 (vedi docs/news-automation.md); le news
- * settimanali arrivano invece dal database (src/lib/news/repository.ts).
+ * originali il 2 novembre 2026 (vedi docs/news-automation.md): `publishedAt` è
+ * il giorno in cui il testo attuale è entrato nel sito (storia git), `updatedAt`
+ * quello del ricontrollo. Le news settimanali arrivano invece dal database (src/lib/news/repository.ts).
  */
 export const newsArticles: NewsArticle[] = [
   {
@@ -57,6 +62,8 @@ Sette aziende su dieci considerano il pensiero analitico la competenza fondament
 Le imprese che operano in Italia prevedono una crescita netta per ingegneri della robotica, ingegneri delle energie rinnovabili e ingegneri ambientali, e quindi più domanda di competenze in AI, reti, cybersecurity e tutela dell'ambiente. L'85% di loro punta a far crescere le competenze dei propri dipendenti.`,
     category: "ai",
     date: "2025-01-07",
+    publishedAt: "2026-04-13",
+    updatedAt: "2026-11-02",
     source: "World Economic Forum — Future of Jobs Report 2025",
     sourceUrl: "https://reports.weforum.org/docs/WEF_Future_of_Jobs_Report_2025.pdf",
     imageUrl:
@@ -92,6 +99,8 @@ LinkedIn stima che entro il 2030 il 70% delle competenze usate nella maggior par
 Per chi si sta orientando, il messaggio è chiaro: pensiero critico, comunicazione e capacità di imparare cose nuove durano più a lungo di qualsiasi singolo strumento tecnologico.`,
     category: "skills",
     date: "2025-03-19",
+    publishedAt: "2026-04-13",
+    updatedAt: "2026-11-02",
     source: "LinkedIn News — Skills on the Rise 2025",
     sourceUrl:
       "https://www.linkedin.com/pulse/linkedin-skills-rise-2025-15-fastest-growing-us-linkedin-news-hy0le",
@@ -122,6 +131,7 @@ Le previsioni del Sistema Excelsior di Unioncamere per il 2025-2029 indicano che
 La domanda c'è e le imprese faticano a trovare persone preparate: per chi si sta orientando, i percorsi tecnici e scientifici legati all'ambiente e all'energia sono una strada concreta.`,
     category: "jobs",
     date: "2025-11-11",
+    publishedAt: "2026-11-02",
     source: "Fondazione Symbola e Unioncamere — Rapporto GreenItaly 2025",
     sourceUrl:
       "https://symbola.net/wp-content/uploads/2025/11/comunicatostampa2025-002.pdf",
@@ -159,6 +169,8 @@ Nel 2025, secondo Eurostat, solo il 54,3% delle persone tra 16 e 74 anni in Ital
 I bandi e i progetti finanziati sono pubblicati sul sito del Fondo per la Repubblica Digitale. Per i minorenni serve l'autorizzazione di un genitore o tutore.`,
     category: "training",
     date: "2024-09-21",
+    publishedAt: "2026-04-13",
+    updatedAt: "2026-11-02",
     source: "TiConsiglio — Fondo per la Repubblica Digitale",
     sourceUrl: "https://www.ticonsiglio.com/fondo-repubblica-digitale-formazione/",
     imageUrl:
@@ -193,6 +205,8 @@ L'articolo riporta che, secondo LinkedIn, gli annunci di lavoro che citano l'int
 Nell'era dell'AI le competenze umanistiche (linguaggio, logica, comunicazione) contano quanto quelle tecniche: anche chi non ha una formazione informatica può avvicinarsi a questo mondo.`,
     category: "ai",
     date: "2024-10-23",
+    publishedAt: "2026-04-13",
+    updatedAt: "2026-11-02",
     source: "Il Sole 24 Ore — The Prompt Engineer, a key figure in AI",
     sourceUrl:
       "https://en.ilsole24ore.com/art/the-prompt-engineer-key-figure-manage-challenges-of-artificial-intelligence-company-AFoifbqD",
@@ -221,6 +235,7 @@ Nelle Marche nel 2023 i rapporti di apprendistato erano in media 20.883 (+1,5%).
 L'apprendistato permette di lavorare e studiare insieme, con un contratto e uno stipendio. Il primo livello, pensato per i più giovani, consente di prendere una qualifica o un diploma imparando direttamente in azienda: nelle Marche, dove l'artigianato pesa molto, è una strada concreta.`,
     category: "jobs",
     date: "2026-09-01", // il rapporto è datato "settembre 2026"
+    publishedAt: "2026-11-02",
     source: "INAPP — XXIII Rapporto di monitoraggio sull'apprendistato (Ministero del Lavoro)",
     sourceUrl:
       "https://www.lavoro.gov.it/temi-e-priorita-orientamento-e-formazione/studi-e-statistiche/xxiii-rapporto-di-monitoraggio-2023-2024",

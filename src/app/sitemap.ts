@@ -7,12 +7,17 @@ export const revalidate = 3600;
 
 // Solo pagine indicizzabili: fuori archivio (contenuti d'esempio), questionario,
 // avatar, accesso, area studenti e console /admin (tutte noindex).
-const staticRoutes = ["", "/progetto", "/mercato-lavoro", "/news", "/contatti", "/privacy"];
+const staticRoutes = ["", "/progetto", "/mercato-lavoro", "/news", "/metodo", "/contatti", "/privacy"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Le news del job arrivano dal database: la sitemap si aggiorna da sola.
-  const news = await getAllNews("it");
-  const latest = news[0]?.publishedAt ?? news[0]?.date;
+  // Gli estratti delle fonti sono noindex: fuori dalla sitemap.
+  const news = (await getAllNews("it")).filter((a) => a.method !== "extract");
+  // Le news sono ordinate per data della fonte: l'ultima pubblicata va cercata.
+  const latest = news
+    .map((a) => a.updatedAt ?? a.publishedAt ?? a.date)
+    .sort()
+    .at(-1);
 
   const staticEntries = staticRoutes.flatMap((route) => {
     const languages = languageAlternates(route);
@@ -32,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const languages = languageAlternates(path, available);
     return available.map((locale) => ({
       url: pageUrl(locale, path),
-      lastModified: new Date(article.publishedAt ?? article.date),
+      lastModified: new Date(article.updatedAt ?? article.publishedAt ?? article.date),
       changeFrequency: "monthly" as const,
       priority: 0.6,
       ...(languages ? { alternates: { languages } } : {}),

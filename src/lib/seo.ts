@@ -202,6 +202,7 @@ export function siteGraph(texts: SiteTexts): Node[] {
         { "@type": "City", name: "Ostra" },
       ],
       knowsLanguage: ["it", "en"],
+      publishingPrinciples: pageUrl(defaultLocale, "/metodo"),
     },
     partnerNode(lead),
     ...others.map(partnerNode),
