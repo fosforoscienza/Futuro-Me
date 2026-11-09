@@ -57,12 +57,12 @@ export function NavbarClient() {
               {locale === "it" ? "EN" : "IT"}
             </span>
           </button>
-          {/* Login unico: gli studenti vanno alla loro area, admin e gestore alla console */}
+          {/* Gli studenti entrano nel questionario con il token; lo staff accede da /accedi */}
           <Link
-            href="/accedi"
+            href="/questionario"
             className="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2 rounded-xl font-bold active:scale-95 duration-200"
           >
-            {t("signIn")}
+            {t("questionnaire")}
           </Link>
           <button
             className="md:hidden text-secondary cursor-pointer"

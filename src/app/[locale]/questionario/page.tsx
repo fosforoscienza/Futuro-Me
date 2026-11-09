@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMetadata } from "@/lib/seo";
-import { Questionario } from "@/components/questionario/Questionario";
+import { TokenGate } from "@/components/questionario/TokenGate";
 
-// Pagina non ancora collegata dal sito: esclusa da motori di ricerca e sitemap.
+// Si compila in classe con il token: esclusa da motori di ricerca e sitemap.
 export async function generateMetadata({
   params,
 }: {
@@ -28,5 +28,5 @@ export default async function QuestionarioPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return <Questionario />;
+  return <TokenGate />;
 }

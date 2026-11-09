@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Link } from "@/i18n/routing";
-import { login, signup, type AuthState } from "@/lib/auth/actions";
+import { login, type AuthState } from "@/lib/auth/actions";
 
 const input =
   "w-full rounded-xl border border-outline-variant bg-surface-container-lowest px-4 py-3 text-base text-on-surface focus:outline-2 focus:outline-secondary";
@@ -105,98 +105,9 @@ export function LoginForm() {
         </Link>
       </p>
       <p className="text-sm text-on-surface-variant pt-2 border-t border-outline-variant/60">
-        {t("noAccount")}{" "}
-        <Link href="/registrati" className="font-bold text-secondary underline underline-offset-4">
-          {t("signupLink")}
-        </Link>
-      </p>
-    </form>
-  );
-}
-
-export function SignupForm() {
-  const t = useTranslations("account");
-  const locale = useLocale();
-  const [state, action, pending] = useActionState(signup, null);
-
-  return (
-    <form action={action} className="space-y-5">
-      <input type="hidden" name="locale" value={locale} />
-      <div>
-        <label htmlFor="codice" className={label}>
-          {t("classCode")}
-        </label>
-        <input
-          id="codice"
-          name="codice"
-          autoComplete="off"
-          autoCapitalize="characters"
-          autoCorrect="off"
-          spellCheck={false}
-          required
-          maxLength={20}
-          placeholder={t("classCodePlaceholder")}
-          defaultValue={state?.values?.codice}
-          key={`c-${state?.values?.codice}`}
-          className={`${input} uppercase tracking-widest placeholder:normal-case placeholder:tracking-normal`}
-        />
-      </div>
-      <div>
-        <label htmlFor="username" className={label}>
-          {t("username")}
-        </label>
-        <input
-          id="username"
-          name="username"
-          autoComplete="username"
-          autoCapitalize="none"
-          autoCorrect="off"
-          spellCheck={false}
-          required
-          minLength={3}
-          maxLength={24}
-          pattern="[a-zA-Z0-9._]{3,24}"
-          aria-describedby="username-hint"
-          defaultValue={state?.values?.username}
-          key={`u-${state?.values?.username}`}
-          className={input}
-        />
-        <p id="username-hint" className={hint}>
-          {t("usernameHint")}
-        </p>
-      </div>
-      <div>
-        <label htmlFor="password" className={label}>
-          {t("password")}
-        </label>
-        <PasswordInput id="password" autoComplete="new-password" describedBy="password-hint" minLength={8} />
-        <p id="password-hint" className={hint}>
-          {t("passwordHint")}
-        </p>
-      </div>
-      <div>
-        <label htmlFor="password2" className={label}>
-          {t("passwordConfirm")}
-        </label>
-        <PasswordInput id="password2" autoComplete="new-password" minLength={8} />
-      </div>
-      <ErrorMessage state={state} />
-      <button type="submit" disabled={pending} className={submit}>
-        {pending ? t("signupPending") : t("signupButton")} <ArrowRight size={16} />
-      </button>
-      <p className={hint}>
-        {t.rich("privacyNote", {
-          link: (chunks) => (
-            <Link href="/privacy" className="underline underline-offset-2 text-secondary">
-              {chunks}
-            </Link>
-          ),
-        })}
-      </p>
-      <p className="text-sm text-on-surface-variant pt-2 border-t border-outline-variant/60">
-        {t("haveAccount")}{" "}
-        <Link href="/accedi" className="font-bold text-secondary underline underline-offset-4">
-          {t("loginLink")}
+        {t("studentNote")}{" "}
+        <Link href="/questionario" className="font-bold text-secondary underline underline-offset-4">
+          {t("studentLink")}
         </Link>
       </p>
     </form>

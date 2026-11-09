@@ -1,13 +1,16 @@
 "use client";
 
 import { useActionState, useState, useTransition } from "react";
+import { MAX_TOKENS_PER_BATCH } from "@/lib/token/format";
+import { buildTokenPdf } from "@/lib/token/pdf";
 import {
   changeOwnPassword,
+  closeClassTokens,
   createClass,
-  resetStudentPassword,
-  setClassActive,
+  generateClassTokens,
   setFaseFine,
   type StaffState,
+  type TokenBatch,
 } from "./actions";
 
 const input =
@@ -15,7 +18,7 @@ const input =
 const button =
   "rounded-full px-4 py-2 text-sm font-bold transition-colors disabled:opacity-50 cursor-pointer";
 
-function Feedback({ state }: { state: StaffState }) {
+function Feedback({ state }: { state: StaffState | TokenBatch }) {
   if (!state) return null;
   return (
     <p role="status" className={`text-sm mt-2 ${state.ok ? "text-secondary" : "text-primary"}`}>
@@ -41,30 +44,12 @@ export function CreateClassForm() {
         <input id="nome" name="nome" required maxLength={40} placeholder="es. 3B" className={input} />
       </div>
       <button type="submit" disabled={pending} className={`${button} bg-secondary text-white hover:bg-secondary/90`}>
-        {pending ? "Creo…" : "Crea classe e codice"}
+        {pending ? "Creo…" : "Crea classe"}
       </button>
       <div className="sm:col-span-3">
         <Feedback state={state} />
       </div>
     </form>
-  );
-}
-
-export function ClassActiveButton({ id, attiva }: { id: string; attiva: boolean }) {
-  const [pending, startTransition] = useTransition();
-  const [state, setState] = useState<StaffState>(null);
-  return (
-    <div>
-      <button
-        type="button"
-        disabled={pending}
-        onClick={() => startTransition(async () => setState(await setClassActive(id, !attiva)))}
-        className={`${button} ${attiva ? "bg-surface-container-highest hover:bg-secondary/10" : "bg-secondary text-white"}`}
-      >
-        {attiva ? "Disattiva codice" : "Riattiva codice"}
-      </button>
-      {state && !state.ok && <Feedback state={state} />}
-    </div>
   );
 }
 
@@ -78,8 +63,8 @@ export function FaseFineToggle({ attiva }: { attiva: boolean }) {
         disabled={pending}
         onClick={() => {
           const question = attiva
-            ? "Chiudere \"Fine progetto\"? Gli studenti la vedranno di nuovo grigia."
-            : "Aprire \"Fine progetto\" a tutti gli studenti?";
+            ? "Chiudere \"Fine progetto\"? I token torneranno a compilare Inizio progetto."
+            : "Aprire \"Fine progetto\"? Da ora ogni token compila il questionario finale.";
           if (confirm(question)) startTransition(async () => setState(await setFaseFine(!attiva)));
         }}
         className={`${button} ${attiva ? "bg-surface-container-highest hover:bg-secondary/10" : "bg-primary text-on-primary hover:bg-primary-container"}`}
@@ -91,32 +76,92 @@ export function FaseFineToggle({ attiva }: { attiva: boolean }) {
   );
 }
 
-export function ResetPasswordButton({ id, username }: { id: string; username: string }) {
+/** Genera i token e scarica subito il PDF; i token restano solo in questo componente. */
+export function GenerateTokensForm({ classeId }: { classeId: string }) {
+  const [pending, startTransition] = useTransition();
+  const [count, setCount] = useState(25);
+  const [batch, setBatch] = useState<TokenBatch | null>(null);
+
+  const download = (b: Extract<TokenBatch, { ok: true }>) => {
+    const pdf = buildTokenPdf({
+      scuola: b.scuola,
+      classe: b.classe,
+      data: new Date().toLocaleDateString("it-IT", { timeZone: "Europe/Rome" }),
+      tokens: b.tokens,
+      url: "ilfuturome.it/questionario",
+    });
+    const url = URL.createObjectURL(new Blob([pdf as BlobPart], { type: "application/pdf" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `token-${b.classe}-${b.scuola}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60) + ".pdf";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  return (
+    <div>
+      <form
+        className="flex flex-wrap items-end gap-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          startTransition(async () => {
+            const result = await generateClassTokens(classeId, count);
+            setBatch(result);
+            if (result.ok) download(result);
+          });
+        }}
+      >
+        <label className="text-xs font-bold text-on-surface-variant">
+          Token
+          <input
+            type="number"
+            min={1}
+            max={MAX_TOKENS_PER_BATCH}
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+            className="ml-2 w-20 rounded-lg border border-outline-variant bg-white px-2 py-1.5 text-sm"
+          />
+        </label>
+        <button type="submit" disabled={pending} className={`${button} bg-secondary text-white hover:bg-secondary/90`}>
+          {pending ? "Genero…" : "Genera token e PDF"}
+        </button>
+      </form>
+      {batch?.ok ? (
+        <p role="status" className="text-sm mt-2 text-secondary">
+          {batch.message} PDF scaricato: stampalo e poi cancellalo dal computer.{" "}
+          <button type="button" onClick={() => download(batch)} className="font-bold underline cursor-pointer">
+            Scarica di nuovo
+          </button>
+        </p>
+      ) : (
+        <Feedback state={batch} />
+      )}
+    </div>
+  );
+}
+
+/** Solo admin: chiude gli abbinamenti della classe dopo la distruzione dei fogli. */
+export function CloseTokensButton({ classeId, label }: { classeId: string; label: string }) {
   const [pending, startTransition] = useTransition();
   const [state, setState] = useState<StaffState>(null);
   return (
-    <div className="text-right">
+    <div>
       <button
         type="button"
         disabled={pending}
         onClick={() => {
-          if (confirm(`Generare una nuova password per ${username}? Quella attuale smetterà di funzionare.`)) {
-            startTransition(async () => setState(await resetStudentPassword(id)));
-          }
+          const conferma = prompt(
+            `Chiudere gli abbinamenti di ${label}?\n\nFallo solo dopo il questionario finale e la distruzione dei fogli. ` +
+              "I token smetteranno di funzionare, quelli mai usati verranno eliminati e le coppie inizio/fine " +
+              "non saranno più collegabili ai fogli. Non si può annullare.\n\nScrivi CHIUDI per confermare."
+          );
+          if (conferma) startTransition(async () => setState(await closeClassTokens(classeId, conferma)));
         }}
-        className={`${button} bg-surface-container-highest hover:bg-secondary/10 whitespace-nowrap`}
+        className={`${button} bg-surface-container-highest hover:bg-primary hover:text-on-primary`}
       >
-        {pending ? "Genero…" : "Reimposta password"}
+        {pending ? "Chiudo…" : "Chiudi abbinamenti"}
       </button>
-      {state?.password ? (
-        <div role="status" className="mt-2 rounded-xl bg-tertiary-fixed px-3 py-2 text-left text-xs">
-          <p>{state.message}</p>
-          <p className="font-mono text-base font-bold tracking-wider select-all">{state.password}</p>
-          <p className="text-on-surface-variant">Comunicala allo studente: non verrà più mostrata.</p>
-        </div>
-      ) : (
-        <Feedback state={state} />
-      )}
+      <Feedback state={state} />
     </div>
   );
 }

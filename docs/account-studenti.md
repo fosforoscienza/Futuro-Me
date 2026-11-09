@@ -1,5 +1,9 @@
 # Account studenti, gestore e admin
 
+> **Superato il 9 novembre 2026** per gli studenti: il questionario ora usa i token
+> ([questionario-token.md](questionario-token.md)). Registrazione e accesso degli studenti
+> sono disattivati; restano validi gli account e le istruzioni per **gestore** e **admin**.
+
 Ogni ragazzo e ragazza ha un account per compilare **questionario + avatar** due volte: a
 **inizio** e a **fine progetto**. Lo staff ha due ruoli, **admin** e **gestore**.
 
@@ -47,9 +51,9 @@ Ogni ragazzo e ragazza ha un account per compilare **questionario + avatar** due
 
 1. Applicare la migrazione (idempotente):
    ```bash
-   ssh mac-mini 'docker exec -i supabase-db psql -v ON_ERROR_STOP=1 -U postgres -d postgres' \
+   ssh mac-mini '/usr/local/bin/docker exec -i supabase-db psql -v ON_ERROR_STOP=1 -U postgres -d postgres' \
      < supabase/migrations/20261103000000_account_studenti.sql
-   ssh mac-mini "docker exec supabase-db psql -U postgres -d postgres -c \"notify pgrst, 'reload schema';\""
+   ssh mac-mini "/usr/local/bin/docker exec supabase-db psql -U postgres -d postgres -c \"notify pgrst, 'reload schema';\""
    ```
 2. Creare i due account staff (stampa una password temporanea; Node 23.6+):
    ```bash

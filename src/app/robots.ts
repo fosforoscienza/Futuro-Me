@@ -1,9 +1,8 @@
 import type { MetadataRoute } from "next";
-import { locales } from "@/i18n/config";
 import { BASE_URL } from "@/lib/constants";
 
-// Aree private: console, API e area studenti (anche noindex nelle pagine).
-const disallow = ["/api/", "/admin", ...locales.map((l) => `/${l}/area`)];
+// Aree private: console e API (le pagine private sono anche noindex).
+const disallow = ["/api/", "/admin"];
 
 // Crawler dei motori AI (ricerca e risposte con citazioni): ammessi in modo esplicito.
 // Chi ha un gruppo suo ignora "*", quindi le esclusioni vanno ripetute.

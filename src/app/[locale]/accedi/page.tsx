@@ -20,7 +20,7 @@ export default async function AccediPage({ params }: { params: Promise<{ locale:
   setRequestLocale(locale);
 
   const account = await getSession();
-  if (account) redirect(account.ruolo === "studente" ? `/${locale}/area` : "/admin");
+  if (account && account.ruolo !== "studente") redirect("/admin");
 
   const t = await getTranslations("account");
   return (

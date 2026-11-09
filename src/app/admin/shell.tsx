@@ -3,16 +3,15 @@ import { redirect } from "next/navigation";
 import { LogoutForm } from "@/components/account/LogoutForm";
 import { getSession, type SessionAccount } from "@/lib/auth/session";
 
-/** Solo admin e gestore: gli altri vanno al login o alla propria area. */
+/** Solo admin e gestore: gli altri (anche i vecchi account studente) vanno al login. */
 export async function requireStaff(): Promise<SessionAccount> {
   const account = await getSession();
-  if (!account) redirect("/it/accedi");
-  if (account.ruolo === "studente") redirect("/it/area");
+  if (!account || account.ruolo === "studente") redirect("/it/accedi");
   return account;
 }
 
 const TABS = [
-  { href: "/admin/studenti", label: "Studenti", adminOnly: false },
+  { href: "/admin/studenti", label: "Questionario", adminOnly: false },
   { href: "/admin", label: "News", adminOnly: true },
   { href: "/admin/password", label: "La mia password", adminOnly: false },
 ];
