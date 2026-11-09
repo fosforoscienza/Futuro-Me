@@ -3,135 +3,129 @@ import { connection } from "next/server";
 import { isFaseFineAttiva } from "@/lib/auth/area";
 import { authDb } from "@/lib/auth/session";
 import { Shell, requireStaff } from "../shell";
-import { ClassActiveButton, CreateClassForm, FaseFineToggle, ResetPasswordButton } from "./components";
+import { CloseTokensButton, CreateClassForm, FaseFineToggle, GenerateTokensForm } from "./components";
 
-export const metadata: Metadata = { title: "Studenti | Il Futuro Me" };
+export const metadata: Metadata = { title: "Questionario | Il Futuro Me" };
 
-type Classe = { id: string; scuola: string; nome: string; codice: string; attiva: boolean; created_at: string };
-type Studente = {
-  id: string;
-  username: string;
-  classe_id: string;
-  created_at: string;
-  ultimo_accesso_at: string | null;
-};
+type Classe = { id: string; scuola: string; nome: string };
+type Token = { id: string; classe_id: string; chiuso_at: string | null };
+type Conteggi = { aperti: number; chiusi: number; inizio: number; fine: number; coppie: number };
 
-function formatDate(value: string | null) {
-  return value
-    ? new Date(value).toLocaleDateString("it-IT", { timeZone: "Europe/Rome", day: "numeric", month: "short", year: "2-digit" })
-    : "—";
-}
-
-export default async function StudentiPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ classe?: string; q?: string }>;
-}) {
+export default async function QuestionarioAdminPage() {
   await connection();
   const account = await requireStaff();
-  const { classe: classeFilter = "", q = "" } = await searchParams;
-  const search = q.trim().toLowerCase();
 
   const db = authDb();
   if (!db) {
     return (
-      <Shell account={account} title="Studenti" current="/admin/studenti">
+      <Shell account={account} title="Questionario" current="/admin/studenti">
         <p className="text-primary">Supabase non configurato: servono NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY.</p>
       </Shell>
     );
   }
 
-  const [classiRes, studentiRes, compilazioniRes, fineAttiva] = await Promise.all([
-    db.from("classi").select("id, scuola, nome, codice, attiva, created_at").order("scuola").order("nome"),
-    db
-      .from("account")
-      .select("id, username, classe_id, created_at, ultimo_accesso_at")
-      .eq("ruolo", "studente")
-      .order("username"),
-    db.from("questionario_risposte").select("account_id, fase").not("account_id", "is", null),
+  const [classiRes, tokenRes, risposteRes, legacyRes, fineAttiva] = await Promise.all([
+    db.from("classi").select("id, scuola, nome").order("scuola").order("nome"),
+    db.from("questionario_token").select("id, classe_id, chiuso_at"),
+    db.from("questionario_risposte").select("token_id, fase").not("token_id", "is", null),
+    db.from("account").select("id", { count: "exact", head: true }).eq("ruolo", "studente"),
     isFaseFineAttiva(db),
   ]);
-  const dbError = classiRes.error ?? studentiRes.error ?? compilazioniRes.error;
+  const dbError = classiRes.error ?? tokenRes.error ?? risposteRes.error;
   const classi = (classiRes.data ?? []) as Classe[];
-  const studenti = (studentiRes.data ?? []) as Studente[];
+  const tokens = (tokenRes.data ?? []) as Token[];
 
-  const fatte = new Map<string, Set<string>>();
-  for (const row of compilazioniRes.data ?? []) {
-    if (!fatte.has(row.account_id)) fatte.set(row.account_id, new Set());
-    fatte.get(row.account_id)!.add(row.fase);
+  const fasiPerToken = new Map<string, Set<string>>();
+  for (const row of risposteRes.data ?? []) {
+    if (!fasiPerToken.has(row.token_id)) fasiPerToken.set(row.token_id, new Set());
+    fasiPerToken.get(row.token_id)!.add(row.fase);
   }
-  const classeById = new Map(classi.map((c) => [c.id, c]));
-  const perClasse = (id: string) => studenti.filter((s) => s.classe_id === id);
-  const completate = (list: Studente[], fase: string) => list.filter((s) => fatte.get(s.id)?.has(fase)).length;
-
-  const visibili = studenti.filter(
-    (s) => (!classeFilter || s.classe_id === classeFilter) && (!search || s.username.includes(search))
-  );
+  const conta = (lista: Token[]): Conteggi => {
+    const c = { aperti: 0, chiusi: 0, inizio: 0, fine: 0, coppie: 0 };
+    for (const t of lista) {
+      const fasi = fasiPerToken.get(t.id);
+      if (t.chiuso_at) c.chiusi++;
+      else c.aperti++;
+      if (fasi?.has("inizio")) c.inizio++;
+      if (fasi?.has("fine")) c.fine++;
+      if (fasi?.has("inizio") && fasi.has("fine")) c.coppie++;
+    }
+    return c;
+  };
+  const totale = conta(tokens);
 
   return (
-    <Shell account={account} title="Studenti" current="/admin/studenti">
+    <Shell account={account} title="Questionario" current="/admin/studenti">
       {dbError && (
         <p className="mb-8 text-primary">
           Errore del database: {dbError.message}. Hai applicato la migrazione
-          supabase/migrations/20261103000000_account_studenti.sql?
+          supabase/migrations/20261109000000_questionario_token.sql?
         </p>
       )}
 
-      {/* Fasi */}
       <section className="bg-surface-container-low rounded-3xl p-6 md:p-8 mb-10">
-        <h2 className="text-xl font-bold text-secondary mb-4">Fasi del progetto</h2>
+        <h2 className="text-xl font-bold text-secondary mb-2">Come funziona</h2>
+        <ol className="list-decimal pl-5 space-y-1 text-sm text-on-surface-variant max-w-3xl">
+          <li>Genera i token della classe: si scarica un PDF con il foglio per gli psicologi e i biglietti da ritagliare.</li>
+          <li>In classe gli psicologi danno un biglietto a ogni studente e scrivono il nome a mano sul foglio. I nomi non entrano mai nel sito.</li>
+          <li>Gli studenti vanno su <strong>ilfuturome.it/questionario</strong> e scrivono il loro token.</li>
+          <li>A fine anno l&apos;admin attiva Fine progetto e gli psicologi ridanno a ognuno il suo token.</li>
+          <li>Dopo il questionario finale gli psicologi distruggono i fogli e l&apos;admin chiude gli abbinamenti della classe.</li>
+        </ol>
+      </section>
+
+      <section className="bg-surface-container-low rounded-3xl p-6 md:p-8 mb-10">
+        <h2 className="text-xl font-bold text-secondary mb-4">Fase aperta</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-surface-container-lowest rounded-2xl p-5">
-            <p className="font-bold text-secondary">Inizio progetto</p>
-            <p className="text-sm text-on-surface-variant">Sempre aperta.</p>
+            <p className="font-bold text-secondary">{fineAttiva ? "Fine progetto" : "Inizio progetto"}</p>
+            <p className="text-sm text-on-surface-variant">
+              {fineAttiva
+                ? "Chi scrive il token compila il questionario finale."
+                : "Chi scrive il token compila il questionario iniziale."}
+            </p>
             <p className="text-sm mt-2">
-              <strong>{completate(studenti, "inizio")}</strong> su {studenti.length} studenti hanno completato.
+              Inizio: <strong>{totale.inizio}</strong> · Fine: <strong>{totale.fine}</strong> · Coppie complete:{" "}
+              <strong>{totale.coppie}</strong>
             </p>
           </div>
           <div className="bg-surface-container-lowest rounded-2xl p-5">
-            <p className="font-bold text-secondary">Fine progetto</p>
-            <p className="text-sm text-on-surface-variant">
-              {fineAttiva ? "Aperta: gli studenti possono compilarla." : "Chiusa: gli studenti la vedono grigia."}
-            </p>
-            <p className="text-sm mt-2 mb-3">
-              <strong>{completate(studenti, "fine")}</strong> su {studenti.length} studenti hanno completato.
-            </p>
+            <p className="font-bold text-secondary mb-3">Interruttore</p>
             {account.ruolo === "admin" ? (
               <FaseFineToggle attiva={fineAttiva} />
             ) : (
-              <p className="text-xs text-on-surface-variant">La apre l&apos;admin dalla sua console.</p>
+              <p className="text-xs text-on-surface-variant">Lo cambia l&apos;admin dalla sua console.</p>
             )}
           </div>
         </div>
       </section>
 
-      {/* Classi */}
       <section className="mb-10">
-        <h2 className="text-xl font-bold text-secondary mb-1">Classi e codici ({classi.length})</h2>
+        <h2 className="text-xl font-bold text-secondary mb-1">Classi ({classi.length})</h2>
         <p className="text-sm text-on-surface-variant mb-4">
-          Dai il codice alla classe: ogni ragazzo e ragazza si registra da <strong>ilfuturome.it/it/registrati</strong>{" "}
-          scegliendo username e password. Disattiva il codice quando la classe si è registrata.
+          I token in chiaro si vedono solo nel PDF appena generato e non si possono ristampare: se un PDF si perde,
+          generane altri. Quelli mai usati vengono eliminati alla chiusura.
         </p>
         <ul className="space-y-3 mb-6">
           {classi.map((c) => {
-            const lista = perClasse(c.id);
+            const n = conta(tokens.filter((t) => t.classe_id === c.id));
             return (
-              <li
-                key={c.id}
-                className="bg-surface-container-lowest rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4"
-              >
-                <div className="min-w-0">
-                  <p className="font-bold text-secondary">
-                    {c.nome} · <span className="font-normal">{c.scuola}</span>
-                    {!c.attiva && <span className="ml-2 text-xs text-primary font-bold">CODICE DISATTIVATO</span>}
-                  </p>
-                  <p className="font-mono text-lg font-bold tracking-wider select-all break-all">{c.codice}</p>
-                  <p className="text-xs text-on-surface-variant">
-                    {lista.length} registrati · inizio {completate(lista, "inizio")}/{lista.length} · fine{" "}
-                    {completate(lista, "fine")}/{lista.length}
-                  </p>
+              <li key={c.id} className="bg-surface-container-lowest rounded-2xl p-5 space-y-4">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="font-bold text-secondary">
+                      {c.nome} · <span className="font-normal">{c.scuola}</span>
+                    </p>
+                    <p className="text-xs text-on-surface-variant">
+                      {n.aperti} token attivi · inizio {n.inizio} · fine {n.fine} · coppie {n.coppie}
+                      {n.chiusi > 0 && ` · ${n.chiusi} chiusi`}
+                    </p>
+                  </div>
+                  {account.ruolo === "admin" && n.aperti > 0 && (
+                    <CloseTokensButton classeId={c.id} label={`${c.nome} · ${c.scuola}`} />
+                  )}
                 </div>
-                <ClassActiveButton id={c.id} attiva={c.attiva} />
+                <GenerateTokensForm classeId={c.id} />
               </li>
             );
           })}
@@ -144,81 +138,16 @@ export default async function StudentiPage({
         </details>
       </section>
 
-      {/* Studenti */}
-      <section>
-        <h2 className="text-xl font-bold text-secondary mb-4">
-          Studenti ({visibili.length}
-          {visibili.length !== studenti.length ? ` di ${studenti.length}` : ""})
-        </h2>
-        <form method="get" className="flex flex-wrap gap-3 items-end mb-6">
-          <div>
-            <label className="block text-xs font-bold text-on-surface-variant mb-1" htmlFor="classe">
-              Classe
-            </label>
-            <select
-              id="classe"
-              name="classe"
-              defaultValue={classeFilter}
-              className="rounded-lg border border-outline-variant bg-white px-3 py-2 text-sm"
-            >
-              <option value="">Tutte</option>
-              {classi.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.nome} · {c.scuola}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-on-surface-variant mb-1" htmlFor="q">
-              Username
-            </label>
-            <input
-              id="q"
-              name="q"
-              defaultValue={q}
-              placeholder="Cerca…"
-              className="rounded-lg border border-outline-variant bg-white px-3 py-2 text-sm"
-            />
-          </div>
-          <button
-            type="submit"
-            className="rounded-full px-4 py-2 text-sm font-bold bg-secondary text-white hover:bg-secondary/90 cursor-pointer"
-          >
-            Filtra
-          </button>
-        </form>
-
-        {visibili.length === 0 ? (
-          <p className="text-sm text-on-surface-variant">Nessuno studente.</p>
-        ) : (
-          <ul className="space-y-2">
-            {visibili.map((s) => {
-              const classe = classeById.get(s.classe_id);
-              const fasi = fatte.get(s.id);
-              return (
-                <li
-                  key={s.id}
-                  className="bg-surface-container-lowest rounded-xl p-4 flex flex-wrap items-start justify-between gap-3"
-                >
-                  <div className="min-w-0 text-sm">
-                    <p className="font-bold text-secondary break-all">{s.username}</p>
-                    <p className="text-xs text-on-surface-variant">
-                      {classe ? `${classe.nome} · ${classe.scuola}` : "—"} · registrato {formatDate(s.created_at)} ·
-                      ultimo accesso {formatDate(s.ultimo_accesso_at)}
-                    </p>
-                    <p className="text-xs mt-1">
-                      Inizio: <strong>{fasi?.has("inizio") ? "✓ completato" : "da fare"}</strong> · Fine:{" "}
-                      <strong>{fasi?.has("fine") ? "✓ completato" : "da fare"}</strong>
-                    </p>
-                  </div>
-                  <ResetPasswordButton id={s.id} username={s.username} />
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </section>
+      {(legacyRes.count ?? 0) > 0 && (
+        <section className="bg-surface-container-low rounded-3xl p-6 md:p-8">
+          <h2 className="text-xl font-bold text-secondary mb-2">Account studenti del sistema precedente</h2>
+          <p className="text-sm text-on-surface-variant max-w-3xl">
+            Nel database ci sono ancora <strong>{legacyRes.count}</strong> account studente con le loro risposte.
+            Registrazione e accesso sono disattivati; i dati restano finché non vengono cancellati (vedi
+            docs/questionario-token.md).
+          </p>
+        </section>
+      )}
     </Shell>
   );
 }

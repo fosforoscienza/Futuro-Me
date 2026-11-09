@@ -74,17 +74,24 @@ const sectionOf = new Map(
 
 const headline = "font-[var(--font-plus-jakarta)]";
 
-const FASE_LABEL: Record<Fase, string> = {
+export const FASE_LABEL: Record<Fase, string> = {
   inizio: "Inizio progetto",
   fine: "Fine progetto",
 };
 
+/** Risposte della API che dipendono dal token: lo studente resta sulla pagina con le sue risposte. */
+const TOKEN_SUBMIT_ERRORS: Record<number, string> = {
+  404: "Questo token non è più valido. Chiedi aiuto allo psicologo del progetto: le tue risposte restano in questa pagina.",
+  409: "Con questo token questa fase è già stata compilata. Chiedi aiuto allo psicologo del progetto.",
+  429: "Troppi tentativi da questa rete: aspetta qualche minuto e premi di nuovo «Invia risposte».",
+};
+
 /**
- * Senza `fase` è il questionario anonimo della pagina /questionario.
- * Con `fase` è quello dell'area personale: le risposte si legano all'account
- * dello studente e alla fase, e alla fine si torna all'area (`areaHref`).
+ * Questionario + avatar di una fase, legato al token dello studente (già
+ * verificato da TokenGate). `onExit` torna alla richiesta del token: sui PC
+ * dell'aula il compagno successivo non vede nulla di chi ha appena finito.
  */
-export function Questionario({ fase, areaHref }: { fase?: Fase; areaHref?: string } = {}) {
+export function Questionario({ token, fase, onExit }: { token: string; fase: Fase; onExit: () => void }) {
   const [status, setStatus] = useState<Status>("intro");
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
@@ -127,16 +134,6 @@ export function Questionario({ fase, areaHref }: { fase?: Fase; areaHref?: strin
     scrollToTop();
   };
 
-  const restart = () => {
-    setAnswers({});
-    setAvatar(DEFAULT_SELECTION);
-    setStepIndex(0);
-    setShowErrors(false);
-    setSubmitError(null);
-    setStatus("intro");
-    scrollToTop();
-  };
-
   const submit = async () => {
     setStatus("sending");
     setSubmitError(null);
@@ -144,18 +141,12 @@ export function Questionario({ fase, areaHref }: { fase?: Fase; areaHref?: strin
       const res = await fetch("/api/questionario", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers, avatar, website, fase }),
+        body: JSON.stringify({ answers, avatar, website, token }),
       });
-      if (res.status === 401) {
+      const tokenError = TOKEN_SUBMIT_ERRORS[res.status];
+      if (tokenError) {
         setStatus("form");
-        setSubmitError(
-          "La tua sessione è scaduta. Apri un'altra scheda, accedi di nuovo e poi torna qui per inviare: le risposte restano in questa pagina."
-        );
-        return;
-      }
-      if (res.status === 409) {
-        // Già compilato (es. da un altro dispositivo): mostra l'area aggiornata.
-        if (areaHref) window.location.assign(areaHref);
+        setSubmitError(tokenError);
         return;
       }
       if (!res.ok) throw new Error(String(res.status));
@@ -202,7 +193,7 @@ export function Questionario({ fase, areaHref }: { fase?: Fase; areaHref?: strin
         <div className="flex items-center gap-2 mb-4">
           <Sparkles size={16} className="text-primary" />
           <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">
-            {fase ? FASE_LABEL[fase] : "Questionario anonimo"}
+            {FASE_LABEL[fase]}
           </p>
         </div>
         <h1
@@ -217,14 +208,9 @@ export function Questionario({ fase, areaHref }: { fase?: Fase; areaHref?: strin
         ref={topRef}
         className={`${step.kind === "avatar" || status === "done" ? "max-w-6xl" : "max-w-3xl"} mx-auto px-6 scroll-mt-28`}
       >
-        {status === "intro" && <Intro onStart={start} personal={Boolean(fase)} />}
+        {status === "intro" && <Intro onStart={start} />}
 
-        {status === "done" &&
-          (fase && areaHref ? (
-            <QuestionarioDone avatar={avatar} backHref={areaHref} />
-          ) : (
-            <QuestionarioDone avatar={avatar} onRestart={restart} />
-          ))}
+        {status === "done" && <QuestionarioDone avatar={avatar} onExit={onExit} />}
 
         {(status === "form" || status === "sending") && (
           <>
@@ -341,7 +327,7 @@ export function Questionario({ fase, areaHref }: { fase?: Fase; areaHref?: strin
   );
 }
 
-function Intro({ onStart, personal }: { onStart: () => void; personal: boolean }) {
+function Intro({ onStart }: { onStart: () => void }) {
   return (
     <div className="bg-surface-container-low p-8 md:p-10 rounded-[1.5rem] max-w-3xl">
       <h2 className={`text-2xl ${headline} font-bold text-secondary mb-4`}>
@@ -360,9 +346,7 @@ function Intro({ onStart, personal }: { onStart: () => void; personal: boolean }
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
           <ShieldCheck size={20} className="text-secondary shrink-0" />
           <span className="text-sm font-bold text-secondary">
-            {personal
-              ? "Senza nome: resta legato solo al tuo username"
-              : "Anonimo: non ti chiediamo il nome"}
+            Senza nome: conta solo il tuo token
           </span>
         </li>
         <li className="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-3">
@@ -379,10 +363,9 @@ function Intro({ onStart, personal }: { onStart: () => void; personal: boolean }
         </li>
       </ul>
       <p className="mt-6 text-sm text-on-surface-variant leading-relaxed">
-        {personal
-          ? "Le risposte e l’avatar saranno collegati al tuo account. "
-          : "Le risposte non saranno collegate a un account. "}
-        Non inserire nomi, contatti, informazioni sulla salute o altri dati personali
+        Le risposte e l’avatar sono collegati solo al token, così a fine progetto
+        possiamo confrontarli con quelli di inizio progetto. Dopo il questionario
+        finale il collegamento con il foglio dei nomi viene distrutto. Non inserire nomi, contatti, informazioni sulla salute o altri dati personali
         tuoi o di altre persone nei campi liberi.{" "}
         <Link href="/privacy" className="font-bold text-secondary underline underline-offset-2">
           Leggi l’informativa privacy
@@ -399,24 +382,8 @@ function Intro({ onStart, personal }: { onStart: () => void; personal: boolean }
   );
 }
 
-/** Avatar finale con download; nell'area personale riporta all'area invece di ricominciare. */
-export function QuestionarioDone({
-  avatar,
-  onRestart,
-  backHref,
-  title = "Grazie!",
-  text = "Le tue risposte sono state inviate. Ecco il tuo Futuro Me: puoi salvarlo e tenerlo come ricordo.",
-  downloadLabel = "Scarica l'avatar",
-  backLabel = "Torna alla tua area",
-}: {
-  avatar: AvatarSelection;
-  onRestart?: () => void;
-  backHref?: string;
-  title?: string;
-  text?: string;
-  downloadLabel?: string;
-  backLabel?: string;
-}) {
+/** Avatar finale con download; "Ho finito" torna alla richiesta del token. */
+function QuestionarioDone({ avatar, onExit }: { avatar: AvatarSelection; onExit: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const download = () => {
     canvasRef.current?.toBlob((blob) => {
@@ -450,36 +417,27 @@ export function QuestionarioDone({
           <div className="bg-white/15 p-3 rounded-xl w-fit mb-6">
             <Check size={28} />
           </div>
-          <h2 className={`text-3xl ${headline} font-extrabold mb-4`}>
-            {title}
-          </h2>
-          <p className="text-white/80 text-lg leading-relaxed max-w-xl">{text}</p>
+          <h2 className={`text-3xl ${headline} font-extrabold mb-4`}>Grazie!</h2>
+          <p className="text-white/80 text-lg leading-relaxed max-w-xl">
+            Le tue risposte sono state inviate. Ecco il tuo Futuro Me: puoi salvarlo e
+            tenerlo come ricordo. Poi premi «Ho finito», così il prossimo compagno
+            può scrivere il suo token.
+          </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               type="button"
               onClick={download}
               className="bg-white text-secondary px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:scale-105 transition-transform cursor-pointer"
             >
-              <Download size={16} /> {downloadLabel}
+              <Download size={16} /> Scarica l&apos;avatar
             </button>
-            {backHref ? (
-              <a
-                href={backHref}
-                className="bg-white/15 text-white px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:bg-white/25 transition-colors"
-              >
-                <ArrowLeft size={16} /> {backLabel}
-              </a>
-            ) : (
-              onRestart && (
-                <button
-                  type="button"
-                  onClick={onRestart}
-                  className="bg-white/15 text-white px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:bg-white/25 transition-colors cursor-pointer"
-                >
-                  <RotateCcw size={16} /> Nuova compilazione
-                </button>
-              )
-            )}
+            <button
+              type="button"
+              onClick={onExit}
+              className="bg-white/15 text-white px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 hover:bg-white/25 transition-colors cursor-pointer"
+            >
+              <RotateCcw size={16} /> Ho finito
+            </button>
           </div>
         </div>
         <div className="absolute -right-6 -bottom-6 opacity-10">

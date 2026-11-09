@@ -105,7 +105,7 @@ idempotente: si può rilanciare senza duplicare nulla.
   questionario (vedi HANDOFF.md):
 
   ```bash
-  ssh mac-mini 'docker exec -i supabase-db psql -U postgres -d postgres' \
+  ssh mac-mini '/usr/local/bin/docker exec -i supabase-db psql -U postgres -d postgres' \
     < supabase/migrations/20261102000000_news_automation.sql
   ```
 

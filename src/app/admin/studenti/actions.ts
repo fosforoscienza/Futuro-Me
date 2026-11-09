@@ -1,13 +1,20 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { generateClassCode, generatePassword, hashPassword, passwordError, verifyPassword } from "@/lib/auth/password";
+import { generateClassCode, hashPassword, passwordError, verifyPassword } from "@/lib/auth/password";
+import { MAX_TOKENS_PER_BATCH } from "@/lib/token/format";
+import { generateToken, hashToken } from "@/lib/token/server";
 import { authDb, createSession, getSession } from "@/lib/auth/session";
 
-export type StaffState = { ok: boolean; message: string; password?: string } | null;
+export type StaffState = { ok: boolean; message: string } | null;
 
-const NOT_ALLOWED: StaffState = { ok: false, message: "Sessione scaduta: rientra." };
-const NO_DB: StaffState = { ok: false, message: "Supabase non configurato." };
+/** Token appena generati: in chiaro solo in questa risposta, per costruire il PDF nel browser. */
+export type TokenBatch =
+  | { ok: true; message: string; tokens: string[]; scuola: string; classe: string }
+  | { ok: false; message: string };
+
+const NOT_ALLOWED = { ok: false, message: "Sessione scaduta: rientra." } as const;
+const NO_DB = { ok: false, message: "Supabase non configurato." } as const;
 
 function field(form: FormData, name: string): string {
   const value = form.get(name);
@@ -17,39 +24,6 @@ function field(form: FormData, name: string): string {
 async function staff() {
   const account = await getSession();
   return account?.ruolo === "admin" || account?.ruolo === "gestore" ? account : null;
-}
-
-/**
- * Nuova password temporanea per uno studente. Admin e gestore possono
- * reimpostare solo gli account studente (non quelli dello staff). Chiude le
- * sessioni aperte dello studente; la password si vede solo in questa risposta.
- */
-export async function resetStudentPassword(accountId: string): Promise<StaffState> {
-  if (!(await staff())) return NOT_ALLOWED;
-  const db = authDb();
-  if (!db) return NO_DB;
-
-  const { data: student } = await db
-    .from("account")
-    .select("id, username, ruolo")
-    .eq("id", accountId)
-    .maybeSingle();
-  if (!student || student.ruolo !== "studente") {
-    return { ok: false, message: "Si possono reimpostare solo le password degli studenti." };
-  }
-
-  const password = generatePassword();
-  const { error } = await db
-    .from("account")
-    .update({ password_hash: await hashPassword(password), password_cambiata_at: new Date().toISOString() })
-    .eq("id", student.id);
-  if (error) return { ok: false, message: error.message };
-  await Promise.all([
-    db.from("sessioni").delete().eq("account_id", student.id),
-    db.from("login_tentativi").delete().eq("username", student.username),
-  ]);
-
-  return { ok: true, message: `Nuova password per ${student.username}:`, password };
 }
 
 export async function createClass(_prev: StaffState, form: FormData): Promise<StaffState> {
@@ -62,27 +36,64 @@ export async function createClass(_prev: StaffState, form: FormData): Promise<St
   if (!scuola || scuola.length > 120) return { ok: false, message: "Scuola mancante o troppo lunga." };
   if (!nome || nome.length > 40) return { ok: false, message: "Classe mancante o troppo lunga." };
 
-  // In caso (rarissimo) di codice già usato si riprova con un altro.
+  // Il codice classe serviva alla vecchia registrazione: resta solo perché la colonna è obbligatoria.
   for (let attempt = 0; attempt < 3; attempt++) {
     const codice = generateClassCode(nome);
     const { error } = await db.from("classi").insert({ scuola, nome, codice });
     if (!error) {
       revalidatePath("/admin/studenti");
-      return { ok: true, message: `Classe creata. Codice da dare ai ragazzi: ${codice}` };
+      return { ok: true, message: "Classe creata: ora genera i token." };
     }
     if (error.code !== "23505") return { ok: false, message: error.message };
   }
   return { ok: false, message: "Non sono riuscito a generare un codice unico: riprova." };
 }
 
-export async function setClassActive(id: string, attiva: boolean): Promise<StaffState> {
+/**
+ * Nuovi token per una classe. Nel database va solo l'impronta; i token in
+ * chiaro tornano al browser una volta sola per il PDF e non si possono
+ * ristampare (se il PDF si perde, se ne generano altri).
+ */
+export async function generateClassTokens(classeId: string, count: number): Promise<TokenBatch> {
   if (!(await staff())) return NOT_ALLOWED;
   const db = authDb();
   if (!db) return NO_DB;
-  const { error } = await db.from("classi").update({ attiva }).eq("id", id);
+  if (!Number.isInteger(count) || count < 1 || count > MAX_TOKENS_PER_BATCH) {
+    return { ok: false, message: `Puoi generare da 1 a ${MAX_TOKENS_PER_BATCH} token alla volta.` };
+  }
+
+  const { data: classe } = await db.from("classi").select("id, scuola, nome").eq("id", classeId).maybeSingle();
+  if (!classe) return { ok: false, message: "Classe non trovata." };
+
+  // Una collisione tra token è improbabilissima: in quel caso si rigenera il lotto.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const tokens = [...new Set(Array.from({ length: count }, generateToken))];
+    if (tokens.length !== count) continue;
+    const { error } = await db
+      .from("questionario_token")
+      .insert(tokens.map((token) => ({ classe_id: classe.id, token_hash: hashToken(token) })));
+    if (!error) {
+      revalidatePath("/admin/studenti");
+      return { ok: true, message: `${count} token generati.`, tokens, scuola: classe.scuola, classe: classe.nome };
+    }
+    if (error.code !== "23505") return { ok: false, message: error.message };
+  }
+  return { ok: false, message: "Non sono riuscito a generare token unici: riprova." };
+}
+
+/**
+ * Solo admin, dopo la distruzione dei fogli: chiude gli abbinamenti di una
+ * classe (vedi chiudi_token_classe nella migrazione). Irreversibile.
+ */
+export async function closeClassTokens(classeId: string, conferma: string): Promise<StaffState> {
+  if ((await getSession())?.ruolo !== "admin") return NOT_ALLOWED;
+  if (conferma.trim().toUpperCase() !== "CHIUDI") return { ok: false, message: "Chiusura annullata." };
+  const db = authDb();
+  if (!db) return NO_DB;
+  const { data, error } = await db.rpc("chiudi_token_classe", { p_classe: classeId });
   if (error) return { ok: false, message: error.message };
   revalidatePath("/admin/studenti");
-  return { ok: true, message: attiva ? "Codice riattivato." : "Codice disattivato: niente nuove registrazioni." };
+  return { ok: true, message: `Abbinamenti chiusi: ${data ?? 0} token resi non più collegabili ai fogli.` };
 }
 
 /** Solo admin: apre o chiude la sezione "Fine progetto" per tutti gli studenti. */

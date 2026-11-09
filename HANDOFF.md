@@ -79,8 +79,8 @@ Note:
 
 - La **carrozzina** (livello inclusione) non c'è ancora, per scelta.
 - Il piercing "medusa" è etichettato "Piercing al labbro" perché cade sotto il labbro.
-- **Somministrazione inizio/fine anno con confronto anonimo**: discussa ma non implementata
-  (in attesa di decisione). Oggi ogni invio è indipendente, senza codice di collegamento.
+- **Somministrazione inizio/fine anno con confronto anonimo**: implementata il 9/11/2026 con
+  token di 4 parole e foglio cartaceo degli psicologi, vedi `docs/questionario-token.md`.
 - Crediti Higgsfield residui al 9/10: circa 245.
 - **Occhiali (8/10)**: dietro le lenti non c'è più il viso F; lenti chiare trasparenti, lenti da
   sole come tinta semitrasparente (passo 5 di `fix_masks.py`).
