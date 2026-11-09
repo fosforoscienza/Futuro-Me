@@ -14,6 +14,11 @@ Sostituisce il sistema descritto in [account-studenti.md](account-studenti.md)
 
 Queste sono le istruzioni da dare per iscritto a chi custodisce i fogli.
 
+0. **Per prendere confidenza.** Su `ilfuturome.it/questionario/prova` si fa
+   tutto il percorso dello studente (token, domande, avatar, schermata finale)
+   scegliendo la fase da provare. Va bene qualsiasi token di 4 parole dell'elenco,
+   per esempio `lupo-fiume-pane-treno`; non viene salvato nulla. Non dare questo
+   indirizzo agli studenti: le loro risposte andrebbero perse.
 1. **Prima della lezione.** Gestore o admin genera i token della classe in
    `/admin/studenti` (pulsante «Genera token e PDF», uno per studente più qualche
    riserva). Si scarica un PDF con:

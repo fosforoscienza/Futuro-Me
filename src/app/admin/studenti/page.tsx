@@ -72,6 +72,13 @@ export default async function QuestionarioAdminPage() {
           <li>A fine anno l&apos;admin attiva Fine progetto e gli psicologi ridanno a ognuno il suo token.</li>
           <li>Dopo il questionario finale gli psicologi distruggono i fogli e l&apos;admin chiude gli abbinamenti della classe.</li>
         </ol>
+        <p className="mt-4 text-sm text-on-surface-variant max-w-3xl">
+          Per far provare il percorso agli psicologi prima della lezione:{" "}
+          <a href="/it/questionario/prova" target="_blank" rel="noopener" className="font-bold text-secondary underline">
+            ilfuturome.it/questionario/prova
+          </a>
+          . È identico a quello degli studenti, ma non salva nulla e non serve un token vero.
+        </p>
       </section>
 
       <section className="bg-surface-container-low rounded-3xl p-6 md:p-8 mb-10">

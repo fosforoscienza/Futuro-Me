@@ -40,6 +40,7 @@ import { AvatarCanvas } from "@/components/avatar/AvatarCanvas";
 import { AvatarLevel } from "@/components/avatar/AvatarLevel";
 import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
 import type { Fase } from "@/lib/auth/area";
+import { DemoBanner } from "./DemoBanner";
 
 type Status = "intro" | "form" | "sending" | "done";
 
@@ -91,7 +92,18 @@ const TOKEN_SUBMIT_ERRORS: Record<number, string> = {
  * verificato da TokenGate). `onExit` torna alla richiesta del token: sui PC
  * dell'aula il compagno successivo non vede nulla di chi ha appena finito.
  */
-export function Questionario({ token, fase, onExit }: { token: string; fase: Fase; onExit: () => void }) {
+export function Questionario({
+  token,
+  fase,
+  onExit,
+  demo = false,
+}: {
+  token: string;
+  fase: Fase;
+  onExit: () => void;
+  /** Modalità prova per lo staff: stesso percorso, nessun invio al server. */
+  demo?: boolean;
+}) {
   const [status, setStatus] = useState<Status>("intro");
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
@@ -135,6 +147,11 @@ export function Questionario({ token, fase, onExit }: { token: string; fase: Fas
   };
 
   const submit = async () => {
+    if (demo) {
+      setStatus("done");
+      scrollToTop();
+      return;
+    }
     setStatus("sending");
     setSubmitError(null);
     try {
@@ -193,7 +210,7 @@ export function Questionario({ token, fase, onExit }: { token: string; fase: Fas
         <div className="flex items-center gap-2 mb-4">
           <Sparkles size={16} className="text-primary" />
           <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">
-            {FASE_LABEL[fase]}
+            {demo ? `Prova · ${FASE_LABEL[fase]}` : FASE_LABEL[fase]}
           </p>
         </div>
         <h1
@@ -208,9 +225,11 @@ export function Questionario({ token, fase, onExit }: { token: string; fase: Fas
         ref={topRef}
         className={`${step.kind === "avatar" || status === "done" ? "max-w-6xl" : "max-w-3xl"} mx-auto px-6 scroll-mt-28`}
       >
+        {demo && <DemoBanner />}
+
         {status === "intro" && <Intro onStart={start} />}
 
-        {status === "done" && <QuestionarioDone avatar={avatar} onExit={onExit} />}
+        {status === "done" && <QuestionarioDone avatar={avatar} onExit={onExit} demo={demo} />}
 
         {(status === "form" || status === "sending") && (
           <>
@@ -383,7 +402,7 @@ function Intro({ onStart }: { onStart: () => void }) {
 }
 
 /** Avatar finale con download; "Ho finito" torna alla richiesta del token. */
-function QuestionarioDone({ avatar, onExit }: { avatar: AvatarSelection; onExit: () => void }) {
+function QuestionarioDone({ avatar, onExit, demo }: { avatar: AvatarSelection; onExit: () => void; demo: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const download = () => {
     canvasRef.current?.toBlob((blob) => {
@@ -417,11 +436,13 @@ function QuestionarioDone({ avatar, onExit }: { avatar: AvatarSelection; onExit:
           <div className="bg-white/15 p-3 rounded-xl w-fit mb-6">
             <Check size={28} />
           </div>
-          <h2 className={`text-3xl ${headline} font-extrabold mb-4`}>Grazie!</h2>
+          <h2 className={`text-3xl ${headline} font-extrabold mb-4`}>
+            {demo ? "Fine della prova" : "Grazie!"}
+          </h2>
           <p className="text-white/80 text-lg leading-relaxed max-w-xl">
-            Le tue risposte sono state inviate. Ecco il tuo Futuro Me: puoi salvarlo e
-            tenerlo come ricordo. Poi premi «Ho finito», così il prossimo compagno
-            può scrivere il suo token.
+            {demo
+              ? "Qui lo studente vede questo messaggio: «Le tue risposte sono state inviate». In prova non è stato salvato nulla. «Ho finito» riporta alla richiesta del token, come in classe."
+              : "Le tue risposte sono state inviate. Ecco il tuo Futuro Me: puoi salvarlo e tenerlo come ricordo. Poi premi «Ho finito», così il prossimo compagno può scrivere il suo token."}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button
