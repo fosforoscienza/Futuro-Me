@@ -2,6 +2,10 @@
  * Il cast di avatar usato nelle pagine del sito: ogni personaggio è una
  * selezione del configuratore, quindi resta coerente con quello che gli
  * studenti possono costruire nella pagina avatar.
+ *
+ * Ausili e impianto acustico sono sospesi dal 9/11/2026: la pilota di droni
+ * aveva le stampelle e la studentessa l'impianto. Per riattivarli, rimetti
+ * `ausilio: "stampelle"` e `impianto: "si"` e riesporta le due immagini.
  */
 import { DEFAULT_SELECTION, fitToBody, type AvatarSelection } from "./config";
 
@@ -148,7 +152,6 @@ export const CAST: Record<CastId, CastMember> = {
       pelle: "bianco_pallido",
       capelli: "caschetto",
       coloreCapelli: "ramato",
-      impianto: "si",
       torso: "felpa",
       gambe: "jeans",
       scarpe: "sneakers",
@@ -199,7 +202,6 @@ export const CAST: Record<CastId, CastMember> = {
       torso: "militare",
       gambe: "jeans",
       scarpe: "anfibi",
-      ausilio: "stampelle",
       oggetti: ["drone"],
     }),
   },
