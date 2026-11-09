@@ -439,7 +439,8 @@ export async function runNewsJob(options: RunOptions): Promise<RunResult> {
         original_published_at: item.publishedAt.toISOString(),
         image_url: c.imageUrl,
         week_start: week.weekStart,
-        status: "published",
+        // Gli estratti copiano testo della fonte: escono solo dopo la revisione in /admin.
+        status: s.method === "extract" ? "hidden" : "published",
         summary_method: s.method,
         run_id: runId,
       };
@@ -458,7 +459,7 @@ export async function runNewsJob(options: RunOptions): Promise<RunResult> {
 
     return await finish(
       sourceErrors > 0 ? "partial" : "success",
-      `${published} news pubblicate per la settimana ${week.weekStart} – ${week.weekEnd}` +
+      `${published} estratti da revisionare in /admin per la settimana ${week.weekStart} – ${week.weekEnd}` +
         (sourceErrors > 0 ? ` (${sourceErrors} fonti non lette)` : ""),
       { ...counts, items_published: published }
     );

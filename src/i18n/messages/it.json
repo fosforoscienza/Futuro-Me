@@ -6,8 +6,7 @@
     "avatarTitle": "Prova avatar",
     "avatarDescription": "Prova l'avatar de Il Futuro Me senza compilare il questionario.",
     "questionnaireTitle": "Questionario",
-    "questionnaireDescription": "Questionario anonimo su pensieri, desideri e aspirazioni per il futuro.",
-    "plenaryEvent": "La prima Plenaria de Il Futuro Me: {school}"
+    "questionnaireDescription": "Questionario anonimo su pensieri, desideri e aspirazioni per il futuro."
   },
   "nav": {
     "home": "Home",
@@ -44,8 +43,6 @@
     "marketDesc": "Report aggiornati sulle professioni più richieste e l'impatto dell'intelligenza artificiale nel mondo del lavoro.",
     "projectTitle": "Il Progetto",
     "projectDesc": "Un percorso multidimensionale per ragazze e ragazzi tra i 12 e i 16 anni, sostenuto dalla Comunità Educante.",
-    "archiveTitle": "Archivio",
-    "archiveDesc": "Timeline delle attività, risultati dei questionari e documenti scaricabili dal percorso formativo.",
     "partnersTitle": "I Nostri Partner",
     "stats": {
       "students": "Ragazzi coinvolti",
@@ -228,7 +225,9 @@
     "publishedOn": "Pubblicato il",
     "relatedNews": "News correlate",
     "readOriginal": "Leggi l'articolo originale",
-    "autoNote": "Sintesi della redazione di Il Futuro Me, scritta a partire dall'articolo della fonte. Per tutti i dettagli leggi sempre l'originale.",
+    "autoNoteAi": "Sintesi scritta con l'intelligenza artificiale per la redazione di Il Futuro Me, usando solo le informazioni dell'articolo della fonte. Per tutti i dettagli leggi sempre l'originale.",
+    "autoNoteExtract": "Estratto dall'articolo della fonte, pubblicato dopo la revisione della redazione di Il Futuro Me. Per tutti i dettagli leggi sempre l'originale.",
+    "methodLink": "Come scegliamo e scriviamo le news",
     "photo": "Foto",
     "highlights": "In evidenza"
   },
@@ -314,7 +313,8 @@
       "universities": "Università"
     },
     "supportTitle": "Sostegno",
-    "newTab": "si apre in una nuova scheda"
+    "newTab": "si apre in una nuova scheda",
+    "method": "Metodo news"
   },
   "account": {
     "loginTitle": "Accedi",
@@ -350,6 +350,7 @@
       "usernameInvalid": "Username non valido: da 3 a 24 caratteri, solo lettere minuscole, numeri, punto o trattino basso.",
       "passwordShort": "La password deve avere almeno 8 caratteri.",
       "passwordLong": "La password è troppo lunga (massimo 72 caratteri).",
+      "passwordCommon": "Password troppo facile da indovinare: evita parole comuni come «password», sequenze come «12345678», caratteri ripetuti e il tuo username.",
       "passwordMismatch": "Le due password non coincidono.",
       "usernameTaken": "Questo username è già usato: scegline un altro.",
       "genericError": "Qualcosa è andato storto. Riprova."
@@ -374,5 +375,27 @@
     "doneText": "Le tue risposte sono salvate. Ecco il Futuro Me che hai creato in questa fase.",
     "download": "Scarica l'avatar",
     "back": "Torna alla tua area"
+  },
+  "method": {
+    "metaTitle": "Metodo editoriale delle news",
+    "metaDescription": "Come Il Futuro Me sceglie, riassume e verifica le news su lavoro, formazione e intelligenza artificiale, e come usa l'AI.",
+    "eyebrow": "News",
+    "title": "Come nascono le news",
+    "intro": "Ogni settimana pubblichiamo poche notizie utili a chi sta scegliendo la scuola o il proprio percorso. Qui spieghiamo da dove arrivano, come le scegliamo, quando usiamo l'intelligenza artificiale e come correggiamo gli errori.",
+    "sourcesTitle": "Da dove arrivano",
+    "sourcesBody": "Leggiamo ogni settimana un elenco di fonti scelte dalla redazione: testate giornalistiche, istituzioni ed enti di ricerca che pubblicano notizie su lavoro, scuola, formazione e innovazione. Raccogliamo solo articoli pubblicati da quelle fonti nella settimana precedente.\n\nAlcune news sono scritte dal gruppo di progetto a partire da rapporti e articoli di approfondimento (per esempio World Economic Forum, INAPP, Unioncamere): i numeri sono ricontrollati sulla fonte originale.",
+    "choiceTitle": "Come le scegliamo",
+    "choiceBody": "Preferiamo notizie che aiutano a capire quali lavori crescono, quali competenze servono, come cambiano scuola e formazione, e dati ufficiali su occupazione giovanile, NEET, apprendistato e ITS.\n\nScartiamo le notizie fuori tema (finanza, politica di partito, cronaca, singole aziende senza interesse generale) e i doppioni: se due articoli raccontano lo stesso fatto, teniamo quello della fonte più ufficiale.",
+    "writingTitle": "Come le scriviamo e quando usiamo l'AI",
+    "writingBody": "Le sintesi settimanali sono scritte con l'intelligenza artificiale, seguendo regole precise:\n- usare solo le informazioni presenti nell'articolo della fonte, senza aggiungere numeri, date, nomi o fatti;\n- riportare i numeri esattamente come nella fonte, dicendo a quale periodo e territorio si riferiscono;\n- scrivere in un italiano semplice, adatto a 12-16 anni, spiegando le sigle;\n- chiudere con il paragrafo «Perché ti riguarda», che collega la notizia alle scelte di chi studia, senza inventare dati.\n\nOgni sintesi scritta con l'AI lo dichiara accanto al testo. La versione inglese, quando c'è, è una traduzione degli stessi testi.",
+    "extractsTitle": "Estratti dalle fonti",
+    "extractsBody": "Quando la sintesi non è disponibile, il sistema prepara un estratto dell'articolo originale. Gli estratti non vengono pubblicati in automatico: restano nascosti finché la redazione non li rivede. Una volta pubblicati sono segnalati come estratti e non vengono proposti ai motori di ricerca, perché il testo appartiene alla fonte.",
+    "creditTitle": "Fonti e foto sempre citate",
+    "creditBody": "Ogni news indica la fonte e porta all'articolo originale, che consigliamo sempre di leggere per tutti i dettagli. Le foto delle news appartengono alle fonti e sono accompagnate dal loro credito.",
+    "limitsTitle": "Cosa non facciamo",
+    "limitsBody": "Non usiamo le risposte al questionario né gli avatar degli studenti per scrivere le news e non li inviamo ai servizi di intelligenza artificiale. Le news non sono consigli personali: per scegliere la scuola o un percorso parlane con insegnanti, famiglia e orientatori.",
+    "correctionsTitle": "Errori e correzioni",
+    "correctionsBody": "Se trovi un errore, un numero sbagliato o una notizia poco chiara, scrivi a feedback@ilfuturome.it indicando il titolo della news. La redazione verifica la segnalazione sulla fonte e, se serve, corregge o nasconde la news.",
+    "lastUpdated": "Metodo descritto aggiornato al 3 novembre 2026"
   }
 }

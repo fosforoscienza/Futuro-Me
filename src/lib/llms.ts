@@ -32,7 +32,7 @@ export async function buildLlmsTxt({ full }: { full: boolean }): Promise<string>
   const tm = await getTranslations({ locale, namespace: "market" });
   const fmt = (v: number, dec = 0) => formatNumber(v, locale, dec);
   const src = (id: SourceId) => `Fonte: [${tm(`sources.${id}`)}](${SOURCE_URLS[id]})`;
-  const news = await getAllNews(locale);
+  const news = (await getAllNews(locale)).filter((a) => a.method !== "extract");
   // Senza l'ultima frase ("Queste sono le professioni..."): qui l'elenco non c'è.
   const jobsSummary = tm("jobs.desc", {
     low: fmt(JOBS_TOTAL.low / 1e6, 1),

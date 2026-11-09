@@ -17,7 +17,6 @@ export function NavbarClient() {
     { href: "/progetto" as const, label: t("project") },
     { href: "/mercato-lavoro" as const, label: t("laborMarket") },
     { href: "/news" as const, label: t("news") },
-    { href: "/archivio" as const, label: t("archive") },
   ];
 
   function switchLocale() {

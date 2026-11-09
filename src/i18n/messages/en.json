@@ -6,8 +6,7 @@
     "avatarTitle": "Try the avatar",
     "avatarDescription": "Try the Il Futuro Me avatar without filling in the questionnaire.",
     "questionnaireTitle": "Questionnaire",
-    "questionnaireDescription": "Anonymous questionnaire about thoughts, wishes and aspirations for the future.",
-    "plenaryEvent": "The first Il Futuro Me Plenary: {school}"
+    "questionnaireDescription": "Anonymous questionnaire about thoughts, wishes and aspirations for the future."
   },
   "nav": {
     "home": "Home",
@@ -44,8 +43,6 @@
     "marketDesc": "Up-to-date reports on the most in-demand professions and AI's impact on the world of work.",
     "projectTitle": "The Project",
     "projectDesc": "A multidimensional journey for young people aged 12-16, supported by the local Educational Community.",
-    "archiveTitle": "Archive",
-    "archiveDesc": "Activity timeline, survey results and downloadable documents from the training programme.",
     "partnersTitle": "Our Partners",
     "stats": {
       "students": "Students involved",
@@ -228,7 +225,9 @@
     "publishedOn": "Published on",
     "relatedNews": "Related news",
     "readOriginal": "Read the original article",
-    "autoNote": "Summary by the Il Futuro Me editorial team, based on the source article. For full details, always read the original.",
+    "autoNoteAi": "Summary written with artificial intelligence for the Il Futuro Me editorial team, using only information from the source article. For full details, always read the original.",
+    "autoNoteExtract": "Excerpt from the source article, published after review by the Il Futuro Me editorial team. For full details, always read the original.",
+    "methodLink": "How we choose and write the news",
     "photo": "Photo",
     "highlights": "Highlights"
   },
@@ -314,7 +313,8 @@
       "universities": "Universities"
     },
     "supportTitle": "Support",
-    "newTab": "opens in a new tab"
+    "newTab": "opens in a new tab",
+    "method": "News method"
   },
   "account": {
     "loginTitle": "Sign in",
@@ -350,6 +350,7 @@
       "usernameInvalid": "Invalid username: 3 to 24 characters, only lowercase letters, numbers, dot or underscore.",
       "passwordShort": "Your password must be at least 8 characters long.",
       "passwordLong": "Your password is too long (72 characters max).",
+      "passwordCommon": "This password is too easy to guess: avoid common words like “password”, sequences like “12345678”, repeated characters and your username.",
       "passwordMismatch": "The two passwords don't match.",
       "usernameTaken": "This username is taken: choose another one.",
       "genericError": "Something went wrong. Please try again."
@@ -374,5 +375,27 @@
     "doneText": "Your answers are saved. Here is the Future Me you created in this phase.",
     "download": "Download avatar",
     "back": "Back to your area"
+  },
+  "method": {
+    "metaTitle": "News editorial method",
+    "metaDescription": "How Il Futuro Me chooses, summarises and checks news on jobs, training and artificial intelligence, and how it uses AI.",
+    "eyebrow": "News",
+    "title": "How the news is made",
+    "intro": "Every week we publish a few news items useful to people choosing a school or their own path. Here we explain where they come from, how we choose them, when we use artificial intelligence and how we correct mistakes.",
+    "sourcesTitle": "Where it comes from",
+    "sourcesBody": "Every week we read a list of sources chosen by the editorial team: news outlets, institutions and research bodies publishing on jobs, school, training and innovation. We only collect articles those sources published in the previous week.\n\nSome news items are written by the project team from reports and in-depth articles (for example World Economic Forum, INAPP, Unioncamere): figures are checked again against the original source.",
+    "choiceTitle": "How we choose",
+    "choiceBody": "We prefer news that helps people understand which jobs are growing, which skills are needed, how school and training are changing, and official data on youth employment, NEETs, apprenticeships and ITS Academies.\n\nWe discard off-topic news (finance, party politics, crime, single companies of no general interest) and duplicates: if two articles cover the same fact, we keep the one from the most official source.",
+    "writingTitle": "How we write and when we use AI",
+    "writingBody": "Weekly summaries are written with artificial intelligence, following precise rules:\n- use only information found in the source article, without adding figures, dates, names or facts;\n- report figures exactly as in the source, stating the period and area they refer to;\n- write in plain Italian suited to 12-16 year olds, explaining acronyms;\n- end with a «Why it matters to you» paragraph linking the news to students' choices, without inventing data.\n\nEvery AI-written summary says so next to the text. The English version, when available, is a translation of the same texts.",
+    "extractsTitle": "Excerpts from sources",
+    "extractsBody": "When a summary is not available, the system prepares an excerpt of the original article. Excerpts are not published automatically: they stay hidden until the editorial team reviews them. Once published they are labelled as excerpts and are not offered to search engines, because the text belongs to the source.",
+    "creditTitle": "Sources and photos always credited",
+    "creditBody": "Every news item names its source and links to the original article, which we always recommend reading for full details. News photos belong to the sources and carry their credit.",
+    "limitsTitle": "What we don't do",
+    "limitsBody": "We do not use questionnaire answers or student avatars to write the news, and we do not send them to artificial intelligence services. News items are not personal advice: to choose a school or a path, talk to teachers, family and guidance counsellors.",
+    "correctionsTitle": "Mistakes and corrections",
+    "correctionsBody": "If you find a mistake, a wrong figure or an unclear news item, write to feedback@ilfuturome.it with the title of the news. The editorial team checks the report against the source and, if needed, corrects or hides the news.",
+    "lastUpdated": "Method last updated on 3 November 2026"
   }
 }

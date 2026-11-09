@@ -65,7 +65,7 @@ export async function signup(_prev: AuthState, form: FormData): Promise<AuthStat
     return { error: "tooMany", values };
   }
   if (!codice) return { error: "codeInvalid", values };
-  const invalid = usernameError(username) ?? passwordError(password);
+  const invalid = usernameError(username) ?? passwordError(password, username);
   if (invalid) return { error: invalid, values };
   if (password !== field(form, "password2")) return { error: "passwordMismatch", values };
 

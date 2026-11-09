@@ -2,13 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/routing";
-import { Home, BarChart3, Newspaper, FolderArchive } from "lucide-react";
+import { Home, BarChart3, Newspaper, Compass } from "lucide-react";
 
 const navItems = [
   { href: "/" as const, icon: Home, labelKey: "home" },
   { href: "/mercato-lavoro" as const, icon: BarChart3, labelKey: "laborMarket" },
   { href: "/news" as const, icon: Newspaper, labelKey: "news" },
-  { href: "/archivio" as const, icon: FolderArchive, labelKey: "archive" },
+  { href: "/progetto" as const, icon: Compass, labelKey: "project" },
 ];
 
 export function MobileNav() {

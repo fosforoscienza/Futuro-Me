@@ -259,7 +259,7 @@ export function ArticleStatusButton({
         onClick={() => startTransition(async () => setState(await setArticleStatus(id, next)))}
         className={`${button} text-xs bg-surface-container-highest hover:bg-secondary/10`}
       >
-        {status === "published" ? "Nascondi" : "Ripubblica"}
+        {status === "published" ? "Nascondi" : "Pubblica"}
       </button>
       {state && !state.ok && <Feedback state={state} />}
     </div>

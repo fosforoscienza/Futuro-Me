@@ -139,7 +139,7 @@ export async function runJobNow(_prev: ActionState, form: FormData): Promise<Act
   }
 }
 
-/** Nasconde o ripubblica una news automatica (correzione a posteriori). */
+/** Pubblica un estratto revisionato, oppure nasconde o ripubblica una news automatica. */
 export async function setArticleStatus(
   id: string,
   status: "published" | "hidden"
@@ -149,7 +149,15 @@ export async function setArticleStatus(
   if (!db) return NO_DB;
   const { error } = await db.from("news_articles").update({ status }).eq("id", id);
   if (error) return { ok: false, message: error.message };
+  if (status === "published") {
+    // Gli estratti nascono nascosti: la data visibile è quella dell'approvazione.
+    await db
+      .from("news_articles")
+      .update({ published_at: new Date().toISOString() })
+      .eq("id", id)
+      .eq("summary_method", "extract");
+  }
   revalidateNews();
   revalidatePath("/admin");
-  return { ok: true, message: status === "hidden" ? "News nascosta." : "News ripubblicata." };
+  return { ok: true, message: status === "hidden" ? "News nascosta." : "News pubblicata." };
 }
