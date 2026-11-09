@@ -6,7 +6,8 @@ import { Link } from "@/i18n/routing";
 import { HeaderAvatar } from "@/components/avatar/HeaderAvatar";
 import type { Fase } from "@/lib/auth/area";
 import { TOKEN_MAX_INPUT, normalizeToken } from "@/lib/token/format";
-import { Questionario } from "./Questionario";
+import { DemoBanner } from "./DemoBanner";
+import { FASE_LABEL, Questionario } from "./Questionario";
 
 const headline = "font-[var(--font-plus-jakarta)]";
 
@@ -18,18 +19,29 @@ const ERRORS: Record<string, string> = {
   notConfigured: "Il questionario non è ancora disponibile. Riprova più tardi.",
 };
 
-/** Ingresso del questionario: lo studente scrive le 4 parole del suo token, mai il nome. */
-export function TokenGate() {
+/**
+ * Ingresso del questionario: lo studente scrive le 4 parole del suo token, mai il nome.
+ * Con `demo` (pagina /questionario/prova per lo staff) il token è controllato solo
+ * nel formato, si sceglie la fase da provare e nulla arriva al server.
+ */
+export function TokenGate({ demo = false }: { demo?: boolean }) {
   const [value, setValue] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [access, setAccess] = useState<{ token: string; fase: Fase } | null>(null);
+  const [demoFase, setDemoFase] = useState<Fase>("inizio");
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     const token = normalizeToken(value);
     if (!token) {
       setError(ERRORS.format);
+      return;
+    }
+    if (demo) {
+      setError(null);
+      setAccess({ token, fase: demoFase });
+      setValue("");
       return;
     }
     setPending(true);
@@ -55,7 +67,7 @@ export function TokenGate() {
   };
 
   if (access) {
-    return <Questionario token={access.token} fase={access.fase} onExit={() => setAccess(null)} />;
+    return <Questionario token={access.token} fase={access.fase} onExit={() => setAccess(null)} demo={demo} />;
   }
 
   return (
@@ -63,7 +75,9 @@ export function TokenGate() {
       <header className="relative px-6 max-w-5xl mx-auto pt-12 pb-10 lg:min-h-[25rem]">
         <div className="flex items-center gap-2 mb-4">
           <Sparkles size={16} className="text-primary" />
-          <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">Questionario</p>
+          <p className="text-primary font-bold tracking-[0.2em] uppercase text-xs">
+            {demo ? "Prova del questionario" : "Questionario"}
+          </p>
         </div>
         <h1 className={`text-5xl md:text-7xl ${headline} font-extrabold text-secondary tracking-tighter leading-[0.9]`}>
           Il Futuro Me
@@ -72,6 +86,7 @@ export function TokenGate() {
       </header>
 
       <div className="max-w-3xl mx-auto px-6">
+        {demo && <DemoBanner />}
         <form onSubmit={submit} className="bg-surface-container-low p-8 md:p-10 rounded-[1.5rem]" noValidate>
           <div className="bg-secondary-container text-on-secondary-container w-12 h-12 rounded-xl flex items-center justify-center mb-6">
             <KeyRound size={24} />
@@ -99,6 +114,43 @@ export function TokenGate() {
             aria-describedby={error ? "token-errore" : undefined}
             className="mt-6 w-full bg-surface-container-lowest px-4 py-3 rounded-2xl text-lg font-mono font-bold text-on-surface outline-none focus:ring-2 focus:ring-primary"
           />
+          {demo && (
+            <div className="mt-4 text-sm text-on-surface-variant">
+              <p>
+                Per la prova va bene qualsiasi token del formato giusto, per esempio{" "}
+                <button
+                  type="button"
+                  onClick={() => setValue("lupo-fiume-pane-treno")}
+                  className="font-mono font-bold text-secondary underline underline-offset-2 cursor-pointer"
+                >
+                  lupo-fiume-pane-treno
+                </button>
+                .
+              </p>
+              <fieldset className="mt-3 flex flex-wrap items-center gap-2">
+                <legend className="sr-only">Fase da provare</legend>
+                <span className="font-bold text-secondary mr-1">Fase da provare:</span>
+                {(["inizio", "fine"] as const).map((f) => (
+                  <label
+                    key={f}
+                    className={`px-4 py-2 rounded-full text-sm font-bold cursor-pointer has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-primary ${
+                      demoFase === f ? "bg-secondary text-white" : "bg-surface-container hover:bg-secondary/10"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="fase"
+                      value={f}
+                      checked={demoFase === f}
+                      onChange={() => setDemoFase(f)}
+                      className="sr-only"
+                    />
+                    {FASE_LABEL[f]}
+                  </label>
+                ))}
+              </fieldset>
+            </div>
+          )}
           {error && (
             <p id="token-errore" role="alert" className="mt-3 text-sm font-bold text-error">
               {error}
