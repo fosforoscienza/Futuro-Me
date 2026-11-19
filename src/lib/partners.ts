@@ -32,7 +32,7 @@ export const partners: Partner[] = [
     name: "Associazione Nazionale Dipendenze Tecnologiche, GAP e Cyberbullismo – Di.Te. ETS",
     url: "https://www.dipendenze.com/",
     group: "thirdSector",
-    logo: { src: "/partners/associazione-dite.png", width: 471, height: 240 },
+    logo: { src: "/partners/associazione-dite.svg", width: 459, height: 221 },
   },
   {
     name: "IIS Corinaldesi Padovano",
