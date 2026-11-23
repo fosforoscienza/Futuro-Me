@@ -1,0 +1,85 @@
+/* Hotspot del tour 360°: ricalcano l'aspetto dell'editor (frecce sul pavimento,
+   etichetta sotto), con i colori del sito. */
+.tour360-viewer .psv-container {
+  background: var(--color-inverse-surface);
+}
+
+.tour360-viewer .psv-navbar {
+  font-family: var(--font-manrope), sans-serif;
+}
+
+/* Stessa scala dei marker 3D usata dall'editor: senza, frecce e loghi a terra
+   risultano più piccoli di come sono stati posati. */
+.tour360-3d {
+  transform: scale(1.6);
+  transform-origin: center center;
+}
+
+.tour360-viewer .psv-marker--css3d,
+.tour360-3d {
+  transform-style: preserve-3d;
+}
+
+.tour360-tag-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.tour360-hs {
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tour360-hs--arrow {
+  cursor: pointer;
+}
+
+.tour360-hs__arrow {
+  display: grid;
+  place-items: center;
+  width: var(--s);
+  height: var(--s);
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.55));
+}
+
+.tour360-hs__arrow svg {
+  width: 100%;
+  height: 100%;
+  fill: rgb(255 249 235 / 0.92);
+  stroke: var(--color-primary-container);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  transition: fill 0.2s ease;
+}
+
+.tour360-hs--arrow:hover .tour360-hs__arrow svg {
+  fill: var(--color-primary-fixed-dim);
+}
+
+.tour360-hs--image {
+  pointer-events: none;
+}
+
+.tour360-hs--image img {
+  display: block;
+  height: auto;
+}
+
+.tour360-tag {
+  display: block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgb(30 28 16 / 0.78);
+  color: #fff9eb;
+  font: 700 13px/1.3 var(--font-manrope), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour360-hs__arrow svg {
+    transition: none;
+  }
+}

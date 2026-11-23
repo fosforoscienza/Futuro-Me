@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@photo-sphere-viewer/core": "^5.15.1",
+    "@photo-sphere-viewer/markers-plugin": "^5.15.1",
     "@supabase/supabase-js": "^2.103.0",
     "fast-xml-parser": "^5.11.2",
     "gsap": "^3.15.0",
@@ -31,9 +33,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^16.4.4",
+    "minimatch": "file:tools/minimatch-compat",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "minimatch": "file:tools/minimatch-compat"
+    "typescript": "^5"
   },
   "engines": {
     "node": "22.x"

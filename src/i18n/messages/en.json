@@ -360,5 +360,34 @@
     "correctionsTitle": "Mistakes and corrections",
     "correctionsBody": "If you find a mistake, a wrong figure or an unclear news item, write to feedback@ilfuturome.it with the title of the news. The editorial team checks the report against the source and, if needed, corrects or hides the news.",
     "lastUpdated": "Method last updated on 3 November 2026"
+  },
+  "tour360": {
+    "metaTitle": "360° tour",
+    "metaDescription": "Explore the workplaces of the Il Futuro Me project in 360°.",
+    "eyebrow": "360° tour",
+    "intro": "Drag to look around and click the arrows on the floor to move. You can also pick a room from the list below.",
+    "viewerLabel": "360° tour: {title}",
+    "scenesLabel": "Rooms in this tour",
+    "goTo": "Go to",
+    "error": "The tour could not be loaded. Please try again later.",
+    "psv": {
+      "zoom": "Zoom",
+      "zoomOut": "Zoom out",
+      "zoomIn": "Zoom in",
+      "moveUp": "Look up",
+      "moveDown": "Look down",
+      "moveLeft": "Look left",
+      "moveRight": "Look right",
+      "description": "Description",
+      "download": "Download",
+      "fullscreen": "Fullscreen",
+      "loading": "Loading…",
+      "menu": "Menu",
+      "close": "Close",
+      "twoFingers": "Use two fingers to move the view",
+      "ctrlZoom": "Use Ctrl + scroll to zoom",
+      "loadError": "The panorama could not be loaded",
+      "webglError": "Your browser does not support WebGL"
+    }
   }
 }

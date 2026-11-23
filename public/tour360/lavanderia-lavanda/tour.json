@@ -1,0 +1,262 @@
+{
+  "id": "t154215bfec",
+  "slug": "lavanderia-lavanda-5c0a",
+  "title": "Lavanderia LAVANDA",
+  "mode": "tour",
+  "startSceneId": "s431e1ac817",
+  "showCompass": false,
+  "version": "p-mwkvko7t",
+  "updatedAt": "2026-11-17T15:56:40.985Z",
+  "description": "Benvenuti\n\nSe state utilizzando un visore VR, cliccate sull'icona in basso a destra per visitare la lavanderia a 360°, altrimenti chiudete questo messaggio cliccando sulla X e esplorate!",
+  "protected": false,
+  "scenes": [
+    {
+      "id": "s431e1ac817",
+      "title": "Zona sporco",
+      "image": {
+        "src": "media/mwkv9oc8-40656o4c6a0e5s2p2h-full.jpg",
+        "thumb": "media/mwkv9oc8-40656o4c6a0e5s2p2h-thumb.jpg",
+        "width": 3840,
+        "height": 1920
+      },
+      "correction": {
+        "pan": 0,
+        "tilt": 0,
+        "roll": 0
+      },
+      "initialView": {
+        "yaw": -129.77,
+        "pitch": -6.01,
+        "zoom": 30
+      },
+      "hotspots": [
+        {
+          "id": "hde4c64f6f9",
+          "yaw": -55.52,
+          "pitch": -26.86,
+          "rotation": {
+            "yaw": 0,
+            "pitch": 0,
+            "roll": 0
+          },
+          "style": {
+            "kind": "arrow",
+            "direction": "avanti",
+            "label": "Zona pulito"
+          },
+          "action": {
+            "type": "goto",
+            "sceneId": "s92e6db241f",
+            "keepDirection": false
+          }
+        },
+        {
+          "id": "hcb3bdb4bfd",
+          "yaw": 162.34,
+          "pitch": -27.927565768019385,
+          "rotation": {
+            "yaw": 0,
+            "pitch": 0,
+            "roll": 73
+          },
+          "style": {
+            "kind": "arrow",
+            "direction": "avanti",
+            "label": "Ingresso"
+          },
+          "action": {
+            "type": "goto",
+            "sceneId": "s5829090206",
+            "keepDirection": false
+          }
+        },
+        {
+          "id": "h13133bb4bb",
+          "yaw": 60.65,
+          "pitch": -88.8360964330942,
+          "style": {
+            "kind": "image",
+            "src": "media/img-mwkvgdvb-5h1z5i19506t2f5z63.png",
+            "width": 310
+          },
+          "rotation": {
+            "yaw": 0,
+            "pitch": 87,
+            "roll": 165
+          },
+          "action": {
+            "type": "info",
+            "title": "",
+            "text": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "s92e6db241f",
+      "title": "Zona pulito",
+      "image": {
+        "src": "media/mwkv2tu6-254d4i3n29476z6m6w-full.jpg",
+        "mobile": "media/mwkv2tu6-254d4i3n29476z6m6w-mobile.jpg",
+        "thumb": "media/mwkv2tu6-254d4i3n29476z6m6w-thumb.jpg",
+        "width": 7680,
+        "height": 3840
+      },
+      "correction": {
+        "pan": 0,
+        "tilt": 0,
+        "roll": 0
+      },
+      "initialView": {
+        "yaw": 0,
+        "pitch": 0,
+        "zoom": 30
+      },
+      "hotspots": [
+        {
+          "id": "hc8b6a5bf72",
+          "yaw": 46.6,
+          "pitch": -25.92,
+          "rotation": {
+            "yaw": 0,
+            "pitch": 0,
+            "roll": 0
+          },
+          "style": {
+            "kind": "arrow",
+            "direction": "avanti",
+            "label": "Zona sporco"
+          },
+          "action": {
+            "type": "goto",
+            "sceneId": "s431e1ac817",
+            "keepDirection": false
+          }
+        },
+        {
+          "id": "h5e46682414",
+          "yaw": 85.27,
+          "pitch": -15.52,
+          "rotation": {
+            "yaw": 0,
+            "pitch": 0,
+            "roll": 0
+          },
+          "style": {
+            "kind": "arrow",
+            "direction": "avanti",
+            "label": "Ingresso"
+          },
+          "action": {
+            "type": "goto",
+            "sceneId": "s5829090206",
+            "keepDirection": false
+          }
+        },
+        {
+          "id": "h0a42c34f38",
+          "yaw": -1.15,
+          "pitch": -89.76745548271208,
+          "style": {
+            "kind": "image",
+            "src": "media/img-mwkveb9x-1x566y5g4p0l5r5407.png",
+            "width": 340
+          },
+          "rotation": {
+            "yaw": 71,
+            "pitch": 90,
+            "roll": 0
+          },
+          "action": {
+            "type": "info",
+            "title": "",
+            "text": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "s5829090206",
+      "title": "Ingresso",
+      "image": {
+        "src": "media/mwkv2zmg-6e1b0h4b4h3b4t5j2z-full.jpg",
+        "mobile": "media/mwkv2zmg-6e1b0h4b4h3b4t5j2z-mobile.jpg",
+        "thumb": "media/mwkv2zmg-6e1b0h4b4h3b4t5j2z-thumb.jpg",
+        "width": 7680,
+        "height": 3840
+      },
+      "correction": {
+        "pan": 0,
+        "tilt": 0,
+        "roll": 0
+      },
+      "initialView": {
+        "yaw": -154.41,
+        "pitch": -4.32,
+        "zoom": 30
+      },
+      "hotspots": [
+        {
+          "id": "hac84f71419",
+          "yaw": -155.65,
+          "pitch": -24.273142143650198,
+          "rotation": {
+            "yaw": 0,
+            "pitch": 0,
+            "roll": 23
+          },
+          "style": {
+            "kind": "arrow",
+            "direction": "avanti",
+            "label": "Zona pulito"
+          },
+          "action": {
+            "type": "goto",
+            "sceneId": "s92e6db241f",
+            "keepDirection": false
+          }
+        },
+        {
+          "id": "h7a06c4c8ff",
+          "yaw": -143.13,
+          "pitch": -36.97399681129196,
+          "rotation": {
+            "yaw": 0,
+            "pitch": 0,
+            "roll": 91
+          },
+          "style": {
+            "kind": "arrow",
+            "direction": "avanti",
+            "label": "Zona sporco"
+          },
+          "action": {
+            "type": "goto",
+            "sceneId": "s431e1ac817",
+            "keepDirection": false
+          }
+        },
+        {
+          "id": "h4fba725ab1",
+          "yaw": 79.51,
+          "pitch": -89.59961479237687,
+          "style": {
+            "kind": "image",
+            "src": "media/img-mwkvhied-1y6k6w4w480x35582q.png",
+            "width": 330
+          },
+          "rotation": {
+            "yaw": 0,
+            "pitch": 90,
+            "roll": 142
+          },
+          "action": {
+            "type": "info",
+            "title": "",
+            "text": ""
+          }
+        }
+      ]
+    }
+  ]
+}

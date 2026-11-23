@@ -360,5 +360,34 @@
     "correctionsTitle": "Errori e correzioni",
     "correctionsBody": "Se trovi un errore, un numero sbagliato o una notizia poco chiara, scrivi a feedback@ilfuturome.it indicando il titolo della news. La redazione verifica la segnalazione sulla fonte e, se serve, corregge o nasconde la news.",
     "lastUpdated": "Metodo descritto aggiornato al 3 novembre 2026"
+  },
+  "tour360": {
+    "metaTitle": "Visita a 360°",
+    "metaDescription": "Esplora a 360° gli ambienti di lavoro del progetto Il Futuro Me.",
+    "eyebrow": "Visita a 360°",
+    "intro": "Trascina per guardarti intorno e clicca sulle frecce a terra per spostarti. Puoi anche scegliere un ambiente dall’elenco sotto.",
+    "viewerLabel": "Visita a 360°: {title}",
+    "scenesLabel": "Ambienti della visita",
+    "goTo": "Vai a",
+    "error": "Non è stato possibile caricare la visita. Riprova più tardi.",
+    "psv": {
+      "zoom": "Zoom",
+      "zoomOut": "Riduci",
+      "zoomIn": "Ingrandisci",
+      "moveUp": "Guarda in alto",
+      "moveDown": "Guarda in basso",
+      "moveLeft": "Guarda a sinistra",
+      "moveRight": "Guarda a destra",
+      "description": "Descrizione",
+      "download": "Scarica",
+      "fullscreen": "Schermo intero",
+      "loading": "Caricamento…",
+      "menu": "Menu",
+      "close": "Chiudi",
+      "twoFingers": "Usa due dita per muovere la vista",
+      "ctrlZoom": "Usa Ctrl + rotella per ingrandire",
+      "loadError": "Impossibile caricare il panorama",
+      "webglError": "Il browser non supporta WebGL"
+    }
   }
 }
