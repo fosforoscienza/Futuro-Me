@@ -1,18 +1,18 @@
 # Questionario con token (inizio e fine progetto)
 
 Dal 9 novembre 2026 gli studenti non hanno più un account. Compilano il
-questionario con un **token di 4 parole** (es. `lupo-fiume-pane-treno`). Il nome
-dello studente non entra mai nel sito: sta solo su un foglio di carta custodito
-dagli psicologi, che viene distrutto dopo il questionario finale. Così si possono
-confrontare le risposte di inizio e fine progetto della stessa persona, e alla
-fine resta solo un archivio di coppie non collegate a nessun nome.
+questionario con un **token di 4 parole** (es. `lupo-fiume-pane-treno`) stampato
+su un biglietto che pescano a caso e conservano fino a fine progetto. Nessuno
+annota quale studente ha quale token: non c'è un foglio con i nomi, né nel sito
+né su carta. Così si possono confrontare le risposte di inizio e fine progetto
+della stessa persona senza che il progetto sappia chi è.
 
 Sostituisce il sistema descritto in [account-studenti.md](account-studenti.md)
 (registrazione con codice classe, username e password), che resta solo per lo staff.
 
 ## Procedura per gli psicologi
 
-Queste sono le istruzioni da dare per iscritto a chi custodisce i fogli.
+Queste sono le istruzioni da dare per iscritto a chi segue la classe.
 
 0. **Per prendere confidenza.** Su `ilfuturome.it/questionario/prova` si fa
    tutto il percorso dello studente (token, domande, avatar, schermata finale)
@@ -21,27 +21,28 @@ Queste sono le istruzioni da dare per iscritto a chi custodisce i fogli.
    indirizzo agli studenti: le loro risposte andrebbero perse.
 1. **Prima della lezione.** Gestore o admin genera i token della classe in
    `/admin/studenti` (pulsante «Genera token e PDF», uno per studente più qualche
-   riserva). Si scarica un PDF con:
-   - il **foglio abbinamenti** (token + riga vuota per il nome);
-   - i **biglietti da ritagliare** (solo token e indirizzo, niente nome).
-   Stampare e poi **cancellare il PDF** dal computer e dai download.
-2. **In classe.** Consegnare un biglietto a ogni studente e scrivere **a mano**
-   sul foglio il nome accanto al token consegnato. Gli studenti vanno su
-   `ilfuturome.it/questionario`, scrivono il token e compilano. A fine
-   compilazione premono «Ho finito» così il compagno successivo trova la pagina vuota.
-3. **Durante l'anno.** Il foglio va tenuto chiuso a chiave. Non fotografarlo,
-   non scansionarlo, non copiarlo, non portarlo a casa. Se si perde, avvisare
-   subito il titolare (Caritas): è una possibile violazione di dati personali.
-4. **A fine anno.** L'admin attiva «Fine progetto». Gli psicologi ridanno a ogni
-   studente il suo token leggendolo dal foglio (o il biglietto, se conservato).
-5. **Dopo il questionario finale.** Distruggere il foglio con un
-   distruggidocumenti e firmare un breve verbale (data, scuola e classe, chi ha
-   distrutto). Poi l'admin preme «Chiudi abbinamenti» sulla classe.
+   riserva). Si scarica un PDF con i soli **biglietti da ritagliare** (token e
+   indirizzo, niente nome). Stampare, poi **cancellare il PDF** dal computer e
+   dai download.
+2. **In classe.** Ritagliare i biglietti, metterli in una busta o una scatola e
+   far pescare a ogni studente il suo. **Non annotare** chi ha quale biglietto,
+   nemmeno a mano, e non consegnarli in un ordine riconoscibile. Gli studenti
+   vanno su `ilfuturome.it/questionario`, scrivono il token e compilano. A fine
+   compilazione premono «Ho finito» così il compagno successivo trova la pagina
+   vuota. Ricordare a tutti di **conservare il biglietto** (diario, astuccio, una
+   foto sul proprio telefono): a fine progetto serve lo stesso.
+3. **Durante l'anno.** Conservare i biglietti di riserva non consegnati in una
+   busta chiusa con scuola e classe.
+4. **A fine anno.** L'admin attiva «Fine progetto». Ogni studente usa il suo
+   biglietto. Chi l'ha perso pesca un biglietto di riserva: compila la fase
+   finale, ma la sua risposta resta senza coppia.
+5. **Dopo il questionario finale.** L'admin preme «Chiudi abbinamenti» sulla
+   classe e si buttano le riserve rimaste.
 
 Casi particolari: lo studente assente all'inizio può compilare solo la fase
-finale (resterà una risposta senza coppia); chi ha perso il biglietto si fa
-rileggere il token dal foglio; un token mai consegnato resta senza nome e viene
-eliminato alla chiusura.
+finale con un biglietto di riserva (resterà una risposta senza coppia); chi ha
+perso il biglietto non può recuperarlo, perché nessuno sa quale fosse; un token
+mai consegnato viene eliminato alla chiusura.
 
 ## Cosa succede nel sito
 
@@ -54,8 +55,8 @@ eliminato alla chiusura.
 - `chiudi_token_classe(classe)` (pulsante admin «Chiudi abbinamenti»):
   elimina i token mai usati, porta `created_at` delle risposte al giorno,
   cancella le impronte e assegna a ogni token un id nuovo (le risposte lo
-  seguono). Dopo, nessun token funziona e nessun foglio superstite permette di
-  ritrovare le risposte. Irreversibile.
+  seguono). Dopo, nessun token funziona e nessun biglietto conservato permette
+  di ritrovare le risposte. Irreversibile.
 - Parole: 1035 parole italiane semplici senza accenti, nessuna a una lettera di
   distanza da un'altra (`src/lib/token/words.ts`); 4 parole ≈ 40 bit.
   Non togliere parole mentre ci sono token in uso.

@@ -229,7 +229,7 @@ export function Questionario({
 
         {status === "intro" && <Intro onStart={start} />}
 
-        {status === "done" && <QuestionarioDone avatar={avatar} onExit={onExit} demo={demo} />}
+        {status === "done" && <QuestionarioDone avatar={avatar} fase={fase} onExit={onExit} demo={demo} />}
 
         {(status === "form" || status === "sending") && (
           <>
@@ -383,8 +383,9 @@ function Intro({ onStart }: { onStart: () => void }) {
       </ul>
       <p className="mt-6 text-sm text-on-surface-variant leading-relaxed">
         Le risposte e l’avatar sono collegati solo al token, così a fine progetto
-        possiamo confrontarli con quelli di inizio progetto. Dopo il questionario
-        finale il collegamento con il foglio dei nomi viene distrutto. Non inserire nomi, contatti, informazioni sulla salute o altri dati personali
+        possiamo confrontarli con quelli di inizio progetto. Nessuno annota quale
+        biglietto hai ricevuto, e dopo il questionario finale anche il token viene
+        cancellato. Non inserire nomi, contatti, informazioni sulla salute o altri dati personali
         tuoi o di altre persone nei campi liberi.{" "}
         <Link href="/privacy" className="font-bold text-secondary underline underline-offset-2">
           Leggi l’informativa privacy
@@ -402,7 +403,17 @@ function Intro({ onStart }: { onStart: () => void }) {
 }
 
 /** Avatar finale con download; "Ho finito" torna alla richiesta del token. */
-function QuestionarioDone({ avatar, onExit, demo }: { avatar: AvatarSelection; onExit: () => void; demo: boolean }) {
+function QuestionarioDone({
+  avatar,
+  fase,
+  onExit,
+  demo,
+}: {
+  avatar: AvatarSelection;
+  fase: Fase;
+  onExit: () => void;
+  demo: boolean;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const download = () => {
     canvasRef.current?.toBlob((blob) => {
@@ -444,6 +455,12 @@ function QuestionarioDone({ avatar, onExit, demo }: { avatar: AvatarSelection; o
               ? "Qui lo studente vede questo messaggio: «Le tue risposte sono state inviate». In prova non è stato salvato nulla. «Ho finito» riporta alla richiesta del token, come in classe."
               : "Le tue risposte sono state inviate. Ecco il tuo Futuro Me: puoi salvarlo e tenerlo come ricordo. Poi premi «Ho finito», così il prossimo compagno può scrivere il suo token."}
           </p>
+          {fase === "inizio" && (
+            <p className="mt-4 text-white font-bold text-lg leading-relaxed max-w-xl">
+              Conserva il tuo biglietto: a fine progetto ti servono le stesse 4 parole. Nessuno le ha annotate, quindi
+              se lo perdi non si possono recuperare.
+            </p>
+          )}
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               type="button"

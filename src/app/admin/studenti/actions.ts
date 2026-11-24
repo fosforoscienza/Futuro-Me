@@ -82,7 +82,7 @@ export async function generateClassTokens(classeId: string, count: number): Prom
 }
 
 /**
- * Solo admin, dopo la distruzione dei fogli: chiude gli abbinamenti di una
+ * Solo admin, dopo il questionario finale: chiude gli abbinamenti di una
  * classe (vedi chiudi_token_classe nella migrazione). Irreversibile.
  */
 export async function closeClassTokens(classeId: string, conferma: string): Promise<StaffState> {
@@ -93,7 +93,7 @@ export async function closeClassTokens(classeId: string, conferma: string): Prom
   const { data, error } = await db.rpc("chiudi_token_classe", { p_classe: classeId });
   if (error) return { ok: false, message: error.message };
   revalidatePath("/admin/studenti");
-  return { ok: true, message: `Abbinamenti chiusi: ${data ?? 0} token resi non più collegabili ai fogli.` };
+  return { ok: true, message: `Abbinamenti chiusi: ${data ?? 0} token resi non più collegabili ai biglietti.` };
 }
 
 /** Solo admin: apre o chiude la sezione "Fine progetto" per tutti gli studenti. */
