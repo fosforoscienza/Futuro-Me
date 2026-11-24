@@ -69,7 +69,7 @@ test("hashToken is stable, domain-separated and 64 hex chars", () => {
   assert.notEqual(h, hashToken("lupo-fiume-pane-luna"));
 });
 
-test("PDF has a valid header, cross-reference table and one page per 25 rows plus slips", () => {
+test("PDF has a valid header, cross-reference table and slip pages only (no name sheet)", () => {
   const tokens = Array.from({ length: 30 }, generateToken);
   const bytes = buildTokenPdf({ scuola: "IC Senigallia (Centro)", classe: "3B", data: "9/11/2026", tokens, url: "ilfuturome.it/questionario" });
   const pdf = Buffer.from(bytes).toString("latin1");
@@ -85,8 +85,10 @@ test("PDF has a valid header, cross-reference table and one page per 25 rows plu
     assert.equal(pdf.slice(offset, offset + `${i + 1} 0 obj`.length), `${i + 1} 0 obj`);
   });
 
-  // 30 righe = 2 pagine di foglio; 30 biglietti da 16 = 2 pagine di biglietti.
-  assert.match(pdf, /\/Count 4 /);
+  // Nessun foglio abbinamenti: 30 biglietti da 16 per pagina = 2 pagine.
+  assert.match(pdf, /\/Count 2 /);
+  assert.ok(!pdf.includes("Foglio abbinamenti"));
+  assert.ok(!pdf.includes("Nome e cognome"));
   for (const token of tokens) assert.ok(pdf.includes(`(${token})`));
   assert.ok(pdf.includes("IC Senigallia \\(Centro\\)"));
   for (const [, length, body] of pdf.matchAll(/\/Length (\d+) >>\nstream\n([\s\S]*?)\nendstream/g)) {

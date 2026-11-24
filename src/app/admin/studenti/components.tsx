@@ -140,7 +140,7 @@ export function GenerateTokensForm({ classeId }: { classeId: string }) {
   );
 }
 
-/** Solo admin: chiude gli abbinamenti della classe dopo la distruzione dei fogli. */
+/** Solo admin: chiude gli abbinamenti della classe dopo il questionario finale. */
 export function CloseTokensButton({ classeId, label }: { classeId: string; label: string }) {
   const [pending, startTransition] = useTransition();
   const [state, setState] = useState<StaffState>(null);
@@ -151,9 +151,9 @@ export function CloseTokensButton({ classeId, label }: { classeId: string; label
         disabled={pending}
         onClick={() => {
           const conferma = prompt(
-            `Chiudere gli abbinamenti di ${label}?\n\nFallo solo dopo il questionario finale e la distruzione dei fogli. ` +
+            `Chiudere gli abbinamenti di ${label}?\n\nFallo solo dopo il questionario finale di tutta la classe. ` +
               "I token smetteranno di funzionare, quelli mai usati verranno eliminati e le coppie inizio/fine " +
-              "non saranno più collegabili ai fogli. Non si può annullare.\n\nScrivi CHIUDI per confermare."
+              "non saranno più collegabili ai biglietti. Non si può annullare.\n\nScrivi CHIUDI per confermare."
           );
           if (conferma) startTransition(async () => setState(await closeClassTokens(classeId, conferma)));
         }}

@@ -66,11 +66,11 @@ export default async function QuestionarioAdminPage() {
       <section className="bg-surface-container-low rounded-3xl p-6 md:p-8 mb-10">
         <h2 className="text-xl font-bold text-secondary mb-2">Come funziona</h2>
         <ol className="list-decimal pl-5 space-y-1 text-sm text-on-surface-variant max-w-3xl">
-          <li>Genera i token della classe: si scarica un PDF con il foglio per gli psicologi e i biglietti da ritagliare.</li>
-          <li>In classe gli psicologi danno un biglietto a ogni studente e scrivono il nome a mano sul foglio. I nomi non entrano mai nel sito.</li>
+          <li>Genera i token della classe: si scarica un PDF con i soli biglietti da ritagliare. Non esiste un foglio con i nomi.</li>
+          <li>In classe ogni studente pesca un biglietto a caso, senza che nessuno annoti chi ha quale token, e lo conserva fino a fine progetto.</li>
           <li>Gli studenti vanno su <strong>ilfuturome.it/questionario</strong> e scrivono il loro token.</li>
-          <li>A fine anno l&apos;admin attiva Fine progetto e gli psicologi ridanno a ognuno il suo token.</li>
-          <li>Dopo il questionario finale gli psicologi distruggono i fogli e l&apos;admin chiude gli abbinamenti della classe.</li>
+          <li>A fine anno l&apos;admin attiva Fine progetto e gli studenti usano lo stesso biglietto. Chi l&apos;ha perso usa un biglietto di riserva: la sua risposta resta senza coppia.</li>
+          <li>Dopo il questionario finale l&apos;admin chiude gli abbinamenti della classe.</li>
         </ol>
         <p className="mt-4 text-sm text-on-surface-variant max-w-3xl">
           Per far provare il percorso agli psicologi prima della lezione:{" "}

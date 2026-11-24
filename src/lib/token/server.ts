@@ -10,8 +10,8 @@ export function generateToken(): string {
 /**
  * Impronta salvata nel database al posto del token. SHA-256 senza segreto di
  * proposito: chi legge il database vede già le risposte, e un segreto ruotato
- * a metà anno renderebbe inutilizzabili tutti i fogli. Il nome dello studente
- * non entra mai nel sistema: sta solo sul foglio cartaceo.
+ * a metà anno renderebbe inutilizzabili tutti i biglietti. Nessuno registra
+ * quale studente ha quale token: né il sito né un foglio cartaceo.
  */
 export function hashToken(canonical: string): string {
   return createHash("sha256").update(`questionario-token:v1:${canonical}`).digest("hex");

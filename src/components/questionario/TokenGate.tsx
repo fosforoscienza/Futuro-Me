@@ -95,7 +95,7 @@ export function TokenGate({ demo = false }: { demo?: boolean }) {
             <label htmlFor="token">Scrivi il tuo token</label>
           </h2>
           <p className="text-lg text-on-surface-variant leading-relaxed">
-            Sono le 4 parole sul biglietto che ti ha dato lo psicologo del progetto. Non scrivere il tuo
+            Sono le 4 parole sul biglietto che hai pescato in classe. Non scrivere il tuo
             nome: il token basta.
           </p>
           <input
