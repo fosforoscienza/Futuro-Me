@@ -13,11 +13,11 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@supabase/supabase-js": "^2.103.0",
-    "fast-xml-parser": "^5.11.2",
+    "fast-xml-parser": "^5.12.1",
     "gsap": "^3.15.0",
     "ipaddr.js": "^2.5.0",
     "lucide-react": "^1.8.0",
-    "next": "^16.4.4",
+    "next": "^16.4.6",
     "next-intl": "^4.14.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -30,10 +30,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^16.4.4",
+    "eslint-config-next": "^16.4.6",
+    "minimatch": "file:tools/minimatch-compat",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "minimatch": "file:tools/minimatch-compat"
+    "typescript": "^5"
   },
   "engines": {
     "node": "22.x"
